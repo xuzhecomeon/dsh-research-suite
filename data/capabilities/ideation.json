@@ -1,0 +1,745 @@
+{
+  "domain": "ideation",
+  "label": "选题、假说、标书、伦理与立项前的可做性判断",
+  "skill": "research-ideation",
+  "version": "2.0.0",
+  "summary": "把「想做什么」推到「能不能立项」：选题发散与收敛、查新与差异化定位、研究问题与竞争假说、立项前的致命缺陷审计、技术路线与里程碑、标书撰写与评审自检、伦理与预注册。本域只做到「能开工的批准状态」，不做文献精读（交 literature）、不做统计方法与样本量计算（交 stats）、不做成稿写作（交 writing）。所有具体数字（经费、批号、样本量、影响因子）一律占位，绝不编造。",
+  "capabilities": [
+    {
+      "id": "ideation.topic",
+      "label": "选题发现与创新点提炼",
+      "summary": "从一个方向或一堆材料出发，先发散出 10 个以上候选，再用五道筛选收敛到 1～5 个能说清「为何重要、为何现在能做」的选题，交付两句 pitch 与最强反对意见。",
+      "triggers": ["想不出选题", "选题没新意", "帮我找研究方向", "头脑风暴", "这个方向还有坑吗", "idea 太安全", "怎么提炼创新点"],
+      "inputs": ["研究方向或关键词（一句话也可）", "已有材料（数据、预实验、综述，可选）"],
+      "members": [
+        {
+          "skill": "airs-brainstorming-research-ideas",
+          "verdict": "主用",
+          "best_at": ["十个 lens 按处境选用的发散框架", "五道 kill criterion 的收敛筛选"],
+          "limits": ["只做结构化思考，不替研究者拍板", "不负责文献检索与查新落地"],
+          "take": ["problem-first 自检三问", "explain-it 两句模板当门槛", "tension 判真约束还是方法 artifact"]
+        },
+        {
+          "skill": "aris-idea-creator",
+          "verdict": "补强",
+          "best_at": ["八到十二个 idea 的六字段产出", "按算力与数据可得性机械淘汰"],
+          "limits": ["novelty 与 impact 只标注不淘汰", "交叉 triage 依赖外部模型"],
+          "take": ["六字段：假说/最小实验/类型/风险/工作量", "被淘汰 idea 必须留在报告里"]
+        },
+        {
+          "skill": "scholar-brainstorm",
+          "verdict": "补强",
+          "best_at": ["从数据与材料反推可实证问题", "每条研究问题点名真实变量"],
+          "limits": ["偏实证社科口径，纯理论选题力弱", "需材料或数据才进主路径"],
+          "take": ["六种生成策略并用，不只 Y-first", "新颖性主张必须点名具体论文"]
+        },
+        {
+          "skill": "scientific-brainstorming",
+          "verdict": "补强",
+          "best_at": ["对话式发散，要求研究者说到一半", "想法太安全时明确鼓励冒险"],
+          "limits": ["流程偏松，缺硬性收敛判据", "没有文献落地能力"],
+          "take": ["六种发散技巧与 SCAMPER 补充", "发散与批评两个阶段必须分开"]
+        },
+        {
+          "skill": "aris-idea-discovery",
+          "verdict": "兜底",
+          "best_at": ["端到端跑通发散到外部评审全链", "带 checkpoint 与可续跑的分阶段产物"],
+          "limits": ["轮次多、耗时长，简单选题成本过高", "需外部评审通道与预算"],
+          "take": ["分阶段产物与 checkpoint 的编排顺序"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 定题位与约束",
+          "from": "airs-brainstorming-research-ideas#Framework Selection Guide + scientific-brainstorming#阶段一 Understanding",
+          "do": "先问清三件事：要解决的问题是谁的、手上有什么（数据/样本/设备/时间）、目标是发论文还是立项。据处境从十个 lens 里选 2～3 个，不要铺满十个。",
+          "detail": "没有约束的发散一定收敛到平庸题。若用户说不出受益群体，或说不出这个问题为何至今未解，先停在 problem-first 自检，不要进入生成；这一判定用不了十分钟，却能省掉后面整轮返工。"
+        },
+        {
+          "step": "2 发散出量",
+          "from": "airs-brainstorming-research-ideas#F1 到 F10 + aris-idea-creator#Phase 2 Generate Ideas",
+          "do": "用选定 lens 生成 10～20 个候选，每个先写一句话方法（2～4 步大白话）与核心假说，不许先起标题；再补最小可行实验、贡献类型、风险等级、工作量四个字段。",
+          "detail": "量不够就必然收敛到平庸题。选题阶段不判 novelty、也不打分排名，只保证每个候选都能用一句话说清「谁的问题、我们怎么做」；说不出方法的候选直接划掉，不进候选池。"
+        },
+        {
+          "step": "3 结构化收敛",
+          "from": "airs-brainstorming-research-ideas#Converge + scholar-brainstorm#加权打分",
+          "do": "五个 filter 逐个过：Explain-It、Problem-First、Simplicity、Stakeholder、Feasibility，每个 filter 带一条 kill criterion（如「去掉这篇领域不会少任何东西」即杀），留下 3～5 个。",
+          "detail": "kill criterion 要写在前面，不能看完结果再定标准，否则等于没筛。有数据或材料时叠加 scholar-brainstorm 的加权打分（实证信号权重不低于 20%），分数只用来排序、不用来否决。"
+        },
+        {
+          "step": "4 结构缺口补位",
+          "from": "aris-idea-creator#Phase 1.5 Structural Gap Lenses + scholar-brainstorm#候选研究问题生成",
+          "do": "用五个结构缺口 lens 再扫一遍：方法迁移、矛盾结论、未检验假设、尺度变化、诊断性缺口；有数据时从材料反推 5 个可实证问题，每条点名变量与测量方式。",
+          "detail": "缺口来自「多篇论文共同承认的 open problem」或「Future Work 里反复出现的同一件事」，不是来自个人觉得没人做。反推问题时必须点名真实变量，写不出变量名的说明材料还没看懂，回到用户确认。"
+        },
+        {
+          "step": "5 淘汰留痕",
+          "from": "aris-idea-creator#Phase 3 Deduplicate and Eliminate + scientific-brainstorming#阶段四 Critical Evaluation",
+          "do": "只按机械事实淘汰：预估算力超过一周、数据可证实不可得、与他人已有产出重复。novelty 与 impact 仅作注记，不据此删除；被淘汰的每个写一句话理由进表。",
+          "detail": "把「我觉得不够新」当淘汰理由是最常见的错误，会把真正高风险的题提前杀掉。淘汰表本身是交付物：半年后回看，它比入选名单更能说明选题判断力。"
+        },
+        {
+          "step": "6 交付三件套",
+          "from": "airs-brainstorming-research-ideas#Refine + aris-idea-creator#Phase 6 Idea Report",
+          "do": "对每个入选 idea 出两句 pitch、核心 tension、3 个验证实验、最强反对意见、两周 pilot 计划；报告先讲方法再讲假说，附淘汰表与执行顺序。",
+          "detail": "两句 pitch 用 explain-it 模板：[领域] 卡在 [问题]，因为 [后果] 才重要；我们通过 [机制] 解决，之所以行得通是因为 [理由]。最强反对意见必须由用户确认过，未确认的标待议，不要替作者把它说圆。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "用户只有一句模糊方向、没有任何材料",
+          "use": "十个 lens 里选 Problem-First 与前向类比两个，先做 problem-first 自检再发散",
+          "instead_of": "从数据反推研究问题",
+          "why": "没有材料时反推必然编造变量与测量方式，产出看起来具体、实际无法落地"
+        },
+        {
+          "when": "用户已有数据或预实验，且希望尽快开工",
+          "use": "scholar-brainstorm 的 DATA 模式打分配合结构缺口扫描",
+          "instead_of": "纯 lens 发散后再收敛",
+          "why": "材料已经限定了可行域，纯发散会生成大量不可执行的题，白耗轮次"
+        },
+        {
+          "when": "只有一两个小时、要在会上给方向",
+          "use": "只跑 problem-first 自检、explain-it 两句模板、最强反对三件事",
+          "instead_of": "跑完整六步并出报告",
+          "why": "短时任务的目标是淘汰明显不成立的题，不是产出可开工方案，跑满会挤掉讨论时间"
+        }
+      ],
+      "gates": [
+        "每个入选选题都有两句 pitch，且含「为何重要」与「为何现在能做」",
+        "每个候选 idea 六字段齐全，缺项不进收敛名单",
+        "被淘汰 idea 一条不少地留在报告里并附一句淘汰理由",
+        "入选名单不超过 5 个，且每个都有最强反对意见一行",
+        "全文无编造文献：未核验的引用一律标 [UNVERIFIED]"
+      ],
+      "outputs": ["IDEA_REPORT.md（候选表＋淘汰表＋入选 idea 六字段）", "候选一页速览表（含 pilot 与风险等级）"],
+      "kb": ["airs-brainstorming-research-ideas", "aris-idea-creator", "scholar-brainstorm"]
+    },
+    {
+      "id": "ideation.novelty",
+      "label": "查新与差异化定位",
+      "summary": "把「我觉得新」变成「可点名对比的新」：抽核心 claim、多式检索最近工作、逐条给出差异轴，最后给 PROCEED / PROCEED WITH CAUTION / ABANDON 三档裁决与一句可核查的 delta。",
+      "triggers": ["查新", "这个想法有人做过吗", "新颖性", "会不会撞车", "有没有重复", "和别人的工作差在哪"],
+      "inputs": ["草稿、摘要或想法说明", "已知的关键词与同行作者（可选）"],
+      "members": [
+        {
+          "skill": "aris-novelty-check",
+          "verdict": "主用",
+          "best_at": ["技术 claim 抽取与多式检索", "三条裁决边界防止过早放弃"],
+          "limits": ["只做早期闸门不做终审", "依赖检索质量与近半年文献"],
+          "take": ["ABANDON 必须点名具体已发表论文", "CAUTION 不是安全中间态", "最近工作表四列：论文/年份/venue/差异"]
+        },
+        {
+          "skill": "qinyan-topic-analysis",
+          "verdict": "补强",
+          "best_at": ["真实检索出 3～5 个差异化选题", "按发表年份分布看趋势"],
+          "limits": ["需 API key 与可用网络", "语料偏中文社科文献"],
+          "take": ["每个选题附 5～10 篇真实文献与 DOI", "过宽与过窄两类选题都要避免"]
+        },
+        {
+          "skill": "aris-idea-discovery",
+          "verdict": "补强",
+          "best_at": ["查新后接外部批判评审", "结论回写进 refined proposal"],
+          "limits": ["整链长，单点查新过重", "需外部评审通道与预算"],
+          "take": ["查新与外部批判评审分两段执行"]
+        },
+        {
+          "skill": "aris-patent-novelty-check",
+          "verdict": "弃用",
+          "best_at": ["单条权利要求逐一比对的表格形式", "专利文献族检索思路"],
+          "limits": ["法律新颖性与论文新颖性口径不同", "误用会给出错误的 ABANDON"],
+          "take": ["只借用逐条比对表的形式，判决口径不采用"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 抽技术 claim",
+          "from": "aris-novelty-check#Phase A Claim Extraction",
+          "do": "从草稿或想法里抽 3～5 个核心技术 claim：方法是什么、解决什么问题、机制是什么、与最显然的基线差在哪。每条抽象成可检索的名词短语。",
+          "detail": "claim 抽得太粗会被检索结果淹没，太细又检索不到。判据是：一条 claim 能对应 3 个以上的查询式，且用一句话说清「与原做法差别在哪」；说不清的说明想法还没成型，退回选题。"
+        },
+        {
+          "step": "2 多式检索",
+          "from": "aris-novelty-check#Phase B Search + qinyan-topic-analysis#检索流程",
+          "do": "每个 claim 至少 3 种查询式，跨 arXiv、Google Scholar、Semantic Scholar，另查近 6 个月新预印本与对应顶会；完整记录检索式、命中数与筛选过程。",
+          "detail": "近半年必须单独查一次：查新最常见的漏检是「上个月刚有人做过」。检索式、数据库、日期、命中数全部落盘，因为三个月后重跑时用户会问「你当时查了没有」。"
+        },
+        {
+          "step": "3 逐条比对",
+          "from": "aris-novelty-check#Phase C Nearest-Work Comparison",
+          "do": "每条 claim 列 3～5 篇最近工作，四列：论文、年份、venue、差异轴。差异必须落在对象、机制、输入粒度、问题设定四个轴之一，相似标题不算重复。",
+          "detail": "写不出差异轴，就说明还没读进去，只能算「疑似重叠」。只支持 metadata 级判断的必须明说，不要假装读过全文；读不到的文献标 [UNVERIFIED]，不进最近工作表主栏。"
+        },
+        {
+          "step": "4 三档裁决",
+          "from": "aris-novelty-check#Novelty Verdict Limits",
+          "do": "无点名论文不得判 ABANDON；拥挤但有 delta 判 PROCEED 并用一句可核查的话写 delta；delta 确实薄判 CAUTION 并说清怎样能立住。",
+          "detail": "CAUTION 不是安全中间态：说不出薄在哪就必须判 PROCEED，把判断权交回用户。「这个领域很热」不是放弃的理由；对中心问题的直接攻击只要没人做好，就是正当的新颖性。"
+        },
+        {
+          "step": "5 定位句",
+          "from": "aris-novelty-check#Phase D Report + aris-grant-proposal#gap statement",
+          "do": "产出一句 positioning：相对最近工作我们差在哪、这个差为何重要。句式用「尽管 X 有进展，Y 仍未解决，因为 Z；我们通过 W 填补，从而带来 V」，不用首次、填补空白、国际领先。",
+          "detail": "这句话会被直接抄进引言与标书立项依据，必须每个名词都能被最近工作表支撑。写完让用户用一句话复述，复述不出来说明 delta 还没想清，回到第 3 步重读。"
+        },
+        {
+          "step": "6 专利情形分流",
+          "from": "aris-patent-novelty-check#Patentability Assessment",
+          "do": "若用户目标是报专利，只借用逐条比对表的形式；可专利性与权利要求范围交专利代理人判定，本域不出法律结论。",
+          "detail": "论文新颖性与专利新颖性的判定主体、时间口径、公开范围都不同，用一套逻辑判两件事是典型越界。交付时必须写明「本结论只用于论文定位，不构成专利意见」。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "检索发现两篇以上高度重叠的已发表工作",
+          "use": "判 ABANDON 或把范围收紧到那一篇没做的子问题，并点名具体论文",
+          "instead_of": "在原范围上硬找差异",
+          "why": "范围不变而硬找差异，写出来的是措辞差别不是贡献差别，审稿人一眼看穿"
+        },
+        {
+          "when": "领域很热但没有任何一篇直击中心问题",
+          "use": "判 PROCEED，并在报告里写清「热不等于被占」的三条依据",
+          "instead_of": "因为拥挤判 CAUTION",
+          "why": "把竞争强度误当新颖性缺失，会让最有价值的方向被过早放弃"
+        },
+        {
+          "when": "无法联网检索",
+          "use": "明示检索未执行、全部结论标 unverified，只交付一份自查清单与检索式",
+          "instead_of": "凭记忆列出最近工作",
+          "why": "记忆里的标题、年份、作者都会错，编出来的最近工作表比没有更危险"
+        }
+      ],
+      "gates": [
+        "每条 ABANDON 结论都点名了具体论文（标题＋年份）",
+        "每条 claim 的最近工作表不少于 3 行且含差异轴一列",
+        "裁决只取三档之一，且与最近工作表结论一致",
+        "检索式、数据库、日期均已落盘备查",
+        "无编造的 DOI 或 arXiv 号：核验不了的标 [UNVERIFIED]"
+      ],
+      "outputs": ["NOVELTY_REPORT.md（claim 表＋最近工作四列表＋三档裁决）", "一句可核查的 positioning 句（可进引言或立项依据）"],
+      "kb": ["aris-novelty-check", "qinyan-topic-analysis", "aris-idea-discovery"]
+    },
+    {
+      "id": "ideation.question",
+      "label": "研究问题与假说构建",
+      "summary": "把选题变成可检验的问题与竞争假说：FINER/PICO 判定、机制表述、定量预测与证伪条件，交付一份每条假说都能被一次实验杀死的问题卡。",
+      "triggers": ["研究问题怎么写", "假说怎么构建", "PICO", "FINER", "可检验假说", "机制假说", "假设不成立怎么办"],
+      "inputs": ["选题或现象描述", "相关文献或已知证据（可选）"],
+      "members": [
+        {
+          "skill": "hypothesis-generation",
+          "verdict": "主用",
+          "best_at": ["三到五个互相可区分的竞争假说", "定量预测与证伪条件的写法"],
+          "limits": ["检索偏生物医学口径", "产物是 LaTeX 报告，需转格式"],
+          "take": ["七条质量标准从可检验到新颖", "每条假说必带被证伪预测", "机制表述不得写成已证实事实"]
+        },
+        {
+          "skill": "scholar-lit-review-hypothesis",
+          "verdict": "补强",
+          "best_at": ["文献综合到框架选择再到假说推导", "理论机制与替代解释并列"],
+          "limits": ["会顺带写综述正文，越界到文献域", "检索依赖外部接口"],
+          "take": ["先分已知与未知再推假说", "替代解释与假说同表列出"]
+        },
+        {
+          "skill": "scholar-idea",
+          "verdict": "补强",
+          "best_at": ["社科选题到正式研究问题的转化", "概念界定与操作化路径"],
+          "limits": ["偏社科范式，实验科学需换尺子", "不产出定量可检验预测"],
+          "take": ["研究问题必须操作化到变量", "现象描述不等于研究问题"]
+        },
+        {
+          "skill": "scholar-brainstorm",
+          "verdict": "兜底",
+          "best_at": ["材料驱动的问题生成与打分", "HARKing 风险识别"],
+          "limits": ["只到问题层不到假说层", "需材料或数据才能发挥"],
+          "take": ["新颖性主张必须点名具体论文", "HARKing 高风险须改写或删除"]
+        },
+        {
+          "skill": "hypogenic",
+          "verdict": "弃用",
+          "best_at": ["表格数据上的批量候选枚举", "自动生成假说候选池"],
+          "limits": ["需构造数据集与本地 Python 环境", "不解释机制也不给证伪条件"],
+          "take": ["只把批量枚举当候选池补充，不进交付"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 界定问题边界",
+          "from": "hypothesis-generation#Step 1 Understand + scholar-idea#Workflow",
+          "do": "写清现象、对象、边界、可观测指标；用 FINER 五项逐项判（可行、有趣、新颖、伦理、相关），任一项不过先改题，不写假说。",
+          "detail": "PICO/PECO 只在实证与临床问题里用：人群、暴露或干预、对照、结局。边界必须落到可观测指标上；「探究 A 对 B 的影响」这类写法既无边界也无指标，不能进第 2 步。"
+        },
+        {
+          "step": "2 已知与未知分区",
+          "from": "scholar-lit-review-hypothesis#PHASE 2 Synthesis + hypothesis-generation#Step 2",
+          "do": "文献分成三栏：已确立、有争议、未检验；只从后两栏出假说，每条争议标注代表文献与分歧点。",
+          "detail": "如果三栏写完发现全在「已确立」，说明问题不是研究问题而是教学问题，应改题。分栏时把作者自己的前期工作单列一栏，避免把「我已经知道的」误当「学界已知」。"
+        },
+        {
+          "step": "3 建竞争假说",
+          "from": "hypothesis-generation#Step 4 Generate Competing Hypotheses + scholar-lit-review-hypothesis#PHASE 4",
+          "do": "生成 3～5 个互相可区分的机制假说，另列至少 2 个替代解释（混杂、反向因果、选择效应）；批量枚举工具只用于补候选池。",
+          "detail": "「可区分」的判据是至少有一条预测在各假说之间不同。所有假说都预测同一结果时，这组假说没有检验价值，必须重写；机制句要落到可测量的中间变量，不能只写「通过调控」。"
+        },
+        {
+          "step": "4 判质量标准",
+          "from": "hypothesis-generation#Step 5 Evaluate + scholar-idea#Quality Rules",
+          "do": "按七条打分：可检验、可证伪、简约、解释力、范围、与文献一致、新颖；任一条不过就标注并写清怎么补，不直接删假说。",
+          "detail": "打分是为了排序不是裁决。简约性最容易误用：能用一条机制解释的不要拆成三条；但复杂现象本身就需要多层级假说时，不要为了简约强行合并，改在预测层分开写。"
+        },
+        {
+          "step": "5 写定量预测",
+          "from": "hypothesis-generation#Step 7 Quantitative Predictions + hypothesis-generation#Step 6",
+          "do": "每个可行假说写五件事：方向、幅度门槛、成立条件、与竞争假说区分的判决性预测、被证伪时观察到什么。",
+          "detail": "预测必须能由一次实验分开。写「A 组显著高于 B 组」还不够，要给效应量或排序关系；样本量与检验细节转 stats 域，本域只给方向与量级思路，并注明「功效与 N 由统计确认」。"
+        },
+        {
+          "step": "6 出问题卡",
+          "from": "hypothesis-generation#Step 8 Report + hypothesis-generation#附录 C",
+          "do": "交付问题卡：研究问题一句、假说 3～5 条（各附机制、预测、最小检验）、伦理风险提示、最强反对意见、以及一句话说明这个发现为什么会改变领域认知。",
+          "detail": "问题卡是后续设计、标书、伦理的共用输入，必须能脱离对话独立读懂。每条假说后面接「若结果为 X 则支持、为 Y 则该假说被排除」，缺这半句的假说在审稿时会被直接质疑。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "现象清楚但机制不明",
+          "use": "写 3～5 个竞争假说，并为每个配一条判决性预测",
+          "instead_of": "只写一个主假说加两个反例",
+          "why": "单一假说无法自证，审稿人问「还有什么解释」时只能临时补，容易补出无法检验的机制"
+        },
+        {
+          "when": "用户坚持要一个「一定能做出结果」的假说",
+          "use": "先写证伪条件再写阳性预期，并明确负结果也可发表",
+          "instead_of": "只写阳性预期与显著性门槛",
+          "why": "只写阳性预期会诱使后续挑数据，产出无法证伪的假说，是 QRP 的入口"
+        },
+        {
+          "when": "相关文献几乎为零",
+          "use": "改写为探索性研究问题，显式标 exploratory，并把分析计划写进预注册",
+          "instead_of": "硬造一个理论假说充门面",
+          "why": "无文献支撑的理论假说多是同义反复，写成探索性并预先声明分析计划反而更可信"
+        }
+      ],
+      "gates": [
+        "每个假说都有一行「被证伪时观察到什么」",
+        "竞争假说之间至少有一条预测不同",
+        "FINER 五项逐项有结论，无一项留空",
+        "替代解释不少于 2 条且与假说同表",
+        "全文无把机制表述为已证实事实的句子"
+      ],
+      "outputs": ["HYPOTHESES.md（问题卡＋假说表＋预测表）", "一页假说对比表（含判决性预测与替代解释）"],
+      "kb": ["hypothesis-generation", "scholar-lit-review-hypothesis", "scholar-idea"]
+    },
+    {
+      "id": "ideation.feasibility",
+      "label": "立项前的可行性与致命缺陷审计",
+      "summary": "在投入三个月之前先问「会不会被一条致命缺陷一枪打死」：跑致命缺陷审计、按六类生命周期匹配能力、五维打分只认证据，最后给三档立项建议与前三项动作。",
+      "triggers": ["这个想法靠谱吗", "值不值得做", "有什么致命问题", "可行性分析", "会不会被拒", "帮我评估 idea"],
+      "inputs": ["想法说明与前期证据", "时间与资源约束（人月、算力、样本可得性）"],
+      "members": [
+        {
+          "skill": "idea-evaluator",
+          "verdict": "主用",
+          "best_at": ["十个致命缺陷的审计与短路判定", "五维打分只认实测或机制论证"],
+          "limits": ["需用户提供实测数据，否则多留 5 分", "不替用户做检索式查新"],
+          "take": ["每维从 5 分起，无依据不许抬高", "出现 CRITICAL 即短路只出三节", "三档 verdict 附前三项动作"]
+        },
+        {
+          "skill": "tech-paper-template",
+          "verdict": "补强",
+          "best_at": ["限制到思路到挑战再到方法四道自洽检查", "贡献与章节映射的空头承诺检测"],
+          "limits": ["面向论文骨架，立项文书需换措辞", "只做自洽不判价值"],
+          "take": ["四道自洽检查任一失败按 CRITICAL 处理", "贡献必须映射到模块与具体章节"]
+        },
+        {
+          "skill": "arf-review-grant",
+          "verdict": "补强",
+          "best_at": ["六路并行预审与对抗评审团", "资助匹配与重新定位建议"],
+          "limits": ["需多文件与并行预算", "口径偏基金评审而非投稿"],
+          "take": ["按致命度排问题而非发现顺序", "五个 panel question 自问"]
+        },
+        {
+          "skill": "aris-experiment-plan",
+          "verdict": "兜底",
+          "best_at": ["里程碑 stop/go 闸与成本估算", "must-run 与 nice-to-have 分离"],
+          "limits": ["需已有方案才能展开", "不做新颖性与价值判断"],
+          "take": ["每个里程碑给周转时间与 stop 判据", "不发明预算与成本数字"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 一句话故事与类型定位",
+          "from": "idea-evaluator#Step 1 One-Sentence Story",
+          "do": "先写一句话：谁的问题、现有做法缺什么、我们怎么做、凭什么都行得通；再定论文类型（新问题/新方法/新场景）与贡献类型（实证/方法/理论/诊断）。",
+          "detail": "一句话里出现三个以上「以及」，说明还没收敛。类型定位决定后面用哪把尺子：新方法看与最强基线的差，新问题看问题是否真存在且重要，新场景看结论是否仍成立。"
+        },
+        {
+          "step": "2 致命缺陷审计",
+          "from": "idea-evaluator#Step 2 Fatal Flaw Audit + tech-paper-template#四道自洽检查",
+          "do": "按十个常见致命缺陷扫，最多列 2 个最致命的，每个给缺陷名、检出规则、可否辩护；同时跑四道自洽检查。",
+          "detail": "任一 CRITICAL 立即短路，只输出首印象、致命缺陷、裁决三节，不要继续打分——给一个已被数据驳倒的机制打 7 分是自欺。辩护路径必须具体到「补哪个实验能救」，写不出就是救不回来。"
+        },
+        {
+          "step": "3 生命周期与能力匹配",
+          "from": "idea-evaluator#Step 3 Lifecycle and Capability Match",
+          "do": "判属于六类生命周期哪一类（应用、基础理论、交叉、前沿探索、数据密集、技术创新），再对用户的有效时间、技能深度、理论或应用偏好；不匹配标 flag。",
+          "detail": "生命周期不匹配常被忽略：数据密集型的想法给只有周末的团队，注定烂尾。flag 不是否决，但必须写进裁决理由，并给一条降规模路径。"
+        },
+        {
+          "step": "4 五维打分",
+          "from": "idea-evaluator#Step 4 Five-Dimension Scoring + aris-experiment-plan#Phase 4",
+          "do": "Higher/Faster/Stronger/Cheaper/Broader 各打 1～10 分；每维从 5 起，只有实测结果（引原文）或站得住的机制论证能抬高，机制抬高须标 mechanism-based 并点名验证实验。",
+          "detail": "两条证据都没有就留在 5 分并写 no grounds given。归因要警惕：提升若可能来自路由、后处理、更强基座或有利样本，先封顶待消融，不得直接给 8 分以上——这是评估里最常见的虚高来源。"
+        },
+        {
+          "step": "5 风险与闸门",
+          "from": "aris-experiment-plan#Phase 4 Milestones + arf-review-grant#Agent 6",
+          "do": "列四类风险（算力、数据、工程、时间）各配缓解与触发条件；每个里程碑写 stop/go 判据；金额与算力一律写占位或区间。",
+          "detail": "风险条目必须是可观测的触发条件（如「两周内拿不到数据集授权即降级为公开数据方案」），不能写「存在一定风险」。没有触发条件的风险条目在评审时会被判为装饰。"
+        },
+        {
+          "step": "6 三档裁决",
+          "from": "idea-evaluator#Step 8 Verdict",
+          "do": "输出 Strong Accept（至少两维 8 分以上、零 CRITICAL、能力匹配、生命周期合适）/ Accept with Revisions / Reject and Pivot，并给前三项动作。",
+          "detail": "mechanism-based 的高分必须在裁决里附一句「worth pursuing, pending the validation experiment」并点名那个实验。Reject and Pivot 要给替代方向，只写 reject 等于把问题还给用户。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "已有数据驳倒了核心机制",
+          "use": "直接 Reject and Pivot，不进入五维打分",
+          "instead_of": "打低分后给 Accept with Revisions",
+          "why": "机制已被驳倒时分数只会掩盖问题，审稿人一眼看穿，早转方向比修一个死掉的假设便宜得多"
+        },
+        {
+          "when": "某一维很高但缺消融",
+          "use": "封顶 6 分并标注待消融验证，同时点名要补的消融实验",
+          "instead_of": "按直觉给 8 分以上",
+          "why": "没有消融的高分无法归因，立项后会在最关键的地方失去说服力"
+        },
+        {
+          "when": "能力或时间明显不匹配",
+          "use": "降成两周 pilot 先验证最小假设，再决定是否立项",
+          "instead_of": "按原计划直接立项",
+          "why": "不匹配的项目拖到中期才发现做不完，沉没成本远高于先做一次小规模验证"
+        }
+      ],
+      "gates": [
+        "每个 CRITICAL 都写了检出规则与辩护路径",
+        "五维分值均由引用证据或机制论证支撑，无依据项标 no grounds",
+        "能力不匹配之处有 flag 且写进裁决理由",
+        "全文无编造的经费、算力、时间数字（占位符除外）",
+        "Reject and Pivot 必须附替代方向至少一条"
+      ],
+      "outputs": ["IDEA_ASSESSMENT.md（首印象/致命缺陷表/生命周期表/五维表/范式探针/可行性表/裁决）", "两周 pilot 的最小验证清单"],
+      "kb": ["idea-evaluator", "tech-paper-template", "arf-review-grant"]
+    },
+    {
+      "id": "ideation.design",
+      "label": "研究设计与技术路线",
+      "summary": "把选题拆成「claim 到证据到执行顺序」：冻结主 claim 与反 claim、给每块实验配成功判据与失败解释、排出五段里程碑与预算，交付可直接开工的技术路线与结果表骨架。",
+      "triggers": ["技术路线", "研究设计", "实验怎么排", "里程碑", "对照组怎么设", "实验计划", "样本量思路"],
+      "inputs": ["方案或选题说明", "可用数据、平台与预算约束"],
+      "members": [
+        {
+          "skill": "aris-experiment-plan",
+          "verdict": "主用",
+          "best_at": ["claim map 与反 claim 的冻结", "五段里程碑与 stop/go 闸"],
+          "limits": ["默认计算科学语境，湿实验需换单位", "不替用户做统计功效"],
+          "take": ["每个实验必须能改变审稿人信念", "先设计主表再排消融", "must-run 与 nice-to-have 分离"]
+        },
+        {
+          "skill": "experiment-results-planning",
+          "verdict": "补强",
+          "best_at": ["方法与结果表的可追溯映射", "mock 数据边界与图件交接"],
+          "limits": ["需已有方法清单才能启动", "不评估方法本身对错"],
+          "take": ["方法到结果的 traceability 表", "mock 数据必须显式标注"]
+        },
+        {
+          "skill": "clinical-research-design-extractor",
+          "verdict": "补强",
+          "best_at": ["PICO/PECO 到研究类型判定", "主要终点与敏感性分析设计"],
+          "limits": ["以抽读一篇论文为输入", "缺细节一律写待定"],
+          "take": ["主要终点、次要终点、混杂必须显式", "不得编造样本量与随访时长"]
+        },
+        {
+          "skill": "basic-research-design-extractor",
+          "verdict": "兜底",
+          "best_at": ["基础研究实验的复现顺序编排", "不同检测手段拆条不合并"],
+          "limits": ["只抽既有设计不代设计", "输出需匿名化处理"],
+          "take": ["子实验编号与预期结果写成筛选标准"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 冻结 claim 三层",
+          "from": "aris-experiment-plan#Phase 0 + aris-experiment-plan#Phase 1",
+          "do": "抽出问题锚、主贡献、审稿人最关心的两个问题；冻结 1 个主 claim、1 个支撑 claim、1 个反 claim（必须排除的替代解释）。",
+          "detail": "反 claim 是设计的分水岭，例如「增益只来自更多参数」「新模块只是装饰」。没有反 claim 的设计，审稿时必然被问「你怎么排除另一种解释」，而那时再补实验通常已经晚了。"
+        },
+        {
+          "step": "2 主表与证据先行",
+          "from": "experiment-results-planning#Table Schema + aris-experiment-plan#Phase 3",
+          "do": "先定论文主表（行是对象、列是指标、必须含基线行），再为每块实验写：检验哪个 claim、用什么数据、对比哪些系统、指标、设置、成功判据、失败解释、目标图表、优先级。",
+          "detail": "先设计表再设计实验，能立刻发现「这个实验填不进任何一列」——填不进就砍。成功判据必须是可比的数量（差距多少算赢），失败解释必须是可观测现象，不能写「效果不好则分析原因」。"
+        },
+        {
+          "step": "3 排五段里程碑",
+          "from": "aris-experiment-plan#Phase 4 Milestones + experiment-results-planning#Recommended Experiment Gates",
+          "do": "Sanity → Baseline → Main method → Decision（关键消融）→ Polish；每段写成本、周转时间、stop/go 判据、风险；反 claim 的消融放在 Decision 段。",
+          "detail": "stop/go 必须是二进制判据（达到什么才进下一段），不是「视情况而定」。must-run 与 nice-to-have 分开列，资源不足时按序砍 nice-to-have，绝不动 must-run 的消融。"
+        },
+        {
+          "step": "4 生物医学分支",
+          "from": "clinical-research-design-extractor#研究方案 + basic-research-design-extractor#子实验编排",
+          "do": "临床研究补主要与次要终点、纳排标准、关键混杂、亚组与敏感性分析、数据质控；基础研究按复现顺序排 4～7 个主实验，不同检测手段（qPCR、western blot、流式、免疫组化）拆开写。",
+          "detail": "检查手段合并成一条是这类设计最常见的错误：合并后无法判断哪一步失败、也无法排工期。预期结果写成筛选标准（「符合则进入机制验证」），不要把原论文的固定结论抄成我们的预期。"
+        },
+        {
+          "step": "5 预算与外部依赖",
+          "from": "aris-experiment-plan#Compute and Data Budget + clinical-research-design-extractor#预算与成果产出",
+          "do": "列数据获取成本、算力或样本量思路（计算方法交 stats）、人员时间、外部依赖（设备、授权、合作方）；每类风险给备选方案与触发条件。",
+          "detail": "未知参数一律写待定并进开工前确认清单，不得填一个看起来合理的数。预算里最常被低估的是数据清洗与标注时间，一般按主实验工时的三成预留。"
+        },
+        {
+          "step": "6 交付双产物",
+          "from": "aris-experiment-plan#Phase 5 Deliverables",
+          "do": "EXPERIMENT_PLAN.md（claim map、故事线、run order、预算、风险、终检）＋ EXPERIMENT_TRACKER.md（run 级跟踪表）＋主结果表骨架（行、列、基线行已定）。",
+          "detail": "终检五问：每个实验是否都服务于某个 claim、主表是否先于消融、简洁性是否被显式辩护、前沿组件是否与最强简单替代比过、must-run 是否有明确 stop 判据。缺一项不算交付。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "资源只够跑一次主实验",
+          "use": "先跑能证伪主 claim 的那一个，其余按序砍掉",
+          "instead_of": "平铺三块消融各跑一半",
+          "why": "半成品消融无法支撑任何结论，而一次能证伪主 claim 的实验至少能决定项目生死"
+        },
+        {
+          "when": "临床样本量拿不到",
+          "use": "写待定并给样本量估算口径，计算与功效交 stats 域",
+          "instead_of": "填一个看起来合理的 N",
+          "why": "编出来的样本量会一路传到伦理申请与标书，被查出即整份材料失信"
+        },
+        {
+          "when": "关键方法参数在文献里没写清",
+          "use": "标待定并列入开工前确认清单，写清由谁在何时确认",
+          "instead_of": "按经验猜一个参数直接开工",
+          "why": "猜出来的参数无法复现，也无法在审稿时说明来源，等于给结果埋一颗雷"
+        }
+      ],
+      "gates": [
+        "每个实验块都写了检验哪个 claim 与失败解释",
+        "主 claim、支撑 claim、反 claim 三层齐全",
+        "目标与方法逐条对应，无悬空目标也无无主方法",
+        "未知参数均写待定，全文无编造的样本量、剂量、时长",
+        "结果表骨架中 mock 数据均有显式标记"
+      ],
+      "outputs": ["EXPERIMENT_PLAN.md（claim map＋run order＋预算＋风险）", "EXPERIMENT_TRACKER.md（run 级跟踪表）", "主结果表骨架（行、列、基线行已定）"],
+      "kb": ["aris-experiment-plan", "experiment-results-planning", "clinical-research-design-extractor"]
+    },
+    {
+      "id": "ideation.grant",
+      "label": "标书撰写与评审视角自检",
+      "summary": "按目标资助方的评审表反推写法：科学问题到假说到可测目标到一一对应的方法，再到预期结果、可核查创新点、可行性、风险备选、工作基础与经费进度，交付一份评审表逐项能打勾的申请书。",
+      "triggers": ["写标书", "基金申请书", "国自然", "NSFC", "NIH", "研究计划书", "本子怎么写", "申请书怎么改"],
+      "inputs": ["目标基金与项目类型", "前期工作、团队与平台情况", "已有数据或预实验（可选）"],
+      "members": [
+        {
+          "skill": "aris-grant-proposal",
+          "verdict": "主用",
+          "best_at": ["八类基金的模板与评审准则差异", "Aims 独立价值与叙事弧设计"],
+          "limits": ["不代填经费金额与个人信息", "文化惯例需逐家核对"],
+          "take": ["claim-aims-evidence 矩阵", "Aims 各条独立可发表", "金额一律写占位待补"]
+        },
+        {
+          "skill": "research-grants",
+          "verdict": "补强",
+          "best_at": ["NIH 与 NSF 逐节结构及评分口径", "常见拒稿错误五类清单"],
+          "limits": ["偏美系机构，其他地区需替换", "机构细节需查当期指南"],
+          "take": ["方法节六件套：样本量、功效、分析、时间线、质控、备选", "new to me 不等于 new to the field"]
+        },
+        {
+          "skill": "arf-review-grant",
+          "verdict": "补强",
+          "best_at": ["六路并行预审与 triage 排序", "资助匹配与重新定位建议"],
+          "limits": ["需完整标书与并行预算", "不能代替真实评审意见"],
+          "take": ["按致命度排序而非发现顺序", "五个 panel question 自问"]
+        },
+        {
+          "skill": "researchwrite",
+          "verdict": "补强",
+          "best_at": ["证据表与章节契约的前置约束", "降承诺而非拔高主张"],
+          "limits": ["流程偏重，短标书需裁剪", "不熟各机构评审表"],
+          "take": ["每个 claim 必须挂证据", "证据不足时降承诺不拔高"]
+        },
+        {
+          "skill": "research-proposal",
+          "verdict": "兜底",
+          "best_at": ["学位申请研究计划的五节结构", "时间线与意义段写法"],
+          "limits": ["面向博士申请而非基金评审", "引用与篇幅口径不同"],
+          "take": ["五节结构与字数配比可作骨架"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 读评审表定标准",
+          "from": "research-grants#Review Criteria by Agency + aris-grant-proposal#评审准则",
+          "do": "先取目标基金当期指南与评审表，抄下评分维度与权重（如 NSF 智力价值与广泛影响等权、NIH 五条打分项），后面每一节都对照它写。",
+          "detail": "不读评审表就动笔，等于按自己的偏好写别人要打分的材料。指南版本与截止日期要记录；机构模板逐年改，沿用旧本子是最常见也最容易被形式审查拦下的错误。"
+        },
+        {
+          "step": "2 搭链条骨架",
+          "from": "aris-grant-proposal#Claims-Aims-Evidence 矩阵 + research-grants#NIH Aim 结构",
+          "do": "按链条搭：科学问题一句、假说、总目标、2～4 条具体目标（动作动词开头、可测、有交付物）、方法（与目标编号一一对应）、预期结果、创新点、可行性、风险与备选、工作基础、经费与进度。",
+          "detail": "目标与方法必须编号对齐：出现没有方法支撑的目标，或做了不服务任何目标的实验，都算链条断裂。每条 Aim 还要能独立成立——一条失败时其余仍值得发表，这是资助方判断风险的主要依据。"
+        },
+        {
+          "step": "3 反推创新点",
+          "from": "research-grants#Innovation + aris-grant-proposal#gap statement",
+          "do": "用 gap statement 写清「尽管 X 有进展，Y 仍未被解决，因为 Z」；每条创新点后接一句可核查 delta，禁用首次、填补空白、国际领先这类空话。",
+          "detail": "「首次」是标书里最危险的词：只要有同行能举出一篇反例，整份材料的可信度就崩。把首次改写成「据我们所知的检索范围内（列出检索式与日期）尚无 X」，并保留 [UNVERIFIED] 标记直到核验。"
+        },
+        {
+          "step": "4 证据与承诺对齐",
+          "from": "researchwrite#02_evidence_table + researchwrite#04_section_contracts",
+          "do": "每个 claim 挂证据（前期数据、文献、预实验），证据不足就降承诺而不是拔高；每一节写清允许与禁止的主张。",
+          "detail": "降承诺比补数据便宜得多：把「将证明」改成「将检验」、把「显著提升」改成「预期改善并给出判据」，评审反而认为作者清醒。允许自动升级事实是标书写作的第一禁忌。"
+        },
+        {
+          "step": "5 经费进度与可行性",
+          "from": "aris-grant-proposal#预算理由 + research-grants#Budget 类别",
+          "do": "经费按人事、设备、差旅、材料、其他分列，金额写 [AMOUNT]；进度按年度里程碑出甘特图；可行性写团队、平台、前期基础三块。",
+          "detail": "可行性不是形容词堆砌，要落到具体证据：谁在哪个平台用什么设备做过什么。甘特图的每个里程碑都要能与某条具体目标的交付物对应，对不上的里程碑是装饰。"
+        },
+        {
+          "step": "6 评审视角自检",
+          "from": "arf-review-grant#Agent 6 + research-grants#Common Mistakes",
+          "do": "自问五个 panel question（问题重要吗、方法可行吗、团队做得动吗、钱花得值吗、与我方优先方向匹配吗），按「资助匹配、方法与可行性、内部不一致、预算团队、表述」层级修，两轮即停。",
+          "detail": "CRITICAL 未清零不得交付；两轮后仍有分歧的条目列成待决清单交用户，不要无限打磨。自检报告要写明是按哪一版指南、哪一天审的。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "目标基金要求广泛影响或知识转化",
+          "use": "单开一节写具体活动、对象、时间线与评估方式",
+          "instead_of": "用一句「具有重要社会意义」带过",
+          "why": "广泛影响是可打分的独立维度，泛泛一句在该项上基本拿不到分，还会拖累整体印象"
+        },
+        {
+          "when": "前期数据不足以支撑目标",
+          "use": "降承诺并把风险与备选写成可执行方案",
+          "instead_of": "补编预实验或含糊其辞",
+          "why": "编造的前期数据一旦被要求提供原始记录即彻底失信，降承诺反而能拿到「清醒可行」的评价"
+        },
+        {
+          "when": "当期指南与往年模板冲突",
+          "use": "以当期指南为准并在材料里注明所依据的指南版本",
+          "instead_of": "沿用往年本子的章节与页数",
+          "why": "形式审查只看当期要求，超页数或缺节直接进不了评审，内容再好也没机会被看到"
+        }
+      ],
+      "gates": [
+        "具体目标与方法逐条编号对应，无悬空目标",
+        "每个创新点后都有可核查 delta 句，无首次或填补空白类空话",
+        "经费金额与伦理批号均为占位符，无编造数字",
+        "每类风险都有备选方案与触发条件",
+        "评审表每个维度都能在文中指到对应段落"
+      ],
+      "outputs": ["申报书正文（按目标基金章节顺序）", "评审自检表（维度、段落、自评结论）", "Aims 与方法与交付物对应表"],
+      "kb": ["aris-grant-proposal", "research-grants", "arf-review-grant"]
+    },
+    {
+      "id": "ideation.ethics",
+      "label": "伦理审查、知情同意与预注册",
+      "summary": "在收第一个样本之前把合规做实：判伦理审查类型、写知情同意与脱敏方案、决定是否预注册并写分析计划，交付可直接提交伦理委员会的材料包与稿件用声明段。",
+      "triggers": ["伦理审查", "IRB", "知情同意", "伦理批号", "预注册", "OSF", "Registered Report", "数据脱敏"],
+      "inputs": ["研究设计与数据采集方式", "研究对象与人群特征", "所在机构与目标期刊要求（可选）"],
+      "members": [
+        {
+          "skill": "scholar-ethics",
+          "verdict": "主用",
+          "best_at": ["伦理审查类型判定与声明模板", "知情同意八要素与利益冲突披露"],
+          "limits": ["机构表单仍需按本校模板填写", "只管伦理不管统计设计"],
+          "take": ["审查类型判定表按数据类型走", "稿件声明段含豁免情形模板", "知情同意八要素逐条勾"]
+        },
+        {
+          "skill": "scholar-open",
+          "verdict": "补强",
+          "best_at": ["预注册平台选择与文档模板", "Registered Reports 两阶段写法"],
+          "limits": ["平台政策会变，需核当期说明", "不替你决定研究设计"],
+          "take": ["该注册与不必注册的分界", "偏离预注册必须逐条披露"]
+        },
+        {
+          "skill": "scholar-safety",
+          "verdict": "补强",
+          "best_at": ["敏感数据分级与脱敏路线", "泄漏应急与 AI 使用日志"],
+          "limits": ["偏数据安全，不判伦理类型", "需明确数据流向才能评估"],
+          "take": ["先删直接标识再泛化准标识的顺序", "匿名化另存副本不覆盖原件"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 判审查类型",
+          "from": "scholar-ethics#Step 4.1 IRB 类型判定表",
+          "do": "按数据类型与人群判：公开二手数据、匿名问卷、敏感主题访谈录音、民族志、弱势群体、欺骗设计、公开数据抓取、社媒私域；涉外项目再叠 GDPR、HRA 或 TCPS 2 口径。",
+          "detail": "判错类型是最贵的错误：本应按 Full board 的弱势群体研究被判成豁免，等于无批号开工。判完后把结论与依据写成一段话，直接进伦理申请书；拿不准的一律按更严类型准备并注明待机构确认。"
+        },
+        {
+          "step": "2 写知情同意",
+          "from": "scholar-ethics#Step 4.2 知情同意 8 要素",
+          "do": "八要素逐条落地：研究目的、时长与流程、可预见风险与不适、潜在收益、保密范围、补偿、联系人（研究者与伦理委员会）、自愿参与与可无罚退出；在线问卷用勾选框加同意前言。",
+          "detail": "缺联系人或缺退出条款是伦理审查最常见的退回原因。语言要降到目标人群能读懂的水平，涉及录音、二次使用、跨境传输时必须单独列出，不能藏在总述里。"
+        },
+        {
+          "step": "3 定脱敏方案",
+          "from": "scholar-safety#匿名化 Route A 结构化 + scholar-safety#Route B 文本",
+          "do": "结构化数据走：删直接标识、泛化准标识、顺序 ID 替换、校验无原始 ID 残留、另存匿名副本；文本数据走占位替换，逐条记录替换规则。",
+          "detail": "绝不覆盖原始文件，匿名化只产出副本——这是可追溯性的底线。校验一步不能省：常见残留是文件名、表头、备注列与合并单元格里的姓名；拿不准的字段按敏感处理并升级人审。"
+        },
+        {
+          "step": "4 决预注册",
+          "from": "scholar-open#Step 1 PREREGISTRATION",
+          "do": "判该注册还是不必注册（纯归纳质性、档案史学研究、探索性计算可豁免，但必须显式声明并标 exploratory）；选平台（OSF、AsPredicted、EGAP、AEA、OSF RR）；写分析计划。",
+          "detail": "分析计划要具体到每个假设的模型、主次分析、停止规则、排除规则、多重比较校正、功效与效应量依据、稳健性检验、阳性判据与零结果解释。二手数据分三种情形：未看过、只看过描述统计、已分析过，后两种必须注明并降级为探索性。"
+        },
+        {
+          "step": "5 出材料包",
+          "from": "scholar-ethics#Step 4.6 期刊伦理清单 + scholar-open#偏离披露模板",
+          "do": "交付伦理申请书要点、知情同意书、脱敏 SOP、预注册文档、稿件用伦理与数据可得性声明段；批号、机构名、资助号一律 [PROTOCOL #]、[INSTITUTION]、[GRANT #] 占位。",
+          "detail": "涉及动物实验的另出一条链：伦理批号、3R（替代、减少、优化）、麻醉与安乐死方式，四项缺一不可。批号在拿到正式文件前一律占位，绝不可按格式编一个看起来合规的号码。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "研究只用公开二手数据",
+          "use": "按豁免类型准备材料，同时仍写数据可得性声明",
+          "instead_of": "直接不办伦理、什么都不写",
+          "why": "豁免不等于免声明：期刊与审稿人仍会要一段合规说明，缺了会被补件耽误一轮"
+        },
+        {
+          "when": "用户已看过数据描述统计才想预注册",
+          "use": "做部分预注册并注明已见内容，其余分析标 exploratory",
+          "instead_of": "声称全量预注册",
+          "why": "预注册的时间戳可查，隐瞒已见数据的注册一旦被发现，整篇文章的诚实性都会被质疑"
+        },
+        {
+          "when": "涉及弱势群体或欺骗设计",
+          "use": "直接按 Full board 准备并附风险缓解与事后说明方案",
+          "instead_of": "尝试论证豁免或简化审查",
+          "why": "这类研究的审查风险最高，试图绕过会同时触发伦理委员会与审稿人的双重质疑"
+        }
+      ],
+      "gates": [
+        "伦理章节四要素齐全：审查类型、批号占位、知情同意方式、数据脱敏",
+        "动物实验另含伦理批号、3R、麻醉与安乐死方式",
+        "预注册结论明确写「已注册」或「豁免并声明」，无悬空",
+        "批号、机构名、资助号均为占位符，无编造",
+        "知情同意八要素逐条可勾"
+      ],
+      "outputs": ["伦理申请材料包（申请书要点、知情同意书、脱敏 SOP）", "稿件用声明段（伦理、知情同意、数据可得性）", "预注册文档或豁免声明"],
+      "kb": ["scholar-ethics", "scholar-open", "scholar-safety"]
+    }
+  ]
+}

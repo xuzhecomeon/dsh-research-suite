@@ -1,0 +1,853 @@
+{
+  "domain": "figures",
+  "label": "科研绘图与图件",
+  "skill": "research-figures",
+  "version": "2.0.0",
+  "summary": "把真实数据、机制关系与操作流程变成能过期刊制作端的图件：先定结论与版式契约，再锁一套 backend 与主题，按栏宽出图，同时交付位图、矢量、可复跑脚本与数据来源。本域只做图件本体与图件级校验，不做统计推断、不做文献检索、不改研究结论；数据图必须由真实数据渲染，禁止用文生图或插画类技能顶替数据图；涉患者数据的图全程本地处理，不经任何在线接口。",
+  "capabilities": [
+    {
+      "id": "figures.render",
+      "label": "出版级数据图渲染",
+      "summary": "把真实数据渲染成可直接投稿的单图：先用 figure contract 定一句话结论与版式，再锁一套 backend 与 rcParams，按期刊栏宽出图，同时交付位图、矢量与可复跑脚本。",
+      "triggers": ["画一张能投稿的图", "这图分辨率不够", "用 R 出个箱线图", "中文显示成方框", "改成双栏宽度", "字号太小被审稿人挑刺"],
+      "inputs": ["真实数据文件（CSV/XLSX）与列说明", "目标期刊与栏宽（单栏/双栏）", "图中是否含中文与可用字体"],
+      "members": [
+        {
+          "skill": "matplotlib",
+          "verdict": "主用",
+          "best_at": ["对象式 API 逐元素控制图形细节", "自建 rcParams 模板与 CJK 字体回退链", "一次导出 PDF/SVG 矢量与 600 dpi 位图"],
+          "limits": ["默认配色与 10 pt 字号不能直接投稿", "只画图，不做统计检验与推断", "三维与交互图不属期刊版式"],
+          "take": ["Figure/Axes 对象式写法", "savefig 双格式与 bbox_inches=tight"]
+        },
+        {
+          "skill": "nature-figure",
+          "verdict": "补强",
+          "best_at": ["先写 figure contract 再写代码", "Python 与 R 二选一且后台互斥", "PDF 碰撞与面板对齐审计脚本"],
+          "limits": ["重心在多面板整图流程", "单图细化仍要回到 matplotlib"],
+          "take": ["figure contract 四问前置", "backend 互斥不混用两种绘图栈"]
+        },
+        {
+          "skill": "figures-python",
+          "verdict": "补强",
+          "best_at": ["栏宽英寸换算与 450 dpi 双出", "三套固定配色常量与五色上限", "data manifest 标注真实与模拟数据"],
+          "limits": ["中文字体路径写死 macOS 本机", "默认样式为通用型，需再调期刊"],
+          "take": ["单栏 3.5 in、双栏 7.0 in", "mock 数据文件名必须带 mock 前缀"]
+        },
+        {
+          "skill": "seaborn",
+          "verdict": "兜底",
+          "best_at": ["统计图与分面 grid 快速成型", "调色板与图例的高层封装"],
+          "limits": ["底层逐元素控制弱于 matplotlib", "默认风格与期刊要求差距明显"],
+          "take": ["借用调色板与分面骨架"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 定结论与版式契约",
+          "from": "nature-figure#figure contract",
+          "do": "先用一句话写出这张图要证明的结论，再列两三个支撑证据点，据此定图型与画布尺寸；结论没写清就不进入写代码。",
+          "detail": "detail 必须落到可核验的量：一张单图只回答一个问题；figsize 直接设成最终排版尺寸（单栏 3.5 in 即 89 mm、双栏 7.0 in 即 183 mm），不靠后期缩放；目标位图 600 dpi、线条图 1000 dpi；字号在 rcParams 里以 pt 给定，正文标注 8～9 pt、最小刻度 6～7 pt。"
+        },
+        {
+          "step": "2 锁 backend 与字体回退",
+          "from": "figures-python#环境与字体 + matplotlib#rcParams",
+          "do": "Python 用 matplotlib、R 用 ggplot2，全流程只用一个 backend；中文字体按 Noto Sans CJK、Microsoft YaHei、SimHei 依次回退，英文用 Arial 或 Helvetica，导出前跑一次缺字检查。",
+          "detail": "字体名写进 rcParams 的 font.sans-serif 列表，axes.unicode_minus 置 False 以免负号变方框；缺字检查用 matplotlib.font_manager.findfont 逐个试，找不到就退到同族字体并在交付说明里写明实际用字；宋体黑体只用于中文正文标注，坐标轴数字统一用无衬线英文字体。"
+        },
+        {
+          "step": "3 出图并双格式落盘",
+          "from": "matplotlib#导出",
+          "do": "同一份脚本同时导出 PNG（不低于 300 dpi）与 SVG 或 PDF，文件名带图号与版本；位图给投稿系统，矢量给排版与二次修改。",
+          "detail": "savefig 显式传 dpi=600、bbox_inches=tight；不要先存低分辨率再放大；TIFF 用无损压缩；给投稿系统的位图与给编辑的矢量必须来自同一次运行，否则两版数字会不一致。"
+        },
+        {
+          "step": "4 按最终尺寸核对字号",
+          "from": "scientific-visualization#字号与线宽",
+          "do": "把成图按 100% 打印尺寸铺开，逐个量文字元素的实际 pt 值，缩放到栏宽后仍要大于等于 7 pt；线宽取 0.5～1.0 pt。",
+          "detail": "字号用 pt 与 dpi 无关，但缩放会等比缩小字号：最低刻度低于 7 pt 就整体上调一两个 pt 或减内容，不要缩图；panel 字母 8～12 pt 加粗；坐标轴描边 0.8 pt，误差棒与连线 0.5～0.8 pt。"
+        },
+        {
+          "step": "5 自检并交付",
+          "from": "figures-python#data manifest",
+          "do": "交付前记录数据来源、脚本路径、实测 dpi 与最小字号；模拟数据必须落成 mock 前缀文件名，并在图注注明待真实实验替换。",
+          "detail": "交付包含成图 PNG、矢量文件、绘图脚本、data-manifest.md 与一行复跑命令；manifest 的六列表头 Figure、Data file、Real/mock、Source、Script、Outputs 必须填满，缺列的图不予交付。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "作者只给一张位图要求改字号",
+          "use": "让其重跑脚本出矢量与高 dpi 位图",
+          "instead_of": "用图像软件拉伸或手工补字",
+          "why": "位图放大不可逆，300 dpi 与 7 pt 两条硬指标事后补不回来"
+        },
+        {
+          "when": "目标期刊是中文核心或 CSCD",
+          "use": "cn-core 类预设与宋体正文",
+          "instead_of": "直接套 Nature 风格模板",
+          "why": "中文刊的栏宽、字号与图注格式与英文刊不同，套错会被退改"
+        },
+        {
+          "when": "同一批要出三张以上图",
+          "use": "先定一套 rcParams 主题再批量出图",
+          "instead_of": "每张图单独调参数",
+          "why": "风格不一致是多图被要求整批重画的常见原因"
+        }
+      ],
+      "gates": [
+        "输出位图 DPI 大于等于 300 且已读回图片属性核验（线条图大于等于 600）",
+        "成图在最终尺寸下全部字号大于等于 7 pt，并记录最小字号实测值",
+        "图内中文字符无缺字方框，已跑一次字体回退检查",
+        "PNG、SVG（或 PDF）、绘图脚本、data-manifest.md 四件齐全"
+      ],
+      "outputs": ["成图 PNG（不低于 300 dpi）", "矢量 SVG 或 PDF", "绘图脚本 .py 或 .R", "data-manifest.md 数据来源表"],
+      "kb": ["matplotlib", "nature-figure", "figures-python"]
+    },
+    {
+      "id": "figures.statplot",
+      "label": "统计图族绘制",
+      "summary": "直接从统计输出画 KM 生存曲线、森林图、ROC 与校准、列线图、热图与火山图，风险表、置信区间、n 与显著性标记逐位对齐源数据。",
+      "triggers": ["画个 KM 生存曲线", "森林图怎么画", "ROC 曲线和 AUC", "热图要带聚类", "火山图标注基因", "列线图怎么做"],
+      "inputs": ["统计输出（系数、HR/OR、95%CI、P 值、样本量）", "分组与随访原始表", "目标期刊与图型偏好"],
+      "members": [
+        {
+          "skill": "academic-figures",
+          "verdict": "主用",
+          "best_at": ["四十种统计图型一键出图", "KM 自动风险表与亚组森林图", "PRISMA 数字自洽校验"],
+          "limits": ["不做无数据支撑的纯示意图", "无三维与交互式图型"],
+          "take": ["--verify 像素重叠门禁", "九套期刊预设锁栏宽"]
+        },
+        {
+          "skill": "science-figures",
+          "verdict": "补强",
+          "best_at": ["十七图型加八种期刊风格切换", "scienceplots 主题与中文自动识别"],
+          "limits": ["专业图型深度不及四十型库", "缺统计对账与交付门禁"],
+          "take": ["--style nature 或 ieee 主题切换"]
+        },
+        {
+          "skill": "seaborn",
+          "verdict": "兜底",
+          "best_at": ["箱线叠加散点与热图快速拼", "facet 分面与调色板封装"],
+          "limits": ["无风险表与列线图等专图", "默认样式需按期刊重排"],
+          "take": ["box 与 stripplot 叠加个体点"]
+        },
+        {
+          "skill": "xiantao-plot-api",
+          "verdict": "弃用",
+          "best_at": ["三十类图在线一键出图省事"],
+          "limits": ["数据经 requests 上传第三方接口", "无法本地复核、无法复现"],
+          "take": ["不采用；涉患者数据绝不出机"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 判定图型族",
+          "from": "academic-figures#图型选择",
+          "do": "按要回答的问题选族：时间到事件用 KM 或累计发生率、效应量与异质性用森林图、诊断准确性用 ROC 与校准、多变量预测用列线图、组学用热图与火山图。",
+          "detail": "一张图只答一类问题；同图混画 KM 与森林图会让读者误读坐标系；选型后先确认数据里有随访时间、事件指示、分组与协变量四类列，缺列就回去补数据而不是硬画。"
+        },
+        {
+          "step": "2 图与统计输出对齐",
+          "from": "scholar-verify#数字对账",
+          "do": "图上的每个点估计、置信区间、P 值与风险表人数都必须能在同一份 CSV 里找到；先建数字表再画图，标注值从表里读。",
+          "detail": "统计输出落成 csv，列为 group、n、estimate、ci_low、ci_high、p；图上数字只从这张表读取，不允许手敲；森林图纵轴顺序与表一致；KM 的 at-risk 行数等于该时点仍在随访的人数。"
+        },
+        {
+          "step": "3 按图型设必需要素",
+          "from": "academic-figures#stat plot",
+          "do": "KM 带 at-risk 表与随访轴，森林图用 log 尺度并画无效线，ROC 画对角参考线并标 AUC，火山图给 log2FC 与 P 阈值线，热图给聚类树与色标范围。",
+          "detail": "森林图横轴取 log 尺度、无效线 x=1（HR）或 x=0（均值差）；ROC 两轴 0～1 等距、AUC 标三位小数；热图色标两端写真实数值并分清 z-score 与原始值；火山图阈值默认 |log2FC| 大于等于 1 且 P 小于 0.05，改动须写进图注。"
+        },
+        {
+          "step": "4 过门禁",
+          "from": "academic-figures#质量门禁",
+          "do": "跑像素重叠检查与字号检查，真实重叠数必须为 0，字号不得低于 5 pt 且投稿目标大于等于 7 pt，不通过就不交付。",
+          "detail": "重叠命中就改布局不改数据；字号门禁按最终打印尺寸算；同一批图统一配色与线宽；显著性星号与 P 值的对应关系必须写进图注，星号数量不得超过四级。"
+        },
+        {
+          "step": "5 写图注并交付",
+          "from": "academic-figures#图注",
+          "do": "图注给 n、统计方法、误差棒含义与显著性阈值，并注明风险表单位是人数还是百分比。",
+          "detail": "图注首句陈述发现，第二句给方法与 n，第三句给误差棒（SD、SEM 或 95%CI）与检验名；缩写首现展开；图注编号与正文引用一一对应，不得有孤儿图。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "只有汇总表没有个体数据",
+          "use": "画森林图或点估计加置信区间",
+          "instead_of": "硬画箱线图与散点",
+          "why": "没有个体值却画箱线等于编造分布"
+        },
+        {
+          "when": "数据涉患者个体信息",
+          "use": "本地脚本渲染",
+          "instead_of": "在线绘图或云 API",
+          "why": "上传即脱离伦理审批与可复现边界"
+        },
+        {
+          "when": "审稿人要求补亚组图",
+          "use": "统一配色与同一无效线的森林图族",
+          "instead_of": "每个亚组单独调样式",
+          "why": "图族不一致会被要求整批重画"
+        }
+      ],
+      "gates": [
+        "森林图、ROC 与热图的点估计和置信区间能由同一 CSV 复算一致",
+        "KM 图含 at-risk 表且各时点人数与原始随访数据一致",
+        "像素级文字重叠检查结果为 0",
+        "配色通过色盲模拟与灰度打印两项检查"
+      ],
+      "outputs": ["统计图 PNG（不低于 300 dpi）", "矢量 PDF 或 SVG", "绘图脚本与统计输出 CSV", "图注（含 n、检验方法、误差棒）"],
+      "kb": ["academic-figures", "science-figures", "seaborn"]
+    },
+    {
+      "id": "figures.panel",
+      "label": "多面板组合排版",
+      "summary": "把若干单图拼成一张只回答一个科学问题的多面板图：共享图例、统一字号、A/B/C 对齐，并用碰撞审计拦住压字与越界。",
+      "triggers": ["把六张图拼成一张", "panel 怎么标 A/B/C", "多图共享一个图例", "子图大小对不齐", "拼版后字号变小了", "组图排版"],
+      "inputs": ["各 panel 的单图与源脚本", "整图要回答的一句话与 hero panel 选择", "目标版心尺寸（单栏或双栏 mm）"],
+      "members": [
+        {
+          "skill": "scientific-visualization",
+          "verdict": "主用",
+          "best_at": ["GridSpec 多面板与统一 rcParams", "面板字母锚点与共享图例规范", "十三项终检清单可直接照做"],
+          "limits": ["只给规范与片段，不代管文件", "对整图叙事结构的约束偏弱"],
+          "take": ["panel 字母用 ax.text 固定锚点", "共享图例只出现一次"]
+        },
+        {
+          "skill": "nature-figure",
+          "verdict": "补强",
+          "best_at": ["整图只答一个 Results 级问题", "比较型 panel 裁剪容差 1.5 pt", "PDF 几何碰撞审计阻断导出"],
+          "limits": ["流程偏重 Nature 系刊规格", "需其自带审计脚本可用"],
+          "take": ["hero panel 优先与角色分工", "碰撞审计 exit 1 阻断交付"]
+        },
+        {
+          "skill": "academic-figures",
+          "verdict": "补强",
+          "best_at": ["composite 图型直接拼多子图", "自带像素重叠与字号门禁"],
+          "limits": ["拼版自由度不如手写 GridSpec", "子图样式受预设约束"],
+          "take": ["composite 出初版再手工微调"]
+        },
+        {
+          "skill": "matplotlib",
+          "verdict": "兜底",
+          "best_at": ["GridSpec 与 subplot_mosaic 精细控制", "任意跨行跨列布局与边距"],
+          "limits": ["无排版规范，全靠自己定", "审计与门禁需另写脚本"],
+          "take": ["subplot_mosaic 表达版式"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 定整图结论与角色",
+          "from": "nature-figure#多面板证据架构",
+          "do": "先写整图一句话结论，再给每个 panel 分配推断角色（现象、因果、对照、定量），而不是按指标摆图；指定一张 hero panel 放显眼位置。",
+          "detail": "整图结论必须覆盖所有 panel，出现两个互不相干的结论就拆图；panel 数量按版心定，双栏 183 mm 宽常见四到八个；声明 hero panel 并给它最大面积与最左或最上位置。"
+        },
+        {
+          "step": "2 定版式与尺寸",
+          "from": "scientific-visualization#多面板",
+          "do": "用 GridSpec 或 subplot_mosaic 先画只含方框的版式草图，确认行高比、跨列与留白，再往里填图。",
+          "detail": "figsize 设成最终版心（双栏 7.0～7.2 in、单栏 3.5 in）；子图间距 wspace 与 hspace 取 0.08～0.15；共享坐标轴的 panel 只保留最外侧刻度与标签，内圈刻度关掉。"
+        },
+        {
+          "step": "3 统一字体与字号",
+          "from": "matplotlib#rcParams",
+          "do": "所有 panel 共用一套 rcParams 与字号表，整图按最终尺寸核对最小字号，不允许逐个 panel 单独调字号。",
+          "detail": "整图只保留一套字号：panel 字母 8～12 pt 加粗、轴标签 8～9 pt、刻度 6～7 pt、图例 7～8 pt；任何 panel 缩放后字号低于 7 pt 就重排版式，不靠缩字硬塞。"
+        },
+        {
+          "step": "4 对齐并标字母",
+          "from": "nature-figure#panel 对齐门",
+          "do": "比较型 panel 的裁剪矩形容差控在 1.5 pt 内，共享边与重复 gutter 对齐；字母统一放左上外侧锚点。",
+          "detail": "字母用 ax.text(-0.15, 1.05, A, transform=ax.transAxes, fontsize=10, fontweight=bold)；锚点相对每个 panel 外框一致，跨行跨列时用 figure 坐标统一定位；不等宽 panel 要在交付说明里记一条豁免。"
+        },
+        {
+          "step": "5 审计后导出",
+          "from": "nature-figure#渲染审计",
+          "do": "导出 PDF 后跑碰撞与字号审计，出现 FIX BEFORE DELIVERY 就不交付；通过后同时出 PNG 预览与投稿用矢量。",
+          "detail": "审计项含文字互相重叠、文字出框、图例压数据、panel 越界；审计工具不可用时要显式写未审计，不得声称通过；导出后按 100% 尺寸再肉眼过一遍并记录。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "各 panel 来自不同作者的图",
+          "use": "在拼版阶段统一重排字体与配色",
+          "instead_of": "直接贴图保留各自原样式",
+          "why": "混排样式先被审稿人挑刺再返工更贵"
+        },
+        {
+          "when": "panel 数量超过八个",
+          "use": "拆成主图加补充图",
+          "instead_of": "硬压在一张图里",
+          "why": "压缩会让字号跌破 7 pt 门槛"
+        },
+        {
+          "when": "单个 panel 需要放大重要局部",
+          "use": "在图内加放大镜 inset 与引线",
+          "instead_of": "整图整体放大重画",
+          "why": "inset 只改版面不改数据范围"
+        }
+      ],
+      "gates": [
+        "panel 字母 A/B/C 齐全、字号大于等于 8 pt 加粗且锚点位置统一",
+        "比较型 panel 裁剪矩形容差小于等于 1.5 pt 并留有测量记录",
+        "共享图例只出现一次且不遮挡任何数据点",
+        "碰撞审计无 FIX BEFORE DELIVERY 项，或有显式的未审计声明"
+      ],
+      "outputs": ["整图矢量 PDF 或 SVG", "预览 PNG（不低于 300 dpi）", "拼版脚本与 panel 尺寸记录", "面板清单（字母、内容、推断角色）"],
+      "kb": ["scientific-visualization", "nature-figure", "matplotlib"]
+    },
+    {
+      "id": "figures.mechanism",
+      "label": "机制图（四要素强制）",
+      "summary": "机制图不是流程图：必须同时给出分子机制、受累器官、实验动物与操作、胞内胞外信号分层四类信息，用实线与虚线图例标证据等级，且图内不标文献编号。",
+      "triggers": ["画机制图", "信号通路示意图", "造模和通路画一张图", "机制图怎么画才像", "通路图能不能不标参考文献", "细胞通路图"],
+      "inputs": ["研究要表达的机制链（分子与方向）", "动物模型与造模参数（品系、性别、剂量、途径）", "受累器官与病理表型", "证据等级：已报道或本课题推断"],
+      "members": [
+        {
+          "skill": "medical-illustration",
+          "verdict": "主用",
+          "best_at": ["代码生成原创矢量 SVG 组件", "亚细胞、细胞、器官元件可组合", "arrow 分激活、抑制、易位三类"],
+          "limits": ["透明度导出位图不可靠", "不自带生物学正确性校验"],
+          "take": ["实线激活、T 型抑制、虚线易位", "export 多格式并给 300 dpi"]
+        },
+        {
+          "skill": "scientific-thinking-biology",
+          "verdict": "补强",
+          "best_at": ["分子到器官的生物学层级锚定", "区分 marker 与 driver、相关与因果"],
+          "limits": ["只给推理不给矢量图件", "不产出可编辑源文件"],
+          "take": ["四类信息按生物学层级对位", "每条箭头标明证据等级"]
+        },
+        {
+          "skill": "figure-designer",
+          "verdict": "补强",
+          "best_at": ["Figure 1 与总览图布局顾问", "按 CRITICAL/MAJOR/MINOR 分级输出"],
+          "limits": ["只给设计建议不落矢量", "工具建议混入 PPT 草稿路线"],
+          "take": ["先出文字版布局草图"]
+        },
+        {
+          "skill": "ai-figure-studio",
+          "verdict": "弃用",
+          "best_at": ["临摹论文插图并保留活字文字"],
+          "limits": ["依赖本机 Illustrator 手工运行", "输出 .ai 不可复现不可审计"],
+          "take": ["借语义分组与符号用 path 画", "绝不用 AI 临摹替代机制图"]
+        },
+        {
+          "skill": "scientific-schematics",
+          "verdict": "弃用",
+          "best_at": ["自然语言描述直接出示意图"],
+          "limits": ["经 OpenRouter 上传外部模型", "只出位图，分子标签不受控"],
+          "take": ["不采用；机制图须可复核可编辑"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 抽四要素清单",
+          "from": "scientific-thinking-biology#层级",
+          "do": "先列四张清单再动笔：分子机制至少两个具体分子或通路、受累器官、动物与操作、胞外到核内的四层信号结构。缺任一清单不出图。",
+          "detail": "分子写具体符号（如 TLR4、MyD88、NF-κB、NLRP3、ASC、Caspase-1、GSDMD、RIPK1、RIPK3、MLKL、GPX4、ACSL4、MMP-2/9、ZO-1、Occludin、Claudin-5），不写泛称的炎症通路；动物写 SD 或 Wistar 大鼠、雄性、SPF 级、周龄与体重；操作写造模参数、麻醉方式与剂量、立体定位坐标、给药剂量与途径。"
+        },
+        {
+          "step": "2 校核链条方向",
+          "from": "scientific-thinking-biology#机制评估",
+          "do": "逐个箭头核对方向与类型：受体激活级联、抑制关系用 T 型、跨膜易位用虚线；方向与文献相反或把相关写成因果的箭头全部回退重画。",
+          "detail": "每个箭头至少有一个出处：文献、本课题实验或明确标注的推断；把 marker 当 driver 直接改写结论是机制图最常见的实质错误；同一通路若在膜、胞质、核内三层各出现一次，必须保证三处符号与方向一致。"
+        },
+        {
+          "step": "3 定横版分层版式",
+          "from": "medical-illustration#版式",
+          "do": "画布取横版约 2400×1700 px，中心是细胞剖面（膜、胞质、核三层），上挂器官面板，左挂动物与操作面板，右挂图例与证据分级，下压一行关键定量。",
+          "detail": "细胞居中占宽六成左右，膜上画受体与糖萼，膜下画细胞间连接（紧密连接、黏附连接、桥粒）与基底膜；器官面板按实际受累顺序放脑、肺、肝、肾、心、肠与血管内皮中的项，不画无关器官凑数。"
+        },
+        {
+          "step": "4 用组件库落矢量",
+          "from": "medical-illustration#组件",
+          "do": "用组件拼装而不是手绘路径：膜、细胞器、器官、箭头、图例、面板字母都取现成组件，再按 JSON spec 排布；以 SVG 为主，另出 PNG 与 PDF。",
+          "detail": "避开发布版 svglib 不支持的 filter、style、textPath 与 mask；透明度导出位图会失真，用浅底加实色描边近似；上下标有缺字风险时写 CD8+ 与 I2 而不是上标符号；跨区连线用直线，弧线曲率不超过 15。"
+        },
+        {
+          "step": "5 标图例不标编号",
+          "from": "nature-figure#证据分级",
+          "do": "在图内用图例写清实线等于已报道、虚线等于本课题推断、T 型等于抑制；机制图内不标 [n] 形式的参考文献编号，出处放到图注或表里。",
+          "detail": "图例固定放右上角、三行以内；若图中同时含已报道与本课题推断，同一分子不得一处实线一处虚线；图注按层写一句话说明每层证据来源，文献编号留给正文配图使用。"
+        },
+        {
+          "step": "6 自检与导出",
+          "from": "medical-illustration#自检",
+          "do": "先看缩略图查布局，再 1:1 裁剪查重字与方框，最后抽查箭头语义；四要素清单与图内元素逐项打钩后才导出。",
+          "detail": "导出 SVG、PNG（300 dpi）、PDF 三件，源文件保留 JSON spec 或 .py；四要素每类至少两个具体元素才算合格；图内文字必须为可编辑文字而非轮廓路径；交付时附四要素核对表。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "作者想用文生图直接生成机制图",
+          "use": "走矢量组件拼装",
+          "instead_of": "Nano Banana 或 Stable Diffusion 直出",
+          "why": "分子名、箭头方向、器官解剖三样都不可控且不可改"
+        },
+        {
+          "when": "机制链条某一步只有本课题推断",
+          "use": "虚线加图例标注为推断",
+          "instead_of": "画成实线与已报道等同",
+          "why": "证据分级是机制图的可信度底线"
+        },
+        {
+          "when": "作者要求在机制图中加文献编号",
+          "use": "改为在图注里按层列出处",
+          "instead_of": "在图内标 [n]",
+          "why": "机制图内标编号会与正文配图混淆并破坏版面"
+        }
+      ],
+      "gates": [
+        "分子机制、受累器官、动物与操作、胞内胞外分层四类各至少两个具体元素",
+        "图内无 [n] 形式参考文献编号，证据分级由线型图例表达",
+        "画布为横版且宽高比接近 7:5（约 2400×1700 px）",
+        "箭头语义抽查 100% 正确，SVG 源文件与 JSON spec 一并交付"
+      ],
+      "outputs": ["机制图 SVG 与 PDF 矢量", "预览 PNG（不低于 300 dpi）", "四要素核对表（要素、具体元素、证据出处）", "可编辑源文件（JSON spec 或 .py）"],
+      "kb": ["medical-illustration", "scientific-thinking-biology", "figure-designer"]
+    },
+    {
+      "id": "figures.flow",
+      "label": "流程与方法示意",
+      "summary": "PRISMA 筛选流、实验流程图与技术路线图：先用文本定拓扑，再出可投稿矢量，节点文字短、数字自洽、版本可 diff。",
+      "triggers": ["画 PRISMA 流程图", "实验流程图怎么画", "技术路线图", "基金本子的技术路线", "流程图数字对不上", "研究方法的流程图"],
+      "inputs": ["流程节点与判定分支（含各类排除数）", "各阶段样本量或时间点", "用途（论文、基金本子、答辩 PPT）"],
+      "members": [
+        {
+          "skill": "academic-figures",
+          "verdict": "主用",
+          "best_at": ["PRISMA 流程带数字自洽校验", "diagram 与 composite 图型", "期刊预设锁栏宽并自动 CJK"],
+          "limits": ["不做无数据的纯装饰示意", "节点样式自由度有限"],
+          "take": ["数字对不上就拒绝出图"]
+        },
+        {
+          "skill": "markdown-mermaid-writing",
+          "verdict": "补强",
+          "best_at": ["用 Mermaid 文本先定流程拓扑", "文本可 diff、可评审、可转图"],
+          "limits": ["直接渲染的图不适合投稿", "复杂样式控制较弱"],
+          "take": ["先文本定稿再转矢量"]
+        },
+        {
+          "skill": "fireworks-tech-graph",
+          "verdict": "补强",
+          "best_at": ["语义化 SVG 连线与节点", "check 校验标记引用与碰撞"],
+          "limits": ["偏技术架构与云图风格", "无学术期刊预设样式"],
+          "take": ["一条业务边只画一条连接线"]
+        },
+        {
+          "skill": "scientific-drawing",
+          "verdict": "兜底",
+          "best_at": ["技术路线与原理图快速骨架", "三套固定配色可直接用"],
+          "limits": ["无脚本、无门禁、无审计", "尺寸与字号要求要自己补"],
+          "take": ["每框不超十字的排版纪律"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 用文本定拓扑",
+          "from": "markdown-mermaid-writing#三阶段",
+          "do": "先用 Mermaid 写出节点与分支，节点名控制在十个字内，确认无环与无歧义后再转成正式图。",
+          "detail": "流程图的每条分支都要能回答是或否；PRISMA 四个阶段（识别、筛选、合格、纳入）的计数必须首尾闭合；基金技术路线按年度或模块分列，不要混成一张网。"
+        },
+        {
+          "step": "2 先对数字",
+          "from": "academic-figures#prisma",
+          "do": "把每阶段的排除数与纳入数写成一张表，图上数字全部从表里取值；首尾对不上就停下补数据。",
+          "detail": "识别数减重复与排除等于筛选数，筛选数减排除等于全文评估数，逐级闭合；百分比保留一位小数；数字表与图放同一目录并落 csv，便于复核与下一版只改数字。"
+        },
+        {
+          "step": "3 出图并定尺寸",
+          "from": "academic-figures#diagram",
+          "do": "按用途选尺寸：论文单栏或双栏、基金 A4 横版；节点统一圆角矩形，箭头单向，判定分支用菱形加是与否标注。",
+          "detail": "论文图宽取 89 或 183 mm，基金技术路线 A4 横版约 1200 px 宽；节点文字不超过十个字，超了就拆节点；同一层级节点等宽等高，连线尽量正交。"
+        },
+        {
+          "step": "4 校验连线与文字",
+          "from": "fireworks-tech-graph#check",
+          "do": "检查连线是否贯穿节点、箭头是否指向正确、文字有无出框，再跑一次数字自洽核对。",
+          "detail": "一条业务边只保留一条连接线，避免双线误导；跨层连线加跳线或用正交折线；文字出框与压线必须清零后才导出，未清零按不合格处理。"
+        },
+        {
+          "step": "5 导出与归档",
+          "from": "scientific-drawing#导出",
+          "do": "导出 SVG 与 PNG，源文件保留 Mermaid 或 JSON，交付时附数字表与版本号。",
+          "detail": "PNG 不低于 300 dpi；SVG 供排版缩放；Mermaid 源与生成脚本一起归档，便于下一版只改数字不改版式；版本号写进文件名。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "PRISMA 数字对不上",
+          "use": "回原始筛选记录核账",
+          "instead_of": "按图上已有数字反推表",
+          "why": "反推等于伪造筛选过程"
+        },
+        {
+          "when": "用途是答辩 PPT",
+          "use": "放宽字号与配色后单独出一版",
+          "instead_of": "直接把论文图塞进 PPT",
+          "why": "投影看字号不够，且版心比例不同"
+        }
+      ],
+      "gates": [
+        "PRISMA 各阶段计数首尾闭合，差额为 0",
+        "节点文字不超过十字，无出框、无连线穿框",
+        "同层节点等宽等高，箭头单向且方向正确",
+        "SVG、源文件（Mermaid 或 JSON）与数字表一并交付"
+      ],
+      "outputs": ["流程示意图 SVG 与 PNG", "数字自洽表 CSV", "Mermaid 或 JSON 源文件", "版本与用途说明"],
+      "kb": ["academic-figures", "markdown-mermaid-writing", "fireworks-tech-graph"]
+    },
+    {
+      "id": "figures.vector",
+      "label": "可编辑矢量示意图",
+      "summary": "把参考图或草图重建成节点可改、文字可改的 .drawio 或语义化 SVG，交付源文件、预览与逐元素清单，而不是一张位图。",
+      "triggers": ["把这张图转成可编辑的", "drawio 源文件", "示意图要能改文字", "SVG 节点要能单独调", "重画这张架构图", "不想要图片要矢量"],
+      "inputs": ["参考图或草图（PNG/PDF/截图）", "需要保留可编辑的元素范围", "目标画布与用途（论文或汇报）"],
+      "members": [
+        {
+          "skill": "drawio-reconstruction",
+          "verdict": "主用",
+          "best_at": ["参考图重建成可编辑 drawio", "先建可见元素清单再重建", "原生元素与裁切图分工明确"],
+          "limits": ["还原度优先，可编辑性次要", "复杂插画仍靠裁切位图"],
+          "take": ["逐元素清单与 audit 记录", "文字结构必用原生元素"]
+        },
+        {
+          "skill": "fireworks-tech-graph",
+          "verdict": "补强",
+          "best_at": ["语义化 SVG 与结构化连线", "check 校验标记引用与碰撞"],
+          "limits": ["偏工程架构图风格", "学术示意图样式需另调"],
+          "take": ["让 SVG 作为唯一真源"]
+        },
+        {
+          "skill": "medical-illustration",
+          "verdict": "补强",
+          "best_at": ["原创矢量组件拼生物示意", "箭头三类语义清晰"],
+          "limits": ["组件偏细胞与器官题材", "非生物题材元件不足"],
+          "take": ["复用其箭头与图例组件"]
+        },
+        {
+          "skill": "figures-diagram",
+          "verdict": "弃用",
+          "best_at": ["把绘图需求转成生图提示词"],
+          "limits": ["只产提示词不产图件", "结果位图不可编辑不可复核"],
+          "take": ["不采用；借其取舍清单提醒"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 建可见元素清单",
+          "from": "drawio-reconstruction#元素清单",
+          "do": "先列出图上所有可见元素：画布、标题、面板、文字块、图标、箭头、留白关系，每项标出拟用介质（原生、SVG、裁切）。",
+          "detail": "清单逐项给 id、位置、内容、介质与状态（pending、done、needs-fix）；清单没建完不开工，否则必漏元素；文字与结构一律进原生元素，保证后续能改。"
+        },
+        {
+          "step": "2 选择介质",
+          "from": "drawio-reconstruction#介质规则",
+          "do": "文字、框、连线用原生元素；风格特异或高细节的图标用裁切位图；只有简单干净且能还原形状的图标才用 SVG 重绘。",
+          "detail": "用通用图标替换风格特异图标属于阻断性缺陷；裁切图出现白边、接缝或糊边就换透明底或垫同色块；宁可标 needs-fix 也不拿近似图标充数。"
+        },
+        {
+          "step": "3 重建并导出",
+          "from": "drawio-reconstruction#导出",
+          "do": "在 .drawio 里排布并导出 PNG 预览，按 1:1 与参考图逐项比对，差异写进 audit。",
+          "detail": "输出 .drawio、预览 png 与 audit.md 三件；画布尺寸与参考图等比；原生元素按语义命名成组，方便用户单独调整；字体统一成可移植字体。"
+        },
+        {
+          "step": "4 视觉核验与交付",
+          "from": "fireworks-tech-graph#视觉核验",
+          "do": "在目标阅读尺寸下看一遍文字完整性、对比度、字体替换、留白与箭头方向；看不了图就写未看，不得声称视觉正确。",
+          "detail": "不能查看图像时必须显式标注视觉核验跳过；交付说明写清哪些元素可改、哪些是位图、画布尺寸与所用字体；一条业务边只保留一条语义连接线。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "参考图是插画型机制图",
+          "use": "用矢量组件重画并保留原件对照",
+          "instead_of": "整体矢量化描摹",
+          "why": "描摹出的路径文字不可改，改一个词都要重描"
+        },
+        {
+          "when": "只需改几个文字",
+          "use": "在原有 drawio 或 SVG 上改文字层",
+          "instead_of": "重新生成整张图",
+          "why": "重生成必然带来版式与配色漂移"
+        }
+      ],
+      "gates": [
+        "交付 .drawio 或 SVG 源文件且文字为可编辑文本而非轮廓",
+        "逐元素清单全部为 done 或显式标 needs-fix",
+        "导出 PNG 与参考图在目标尺寸下逐区比对无阻断差异",
+        "源文件字体已统一为可移植字体并记录画布尺寸"
+      ],
+      "outputs": [".drawio 或 SVG 源文件", "PNG 预览", "元素清单与 audit.md", "可编辑性说明"],
+      "kb": ["drawio-reconstruction", "fireworks-tech-graph", "medical-illustration"]
+    },
+    {
+      "id": "figures.image",
+      "label": "医学影像与照片处理",
+      "summary": "影像与照片进图前先过三道关：读原始容器不做二次压缩、按比例尺标定、去标识化到不可回溯；患者影像全程本地处理，不经任何在线接口。",
+      "triggers": ["CT 图像怎么放进论文", "影像去标识化", "加比例尺", "Western blot 条带裁图", "切片图拼版", "影像分辨率不够"],
+      "inputs": ["原始影像（DICOM 或 TIFF/PNG）与元数据", "显微镜与扫描参数、比例尺长度", "伦理批件与去标识化要求"],
+      "members": [
+        {
+          "skill": "pydicom",
+          "verdict": "主用",
+          "best_at": ["读写 DICOM 与提取像素数据", "按标签批量做去标识化", "转成常用位图并保留层厚信息"],
+          "limits": ["属 format 域，仅借其容器能力", "不做图像增强与形态学分析"],
+          "take": ["去标识化按标签逐项清空", "像素数据不做二次压缩"]
+        },
+        {
+          "skill": "airs-segment-anything-model",
+          "verdict": "补强",
+          "best_at": ["零样本分割出目标区域", "点或框提示生成掩膜"],
+          "limits": ["需下载大模型权重", "掩膜边界需人工复核"],
+          "take": ["用掩膜做裁剪与面积统计"]
+        },
+        {
+          "skill": "histolab",
+          "verdict": "兜底",
+          "best_at": ["全片影像组织检测与取块", "H&E 染色归一化"],
+          "limits": ["只面向病理全片影像", "深色背景易误判组织"],
+          "take": ["切片拼版前先做染色归一"]
+        },
+        {
+          "skill": "generate-image",
+          "verdict": "弃用",
+          "best_at": ["按提示词生成或编辑图片"],
+          "limits": ["上传外部服务，患者数据不得外流", "生成像素不可回溯到原始数据"],
+          "take": ["不采用；科研图禁用生成像素"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 定数据边界并去标识化",
+          "from": "pydicom#de-identification",
+          "do": "先判定是否含患者标识：DICOM 里清空姓名、ID、生日、机构、检查号等标签，位图清除 EXIF 与烧录文字；去标识化后不允许反查。",
+          "detail": "必清标签含患者姓名、患者 ID、出生日期、检查日期、机构名、设备序列号与注释字段；烧录在像素里的姓名要用黑框覆盖并记录覆盖位置；导出文件统一重命名成序号，映射表单独存放且不进交付包。"
+        },
+        {
+          "step": "2 标定比例尺",
+          "from": "histolab#元数据",
+          "do": "从元数据取像素间距或放大倍数，把比例尺画成图上带数值的线段，不用相对倍数糊过去。",
+          "detail": "DICOM 用 PixelSpacing 换算，显微图用物镜倍数与相机像素尺寸换算；比例尺长度取整到 10 或 100 微米；同一组图的比例尺必须同长，否则不可并列比较。"
+        },
+        {
+          "step": "3 处理与裁剪",
+          "from": "airs-segment-anything-model#掩膜",
+          "do": "只做亮度与对比度的线性调整与必要裁剪，保持同一图内各 panel 一致；拼接时不留可见接缝。",
+          "detail": "禁止非线性锐化造成虚假结构；同一图内各 panel 用同一查找表；裁剪区至少保留目标结构外沿一成的余量；拼版时给每个 panel 标字母与比例尺。"
+        },
+        {
+          "step": "4 导出并回读",
+          "from": "pydicom#像素输出",
+          "do": "按投稿要求导出 TIFF 或 PNG，位图不低于 300 dpi，颜色空间用 sRGB；导出后回读 DPI 与像素尺寸核验。",
+          "detail": "TIFF 用无损压缩，位深 8 或 16；不做 JPEG 中转；整图 dpi 与单 panel dpi 分别核对；文件名带图号与模态，便于与图注对应。"
+        },
+        {
+          "step": "5 合规核对",
+          "from": "pydicom#合规",
+          "do": "交付前核对伦理批件号、去标识化记录与数据可用性声明是否齐全，缺一项不出图。",
+          "detail": "图注写影像模态、层厚或放大倍数、n 与处理软件版本；去标识化记录含清空标签清单与时间；材料转移与二次使用需在方法里说明。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "影像含患者信息又要送外审",
+          "use": "先本地去标识化再导出",
+          "instead_of": "把原图直接传给任何在线服务",
+          "why": "外流一次就无法回收，伦理上不可逆"
+        },
+        {
+          "when": "需要放大局部细节",
+          "use": "回到原始数据重新裁剪",
+          "instead_of": "对已导出位图插值放大",
+          "why": "插值放大不增加信息，还会被审稿人识破"
+        }
+      ],
+      "gates": [
+        "患者影像已去标识化：必清标签逐项清空且留有记录",
+        "每张影像图带标注数值的比例尺，同组比例尺等长",
+        "位图 DPI 大于等于 300 且回读像素尺寸核验，无 JPEG 中转",
+        "伦理批件号与数据可用性声明已写进图注或方法"
+      ],
+      "outputs": ["标注比例尺的影像图（TIFF 或 PNG）", "去标识化记录表", "处理脚本与参数记录"],
+      "kb": ["pydicom", "histolab", "airs-segment-anything-model"]
+    },
+    {
+      "id": "figures.style",
+      "label": "配色与期刊风格",
+      "summary": "给整个项目定一套色盲友好、灰度可辨、跨图一致的调色板与期刊主题，让同一课题的十张图看起来像同一个人画的。",
+      "triggers": ["配色要色盲友好", "黑白打印看不出区别", "全套图配色统一", "期刊风格模板", "换期刊要改配色", "颜色太多太花"],
+      "inputs": ["目标期刊与投稿系统要求", "图的数量与类别数", "是否需要黑白打印可辨"],
+      "members": [
+        {
+          "skill": "figures-python",
+          "verdict": "主用",
+          "best_at": ["三套成组配色常量直接可用", "同图不超过五色的纪律", "450 dpi 双格式导出"],
+          "limits": ["字体路径绑定本机 mac", "主题只有几套，扩展有限"],
+          "take": ["Okabe-Ito 作为默认调色板"]
+        },
+        {
+          "skill": "scientific-visualization",
+          "verdict": "补强",
+          "best_at": ["Okabe-Ito 八色与灰度可辨原则", "连续用 viridis、发散用 RdBu_r"],
+          "limits": ["不产出可复用主题文件", "偏规范与清单，少可跑脚本"],
+          "take": ["禁 jet 与彩虹色带", "连续数据禁红绿二元"]
+        },
+        {
+          "skill": "science-figures",
+          "verdict": "补强",
+          "best_at": ["八种期刊风格一键切换", "十七图型共用一套主题"],
+          "limits": ["风格深度不及手工主题", "中文主题支持有限"],
+          "take": ["拿期刊预设当起点再调"]
+        },
+        {
+          "skill": "scientific-drawing",
+          "verdict": "兜底",
+          "best_at": ["示意图三套配色模板", "每框不超十字的排版约束"],
+          "limits": ["仅适用于示意场景", "无数据图主题定义"],
+          "take": ["示意图配色与正文对齐"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 定主调色板",
+          "from": "scientific-visualization#配色",
+          "do": "默认用 Okabe-Ito 八色，按类别数截取；连续量用 viridis 或 cividis，发散量用 RdBu_r 并让 0 居中。",
+          "detail": "同一项目内主色系固定，不在单图里临时加色；禁止纯红配纯绿与 jet 彩虹色带；类别超过八组时改用形状或明度做二级编码，不靠继续加颜色。"
+        },
+        {
+          "step": "2 过灰度与色盲",
+          "from": "figures-python#配色",
+          "do": "把成图转灰度看对比，再跑一次红绿色盲模拟；两条都过不了就换明度差更大的组合。",
+          "detail": "灰度检查要求相邻类别亮度差明显；色盲模拟以红绿色盲为主；关键差异不能只靠颜色，必须叠加线型、点型或直接标注数值。"
+        },
+        {
+          "step": "3 定期刊主题文件",
+          "from": "science-figures#期刊风格",
+          "do": "按目标刊选预设（nature、science、lancet、ieee 等）并把栏宽、字号、线宽写成一份 rcParams 或 theme 文件。",
+          "detail": "主题文件含 figsize、字号表、线宽、刻度朝向、是否保留边框、导出格式与 dpi；主题只定义一次，全项目脚本 import 同一份，禁止各图各调。"
+        },
+        {
+          "step": "4 跨图一致性核对",
+          "from": "scientific-visualization#终检",
+          "do": "把同批图缩略图并排看，检查色、字体、线宽、图例位置是否一致，不一致就回到主题文件改而不是单图改。",
+          "detail": "并排检查至少覆盖同一指标在不同图里的颜色是否一致；图例位置统一放右上或图外右侧；不同图的同名字号必须相等；改主题后同批图全部重出。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "期刊指定了配色或模板",
+          "use": "服从期刊模板",
+          "instead_of": "坚持自己的品牌配色",
+          "why": "投稿系统与编辑排版优先，硬顶会被退改"
+        },
+        {
+          "when": "图要同时用于 PPT 与论文",
+          "use": "出一版同源但字号放大的主题",
+          "instead_of": "同一张图两处硬用",
+          "why": "投影与印刷的可读字号不同"
+        }
+      ],
+      "gates": [
+        "灰度转换后相邻类别仍可区分，且留有检查图",
+        "红绿色盲模拟下关键类别仍可区分",
+        "同批图共用一份主题文件，字号与线宽读数一致",
+        "类别色数不超过 8 且未使用 jet 或红绿二元配色"
+      ],
+      "outputs": ["主题文件（rcParams 或 theme）", "调色板常量清单", "灰度与色盲检查图", "跨图一致性核对表"],
+      "kb": ["figures-python", "scientific-visualization", "science-figures"]
+    },
+    {
+      "id": "figures.audit",
+      "label": "图表规范化终检",
+      "summary": "交付前对每张图做机械核验：DPI、尺寸、字号、字体、格式、图注要素与数字对账逐项给读数，出报告与分级修复清单。",
+      "triggers": ["投稿前检查图", "图件终检清单", "DPI 和字号怎么核", "图注缺什么", "图和数据对不上", "被退稿说图不合格"],
+      "inputs": ["待检图件（PNG/TIFF/PDF/SVG）", "对应源数据与统计输出", "目标期刊的图件要求页"],
+      "members": [
+        {
+          "skill": "nature-figure",
+          "verdict": "主用",
+          "best_at": ["PDF 文字与几何碰撞审计", "交付前 exit 1 阻断导出", "期刊导出契约与图注字数"],
+          "limits": ["偏重 Nature 系刊规格", "依赖其自带审计脚本"],
+          "take": ["审计不过就不交付的硬门"]
+        },
+        {
+          "skill": "scientific-visualization",
+          "verdict": "补强",
+          "best_at": ["十三项终检清单可直接执行", "DPI、格式、字号阈值明确"],
+          "limits": ["清单式，缺自动对账", "不校验图与数据的数字一致"],
+          "take": ["逐项给读数的检查表"]
+        },
+        {
+          "skill": "scholar-verify",
+          "verdict": "补强",
+          "best_at": ["图与图注、数据三方对账", "区分不可追溯与可推导未验证"],
+          "limits": ["偏重社科稿件流程", "只做诊断不修改原稿"],
+          "take": ["陈旧图与图注错配的检法"]
+        },
+        {
+          "skill": "academic-figures",
+          "verdict": "补强",
+          "best_at": ["字号门禁与重叠像素检查", "数字对账侧车与复跑包"],
+          "limits": ["依赖其生成脚本产出", "第三方图需手工套用"],
+          "take": ["--repro 复跑包思路"]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 收齐三件",
+          "from": "scholar-verify#图件核对",
+          "do": "每张图必须有成图、绘图脚本与数据来源三件；缺脚本或数据来源的图直接判为不可交付。",
+          "detail": "三件对齐方式：成图文件名与脚本输出名一致，脚本读的数据文件在 manifest 里有记录；识别陈旧图的办法是重跑脚本比对哈希或修改时间，过期就重出。"
+        },
+        {
+          "step": "2 机械核验指标",
+          "from": "scientific-visualization#终检",
+          "do": "逐图读取 DPI、像素尺寸、格式、字号、字体与线宽，与期刊阈值比对，写成表。",
+          "detail": "阈值：位图大于等于 300 dpi、线条图大于等于 600 dpi 或直接矢量、最终尺寸字号大于等于 7 pt、英文用无衬线字体、中文无缺字；每项给实测值与判定，不写大概合格。"
+        },
+        {
+          "step": "3 图注与数字对账",
+          "from": "scholar-verify#数字追溯",
+          "do": "图注必须含 n、统计方法、误差棒含义；图上每个数字抽三处回源数据核对，对不上判为 CRITICAL。",
+          "detail": "图注首句写发现，其后写方法与 n；误差棒注明 SD、SEM 或 95%CI；显著性符号与 P 值一一对应；不可追溯的数字标 UNTRACEABLE，可推导但未留痕的标 DERIVED-UNVERIFIED。"
+        },
+        {
+          "step": "4 出分级报告",
+          "from": "nature-figure#审计报告",
+          "do": "输出终检报告：项、读数、阈值、结论四列，按 CRITICAL、MAJOR、MINOR 分级并给前三条修复动作。",
+          "detail": "CRITICAL 含患者信息未去标识、数字对不上、DPI 不足、无源脚本；报告末尾写明确结论是通过、带条件通过还是不通过，不得含糊其辞。"
+        },
+        {
+          "step": "5 复跑与归档",
+          "from": "academic-figures#复跑包",
+          "do": "把命令、数据副本、成图与报告打进一个复跑包，任何人照 README 都能重出同一张图。",
+          "detail": "复跑包含运行命令、依赖版本、数据副本、输出图与报告；依赖版本写清 Python 或 R 版本与关键包版本；归档目录带日期与图号。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "只有成图没有脚本",
+          "use": "判为不可交付并要求补脚本",
+          "instead_of": "仅凭肉眼说达标",
+          "why": "无法复现的图在校对与勘误阶段会失控"
+        },
+        {
+          "when": "审计脚本不可用",
+          "use": "手工核验并显式标注未自动审计",
+          "instead_of": "按经验宣布通过",
+          "why": "声称通过而无证据等于虚假验收"
+        }
+      ],
+      "gates": [
+        "每张图给出 DPI、像素尺寸、最小字号、字体四项实测读数",
+        "图注含 n、统计方法、误差棒含义三项，缺项判 MAJOR",
+        "图内数字抽检三处与源数据一致，不一致判 CRITICAL",
+        "去标识化、源脚本、数据来源三项缺任一即不通过"
+      ],
+      "outputs": ["图件终检报告（项、读数、阈值、结论）", "分级修复清单", "复跑包（命令、数据副本、成图）"],
+      "kb": ["nature-figure", "scientific-visualization", "scholar-verify"]
+    }
+  ]
+}

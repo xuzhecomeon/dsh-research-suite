@@ -1,0 +1,8 @@
+# dsh-research-suite bundle layer.
+#
+# 这一行才是「会被 import 的入口」。仅把包名列进 profile 的 bundles 并不会执行
+# package.json#main；必须在这里 insert 一条，loader 才会解析入口并调用 apply()。
+# 插件完全自包含：无配置项依赖、无宿主绝对路径。
+- insert:
+    - id: dsh-research-suite
+      name: dsh-research-suite

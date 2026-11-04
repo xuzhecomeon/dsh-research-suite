@@ -1,0 +1,34 @@
+{
+  "generatedAt": "2026-11-04T13:35:24.958Z",
+  "source": "WorkBuddy user-level skills (fully vendored; no runtime dependency)",
+  "totalSkills": 719,
+  "researchSkills": 489,
+  "totalBytes": 9918478,
+  "domains": {
+    "writing": 51,
+    "polish": 24,
+    "figures": 76,
+    "stats": 180,
+    "ideation": 33,
+    "review": 39,
+    "slides": 44,
+    "literature": 152,
+    "format": 32,
+    "general": 88
+  },
+  "corePerDomain": {
+    "writing": 40,
+    "polish": 20,
+    "figures": 40,
+    "stats": 40,
+    "ideation": 25,
+    "review": 28,
+    "slides": 40,
+    "literature": 40,
+    "format": 31
+  },
+  "duplicatedNames": 3,
+  "missingFrontmatter": 2,
+  "sanitizedFiles": 8,
+  "sanitizedMatches": 25
+}

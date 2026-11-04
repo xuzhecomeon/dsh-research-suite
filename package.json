@@ -1,0 +1,76 @@
+{
+  "name": "dsh-research-suite",
+  "version": "2.0.0",
+  "description": "科研全流程能力套件：把写作、润色、绘图、统计、文献、选题、审稿、幻灯等数百个科研技能的优劣对齐成能力卡，用融合协议自动接管科研任务。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "icon": "./icon.svg",
+  "files": [
+    "lib",
+    "data",
+    "knowledge",
+    "references",
+    "skills",
+    "docs",
+    "scripts",
+    "cordis.patch.yml",
+    "icon.svg",
+    "README.md",
+    "README.zh-CN.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "research",
+    "科研",
+    "论文",
+    "统计",
+    "绘图",
+    "文献",
+    "审稿",
+    "幻灯"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "dsh-research-suite contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xuzhecomeon/dsh-research-suite.git"
+  },
+  "homepage": "https://github.com/xuzhecomeon/dsh-research-suite#readme",
+  "bugs": {
+    "url": "https://github.com/xuzhecomeon/dsh-research-suite/issues"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0",
+    "dsh": ">=0.2.0-0 <0.3.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh": ">=0.2.0-0 <0.3.0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "test": "node scripts/selftest.mjs",
+    "verify": "node scripts/verify-package.mjs",
+    "verify:caps": "node scripts/verify-capabilities.mjs",
+    "check": "node scripts/selftest.mjs && node scripts/verify-capabilities.mjs && node scripts/verify-package.mjs",
+    "pack:check": "npm pack --dry-run"
+  }
+}
