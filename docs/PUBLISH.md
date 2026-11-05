@@ -264,6 +264,7 @@ CI 依次查：条目数 ≤3 → 从仓库读 `dsh.bundle` → 仓库年龄 ≥
 ### 路线 B：发 GitHub 仓库（适合同行复现）
 
 - 对方执行：`dsh plugin --profile <profile名> add github:<owner>/<repo>#<commit>`。`dsh plugin` 把参数原样转给 pnpm，支持 pnpm 的 `github:` 协议；本包无构建步骤，装上即可用。
+- **实测记录（2026-11-05）**：在全新 profile 上执行 `dsh plugin --profile ghverify add github:xuzhecomeon/dsh-research-suite` → pnpm 从 `codeload.github.com` 拉 tar.gz，输出 `+ dsh-research-suite 2.0.0`，`Done in 2m 22.5s`，exit 0；该 profile 的 `dsh.profile.bundles` 自动出现 `dsh-research-suite`。⇒ 同行拿到仓库地址就能一条命令装上。
 - 好处：可锁 commit 复现。缺点：国内直连 GitHub 不稳，拉不下来就退回路线 A。
 
 ### 路线 C：发到 npm（公开包，一次发布长期可用）
