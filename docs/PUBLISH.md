@@ -250,6 +250,10 @@ npm deprecate dsh-research-suite@2.0.1 "2.0.1 存在 XXX 问题，请升级到 2
 
 CI 依次查：条目数 ≤3 → 从仓库读 `dsh.bundle` → 仓库年龄 ≥1 天 → `awesome-lint` 与站点构建（双语一致性、分隔符、日期、截图）。失败会明确指出要改什么，**往同一分支推即可，不必重开 PR**。
 
+关于年龄门槛：`scripts/check-submission.mjs` 里 `MIN_AGE_DAYS = 1`，但 contributing 明确写了 gate 结论是**快照且过期会自动重跑**——被「仓库 0.5 天」挡住的投稿几小时后自己就达标，**不需要推空提交**。
+
+> 本包的实际投稿记录（2026-11-05）：仓库 `xuzhecomeon/dsh-research-suite` 上线后已按上面五步提过一次 PR —— `awesome-dsh-plugin/awesome-dsh-plugin` **#12199**，改动仅 `data/plugins/xuzhecomeon__dsh-research-suite.yml` 一个文件。提 PR 时仓库创建未满 1 天，故 gate 会在满 1 天后自动重新判定。
+
 最常见的两种被打回：① 只声明 `dsh.client`（不可安装）；② 描述夸大（写了「46 个工具、六个领域」就得真有）。本包条目里的四个数字都能用 `node scripts/verify-package.mjs` 与 `data/capabilities/*.json` 数出来：知识库 719 篇、能力卡 81 张、注册技能 10 个、工具 7 个。
 
 ## 十、不经过市场，直接把插件发给别人（四条路）
