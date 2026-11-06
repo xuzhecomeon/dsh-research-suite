@@ -6,8 +6,29 @@
 
 ### 计划中
 
-- 待定：各域能力卡的最终数量与融合细节以 `data/capabilities/*.json` 为准，本节的域级统计待主控在内容定稿后回填。TODO(lead)
-- 待定：`scripts/selftest.mjs` 的加载期 smoke test 用例清单。TODO(lead)
+- 待定：随插件在 npm 上发布 format 1 索引源，便于在 DSH「发现 → 索引源」里直接添加。
+
+## [3.0.1] - 2026-11-06
+
+**适配 DSH 0.2.2-rc.1。** 这一版只有一个实质修复，但它是致命的：升级到 0.2.2-rc.1 后，插件的 10 份技能与自动接管策略段都正常加载，**7 个 `research_*` 工具却静默消失了**。
+
+### 修复
+
+- **工具全部丢失（0.2.2-rc.1）**：入口原本只声明 `export const inject = ['skills']`，工具在 `apply()` 里用同步 `ctx.get('tools')` 现取。0.2.2-rc.1 的服务装配时序变了——apply 那一刻 `tools` 还没就绪，`ctx.get` 返回 `undefined`，七个工具就一个都没注册，而技能注册与 `systemPrompt.section()` 都成功，日志里也只有一条不显眼的 warn（默认不进日志文件），现象是「插件看着在工作，`research_playbook` 却不存在」。按官方 `cordis-plugin-development/references/host-plugin.md:61` 的写法，把 `tools` 提升为 `inject` 里的硬依赖，cordis 会等到服务就绪再 apply。
+- **`systemPrompt` 保持可选但不再靠运气**：仍先同步取服务，取不到走 `ctx.inject(['systemPrompt'], cb)` 建子 fiber 延迟补装，避免在没有 agent 运行时的 profile 里把整个插件卡在 pending。
+- 顺带把取服务统一收进 `readService(ctx, name)`（先试属性、再试 `ctx.get()`，两条路各自 try/catch），任何一次取服务失败都不再能掀翻已经成功的技能注册。
+
+### 变更
+
+- `package.json` 新增 `dsh.testedWith: ["0.2.1-rc.5", "0.2.2-rc.1"]`，`engines.dsh` 仍为 `>=0.2.0-0 <0.3.0`（两个版本都实测可用）。
+- `scripts/selftest.mjs` 新增两条防线：`inject` 必须含 `tools`；以及「apply 时服务尚未就绪 → 延迟注入后工具仍为 7 个、策略段仍为 1 个」的时序用例。检查项 56 → 64 项。
+
+### 兼容性实测
+
+- `dsh-skill` 的 `skills.register()` 契约两版完全一致（同一份 23721 字节）。
+- `dsh-system-prompt` 只做了加法（新增 `TOOL_APPLY_PATCH: 1350`、`TOOL_SCHEDULE: 2500`），本插件用的 `order: 650` 未被占用。
+- `dsh-tools` 内部拆包，但 `register()` 的校验语义逐条未变（`output.render` 必须是函数、`output.schema` 必须受支持、`timeoutMs` 正有限数、`run_code` 保留名）。
+- `export const Config` 依旧不导出——0.2.2-rc.1 下它仍然是启动崩溃的引信。
 
 ## [3.0.0] - 2026-11-06
 

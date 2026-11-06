@@ -7,9 +7,9 @@
 | 项 | 值 |
 |---|---|
 | 包名 | `dsh-research-suite`（无 scope） |
-| 当前版本 | `3.0.0`（v2.0.0 已发 GitHub / 市场 PR 待合并） |
+| 当前版本 | `3.0.1`（v2.0.0 / v3.0.0 已发 GitHub / 市场 PR 待合并） |
 | Node `engines` | `^22.19.0 \|\| >=24.0.0` |
-| DSH `engines` | `>=0.2.0-0 <0.3.0`（开发基准 0.2.1-rc.5 桌面版） |
+| DSH `engines` | `>=0.2.0-0 <0.3.0`；`dsh.testedWith` = `0.2.1-rc.5`、`0.2.2-rc.1`（0.2.2-rc.1 是当前桌面版，工具注入时序已适配） |
 | 许可证 | MIT |
 | `files` 白名单 | `lib`、`data`、`skills`、`knowledge`、`references`、`scripts`、`docs`、`cordis.patch.yml`、`icon.svg`、`README.md`、`README.zh-CN.md`、`CHANGELOG.md`、`LICENSE` |
 | 包体（实测口径） | v3 中间态：仓库目录 4577 files / 38.62 MB（能力卡与账本全部交付后以重跑 `verify-package.mjs` 为准）。其中 `knowledge/` 含 592 篇原文 + 451 个技能自带的 3924 个资产文件（约 29 MB）——**这是设计如此，不要优化掉**；v2 的 773 files / 11.24 MB 只含 719 篇原文，无资产 |
@@ -221,7 +221,7 @@ npm deprecate dsh-research-suite@3.0.0 "3.0.0 存在 XXX 问题，请升级到 3
 - [ ] `node scripts/selftest.mjs` → exit 0
 - [ ] `npm pack --dry-run` 里 `knowledge/`（592 篇 + `__assets/`）、`references/`、`skills/`、`lib/`、两个 README 都在；解包体积约 38 MB 量级、`scripts/` 含三份校验脚本
 - [ ] 两份 README 里的能力卡总数已从占位符替换成真实数字（`grep -rn 'CAP_TOTAL' README*.md` 零命中）
-- [ ] 版本四处一致（`package.json` = `3.0.0` / `CHANGELOG.md` 最新 `## 3.0.0` / 能力卡 `version` / git tag `v3.0.0`）
+- [ ] 版本四处一致（`package.json` = `3.0.1` / `CHANGELOG.md` 最新 `## 3.0.1` / 能力卡 `version` / git tag `v3.0.1`）
 - [ ] `CHANGELOG.md` 的 `3.0.0` 段已写清本次变更（知识层重建、10 域、账本、资产、Config 移除）
 - [ ] 本地 `install_bundle` 装一遍，重启后 `research_suite_status` 通过，7 个工具都在、11 个技能都在
 - [ ] 发完 `npm view dsh-research-suite version` 是新版本

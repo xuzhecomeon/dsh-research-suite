@@ -43,9 +43,8 @@ function section(title) {
   console.log(`\n${title}`);
 }
 
-function fakeContext() {
-  const record = { skills: [], tools: [], sections: [], effects: [], logs: [] };
-  const services = {
+function fakeServices(record) {
+  return {
     skills: {
       register(registration) {
         record.skills.push(registration);
@@ -65,6 +64,11 @@ function fakeContext() {
       },
     },
   };
+}
+
+function fakeContext() {
+  const record = { skills: [], tools: [], sections: [], effects: [], logs: [], deferred: [] };
+  const services = fakeServices(record);
   const ctx = {
     logger: {
       info: (m) => record.logs.push(['info', m]),
@@ -73,10 +77,37 @@ function fakeContext() {
       debug: (m) => record.logs.push(['debug', m]),
     },
     get: (name) => services[name],
+    // cordis 注入后的服务就是 ctx 上的属性
     skills: services.skills,
+    tools: services.tools,
+    systemPrompt: services.systemPrompt,
     effect: (fn) => record.effects.push(fn),
+    inject: (deps, cb) => record.deferred.push({ deps, cb }),
   };
   return { ctx, record };
+}
+
+/**
+ * 模拟 0.2.2-rc.1 的真实时序：apply 执行时 tools / systemPrompt 还没就绪，
+ * 只能靠 ctx.inject() 子 fiber 等依赖到齐后再装。
+ */
+function lateContext() {
+  const record = { skills: [], tools: [], sections: [], effects: [], logs: [], deferred: [] };
+  const services = fakeServices(record);
+  const ctx = {
+    logger: {
+      info: (m) => record.logs.push(['info', m]),
+      warn: (m) => record.logs.push(['warn', m]),
+      error: (m) => record.logs.push(['error', m]),
+      debug: (m) => record.logs.push(['debug', m]),
+    },
+    // 关键：此刻还没有 tools / systemPrompt
+    get: (name) => (name === 'skills' ? services.skills : undefined),
+    skills: services.skills,
+    effect: (fn) => record.effects.push(fn),
+    inject: (deps, cb) => record.deferred.push({ deps, cb }),
+  };
+  return { ctx, record, services };
 }
 
 async function main() {
@@ -94,6 +125,9 @@ async function main() {
   }
   check('导出 name', mod.name === 'dsh-research-suite', `实际 ${mod.name}`);
   check('导出 inject 含 skills', Array.isArray(mod.inject) && mod.inject.includes('skills'), JSON.stringify(mod.inject));
+  // 0.2.2-rc.1 实测：tools 服务在 apply 时可能未就绪，必须写进 inject 让 cordis 等它，
+  // 否则 7 个研究工具会静默丢失（技能和策略段却都正常）。
+  check('导出 inject 含 tools（0.2.2 工具丢失防线）', Array.isArray(mod.inject) && mod.inject.includes('tools'), JSON.stringify(mod.inject));
   check('导出 apply 函数', typeof mod.apply === 'function');
 
   // v3：Config 必须不存在。
@@ -156,6 +190,32 @@ async function main() {
   check('工具注册数 = 7', record.tools.length === 7, `注册 ${record.tools.length}`);
   check('策略段注册数 = 1', record.sections.length === 1, `注册 ${record.sections.length}`);
   check('注册了 ctx.effect 清理钩子', record.effects.length >= 1);
+
+  // ---------- 2b) 服务晚到时的延迟注入（0.2.2-rc.1 真实时序） ----------
+  section('2b. 延迟注入（tools / systemPrompt 在 apply 时尚未就绪）');
+  const late = lateContext();
+  try {
+    mod.apply(late.ctx, { verbose: false });
+    ok('apply 在无 tools 服务的 ctx 上未抛错');
+  } catch (err) {
+    bad('apply 在无 tools 服务的 ctx 上未抛错', err.message);
+  }
+  check('技能仍然注册成功', late.record.skills.length === skillFiles.length, `注册 ${late.record.skills.length}`);
+  check('申请了延迟注入（≥2 个依赖）', late.record.deferred.length >= 2, JSON.stringify(late.record.deferred.map((d) => d.deps)));
+  const deferredDeps = late.record.deferred.flatMap((d) => d.deps);
+  check('延迟依赖含 tools', deferredDeps.includes('tools'), JSON.stringify(deferredDeps));
+  check('延迟依赖含 systemPrompt', deferredDeps.includes('systemPrompt'), JSON.stringify(deferredDeps));
+
+  // 触发延迟回调：模拟 cordis 依赖到齐后建子 fiber
+  for (const { deps, cb } of late.record.deferred) {
+    try {
+      cb(late.services);
+    } catch (err) {
+      bad(`延迟注入回调（${deps.join(',')}）未抛错`, err.message);
+    }
+  }
+  check('延迟注入后工具数 = 7', late.record.tools.length === 7, `注册 ${late.record.tools.length}`);
+  check('延迟注入后策略段数 = 1', late.record.sections.length === 1, `注册 ${late.record.sections.length}`);
 
   // ---------- 3) 工具形态 ----------
   section('3. 工具形态（ToolDefinition）');
@@ -238,6 +298,9 @@ async function main() {
     const missing = needed.filter((k) => !promptText.includes(k));
     check('策略段含关键铁律与入口指令', missing.length === 0, `缺 ${missing.join('、')}`);
     check('策略段不含 v1 遗留说法（research_route / 任务原型 Ax）', !/research_route|任务原型/.test(promptText));
+    // 装载自检行：0.2.2-rc.1 工具丢失事故的可视化防线（模型每轮都能看到工具到底注册上没有）
+    check('策略段含装载自检行', /装载自检：技能 \d+ 份｜工具 \d+ 个/.test(promptText));
+    check('自检行报告工具已就绪', /工具 7 个（`research_\*` 全部就绪）/.test(promptText));
     if (typeof record.sections[0].order !== 'number') bad('策略段 order 不是数字');
     else ok('策略段 order', String(record.sections[0].order));
   }

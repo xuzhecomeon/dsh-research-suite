@@ -1,6 +1,6 @@
 {
   "name": "dsh-research-suite",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "科研全流程能力套件：把 592 个科研技能逐条判优劣后融合成 10 域能力卡，用融合协议在识别到科研诉求时自动接管——写作、润色、绘图、统计、文献、数据库取数、选题、审稿、幻灯。",
   "type": "module",
   "main": "lib/index.js",
@@ -56,7 +56,11 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
-    }
+    },
+    "testedWith": [
+      "0.2.1-rc.5",
+      "0.2.2-rc.1"
+    ]
   },
   "peerDependencies": {
     "@deepseek-ai/dsh": ">=0.2.0-0 <0.3.0"

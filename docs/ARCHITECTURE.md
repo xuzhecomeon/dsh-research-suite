@@ -88,7 +88,7 @@ lib/prompt.js              「科研任务自动接管」段文本（静态策�
 
 **兜底分支**：`research_playbook` 没有达到阈值的命中时（例如用户提的是本插件不覆盖的任务），模型改用 `research_catalog` 在 592 个原始技能里检索，再 `research_kb_read` 直读原文——能力卡是加速层，不是唯一通路。这条分支保证了「插件没覆盖的科研任务也不会被拒答」。
 
-## 五、自动接管的实现（最容易写错的三处）
+## 五、自动接管的实现（最容易写错的四处）
 
 「安装即自动触发」没有任何魔法，只有三条很具体的实现：**往系统提示里插一段策略**、**把技能内容在注册时定死**、**不要对外导出 `Config`**。这三处是翻车过的位置，所以单独写清楚。
 
@@ -172,11 +172,39 @@ v2.0.0 上线当天 DSH Desktop 起不来（`The application could not start`）
 | 失败点 | 行为 |
 |---|---|
 | 某一份技能注册抛错 | 只 `warn` 该技能，其余技能继续注册 |
-| `tools` 服务不存在 | 只跳过 7 个工具注册，技能与策略段仍生效 |
-| `systemPrompt` 服务不存在 | 只跳过策略段注入，工具与技能仍可用 |
+| `tools` 服务晚到或取不到 | 先 `warn`，再用 `ctx.inject(['tools'], cb)` 建子 fiber 延迟补装；技能与策略段不受影响 |
+| `systemPrompt` 服务晚到或取不到 | 同样延迟补装；工具与技能不受影响 |
 | `autoTakeover: false` | 主动不注入策略段（用户选择） |
 
 这几条「部分可用」比「全有或全无」重要：DSH 插件加载期任何未捕获异常都会让整个包失效。
+
+### 5.4 服务依赖：`tools` 必须写进 `inject`（0.2.2-rc.1 工具丢失事故）
+
+升级到 **0.2.2-rc.1** 后出现过一个极隐蔽的故障：10 份技能正常、自动接管策略段正常、日志里也只有一条默认进不了日志文件的 `warn`，但 **7 个 `research_*` 工具一个都没注册**——模型这边看到的现象是「插件在工作，但 `research_playbook` 不存在」。
+
+根因是**服务装配时序**：入口原本写 `export const inject = ['skills']`，工具在 `apply()` 里用同步 `ctx.get('tools')` 现取。0.2.2-rc.1 的 `tools` 服务在 apply 执行那一刻还没就绪，`ctx.get` 返回 `undefined`，于是工具全丢而其余部分照装。
+
+两类写法的区别（cordis 语义）：
+
+| 写法 | 语义 | 适用 |
+|---|---|---|
+| `export const inject = ['skills', 'tools']` | **必需依赖**：cordis 等到这些服务就绪才执行 `apply` | 缺了它就等于插件没意义的能力（技能、工具） |
+| `ctx.get('name')` / `ctx.inject(['name'], cb)` | 可选依赖：现在没有就跳过，或建子 fiber 等它出现再补装 | 有更好、没有也能用的能力（`systemPrompt`） |
+
+现行实现（`lib/index.js`）：
+
+```js
+export const inject = ['skills', 'tools'];          // 两个硬依赖
+
+const tools = readService(ctx, 'tools');            // 先试 ctx.tools，再试 ctx.get('tools')，各自 try/catch
+if (!installTools(tools, 'apply 同步阶段未拿到服务') && typeof ctx.inject === 'function') {
+  ctx.inject(['tools'], (scope) => installTools(readService(scope, 'tools'), '延迟注入阶段'));
+}
+```
+
+`readService(ctx, name)` 把「属性访问」与 `ctx.get()` 两条路各自包了 try/catch：某些 cordis 版本访问未就绪的服务**属性**会抛错，不能让一次取服务把已经成功的技能注册掀翻。
+
+对应的回归防线写在 `scripts/selftest.mjs` 的 2b 节：构造一个 apply 时没有 `tools` / `systemPrompt` 的假 ctx，断言四件事——技能仍全部注册、申请了延迟注入且依赖里含 `tools` 与 `systemPrompt`、触发延迟回调后工具数回到 7、策略段数回到 1。
 
 ## 六、v3 知识层与判定账本
 
