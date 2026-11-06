@@ -1,5 +1,3 @@
-<!-- source: deep-research @ deep-research | domain: literature -->
-
 ---
 name: deep-research
 description: >-

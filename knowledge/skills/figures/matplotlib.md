@@ -1,5 +1,3 @@
-<!-- source: matplotlib @ matplotlib | domain: figures -->
-
 ---
 name: matplotlib
 description: Low-level plotting library for full customization. Use when you need fine-grained control over every plot element, creating novel plot types, or integrating with specific scientific workflows. Export to PNG/PDF/SVG for publication. For quick statistical plots use seaborn; for interactive plots use plotly; for publication-ready multi-panel figures with journal styling, use scientific-visualization.

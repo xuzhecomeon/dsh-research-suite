@@ -1,5 +1,3 @@
-<!-- source: document-illustrator @ document-illustrator | domain: figures -->
-
 ---
 name: document-illustrator
 description: >

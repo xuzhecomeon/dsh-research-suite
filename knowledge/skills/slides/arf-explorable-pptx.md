@@ -1,5 +1,3 @@
-<!-- source: arf-explorable-pptx @ arf-explorable-pptx | domain: slides -->
-
 ---
 name: arf-explorable-pptx
 description: Build a PowerPoint (.pptx) slide deck in the explorable-explanation style (Nicky Case) — one idea per frame, assertion titles, a concrete running example, stages drawn as native shapes in the deck palette that the presenter steps through, the source's own figures recoloured into the palette, an appendix of side rooms, speaker notes on every slide, and a screenshot-and-log check of every page through PowerPoint itself. Use for any request for a PowerPoint, pptx or Keynote presentation, talk, slides, seminar, conference, lecture, keynote or job-market deck, "turn this paper into PowerPoint slides", "a PowerPoint version of the explorable deck", a deck a coauthor must edit in PowerPoint, or for revising or reviewing a deck built this way. The sibling skills explorable-deck (Quarto reveal.js) and explorable-beamer (LaTeX) build the same deck in those formats; use this one when the user names PowerPoint, pptx, Keynote or Google Slides, or needs a file coauthors can edit. Not for a website explorable (that is explorable-explanations) or a poster.

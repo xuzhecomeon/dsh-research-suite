@@ -1,0 +1,13 @@
+{
+  "slug": "paper-checker",
+  "name": "论文查重助手",
+  "version": "1.0.0",
+  "installedAt": 1788235645398,
+  "source": "skillhub",
+  "namespace": "user_fc9bdf0e",
+  "canonicalName": "@user_fc9bdf0e/paper-checker",
+  "iconSource": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/a78375f1-773e-4817-b4f3-0557b6afd777.png",
+  "iconLocalPath": "C:\\Users\\zy\\.workbuddy\\skills\\paper-checker__skillhub\\_icon.png",
+  "iconDownloadedFrom": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/a78375f1-773e-4817-b4f3-0557b6afd777.png",
+  "installedContentHash": "sha256:8a2f53645970a9ee50c9b9f54ababf703646d0492bc6fa495f8925d83195a85d"
+}

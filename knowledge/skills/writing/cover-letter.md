@@ -1,5 +1,3 @@
-<!-- source: cover-letter @ cover-letter | domain: writing -->
-
 ---
 name: cover-letter
 description: Submission cover-letter assistant for existing LaTeX manuscripts. Use to generate, optimize, align-check, preflight, and journal-fit-check cover letters against paper evidence, novelty claims, and target venue expectations. Also handles Chinese requests (写投稿信 / 致编辑信). Do not use for editing main.tex, full manuscript audit, bibliography search, or a job-application 求职信.

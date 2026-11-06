@@ -1,5 +1,3 @@
-<!-- source: nature-reviewer @ nature-reviewer | domain: review -->
-
 ---
 name: nature-reviewer
 description: "Provide evidence-grounded mock peer review of scientific manuscripts or excerpts, covering significance, validity, and major/minor concerns. Use for 模拟审稿、投稿前自审、审稿人视角评估; not author rebuttal drafting."

@@ -1,5 +1,3 @@
-<!-- source: r-aging-cohort-databases @ r-aging-cohort-databases | domain: stats -->
-
 ---
 name: r-aging-cohort-databases
 description: 七大老年数据库（HRS 家族 + CHARLS）数据挖掘 R 语言实战技能。覆盖公共老年队列数据的获取与注册、Harmonized 数据（跨库可比变量体系）的使用、CHARLS 原始数据（.dta）与 Codebook 对照、变量构建与编码表核查，以及全套统计分析流程：tableone 基线差异、单因素/多因素 Cox、多模型策略（未调整→部分调整→完全调整）、缺失数据多重插补（按变量类型指定 pmm/logreg/rf 方法）、趋势性分析（组中位数作节点值）、RCS 限制立方样条剂量-反应曲线、中介分析（mediation/CMAverse）、亚组分析与交互作用（jstable）、森林图（forestploter）。触发场景：用户要用 CHARLS/HRS/ELSA/SHARE/MHAS/TILDA 等老年队列做研究、环境暴露与老年健康、衰弱/认知/慢病结局、公共数据库挖掘论文，或给出相关 R 代码数据要求代为运行调试纠错。

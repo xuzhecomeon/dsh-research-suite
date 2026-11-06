@@ -1,0 +1,311 @@
+{
+  "domain": "stats",
+  "version": "3.0.0",
+  "sourceTotal": 31,
+  "entries": [
+    {
+      "dir": "r-medical-stats",
+      "name": "r-medical-stats",
+      "verdict": "fused",
+      "why": "全套 R 统计执行引擎与六道闸门代码，多卡主用",
+      "cards": [
+        "stats.baseline",
+        "stats.twogroup",
+        "stats.multigroup",
+        "stats.trajectory",
+        "stats.regression",
+        "stats.survival",
+        "stats.prediction",
+        "stats.interpret",
+        "stats.psm",
+        "stats.diagnostic",
+        "stats.meta",
+        "stats.mr",
+        "stats.missing",
+        "stats.power",
+        "stats.corr",
+        "stats.clean",
+        "stats.reportaudit"
+      ]
+    },
+    {
+      "dir": "r-medical-research-master",
+      "name": "r-medical-research-master",
+      "verdict": "fused",
+      "why": "九域路由与 TRIPOD 等报告规范，作报告骨架补强",
+      "cards": [
+        "stats.mr",
+        "stats.corr",
+        "stats.reportaudit"
+      ]
+    },
+    {
+      "dir": "r-clinical-prediction-model",
+      "name": "r-clinical-prediction-model",
+      "verdict": "fused",
+      "why": "预测建模、校准 DCA 与竞争风险处理专精",
+      "cards": [
+        "stats.survival",
+        "stats.prediction",
+        "stats.diagnostic",
+        "stats.missing",
+        "stats.power"
+      ]
+    },
+    {
+      "dir": "r-machine-learning-interpretability",
+      "name": "r-machine-learning-interpretability",
+      "verdict": "fused",
+      "why": "SHAP 流程与模型比较防泄漏，解释卡主用",
+      "cards": [
+        "stats.prediction",
+        "stats.interpret"
+      ]
+    },
+    {
+      "dir": "r-mendelian-randomization",
+      "name": "r-mendelian-randomization",
+      "verdict": "fused",
+      "why": "两样本 MR 九步与多效性四检，MR 卡主用",
+      "cards": [
+        "stats.mr"
+      ]
+    },
+    {
+      "dir": "r-nhanes-analysis",
+      "name": "r-nhanes-analysis",
+      "verdict": "fused",
+      "why": "复杂抽样设计与多周期权重合并，调查卡主用",
+      "cards": [
+        "stats.regression",
+        "stats.survey"
+      ]
+    },
+    {
+      "dir": "r-aging-cohort-databases",
+      "name": "r-aging-cohort-databases",
+      "verdict": "fused",
+      "why": "MICE、RCS 与离散时间模型，缺失卡主用",
+      "cards": [
+        "stats.baseline",
+        "stats.regression",
+        "stats.survival",
+        "stats.survey",
+        "stats.missing"
+      ]
+    },
+    {
+      "dir": "r-real-world-evidence",
+      "name": "r-real-world-evidence",
+      "verdict": "fused",
+      "why": "PS 平衡诊断、重叠权重与 CCW，PS 卡主用",
+      "cards": [
+        "stats.psm",
+        "stats.survey"
+      ]
+    },
+    {
+      "dir": "r-propensity-score-methods",
+      "name": "r-propensity-score-methods",
+      "verdict": "fused",
+      "why": "ATT/ATE/ATO 反事实框架与匹配细节",
+      "cards": [
+        "stats.psm"
+      ]
+    },
+    {
+      "dir": "r-trajectory-models",
+      "name": "r-trajectory-models",
+      "verdict": "fused",
+      "why": "轨迹模型选择与网格搜索，轨迹卡主用",
+      "cards": [
+        "stats.multigroup",
+        "stats.trajectory"
+      ]
+    },
+    {
+      "dir": "local-r-clinical-stats",
+      "name": "local-r-clinical-stats",
+      "verdict": "fused",
+      "why": "本机 R 执行通道与 locale 处理，清洗卡补强",
+      "cards": [
+        "stats.clean"
+      ]
+    },
+    {
+      "dir": "ima-lit-meta-ppt",
+      "name": "ima-lit-meta-ppt",
+      "verdict": "fused",
+      "why": "唯一实现随机效应合并与森林图的技能，Meta 卡主用",
+      "cards": [
+        "stats.meta"
+      ]
+    },
+    {
+      "dir": "statistical-analysis",
+      "name": "statistical-analysis",
+      "verdict": "fused",
+      "why": "检验选择与效应量基准来源，执行由 R 落地",
+      "cards": [
+        "stats.twogroup",
+        "stats.multigroup",
+        "stats.diagnostic",
+        "stats.meta",
+        "stats.power",
+        "stats.corr"
+      ]
+    },
+    {
+      "dir": "statsmodels",
+      "name": "statsmodels",
+      "verdict": "fused",
+      "why": "混合模型与 GLM 诊断，无 R 时兜底不作交付",
+      "cards": [
+        "stats.multigroup",
+        "stats.regression",
+        "stats.survey"
+      ]
+    },
+    {
+      "dir": "scikit-survival",
+      "name": "scikit-survival",
+      "verdict": "fused",
+      "why": "随机生存森林实现，生存兜底、预测卡弃用",
+      "cards": [
+        "stats.survival",
+        "stats.prediction"
+      ]
+    },
+    {
+      "dir": "scikit-learn",
+      "name": "scikit-learn",
+      "verdict": "fused",
+      "why": "模型接口统一，解释与诊断卡中弃用",
+      "cards": [
+        "stats.interpret",
+        "stats.diagnostic"
+      ]
+    },
+    {
+      "dir": "shap",
+      "name": "shap",
+      "verdict": "fused",
+      "why": "SHAP 理论与图型体系，解释卡补强",
+      "cards": [
+        "stats.interpret"
+      ]
+    },
+    {
+      "dir": "exploratory-data-analysis",
+      "name": "exploratory-data-analysis",
+      "verdict": "fused",
+      "why": "多格式结构摘要，基线表与清洗卡兜底",
+      "cards": [
+        "stats.baseline",
+        "stats.clean"
+      ]
+    },
+    {
+      "dir": "scholar-code-review",
+      "name": "scholar-code-review",
+      "verdict": "fused",
+      "why": "脚本只读审计与可复现检查，清洗卡兜底",
+      "cards": [
+        "stats.clean"
+      ]
+    },
+    {
+      "dir": "scholar-eda",
+      "name": "scholar-eda",
+      "verdict": "fused",
+      "why": "分析样本留痕、缺失诊断与共线性，多卡补强",
+      "cards": [
+        "stats.baseline",
+        "stats.trajectory",
+        "stats.missing"
+      ]
+    },
+    {
+      "dir": "scholar-safety",
+      "name": "scholar-safety",
+      "verdict": "fused",
+      "why": "PII 扫描与上传分级，清洗卡补强",
+      "cards": [
+        "stats.clean"
+      ]
+    },
+    {
+      "dir": "nature-statistics",
+      "name": "nature-statistics",
+      "verdict": "fused",
+      "why": "报告审查三问与问题分级，审查卡主用",
+      "cards": [
+        "stats.twogroup",
+        "stats.reportaudit"
+      ]
+    },
+    {
+      "dir": "clinical-decision-support",
+      "name": "clinical-decision-support",
+      "verdict": "index-only",
+      "why": "CDS 文档与 GRADE 属文档型产出，仅作索引",
+      "cards": []
+    },
+    {
+      "dir": "pymc",
+      "name": "pymc",
+      "verdict": "index-only",
+      "why": "贝叶斯 Python 执行栈与统计一律 R 冲突，仅索引",
+      "cards": []
+    },
+    {
+      "dir": "data-analysis-pro",
+      "name": "data-analysis-pro",
+      "verdict": "deprecated",
+      "why": "商业 KPI 与 HTML 仪表盘，与学术统计不匹配",
+      "cards": []
+    },
+    {
+      "dir": "aris-analyze-results",
+      "name": "aris-analyze-results",
+      "verdict": "out-of-scope",
+      "why": "机器学习实验结果对比表，非科研统计分析",
+      "cards": []
+    },
+    {
+      "dir": "fda-database",
+      "name": "fda-database",
+      "verdict": "out-of-scope",
+      "why": "openFDA 接口查询需联网，属数据获取不属统计",
+      "cards": []
+    },
+    {
+      "dir": "scholar-init",
+      "name": "scholar-init",
+      "verdict": "out-of-scope",
+      "why": "项目脚手架与安全扫描，建议归工程或 data 域",
+      "cards": []
+    },
+    {
+      "dir": "scholar-ling",
+      "name": "scholar-ling",
+      "verdict": "out-of-scope",
+      "why": "社会语言学统计，非医学与临床统计场景",
+      "cards": []
+    },
+    {
+      "dir": "stable-baselines3",
+      "name": "stable-baselines3",
+      "verdict": "out-of-scope",
+      "why": "强化学习训练库，本域无用武之地",
+      "cards": []
+    },
+    {
+      "dir": "umap-learn",
+      "name": "umap-learn",
+      "verdict": "out-of-scope",
+      "why": "降维可视化工具，应归绘图或机器学习域",
+      "cards": []
+    }
+  ]
+}

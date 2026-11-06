@@ -1,5 +1,3 @@
-<!-- source: scholar-ling @ scholar-ling | domain: stats -->
-
 ---
 name: scholar-ling
 description: Design and analyze studies in sociolinguistics, language variation, acoustic phonetics, discourse analysis, language contact, and computational linguistics. Covers VARBRUL/Rbrul for variation analysis, mixed-effects models for acoustic data, conversation analysis, critical discourse analysis, language attitudes (matched guise), corpus linguistics, computational sociolinguistics (conText embedding regression, LLM annotation for linguistic coding, BERT classification, semantic change detection, STM topic models), experimental sociolinguistics (factorial vignette experiments, IAT, reaction time paradigms, priming studies), Biber Multi-Dimensional Analysis (67 features, register comparison), and TTS-based matched guise tests. Produces R/Python code, publication-quality tables and figures, and saves output to disk. Use for Language in Society, Journal of Sociolinguistics, Language, Applied Linguistics, Nature Human Behaviour, Science Advances, and Nature Computational Science.

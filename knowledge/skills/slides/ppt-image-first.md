@@ -1,5 +1,3 @@
-<!-- source: ppt-image-first @ ppt-image-first | domain: slides -->
-
 ---
 name: ppt-image-first
 description: Build presentation plans for PPT / slides / decks through a conversation-first workflow, then propose multiple visual directions with preview images before writing deck specs. Use when the user asks to create a PPT, presentation, deck, 答辩稿, 路演 deck, 产品介绍 PPT, 汇报 PPT, or when the user has only a topic or rough materials and needs help clarifying structure, style, and page planning before generation.

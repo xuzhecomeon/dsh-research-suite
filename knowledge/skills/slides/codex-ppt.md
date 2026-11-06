@@ -1,5 +1,3 @@
-<!-- source: codex-ppt @ codex-ppt | domain: slides -->
-
 ---
 name: codex-ppt
 description: Generate visually unified image-based PPT/PPTX decks from articles, reports, papers, notes, or outlines.

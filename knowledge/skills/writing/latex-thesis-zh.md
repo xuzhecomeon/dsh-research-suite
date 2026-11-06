@@ -1,5 +1,3 @@
-<!-- source: latex-thesis-zh @ latex-thesis-zh | domain: writing -->
-
 ---
 name: latex-thesis-zh
 description: 中文 LaTeX 学位论文助手，面向已有 .tex 硕博论文工程与学位论文评阅书：编译诊断、GB/T 7714、模板识别、结构/格式/公式断行、术语一致性、逻辑与文献综述、方法/工程应用章、标题优化、去 AI 味、主张前置（自我削弱/免责句后置）检查、单元润色与漂移核对、盲审隐匿、对照学校规范逐项终检；评阅意见整理、逐条回复、修改说明与修改审查表（仅评阅书也可先建台账）。Beamer 答辩稿用 latex-defense-zh，不用于期刊/会议审稿回复信。触发词：学位论文/毕业论文/硕士/博士论文/润色这段/润色这一节/单元润色/核对润色。英文论文用 latex-paper-en，审稿总评用 paper-audit。

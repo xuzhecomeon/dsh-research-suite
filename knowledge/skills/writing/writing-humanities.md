@@ -1,5 +1,3 @@
-<!-- source: writing-humanities @ writing-humanities | domain: writing -->
-
 ---
 name: writing-humanities
 description: Use when writing humanities or social science papers - provides discipline-specific writing guidance

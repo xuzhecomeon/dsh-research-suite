@@ -1,5 +1,3 @@
-<!-- source: aris-patent-review @ aris-patent-review | domain: ideation -->
-
 ---
 name: aris-patent-review
 description: "Get an external patent examiner review of a patent application. Use when user says \"专利审查\", \"patent review\", \"审查意见\", \"examiner review\", or wants critical feedback on patent claims and specification."

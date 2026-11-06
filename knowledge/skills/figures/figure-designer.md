@@ -1,5 +1,3 @@
-<!-- source: figure-designer @ figure-designer | domain: figures -->
-
 ---
 name: figure-designer
 description: >-

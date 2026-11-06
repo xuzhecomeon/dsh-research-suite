@@ -1,5 +1,3 @@
-<!-- source: nature-figure @ nature-figure | domain: figures -->
-
 ---
 name: nature-figure
 description: >-

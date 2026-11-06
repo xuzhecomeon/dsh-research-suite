@@ -1,0 +1,338 @@
+{
+  "domain": "format",
+  "version": "3.0.0",
+  "sourceTotal": 51,
+  "entries": [
+    {
+      "dir": "academic-reference-enhancer__skillhub",
+      "name": "academic-reference-enhancer",
+      "verdict": "fused",
+      "why": "按载体补全并插入参考文献的多格式路径，收成参考文献表卡里最后一步的多载体落位与纯文本兜底。",
+      "cards": ["format.ref-style"]
+    },
+    {
+      "dir": "arf-pdf-to-markdown",
+      "name": "arf-pdf-to-markdown",
+      "verdict": "fused",
+      "why": "长文分块转 Markdown 的做法，作为 PDF 摄取的兜底通道，并附带转换后必须人工复核的部位清单。",
+      "cards": ["format.pdf-pipeline"]
+    },
+    {
+      "dir": "arf-review-paper-checks",
+      "name": "arf-review-paper-checks",
+      "verdict": "fused",
+      "why": "拼写、术语一致性、交叉引用与无支撑主张三类机械检查，构成投稿前体检里可穷尽的那一层。",
+      "cards": ["format.doc-audit"]
+    },
+    {
+      "dir": "aris-citation-crosscheck",
+      "name": "aris-citation-crosscheck",
+      "verdict": "fused",
+      "why": "两路独立抽取再逐字段比对差异的做法，成为题录抓取卡的双路核字段步骤与降级说明。",
+      "cards": ["format.cite-bind"]
+    },
+    {
+      "dir": "aris-overleaf-sync",
+      "name": "aris-overleaf-sync",
+      "verdict": "fused",
+      "why": "本地与在线工程双向同步与冲突处理，补进书目绑定卡的协作场景与文件组织方式。",
+      "cards": ["format.cite-bind"]
+    },
+    {
+      "dir": "aris-paper-compile",
+      "name": "aris-paper-compile",
+      "verdict": "fused",
+      "why": "编译并逐条修未定义引用与缺图直到出 PDF，构成终稿交付卡里 LaTeX 链路的执行主体。",
+      "cards": ["format.final-delivery"]
+    },
+    {
+      "dir": "bib-search-citation",
+      "name": "bib-search-citation",
+      "verdict": "fused",
+      "why": "在本地书目检索并生成可粘贴引用片段，成为软件桥接卡在没有管理软件时的纯文本退路。",
+      "cards": ["format.ref-bridge"]
+    },
+    {
+      "dir": "brief-compose",
+      "name": "brief-compose",
+      "verdict": "fused",
+      "why": "短稿一次成稿到 docx 的快路径与磅值字号设置，作为正文排版的短稿兜底流程。",
+      "cards": ["format.typeset"]
+    },
+    {
+      "dir": "citation-management",
+      "name": "citation-management",
+      "verdict": "fused",
+      "why": "按标识符取权威元数据并整理成可引用条目，构成题录抓取卡的主干取数与批量整理。",
+      "cards": ["format.cite-bind"]
+    },
+    {
+      "dir": "citation-manager",
+      "name": "citation-manager",
+      "verdict": "fused",
+      "why": "基于权威源的字段归一与多风格校验，补强参考文献表卡的条目清洗与国标西文并存校验。",
+      "cards": ["format.ref-style"]
+    },
+    {
+      "dir": "doc-typeset",
+      "name": "doc-typeset",
+      "verdict": "fused",
+      "why": "七垂类模板、语义分节与页码域、以及转 docx 的 HTML 禁忌清单，构成正文排版卡的主干。",
+      "cards": ["format.typeset"]
+    },
+    {
+      "dir": "docx",
+      "name": "docx",
+      "verdict": "fused",
+      "why": "用户侧 Word 全能力实现：成品级样式批量修改与生成校验，同时服务排版与终稿交付两张卡。",
+      "cards": ["format.typeset", "format.final-delivery"]
+    },
+    {
+      "dir": "docx__skillhub",
+      "name": "docx",
+      "verdict": "fused",
+      "why": "与内置 docx 同名的轻量版本，能力面重叠，作为终稿交付卡里生成与回读的补充实现。",
+      "cards": ["format.final-delivery"]
+    },
+    {
+      "dir": "doi_validation",
+      "name": "doi-validation",
+      "verdict": "fused",
+      "why": "排版前的 DOI 四态核验与保留不删口径，成为参考文献表卡的字段体检步骤与兜底。",
+      "cards": ["format.ref-style"]
+    },
+    {
+      "dir": "find-paper-references",
+      "name": "find-paper-references",
+      "verdict": "fused",
+      "why": "按知识点密度插入引用标记并限定章节范围，补强正文引用卡里标记插入位置与密度的规则。",
+      "cards": ["format.intext-cite"]
+    },
+    {
+      "dir": "format-extract",
+      "name": "format-extract",
+      "verdict": "fused",
+      "why": "从参考 docx 抽语义结构与版式特征并出质量检查，构成投稿前体检卡的比对基准来源。",
+      "cards": ["format.doc-audit"]
+    },
+    {
+      "dir": "format-references-endnote",
+      "name": "format-references-endnote",
+      "verdict": "fused",
+      "why": "未格式化占位符加书目文件与题名归一规则，成为软件桥接卡里 EndNote 路线的完整步骤。",
+      "cards": ["format.ref-bridge"]
+    },
+    {
+      "dir": "format-references-zotero",
+      "name": "format-references-zotero",
+      "verdict": "fused",
+      "why": "注入原生域代码并绑定样式、刷新后持久的做法，构成软件桥接卡的主干路线。",
+      "cards": ["format.ref-bridge"]
+    },
+    {
+      "dir": "geng-academic-fraud-detector",
+      "name": "geng-academic-fraud-detector",
+      "verdict": "fused",
+      "why": "图像复用与数据统计异常的排查方式，收进投稿前体检卡里硬问题排查步骤并限定措辞分寸。",
+      "cards": ["format.doc-audit"]
+    },
+    {
+      "dir": "html-review",
+      "name": "html-review",
+      "verdict": "fused",
+      "why": "转换前的 HTML 质量门禁与打回循环，成为正文排版卡里防止版式散架的守门步骤。",
+      "cards": ["format.typeset"]
+    },
+    {
+      "dir": "html-to-doc",
+      "name": "html-to-doc",
+      "verdict": "fused",
+      "why": "一键 HTML 转 docx 并回读校验、结果结构化可判成败，同时服务排版与终稿交付两张卡。",
+      "cards": ["format.typeset", "format.final-delivery"]
+    },
+    {
+      "dir": "latex-output",
+      "name": "latex-output",
+      "verdict": "fused",
+      "why": "套学校或期刊模板出稿并给编译顺序与特殊字符处理，构成终稿交付卡里 LaTeX 模板路线。",
+      "cards": ["format.final-delivery"]
+    },
+    {
+      "dir": "markitdown",
+      "name": "markitdown",
+      "verdict": "fused",
+      "why": "任意常见格式快速转 Markdown 便于批量比对，作为体检卡里跨格式取文本的兜底手段。",
+      "cards": ["format.doc-audit"]
+    },
+    {
+      "dir": "nature-citation",
+      "name": "nature-citation",
+      "verdict": "fused",
+      "why": "把正文主张逐句映射到具体来源并导出引用清单，作为正文引用卡里主张与来源对应的兜底。",
+      "cards": ["format.intext-cite"]
+    },
+    {
+      "dir": "nature-ref-verifier",
+      "name": "nature-ref-verifier",
+      "verdict": "fused",
+      "why": "先做 DOI 可解析性检查再逐字段比对的顺序与严重度分级，成为参考文献表卡的排前体检。",
+      "cards": ["format.ref-style"]
+    },
+    {
+      "dir": "pubmed-database",
+      "name": "pubmed-database",
+      "verdict": "fused",
+      "why": "按标识符精确取卷期页与作者、批量导出字段的写法，成为题录抓取卡的权威取数通道。",
+      "cards": ["format.cite-bind"]
+    },
+    {
+      "dir": "pyzotero",
+      "name": "pyzotero",
+      "verdict": "fused",
+      "why": "批量取全量条目与导出书目的接口方式，成为软件桥接卡在 Zotero 路线的备料手段。",
+      "cards": ["format.ref-bridge"]
+    },
+    {
+      "dir": "qinyan-citation",
+      "name": "qinyan-citation",
+      "verdict": "fused",
+      "why": "七种样式覆盖与缺失字段处理表、禁编造卷期页的口径，构成参考文献表卡的条目模板来源。",
+      "cards": ["format.ref-style"]
+    },
+    {
+      "dir": "reference-verification__skillhub",
+      "name": "reference-verification",
+      "verdict": "fused",
+      "why": "问题代码表与批量抽样分层策略，用在体检卡的引用条目核对与抽样比例披露要求。",
+      "cards": ["format.doc-audit"]
+    },
+    {
+      "dir": "scholar-citation",
+      "name": "scholar-citation",
+      "verdict": "fused",
+      "why": "审计与编号重建模式、样式互转规则，构成正文引用与编号体系卡的主干执行链条。",
+      "cards": ["format.intext-cite"]
+    },
+    {
+      "dir": "wang-paper-ct__skillhub",
+      "name": "paper-ct-scan",
+      "verdict": "fused",
+      "why": "七维权重体检与只诊断不改写的边界，同时服务投稿前体检的排序与投稿包的就绪判断。",
+      "cards": ["format.doc-audit", "format.submission-package"]
+    },
+    {
+      "dir": "paper-reference-formatter__skillhub",
+      "name": "paper-reference-formatter",
+      "verdict": "fused",
+      "why": "先定样式再解析字段、类型保守推断、缺字段显式标记的六步流程，构成参考文献表卡主干。",
+      "cards": ["format.ref-style"]
+    },
+    {
+      "dir": "pdf",
+      "name": "pdf",
+      "verdict": "fused",
+      "why": "内置与用户侧同名两份实现合并计一条：文字图片抽取与受损文件容错，补强 PDF 摄取卡。",
+      "cards": ["format.pdf-pipeline"]
+    },
+    {
+      "dir": "pdf_processing",
+      "name": "pdf-processing",
+      "verdict": "fused",
+      "why": "完整性校验、哈希去重改名与处理报告，构成 PDF 摄取卡里批量整理与异常追溯步骤。",
+      "cards": ["format.pdf-pipeline"]
+    },
+    {
+      "dir": "pdfkit-py",
+      "name": "pdfkit-py",
+      "verdict": "fused",
+      "why": "内置与用户侧同名两份实现合并计一条：页面级拆分合并与加密处理，补强 PDF 摄取卡。",
+      "cards": ["format.pdf-pipeline"]
+    },
+    {
+      "dir": "workbuddy-pdf",
+      "name": "workbuddy-pdf",
+      "verdict": "fused",
+      "why": "读取模式表、页码起点与退出码语义，构成 PDF 摄取卡的主干取用方式与故障判读。",
+      "cards": ["format.pdf-pipeline"]
+    },
+    {
+      "dir": "xlsx",
+      "name": "xlsx",
+      "verdict": "fused",
+      "why": "可编辑表格交付形态与数值格式设置，作为图表核查卡里表格交付与格式校验的兜底。",
+      "cards": ["format.figtable"]
+    },
+    {
+      "dir": "arf-review-paper-code",
+      "name": "arf-review-paper-code",
+      "verdict": "index-only",
+      "why": "论文与代码复现性对照偏实验科学复现审查，与排版权式无交集，本域只入索引备查。"
+    },
+    {
+      "dir": "nature-literature-pipeline",
+      "name": "nature-literature-pipeline",
+      "verdict": "index-only",
+      "why": "多源检索到精读排版的长期流水线偏文献侧，其排版环节粗，本域只作索引不融卡。"
+    },
+    {
+      "dir": "openalex-database",
+      "name": "openalex-database",
+      "verdict": "index-only",
+      "why": "开放学术图谱的检索与趋势分析属文献检索范畴，本域排版环节用不到，仅入索引。"
+    },
+    {
+      "dir": "scholar-auto-research",
+      "name": "scholar-auto-research",
+      "verdict": "index-only",
+      "why": "端到端社科研究流水线体量巨大且强绑定其自身结构，格式细节埋得深，只入索引备查。"
+    },
+    {
+      "dir": "scholar-lit-review",
+      "name": "scholar-lit-review",
+      "verdict": "index-only",
+      "why": "文献全景图与空白分析属综述建构，本域只承接其排版与交付，故只入索引。"
+    },
+    {
+      "dir": "wecom-wedrive-reference",
+      "name": "wecom-wedrive-reference",
+      "verdict": "index-only",
+      "why": "取企业网盘附件属宿主注入型取件工具，与投稿格式无关，仅在需要取文件时索引备查。"
+    },
+    {
+      "dir": "aers-reference",
+      "name": "aers-reference",
+      "verdict": "out-of-scope",
+      "why": "计量经济学因果识别方法参考与模板，属统计分析域内容，错分进格式域，建议改派 stats。"
+    },
+    {
+      "dir": "aris-formula-derivation",
+      "name": "aris-formula-derivation",
+      "verdict": "out-of-scope",
+      "why": "公式推导与理论线梳理属写作与统计内容，与排版权式无关，建议改派 writing 或 stats。"
+    },
+    {
+      "dir": "scholar-analyze",
+      "name": "scholar-analyze",
+      "verdict": "out-of-scope",
+      "why": "社科分析与发表级图表生成属数据分析与绘图，非格式排版，建议改派 stats 或 figures。"
+    },
+    {
+      "dir": "workbuddy-sheet-generation",
+      "name": "workbuddy-sheet-generation",
+      "verdict": "out-of-scope",
+      "why": "从零新建电子表格属数据表格产出，与投稿格式交付不同层，建议改派 data 类域。"
+    },
+    {
+      "dir": "workbuddy-sheetagent",
+      "name": "workbuddy-sheetagent",
+      "verdict": "out-of-scope",
+      "why": "修改既有工作簿属表格编辑技能，本域只把表当图表要素核查，故判错域并建议改派。"
+    },
+    {
+      "dir": "thesis-format-zh__skillhub",
+      "name": "thesis-format-zh",
+      "verdict": "deprecated",
+      "why": "付费商业工具，免费版只出差异报告，自动修复与上标转换需付费，不纳入默认流程。"
+    }
+  ]
+}

@@ -1,5 +1,3 @@
-<!-- source: scholar-journal @ scholar-journal | domain: writing -->
-
 ---
 name: scholar-journal
 description: "Format, select, and prepare a manuscript for journal submission. 5 modes: FULL-PACKAGE (structure audit + checklist + cover letter + open science), FORMAT-CHECK (audit against journal requirements), COVER-LETTER (journal-calibrated draft), SELECT-JOURNAL (score against 18 journals, ranked list + journal ladder), RESUBMIT-PACKAGE (post-rejection or R&R prep). Covers 18 journals: ASR, AJS, Demography, Du Bois Review, Science Advances, NHB, NCS, Social Forces, Language in Society, J. Sociolinguistics, Linguistic Inquiry, Gender & Society, APSR, JMF, PDR, SMR, Poetics, PNAS. Per-journal: word limits, section structure, abstract format, citation style, figure/table limits, open science (CRediT, COI, data/code availability, preregistration, Reporting Summary), blind review type, APC, submission URL, acceptance rate, turnaround. Includes cover letter templates, 8-dimension selection rubric, and open science package builder. Saves submission readiness report, cover letter draft, and open science declarations."

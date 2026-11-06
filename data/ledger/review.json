@@ -1,0 +1,154 @@
+{
+  "domain": "review",
+  "version": "3.0.0",
+  "sourceTotal": 21,
+  "entries": [
+    {
+      "dir": "academic-pre-review-committee__skillhub",
+      "name": "academic-pre-review-committee",
+      "verdict": "fused",
+      "why": "五席预审（理论贡献、方法论、文献对话、逻辑链条、主编预筛）里最有价值的是主编预筛那一步——它直接给「放行还是秒拒」与 1-10 分，正好补上投稿前自审最缺的一层判断；其余四席按需单点调用，不整轮跑。",
+      "cards": ["review.presubmit"]
+    },
+    {
+      "dir": "arf-review-pap",
+      "name": "arf-review-pap",
+      "verdict": "fused",
+      "why": "六席预分析计划预审覆盖注册口径、主次结局、多重校正与可执行性，是「审稿人视角」在稿件尚无结果时的正确形态；审稿人视角卡在兜底位接它，避免把计划当成稿来解释。",
+      "cards": ["review.referee"]
+    },
+    {
+      "dir": "arf-review-paper",
+      "name": "arf-review-paper",
+      "verdict": "fused",
+      "why": "八席分工的预投稿审稿报告，分节取证与推荐等级绑定，与主用技能的席位面板互补：主用给结构与裁定，它给更细的分节问题定位。",
+      "cards": ["review.referee"]
+    },
+    {
+      "dir": "arf-review-paper-light",
+      "name": "arf-review-paper-light",
+      "verdict": "fused",
+      "why": "两席一分钟快速检查（贡献四档、五类贡献划分、识别策略外生性三问、至多五条必做分析）适合投稿窗口前的最后一检，也适合作为审稿质量自查时判断「我是否要求了超范围分析」的对照尺。",
+      "cards": ["review.presubmit", "review.selfcheck"]
+    },
+    {
+      "dir": "aris-auto-review-loop",
+      "name": "aris-auto-review-loop",
+      "verdict": "deprecated",
+      "why": "自动多轮评审循环依赖外部评审后端（Codex／antigravity／grok／claude-code 等 MCP 通道），纯 DSH 环境没有可用评审通道，且它会在循环里直接改稿、把「分数达标且结论就绪」当停止条件，与本域「审稿不改稿」的边界冲突。相关需求由 paper-audit 的复审计模式与修回卡覆盖。",
+      "cards": []
+    },
+    {
+      "dir": "aris-integrity-forensics",
+      "name": "aris-integrity-forensics",
+      "verdict": "fused",
+      "why": "图像重复、整数一致性、统计量自洽这类确定性检查是证据核验里唯一能给出「不是我觉得，是算出来不符」的部分；其分级（阻断／警告／无新问题）与「命中只提示需作者解释」的措辞纪律被核验卡直接采用。",
+      "cards": ["review.audit"]
+    },
+    {
+      "dir": "aris-kill-argument",
+      "name": "aris-kill-argument",
+      "verdict": "fused",
+      "why": "两百字最强拒稿备忘录加新线程逐点辩护，是判断「哪条质疑真能杀死这篇稿」的最快路径；它只做对抗不给严重度，正好当审稿人视角卡里的对抗席。",
+      "cards": ["review.referee"]
+    },
+    {
+      "dir": "aris-paper-claim-audit",
+      "name": "aris-paper-claim-audit",
+      "verdict": "fused",
+      "why": "零上下文核验是证据核验卡的主干方法：只看论文与原始结果文件，不看叙述性总结，逐条判通过与否并给文件路径与字段，从机制上防止被作者叙事带偏。",
+      "cards": ["review.audit"]
+    },
+    {
+      "dir": "aris-rebuttal",
+      "name": "aris-rebuttal",
+      "verdict": "fused",
+      "why": "覆盖率、来源、承诺三硬门与字数预算加逐项检查，构成回复信卡最不可替代的部分；其原子化改稿计划与问题编号也被修回卡借用来排优先级。",
+      "cards": ["review.rebuttal", "review.revise"]
+    },
+    {
+      "dir": "ars-academic-paper-reviewer",
+      "name": "ars-academic-paper-reviewer",
+      "verdict": "fused",
+      "why": "七 agent 五席面板、配置卡先确认、对抗席关键质疑必须逐条裁定、以及「角色分离不等于独立评审」的诚实声明，是审稿人视角卡的主干；其修回辅导的追问式提问在修回卡兜底位。",
+      "cards": ["review.referee", "review.revise"]
+    },
+    {
+      "dir": "ars-academic-pipeline",
+      "name": "ars-academic-pipeline",
+      "verdict": "index-only",
+      "why": "它是跨写作、完整性检查、评审、修回、复评的总编排器，单域内只用到其中一段，整条链在本包里跨多个域，不宜作为本域能力卡成员。收录备查，读者可按其阶段顺序自行编排。",
+      "cards": []
+    },
+    {
+      "dir": "cavecrew",
+      "name": "cavecrew",
+      "verdict": "out-of-scope",
+      "why": "内容是委派代码调查、单文件修改与 diff 审查三类子代理的使用说明，属编码助手的上下文管理技巧，不是稿件评审方法。建议归入工具箱，或移出科研包。",
+      "cards": []
+    },
+    {
+      "dir": "nature-paper-card",
+      "name": "nature-paper-card",
+      "verdict": "fused",
+      "why": "把方法与证据链拆成「每个实验对应哪条主张」的结构化精读卡，是核验卡在缺少原始结果文件时的降级路径：不做数据核对，但能看出主张与实验的对应是否成立；其明确声明「不是正式同行评议」，边界清楚。",
+      "cards": ["review.audit"]
+    },
+    {
+      "dir": "nature-response",
+      "name": "nature-response",
+      "verdict": "fused",
+      "why": "八种回复任务的模式路由、互盲审稿人的隐私过滤、标红稿与回复信的双向对应、以及「审稿人没看到即我方表述不清」的判断，都是回复与修回两卡的关键补强；申诉场景借它的模式路由而不借结论。",
+      "cards": ["review.revise", "review.rebuttal", "review.appeal"]
+    },
+    {
+      "dir": "nature-reviewer",
+      "name": "nature-reviewer",
+      "verdict": "fused",
+      "why": "意义与效度两轴的证据化质疑与分节红旗清单，是自审与正式意见撰写的共同语言；它明确不做作者侧的 rebuttal，正好卡在本域「审稿方」这一侧。",
+      "cards": ["review.presubmit", "review.report", "review.selfcheck"]
+    },
+    {
+      "dir": "paper-audit",
+      "name": "paper-audit",
+      "verdict": "fused",
+      "why": "闸门模式（只有 Critical 阻塞投稿）、问题条目带已核引文、脚本项与判断项分源标注、复审计做差异核对，为本域提供最严格的机械纪律；自审卡、核验卡与审稿自查卡都用到它。",
+      "cards": ["review.presubmit", "review.audit", "review.selfcheck"]
+    },
+    {
+      "dir": "peer-review",
+      "name": "peer-review",
+      "verdict": "fused",
+      "why": "七阶段审稿流程、主要问题四要素、报告规范核对（CONSORT／STROBE／PRISMA／ARRIVE／CARE）、保密评语与十二项终检，是受邀审稿与审稿质量自查两卡的主干；它同时也是全包「审稿意见必须可执行」这一铁律的来源。",
+      "cards": ["review.report", "review.selfcheck"]
+    },
+    {
+      "dir": "pre-submission-reviewer",
+      "name": "pre-submission-reviewer",
+      "verdict": "fused",
+      "why": "五维预审（宏观逻辑、写作细节、语言、排版、图件）加严重度分级与 AI 腔词表，是投稿前自审卡的主用方法，也是本域唯一覆盖「格式与图件机械项」的技能。",
+      "cards": ["review.presubmit"]
+    },
+    {
+      "dir": "rebuttal-guidance",
+      "name": "rebuttal-guidance",
+      "verdict": "fused",
+      "why": "条件说服框架（按审稿人心智类型选策略）与九类意见归型，解决的是「同样是反驳，为什么有的被接受有的激怒审稿人」；它只出策略不写正文，正好当回复信卡在动笔前的判断层。",
+      "cards": ["review.rebuttal"]
+    },
+    {
+      "dir": "scholar-ethics",
+      "name": "scholar-ethics",
+      "verdict": "out-of-scope",
+      "why": "内容其实是研究伦理与合规工具箱（AI 使用披露、自我抄袭与文本回收、p-hacking 与选择性报告、IRB 与利益冲突），只是被归到了审稿目录。本域的审稿卡不收录它；它已作为 ideation.ethics 的主用技能被收录，建议源目录也把它划到选题与伦理域，或单列「学术诚信与合规」域。",
+      "cards": []
+    },
+    {
+      "dir": "scientific-critical-thinking",
+      "name": "scientific-critical-thinking",
+      "verdict": "fused",
+      "why": "偏倚与混杂识别、证据分级与偏倚风险框架、逻辑谬误指认，是给「结论强度定上限」的那把尺；审稿人视角卡与正式意见卡都用它把「数据支持得住结论吗」从感觉变成定级。",
+      "cards": ["review.referee", "review.report"]
+    }
+  ]
+}

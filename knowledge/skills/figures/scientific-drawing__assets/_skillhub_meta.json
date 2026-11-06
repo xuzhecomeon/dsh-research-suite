@@ -1,0 +1,11 @@
+{
+  "slug": "scientific-drawing",
+  "name": "Scientific Drawing",
+  "version": "1.0.0",
+  "installedAt": 1785652138942,
+  "source": "skillhub",
+  "iconSource": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/62f73a9b-1aca-4f8e-921d-6102e258c768.png",
+  "iconLocalPath": "C:\\Users\\zy\\.workbuddy\\skills\\scientific-drawing__skillhub\\_icon.png",
+  "iconDownloadedFrom": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/62f73a9b-1aca-4f8e-921d-6102e258c768.png",
+  "installedContentHash": "sha256:7fa117037872da8aebd2cd4c4ca7fb1dd5038bf54dd03471763ec7d04a862fe6"
+}

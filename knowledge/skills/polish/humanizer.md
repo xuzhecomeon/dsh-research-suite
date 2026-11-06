@@ -1,5 +1,3 @@
-<!-- source: humanizer @ humanizer__skillhub | domain: polish -->
-
 ---
 name: humanizer
 version: 2.1.1

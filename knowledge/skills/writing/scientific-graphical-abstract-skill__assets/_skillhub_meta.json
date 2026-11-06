@@ -1,0 +1,11 @@
+{
+  "slug": "scientific-graphical-abstract-skill",
+  "name": "Scientific Graphical Abstract Skill",
+  "version": "0.1.2",
+  "installedAt": 1785652281872,
+  "source": "skillhub",
+  "iconSource": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/81015f94-5620-494e-bbd6-ac3268e7ccd3.png",
+  "iconLocalPath": "C:\\Users\\zy\\.workbuddy\\skills\\scientific-graphical-abstract-skill__skillhub\\_icon.png",
+  "iconDownloadedFrom": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/81015f94-5620-494e-bbd6-ac3268e7ccd3.png",
+  "installedContentHash": "sha256:1af52d7c18edba34eb982f0257cbfbae15cf8254e56cef00db0e652f1492e3cc"
+}

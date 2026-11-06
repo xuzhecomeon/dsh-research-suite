@@ -1,5 +1,3 @@
-<!-- source: academic-pre-review-committee @ academic-pre-review-committee__skillhub | domain: review -->
-
 ---
 name: academic-pre-review-committee
 description: 由五位资深审稿人组成的"学术预审委员会"，根据用户需求调度对应的审稿人角色进行论文审查。支持全面审稿（依次调度全部五个角色）和指定维度审稿。触发关键词：审稿、预审、论文审查、理论贡献、方法论、文献对话、逻辑链条、主编预筛、desk reject。

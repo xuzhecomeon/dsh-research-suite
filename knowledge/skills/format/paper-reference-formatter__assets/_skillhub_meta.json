@@ -1,0 +1,11 @@
+{
+  "slug": "paper-reference-formatter",
+  "name": "论文参考文献格式化Skill",
+  "version": "1.0.0",
+  "installedAt": 1785651983714,
+  "source": "skillhub",
+  "iconSource": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/5a1e9830-80e4-4cbb-8d00-cee893ca9555.png",
+  "iconLocalPath": "C:\\Users\\zy\\.workbuddy\\skills\\paper-reference-formatter__skillhub\\_icon.png",
+  "iconDownloadedFrom": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/5a1e9830-80e4-4cbb-8d00-cee893ca9555.png",
+  "installedContentHash": "sha256:b0b2b2c65963fe7c6f472471c0eda4c0a55df324f13337d1b09850447a8a1764"
+}

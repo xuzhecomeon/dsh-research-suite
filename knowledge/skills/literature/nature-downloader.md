@@ -1,5 +1,3 @@
-<!-- source: nature-downloader @ nature-downloader | domain: literature -->
-
 ---
 name: nature-downloader
 description: Use when a user needs lawful academic full text, CNKI institutional access, English OA retrieval, publisher API access, institutional browser fallback, or supporting information downloads.

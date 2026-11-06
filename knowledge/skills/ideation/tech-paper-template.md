@@ -1,5 +1,3 @@
-<!-- source: tech-paper-template @ tech-paper-template | domain: ideation -->
-
 ---
 name: tech-paper-template
 description: >-

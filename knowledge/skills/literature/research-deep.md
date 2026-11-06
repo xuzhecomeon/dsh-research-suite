@@ -1,5 +1,3 @@
-<!-- source: research-deep @ research-deep | domain: literature -->
-
 ---
 name: research-deep
 description: Read research outline, launch independent agent for each item for deep research. Disable task output.

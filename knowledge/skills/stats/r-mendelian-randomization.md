@@ -1,5 +1,3 @@
-<!-- source: r-mendelian-randomization @ r-mendelian-randomization | domain: stats -->
-
 ---
 name: r-mendelian-randomization
 description: 孟德尔随机化（Mendelian Randomization）R 语言全流程实战技能。覆盖两样本 MR 标准流程（暴露/结局数据读取、p<5e-8 筛选、LD clump、等位基因协调 harmonise_data、IVW/MR-Egger/加权中位数/加权众数估计、OR 转换）、四层水平多效性检验（MR-Egger 截距 / MR-PRESSO / Cochran's Q / 留一法）、弱工具变量 F 值计算、EAF 匹配处理回文 SNP、双向 MR、多变量 MR（MVMR：mr_mvivw/mr_mvegger/mr_mvmedian + 条件 F + Q 统计量）、中介 MR（两步法 vs MVMR 框架）、药靶 MR 与共定位（coloc H4）、肠道菌群 MR、非线性 MR，以及 STROBE-MR 报告规范与 22 条陷阱清单（含 API token 泄露、等位基因方向反转这两个最高危问题）。触发场景：用户要做/复现/审阅孟德尔随机化研究、因果推断、工具变量分析、GWAS 汇总数据挖掘、共定位分析、或给出 MR 相关 R 代码/数据要求代为运行调试纠错。

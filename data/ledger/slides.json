@@ -1,0 +1,248 @@
+{
+  "domain": "slides",
+  "version": "3.0.0",
+  "sourceTotal": 37,
+  "entries": [
+    {
+      "dir": "workbuddy-local-office-edit",
+      "name": "workbuddy-local-office-edit",
+      "verdict": "index-only",
+      "why": "本机 editor_sdk 读写通道，给的是文件打开与保存流程，没有版式、字号、出图方法可搬"
+    },
+    {
+      "dir": "library-office-edit",
+      "name": "library-office-edit",
+      "verdict": "index-only",
+      "why": "资料库在线查看编辑，需注入 file_id，只有操作入口没有设计规则"
+    },
+    {
+      "dir": "tencent-private-docs",
+      "name": "tencent-private-docs",
+      "verdict": "deprecated",
+      "why": "需宿主票据与私有化域名，未授权即报 no_token，本机无法稳定跑出 pptx"
+    },
+    {
+      "dir": "workbuddy-pptx",
+      "name": "workbuddy-pptx",
+      "verdict": "fused",
+      "why": "内置主引擎：academic 场景给七槽位色板与 px 字号阶梯，design-principle 给 60px 内边距、24/32px 两档间距、85% 填充率，slidep lint 可机检溢出与重叠",
+      "cards": ["slides.deck-system"]
+    },
+    {
+      "dir": "ppt-implement",
+      "name": "ppt-implement",
+      "verdict": "fused",
+      "why": "五层素材检索与金字塔章节规划可搬；html2pptx 走 PptxGenJS 把网页页转原生形状，677 个模板按页角色索引",
+      "cards": ["slides.journal-club", "slides.auto-build"]
+    },
+    {
+      "dir": "alice-ppt-generator",
+      "name": "alice-ppt-generator",
+      "verdict": "index-only",
+      "why": "面向商业汇报的页序与结论页，学术证据链不匹配；仅场景选择表可参考，无阈值可搬"
+    },
+    {
+      "dir": "arf-explorable-beamer",
+      "name": "arf-explorable-beamer",
+      "verdict": "index-only",
+      "why": "LaTeX beamer 出 PDF，与可编辑 pptx 交付冲突；一帧一概念理念已被 arf-explorable-pptx 完整覆盖，重复收录"
+    },
+    {
+      "dir": "arf-explorable-deck",
+      "name": "arf-explorable-deck",
+      "verdict": "index-only",
+      "why": "Quarto reveal.js 只产 HTML，同理念的 pptx 版本更贴合本域交付"
+    },
+    {
+      "dir": "arf-explorable-pptx",
+      "name": "arf-explorable-pptx",
+      "verdict": "fused",
+      "why": "按分钟定帧数表（12 分钟 8～10 帧、45 分钟 25～35 帧）与 check_deck.py --minutes 机械核对，溢出只许拆页不许缩字号",
+      "cards": ["slides.conference-defense", "slides.speaker-notes"]
+    },
+    {
+      "dir": "aris-paper-poster",
+      "name": "aris-paper-poster",
+      "verdict": "deprecated",
+      "why": "正文自认 DEPRECATED，仅作为肌肉记忆重定向，无正文内容"
+    },
+    {
+      "dir": "aris-paper-poster-html",
+      "name": "aris-paper-poster-html",
+      "verdict": "out-of-scope",
+      "why": "会议海报单页 HTML 与印刷 PDF，属海报域；幻灯是时间叙事，判定标准不同"
+    },
+    {
+      "dir": "aris-paper-slides",
+      "name": "aris-paper-slides",
+      "verdict": "fused",
+      "why": "venue 配色表与 talk 类型→页数表直接可用；Phase 6 备注三行、Phase 8 逐页时间轴讲稿与 5 问预判问答是硬资产",
+      "cards": ["slides.conference-defense", "slides.speaker-notes", "slides.consistency"]
+    },
+    {
+      "dir": "codex-ppt",
+      "name": "codex-ppt",
+      "verdict": "deprecated",
+      "why": "每页整张生成图，文字不可编辑，且需图像生成后端；明确说明不适用于需逐文本框编辑的场景"
+    },
+    {
+      "dir": "dashi-ppt",
+      "name": "dashi-ppt",
+      "verdict": "fused",
+      "why": "HTML 页可导出可编辑 PPTX（export-editable-pptx 或 npm run export:pptx），每页 3 模板方案＋1 bespoke 可选不重样",
+      "cards": ["slides.web-deck"]
+    },
+    {
+      "dir": "elegant-ppt-builder",
+      "name": "elegant-ppt-builder",
+      "verdict": "fused",
+      "why": "Pillow 预渲染渐变与柔光背景、卡片=圆角白卡＋顶部强调条＋图标圆盘，三主题批量出页风格稳定",
+      "cards": ["slides.deck-system", "slides.auto-build"]
+    },
+    {
+      "dir": "frontend-slides",
+      "name": "frontend-slides",
+      "verdict": "fused",
+      "why": "动画与转场丰富适合公开演讲，且能把 pptx 反向转成网页讲解版用于传播",
+      "cards": ["slides.web-deck"]
+    },
+    {
+      "dir": "guizang-ppt-skill",
+      "name": "guizang-ppt-skill",
+      "verdict": "deprecated",
+      "why": "只交付单 HTML 文件，无 pptx 导出；杂志风与瑞士风配色不进学术母版，交付物格式不符"
+    },
+    {
+      "dir": "html-ppt",
+      "name": "html-ppt",
+      "verdict": "fused",
+      "why": "36 主题含 academic-paper、36 种版式，presenter mode 备注 150～300 字/页可作配速交叉校验，render.sh 出 PNG",
+      "cards": ["slides.speaker-notes", "slides.web-deck"]
+    },
+    {
+      "dir": "latex-defense-zh",
+      "name": "latex-defense-zh",
+      "verdict": "fused",
+      "why": "章前目录高亮当前章、21 个质量门码含溢出与数字溯源，溢出修复顺序为删字→拆页→换版式→缩图",
+      "cards": ["slides.conference-defense"]
+    },
+    {
+      "dir": "latex-posters",
+      "name": "latex-posters",
+      "verdict": "out-of-scope",
+      "why": "beamerposter/tikzposter 学术海报，属海报域；本域只做按分钟推进的幻灯叙事"
+    },
+    {
+      "dir": "nature-image2ppt",
+      "name": "nature-image2ppt",
+      "verdict": "fused",
+      "why": "纯图源兜底：图片、截图、扫描 PDF 重建为对象级可编辑 pptx，page_jobs.json 记页面状态可续跑",
+      "cards": ["slides.figure-refit"]
+    },
+    {
+      "dir": "nature-paper2ppt",
+      "name": "nature-paper2ppt",
+      "verdict": "fused",
+      "why": "按 paper_type 六类选叙事弧，Terminology Ledger 锁跨页术语与数据集名，audit_pptx_quality 出 qa_report",
+      "cards": ["slides.journal-club", "slides.consistency"]
+    },
+    {
+      "dir": "openmaic-convert-pptx__skillhub",
+      "name": "openmaic-convert-pptx__skillhub",
+      "verdict": "deprecated",
+      "why": "frontmatter 无 name 与 description，元数据残缺；能力是把课程导出为 pptx，与科研材料链路无关"
+    },
+    {
+      "dir": "paper-slide-deck",
+      "name": "paper-slide-deck",
+      "verdict": "fused",
+      "why": "detect-figures 与 extract-figure 从 PDF 自动检测并抠图，26 种版式提示覆盖对比、流程与矩阵页",
+      "cards": ["slides.figure-refit", "slides.web-deck"]
+    },
+    {
+      "dir": "pathml",
+      "name": "pathml",
+      "verdict": "out-of-scope",
+      "why": "计算病理 WSI 工具包（CODEX/Vectra、核分割、图构建），与幻灯无关，属明显错分"
+    },
+    {
+      "dir": "ppt-beautify",
+      "name": "ppt-beautify",
+      "verdict": "deprecated",
+      "why": "美图设计室 designkit CLI，需登录与付费美豆，导出展示型不可逐元素编辑"
+    },
+    {
+      "dir": "ppt-design",
+      "name": "ppt-design",
+      "verdict": "deprecated",
+      "why": "同为美图 designkit 外部付费服务，生成依赖账号与额度，不可作为可复现主路径"
+    },
+    {
+      "dir": "ppt-design-skill",
+      "name": "ppt-design-skill",
+      "verdict": "fused",
+      "why": "brief 验收契约 MUST/SHOULD/NICE 逐条验收，Theme Lock 锁色板字体栅格，PPTX→PDF→PNG 双门审图",
+      "cards": ["slides.deck-system", "slides.auto-build"]
+    },
+    {
+      "dir": "ppt-image-first",
+      "name": "ppt-image-first",
+      "verdict": "deprecated",
+      "why": "逐页生成整张页图，文字不可编辑；四道确认门成本高，与可编辑 pptx 交付冲突"
+    },
+    {
+      "dir": "ppt-master",
+      "name": "ppt-master",
+      "verdict": "fused",
+      "why": "六路由串行且 design_spec 先于生成，BLOCKING 门不许跨阶段捆绑，失败要修源件不许静默降级",
+      "cards": ["slides.auto-build"]
+    },
+    {
+      "dir": "pptx",
+      "name": "pptx",
+      "verdict": "fused",
+      "why": "markitdown 抽全文逐页比对、unpack/pack 就地改 XML 保格式，三禁清单与 150 DPI 转图目检闭环",
+      "cards": ["slides.deck-system", "slides.figure-refit", "slides.consistency"]
+    },
+    {
+      "dir": "pptx-generator",
+      "name": "pptx-generator",
+      "verdict": "fused",
+      "why": "JSON 顶层五键驱动 11 种页型，仅依赖 python-pptx 即产出可编辑 pptx，逐页报告错误并跳坏页",
+      "cards": ["slides.auto-build"]
+    },
+    {
+      "dir": "pptx-posters",
+      "name": "pptx-posters",
+      "verdict": "out-of-scope",
+      "why": "HTML/CSS 海报导出 PDF 或 PPTX，只在用户明确要 pptx 海报时用，属海报域"
+    },
+    {
+      "dir": "scientific-slides",
+      "name": "scientific-slides",
+      "verdict": "fused",
+      "why": "图内字号 ≥18pt、panel 拆分、直标替图例、渐进披露；时长预算结果 40～50% 与排练检查点可直接抄",
+      "cards": ["slides.conference-defense", "slides.figure-refit"]
+    },
+    {
+      "dir": "sglk998__skillhub",
+      "name": "论文汇报PPT制作",
+      "verdict": "fused",
+      "why": "17～20 页三段式页序、五档字号与四组卡片色值、母版封面与结尾页原样保留，是本域中文组会主路径",
+      "cards": ["slides.journal-club", "slides.deck-system", "slides.consistency"]
+    },
+    {
+      "dir": "slidep-pptx-notes",
+      "name": "slidep-pptx-notes",
+      "verdict": "fused",
+      "why": "证明备注只写进 cNvPr descr 时 notesSlides part 数为零即假交付，给真备注 XML 四件套与读回验收口径",
+      "cards": ["slides.speaker-notes"]
+    },
+    {
+      "dir": "slides",
+      "name": "slides",
+      "verdict": "deprecated",
+      "why": "claudekit 营销与 pitch 型 HTML 演示，用文案公式与 Chart.js，题材与交付格式都不符学术汇报"
+    }
+  ]
+}

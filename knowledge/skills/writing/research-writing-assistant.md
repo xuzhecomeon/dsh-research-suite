@@ -1,5 +1,3 @@
-<!-- source: research-writing-assistant @ research-writing-assistant | domain: writing -->
-
 ---
 name: research-writing-assistant
 description: Use when writing academic papers, theses, or research articles - supports brainstorming, chapter writing, literature review, and LaTeX output

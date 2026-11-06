@@ -1,5 +1,3 @@
-<!-- source: scholar-brainstorm @ scholar-brainstorm | domain: ideation -->
-
 ---
 name: scholar-brainstorm
 description: "Generate research questions from existing materials — codebooks, survey questionnaires, datasets, or published papers/abstracts. Three modes: DATA (data files with safety scan + empirical signal tests), MATERIALS (codebook/questionnaire only with theory-driven ranking), PAPER (published paper/abstract → follow-up research ideas via SciThinker-30B + multi-agent evaluation). Auto-detects mode from file extensions. Explores the data landscape and proposes a ranked Top 10 list of publishable research questions using multi-agent evaluation. PAPER mode optionally uses SciThinker-30B (OpenMOSS-Team/SciThinker-30B on HuggingFace) for scientific ideation generation."

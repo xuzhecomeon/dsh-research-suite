@@ -1,0 +1,183 @@
+{
+  "domain": "literature",
+  "version": "3.0.0",
+  "sourceTotal": 26,
+  "entries": [
+    {
+      "dir": "ima-mcp",
+      "name": "ima-mcp",
+      "verdict": "fused",
+      "why": "知识库检索先查库再读内容再入库的链路，被收成文献库卡里的入库与检索纪律，含空结果不补与异步入库等待。",
+      "cards": ["literature.library"]
+    },
+    {
+      "dir": "institutional_access",
+      "name": "institutional-access",
+      "verdict": "fused",
+      "why": "只在开放获取失败后用授权会话取订阅全文，凭据不碰、每次下载校验文件头的边界，成为全文获取卡的第二道执行步骤。",
+      "cards": ["literature.fulltext-acquire"]
+    },
+    {
+      "dir": "life-sciences-literature-search",
+      "name": "life-sciences-literature-search",
+      "verdict": "fused",
+      "why": "按证据维度分 lane 与源、深度即检索预算、源失败四态独立报告，成为多源检索卡的主干与失败处理判据。",
+      "cards": ["literature.federated-search"]
+    },
+    {
+      "dir": "oa_download",
+      "name": "oa-download",
+      "verdict": "fused",
+      "why": "开放获取索引加文件头校验加三阶段分流的完整顺序，直接构成全文获取卡的主干流程与未解决条目处置。",
+      "cards": ["literature.fulltext-acquire"]
+    },
+    {
+      "dir": "aris-alphaxiv",
+      "name": "aris-alphaxiv",
+      "verdict": "fused",
+      "why": "单篇分层速读用于判断值不值得精读，作为精读卡的预筛兜底，避免把摘要级理解当全文结论。",
+      "cards": ["literature.close-read"]
+    },
+    {
+      "dir": "aris-exa-search",
+      "name": "aris-exa-search",
+      "verdict": "index-only",
+      "why": "带内容抽取的网页检索，与引文追踪和预印本补漏有重叠但缺少学术元数据与去重能力，暂只入索引。"
+    },
+    {
+      "dir": "aris-keenable-search",
+      "name": "aris-keenable-search",
+      "verdict": "index-only",
+      "why": "免密网页搜索与页面转 Markdown，适合查灰色文献线索，但结果不成题录、无法进检索日志，只作辅助索引。"
+    },
+    {
+      "dir": "aris-semantic-scholar",
+      "name": "aris-semantic-scholar",
+      "verdict": "fused",
+      "why": "被引列表与摘要速览支撑前向引文追踪，提供被引数与会议期刊元数据，成为引文追踪卡的补漏通道。",
+      "cards": ["literature.citation-chase"]
+    },
+    {
+      "dir": "ars-deep-research",
+      "name": "ars-deep-research",
+      "verdict": "fused",
+      "why": "弱点必须写到机制、灰区即判失败、偏倚工具与设计匹配、矛盾双向披露，构成批判性评价卡的主干判据。",
+      "cards": ["literature.critique"]
+    },
+    {
+      "dir": "ars-sr-screener",
+      "name": "ars-sr-screener",
+      "verdict": "fused",
+      "why": "协议先行、三态判定、排除码唯一、双人独立与仲裁、一致率三值并报，成为筛选与 PRISMA 数字卡的主干。",
+      "cards": ["literature.screen-prisma"]
+    },
+    {
+      "dir": "biomed-literature-pipeline",
+      "name": "biomed-literature-pipeline",
+      "verdict": "fused",
+      "why": "Europe PMC 多通道与中文语种通道拓宽共检索的语种覆盖，带标识符的清单表被收成可逐条判定的行来源。",
+      "cards": ["literature.federated-search"]
+    },
+    {
+      "dir": "biorxiv-database",
+      "name": "biorxiv-database",
+      "verdict": "fused",
+      "why": "预印本按关键词与日期检索，补最新进展并在引文追踪卡里要求单列标注未评审状态，不与正式版混表。",
+      "cards": ["literature.citation-chase"]
+    },
+    {
+      "dir": "deep-research",
+      "name": "deep-research",
+      "verdict": "fused",
+      "why": "互斥分类与句内交叉比较提供综述骨架的反罗列判据，逐条核引文的动作并入综合环节的自查步骤。",
+      "cards": ["literature.synthesis"]
+    },
+    {
+      "dir": "ima-skill",
+      "name": "ima-skill",
+      "verdict": "fused",
+      "why": "知识库与笔记双通道承载灰色文献与阅读笔记，在文献库卡里承担非期刊条目的归档与检索职责。",
+      "cards": ["literature.library"]
+    },
+    {
+      "dir": "literature-close-read",
+      "name": "literature-close-read",
+      "verdict": "fused",
+      "why": "先方法与结果后背景、可复现要素抄准、未写即标未说明、结论须可回溯，构成精读笔记卡的主干与红线。",
+      "cards": ["literature.close-read"]
+    },
+    {
+      "dir": "literature-review-writing",
+      "name": "literature-review-writing",
+      "verdict": "index-only",
+      "why": "偏综述论文的写作指导与成段表达，与写作域职责重叠，本域只取结构骨架，写作面交由写作域承接。"
+    },
+    {
+      "dir": "medical-imaging-review",
+      "name": "medical-imaging-review",
+      "verdict": "index-only",
+      "why": "面向医学影像人工智能综述的写作范式，学科面过窄且偏写作，本域通用证据链用不到其专属模板。"
+    },
+    {
+      "dir": "minimax-xlsx",
+      "name": "minimax-xlsx",
+      "verdict": "fused",
+      "why": "大矩阵的可编辑工作簿实现与公式校验，落成证据矩阵卡里行数与样本量可加总自洽的机械校验步骤。",
+      "cards": ["literature.evidence-matrix"]
+    },
+    {
+      "dir": "nature-downloader",
+      "name": "nature-downloader",
+      "verdict": "fused",
+      "why": "机构访问、开放获取与出版社接口的多路由回落顺序，并支持补充材料一并下载，补进全文获取的兜底路径。",
+      "cards": ["literature.fulltext-acquire"]
+    },
+    {
+      "dir": "paper-search-pro-m7pa__skillhub",
+      "name": "论文搜索专业版",
+      "verdict": "fused",
+      "why": "七源覆盖含中文原生库，适合开局摸底与判断该不该转中文库，作为多源检索卡的入口兜底与中文补充。",
+      "cards": ["literature.federated-search"]
+    },
+    {
+      "dir": "ps-deep-research",
+      "name": "ps-deep-research",
+      "verdict": "index-only",
+      "why": "四阶段递归调研偏报告产出，检索动作与失败四态报告已被更细的执行技能覆盖，重复度高故只入索引。"
+    },
+    {
+      "dir": "qinyan-paper-search",
+      "name": "qinyan-paper-search",
+      "verdict": "fused",
+      "why": "按语种与学科分派数据库的路由规则，以及未检索到就如实说的口径，并入多源检索卡的库清单决策。",
+      "cards": ["literature.federated-search"]
+    },
+    {
+      "dir": "reference-retrieval-skill",
+      "name": "reference-retrieval-skill",
+      "verdict": "fused",
+      "why": "中文意图转布尔式、失败迭代五轮上限、零结果与不相关的收窄放宽口诀，构成检索式构建卡的主干。",
+      "cards": ["literature.search-plan"]
+    },
+    {
+      "dir": "research-deep",
+      "name": "research-deep",
+      "verdict": "index-only",
+      "why": "按大纲逐项派发子任务的薄壳编排，缺少检索判据与产物形态，方法面已被其它技能完全覆盖故只入索引。"
+    },
+    {
+      "dir": "scholar-lit-review-hypothesis",
+      "name": "scholar-lit-review-hypothesis",
+      "verdict": "fused",
+      "why": "空白分人群机制方法三类并转成可检验命题的步骤，成为综述骨架卡里空白到假说的转化依据。",
+      "cards": ["literature.synthesis"]
+    },
+    {
+      "dir": "scholar-monitor",
+      "name": "scholar-monitor",
+      "verdict": "fused",
+      "why": "只看新增变化的增量监测思路被收成引文追踪的补边角手段，限定时间窗并标注预印本状态。",
+      "cards": ["literature.citation-chase"]
+    }
+  ]
+}

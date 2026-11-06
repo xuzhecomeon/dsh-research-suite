@@ -1,5 +1,3 @@
-<!-- source: elegant-ppt-builder @ elegant-ppt-builder | domain: slides -->
-
 ---
 name: elegant-ppt-builder
 description: |

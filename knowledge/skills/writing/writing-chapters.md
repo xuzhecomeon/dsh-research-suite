@@ -1,5 +1,3 @@
-<!-- source: writing-chapters @ writing-chapters | domain: writing -->
-
 ---
 name: writing-chapters
 description: Use when writing paper chapters - requires completed brainstorming, writes one chapter at a time with user confirmation

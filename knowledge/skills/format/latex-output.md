@@ -1,5 +1,3 @@
-<!-- source: latex-output @ latex-output | domain: format -->
-
 ---
 name: latex-output
 description: Use when user requests LaTeX format output or has provided school/journal LaTeX templates

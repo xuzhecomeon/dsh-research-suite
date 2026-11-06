@@ -1,5 +1,3 @@
-<!-- source: aris-patent-novelty-check @ aris-patent-novelty-check | domain: ideation -->
-
 ---
 name: aris-patent-novelty-check
 description: "Assess patent novelty and non-obviousness against prior art. Use when user says \"专利查新\", \"patent novelty\", \"可专利性评估\", \"patentability check\", or wants to evaluate if an invention is patentable."

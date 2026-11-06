@@ -1,5 +1,3 @@
-<!-- source: aris-idea-creator @ aris-idea-creator | domain: ideation -->
-
 ---
 name: aris-idea-creator
 description: Generate and rank research ideas given a broad direction. Use when user says "找idea", "brainstorm ideas", "generate research ideas", "what can we work on", or wants to explore a research area for publishable directions.

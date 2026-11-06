@@ -1,5 +1,3 @@
-<!-- source: aris-keenable-search @ aris-keenable-search | domain: literature -->
-
 ---
 name: aris-keenable-search
 description: Keyless web search and page fetch via Keenable. Use when user says "keenable search", "web search without an API key", "fetch this page as markdown", or needs broad web results beyond academic databases (arXiv, Semantic Scholar) with no search API key set up.

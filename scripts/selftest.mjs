@@ -95,12 +95,18 @@ async function main() {
   check('导出 name', mod.name === 'dsh-research-suite', `实际 ${mod.name}`);
   check('导出 inject 含 skills', Array.isArray(mod.inject) && mod.inject.includes('skills'), JSON.stringify(mod.inject));
   check('导出 apply 函数', typeof mod.apply === 'function');
-  check('导出 Config.~standard.validate', typeof mod.Config?.['~standard']?.validate === 'function');
 
-  const cfg = mod.Config['~standard'].validate({ autoTakeover: true });
-  check('Config 默认值可校验', !cfg.issues && cfg.value.autoTakeover === true, JSON.stringify(cfg));
-  const badCfg = mod.Config['~standard'].validate({ sectionOrder: 'x' });
-  check('Config 拒绝非法 sectionOrder', Array.isArray(badCfg.issues) && badCfg.issues.length > 0);
+  // v3：Config 必须不存在。
+  // 事故记录（2026-11-06）：曾导出 `export const Config`（Standard Schema + 返回 JSON Schema 的 toJSON()），
+  // Host 的 settings 服务会把它当 schemastery 信封水合 → schema.meta 为 undefined → 读 .volatile 崩溃
+  // → DSH Desktop 启动失败（"The application could not start" / "desktop welcome: Web RPC failed"）。
+  // 现在配置由 apply() 内部的 validateConfig() 兜底，**不要补回 Config**。
+  check('不导出 Config（v3 事故防线）', mod.Config === undefined, `实际 typeof ${typeof mod.Config}`);
+
+  const { readFileSync: rfs } = await import('node:fs');
+  const entrySrc = rfs(new URL('../lib/index.js', import.meta.url), 'utf8');
+  check('入口不含 export const Config', !/export\s+const\s+Config\b/.test(entrySrc));
+  check('入口含 validateConfig 兜底', /function\s+validateConfig\s*\(/.test(entrySrc));
 
   // 静态 import 禁令：本包不得在加载期依赖 @deepseek-ai/*
   let entryText = '';

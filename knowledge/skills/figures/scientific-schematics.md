@@ -1,5 +1,3 @@
-<!-- source: scientific-schematics @ scientific-schematics | domain: figures -->
-
 ---
 name: scientific-schematics
 description: Create publication-quality scientific diagrams using Nano Banana 2 AI with smart iterative refinement. Uses Gemini 3.1 Pro Preview for quality review. Only regenerates if quality is below threshold for your document type. Specialized in neural network architectures, system diagrams, flowcharts, biological pathways, and complex scientific visualizations.

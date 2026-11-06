@@ -1,5 +1,3 @@
-<!-- source: writing-core @ writing-core | domain: writing -->
-
 ---
 name: writing-core
 description: Use when writing or revising academic papers, especially Chinese journal manuscripts, that need natural prose, de-AI-ification, Markdown formatting, or quality checks

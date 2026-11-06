@@ -1,5 +1,3 @@
-<!-- source: figures-diagram @ figures-diagram | domain: figures -->
-
 ---
 name: figures-diagram
 description: Use when creating flowcharts, architecture diagrams, or conceptual diagrams - generates prompts for image AI

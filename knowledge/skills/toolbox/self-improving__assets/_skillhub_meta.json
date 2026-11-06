@@ -1,0 +1,19 @@
+{
+  "slug": "self-improving",
+  "name": "Self-Improving + Proactive Agent",
+  "version": "1.2.16",
+  "installedAt": 1789392001629,
+  "source": "skillhub",
+  "namespace": "clawhub_ivangdavila",
+  "canonicalName": "@clawhub_ivangdavila/self-improving",
+  "iconSource": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/81015f94-5620-494e-bbd6-ac3268e7ccd3.png",
+  "labels": {
+    "requires_api_key": "false"
+  },
+  "description_zh": "自我反思+自我批评+自我学习+自组织记忆。智能体评估自身工作、发现错误并持续改进。",
+  "description_en": "Self-reflection + Self-criticism + Self-learning + Self-organizing memory. Agent evaluates its own work, catches mistakes, and improves permanently. Use when...",
+  "installs": 402493,
+  "iconLocalPath": "C:\\Users\\zy\\.workbuddy\\skills\\self-improving__skillhub\\_icon.png",
+  "iconDownloadedFrom": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/81015f94-5620-494e-bbd6-ac3268e7ccd3.png",
+  "installedContentHash": "sha256:be384fc6688a25ad9145f55b5b47dadb25cec7c8ee9495d4290ba84bb06e9af3"
+}

@@ -1,0 +1,115 @@
+{
+  "form": {
+    "fields": [
+      {
+        "file_types": [
+          "ppt",
+          "image",
+          "pdf"
+        ],
+        "hint": "支持 PDF、PPT、图片等；非任务执行、上传、大小处理、格式转换或完整性校验所必需，不解析附件；必要解析结果不得用于推测、补充或改写其他参数。",
+        "key": "ref_files",
+        "label": "参考文件",
+        "maxCount": 10,
+        "required": true,
+        "type": "file_upload"
+      },
+      {
+        "key": "language",
+        "label": "语言",
+        "options": [
+          {
+            "key": "auto",
+            "label": "自动匹配"
+          },
+          {
+            "key": "chinese",
+            "label": "中文"
+          },
+          {
+            "key": "english",
+            "label": "英文"
+          },
+          {
+            "key": "japanese",
+            "label": "日语"
+          },
+          {
+            "key": "korean",
+            "label": "韩语"
+          },
+          {
+            "key": "portuguese_brazil",
+            "label": "葡萄牙语（巴西）"
+          },
+          {
+            "key": "spanish_mexico",
+            "label": "西班牙语（墨西哥）"
+          },
+          {
+            "key": "russian",
+            "label": "俄语"
+          }
+        ],
+        "required": false,
+        "type": "select"
+      },
+      {
+        "key": "style",
+        "label": "视觉风格",
+        "options": [
+          {
+            "key": "auto",
+            "label": "自动匹配"
+          },
+          {
+            "key": "minimal_luxe",
+            "label": "简约高级"
+          },
+          {
+            "key": "business_professional",
+            "label": "商务专业"
+          },
+          {
+            "key": "creative_layout",
+            "label": "创意版式"
+          },
+          {
+            "key": "digital_trendy",
+            "label": "网感潮流"
+          },
+          {
+            "key": "party_civic",
+            "label": "党建思政"
+          },
+          {
+            "key": "grand_luxury",
+            "label": "奢华大气"
+          },
+          {
+            "key": "chinese_style",
+            "label": "中国风"
+          }
+        ],
+        "required": false,
+        "type": "radio_tags"
+      },
+      {
+        "hint": "仅填写用户明确提出的附加约束；未明确提出时留空，不得根据素材、文件名或任务类型推断。",
+        "key": "extra",
+        "label": "补充要求",
+        "maxLength": 10000,
+        "placeholder": "色调、字体、版式、重点内容等补充说明",
+        "type": "textarea"
+      }
+    ],
+    "prompt": "[PPT美化]美化这份PPT。\n参考文件：{ref_files}\n语言：{language}\n视觉风格：{style}\n补充要求：{extra}"
+  },
+  "schema_version": 1,
+  "skill": {
+    "category": "办公设计",
+    "description": "美化现有PPT中的页面，调整字体、配色、版式和视觉层级。适用于PPT美化、PPT排版。美图设计室提供。",
+    "id": "ppt-beautify",
+    "title": "PPT美化"
+  }
+}

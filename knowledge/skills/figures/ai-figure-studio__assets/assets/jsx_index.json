@@ -1,0 +1,218 @@
+[
+ {
+  "name": "microscope_fluorescence",
+  "func": "draw_microscope_fluorescence",
+  "cat": "instruments",
+  "w": 191,
+  "h": 188,
+  "shapes": 143
+ },
+ {
+  "name": "cell_multicolor_organelles",
+  "func": "draw_cell_multicolor_organelles",
+  "cat": "cells",
+  "w": 305,
+  "h": 190,
+  "shapes": 200
+ },
+ {
+  "name": "cytoskeleton_network",
+  "func": "draw_cytoskeleton_network",
+  "cat": "cells",
+  "w": 210,
+  "h": 190,
+  "shapes": 200
+ },
+ {
+  "name": "membrane_receptor_scheme",
+  "func": "draw_membrane_receptor_scheme",
+  "cat": "molecules",
+  "w": 172,
+  "h": 188,
+  "shapes": 200
+ },
+ {
+  "name": "tag_renewal_cycle",
+  "func": "draw_tag_renewal_cycle",
+  "cat": "icons",
+  "w": 392,
+  "h": 210,
+  "shapes": 200
+ },
+ {
+  "name": "dish_culture_1",
+  "func": "draw_dish_culture_1",
+  "cat": "containers",
+  "w": 255,
+  "h": 155,
+  "shapes": 121
+ },
+ {
+  "name": "dish_culture_2",
+  "func": "draw_dish_culture_2",
+  "cat": "containers",
+  "w": 255,
+  "h": 155,
+  "shapes": 148
+ },
+ {
+  "name": "dish_culture_3",
+  "func": "draw_dish_culture_3",
+  "cat": "containers",
+  "w": 255,
+  "h": 155,
+  "shapes": 120
+ },
+ {
+  "name": "pipette_micropipette",
+  "func": "draw_pipette_micropipette",
+  "cat": "instruments",
+  "w": 124,
+  "h": 86,
+  "shapes": 40
+ },
+ {
+  "name": "vial_reagent_powder",
+  "func": "draw_vial_reagent_powder",
+  "cat": "containers",
+  "w": 88,
+  "h": 148,
+  "shapes": 55
+ },
+ {
+  "name": "cell_purple_nucleus_live",
+  "func": "draw_cell_purple_nucleus_live",
+  "cat": "cells",
+  "w": 156,
+  "h": 95,
+  "shapes": 9
+ },
+ {
+  "name": "cell_purple_nucleus_fixed",
+  "func": "draw_cell_purple_nucleus_fixed",
+  "cat": "cells",
+  "w": 164,
+  "h": 114,
+  "shapes": 5
+ },
+ {
+  "name": "cell_surface_modified",
+  "func": "draw_cell_surface_modified",
+  "cat": "cells",
+  "w": 198,
+  "h": 118,
+  "shapes": 27
+ },
+ {
+  "name": "cell_nonspecific_binding",
+  "func": "draw_cell_nonspecific_binding",
+  "cat": "cells",
+  "w": 207,
+  "h": 138,
+  "shapes": 81
+ },
+ {
+  "name": "protein_pink_pocket",
+  "func": "draw_protein_pink_pocket",
+  "cat": "molecules",
+  "w": 56,
+  "h": 50,
+  "shapes": 6
+ },
+ {
+  "name": "protein_bound_state",
+  "func": "draw_protein_bound_state",
+  "cat": "molecules",
+  "w": 62,
+  "h": 60,
+  "shapes": 13
+ },
+ {
+  "name": "protein_beige_hydrophobic",
+  "func": "draw_protein_beige_hydrophobic",
+  "cat": "molecules",
+  "w": 100,
+  "h": 101,
+  "shapes": 30
+ },
+ {
+  "name": "blocking_agents_icons",
+  "func": "draw_blocking_agents_icons",
+  "cat": "icons",
+  "w": 48,
+  "h": 48,
+  "shapes": 4
+ },
+ {
+  "name": "greenhouse_soilless_array",
+  "func": "draw_greenhouse_soilless_array",
+  "cat": "containers",
+  "w": 210,
+  "h": 120,
+  "shapes": 200
+ },
+ {
+  "name": "bioevaporator_block",
+  "func": "draw_bioevaporator_block",
+  "cat": "materials",
+  "w": 90,
+  "h": 60,
+  "shapes": 64
+ },
+ {
+  "name": "fibril_bundle",
+  "func": "draw_fibril_bundle",
+  "cat": "molecules",
+  "w": 45,
+  "h": 65,
+  "shapes": 12
+ },
+ {
+  "name": "building_cluster",
+  "func": "draw_building_cluster",
+  "cat": "icons",
+  "w": 100,
+  "h": 90,
+  "shapes": 60
+ },
+ {
+  "name": "soybean_pods",
+  "func": "draw_soybean_pods",
+  "cat": "organisms",
+  "w": 55,
+  "h": 130,
+  "shapes": 43
+ },
+ {
+  "name": "fertilizer_icon",
+  "func": "draw_fertilizer_icon",
+  "cat": "icons",
+  "w": 60,
+  "h": 50,
+  "shapes": 34
+ },
+ {
+  "name": "food_products_bag",
+  "func": "draw_food_products_bag",
+  "cat": "containers",
+  "w": 60,
+  "h": 65,
+  "shapes": 44
+ },
+ {
+  "name": "soybean_meal_block",
+  "func": "draw_soybean_meal_block",
+  "cat": "materials",
+  "w": 65,
+  "h": 50,
+  "shapes": 16
+ },
+ {
+  "name": "sun_icon",
+  "func": "draw_sun_icon",
+  "cat": "icons",
+  "w": 51,
+  "h": 55,
+  "shapes": 5
+ }
+]

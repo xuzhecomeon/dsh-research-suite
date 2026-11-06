@@ -1,5 +1,3 @@
-<!-- source: r-clinical-prediction-model @ r-clinical-prediction-model | domain: stats -->
-
 ---
 name: r-clinical-prediction-model
 description: 临床预测模型（诊断模型 / 预后模型）R 语言全流程实战技能。覆盖：数据质量核查（含"0 值实为缺失码"陷阱）、建模人群与验证人群拆分、单因素/多因素变量筛选（含 Lasso）、Logistic 与 Cox 建模、列线图（诊断概率 / 中位生存时间 / 1-3-5 年生存率 / 动态交互式 / 反推评分公式）、区分度（AUC、C-index、时间依赖 ROC、DeLong 检验）、校准度（val.prob、calibrate、H-L 检验、校准斜率/截距）、NRI 与 IDI（含生存资料手工实现）、DCA 决策曲线（诊断版与生存版）、KM 曲线与 log-rank、PH 假设检验、TRIPOD/PROBAST 报告规范，以及 7 篇顶刊范文的写作范式与 40+ 条避坑清单。触发场景：用户要做/复现/审阅临床预测模型、风险评分、列线图、nomogram、ROC/AUC、校准曲线、NRI/IDI/DCA、C-index、竞争性风险之外的预后建模、以及"预测模型"相关论文的数据分析部分；或用户给出预测模型相关的 R 代码/数据要求代为运行、调试、纠错。

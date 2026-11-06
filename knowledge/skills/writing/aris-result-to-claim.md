@@ -1,5 +1,3 @@
-<!-- source: aris-result-to-claim @ aris-result-to-claim | domain: writing -->
-
 ---
 name: aris-result-to-claim
 description: Use when experiments complete to judge what claims the results support, what they don't, and what evidence is still missing. Codex MCP evaluates results against intended claims and routes to next action (pivot, supplement, or confirm). Use after experiments finish — before writing the paper or running ablations.

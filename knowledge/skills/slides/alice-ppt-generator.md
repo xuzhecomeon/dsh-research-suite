@@ -1,5 +1,3 @@
-<!-- source: alice-ppt-generator @ alice-ppt-generator | domain: slides -->
-
 ---
 name: alice-ppt-generator
 display_name: Wind Alice-幻灯片

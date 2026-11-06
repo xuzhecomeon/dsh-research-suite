@@ -1,5 +1,3 @@
-<!-- source: biomedical-sci-manuscript @ biomedical-sci-manuscript | domain: writing -->
-
 ---
 
 name: biomedical-sci-manuscript

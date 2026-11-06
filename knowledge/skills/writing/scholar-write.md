@@ -1,5 +1,3 @@
-<!-- source: scholar-write @ scholar-write | domain: writing -->
-
 ---
 name: scholar-write
 description: Draft, revise, or polish any section of a social science manuscript — Introduction, Theory, Methods, Results, Discussion, Abstract, or full paper. Saves draft sections to disk as publication-ready text and an internal writing log. Works best after /scholar-lit-review, /scholar-hypothesis, /scholar-design, and /scholar-analyze. Invoke with mode (draft/revise/polish), section name, topic, and target journal.

@@ -1,5 +1,3 @@
-<!-- source: csv-data-summarizer @ csv-data-summarizer | domain: figures -->
-
 ---
 name: csv-data-summarizer
 description: Analyzes CSV files, generates summary stats, and plots quick visualizations using Python and pandas.

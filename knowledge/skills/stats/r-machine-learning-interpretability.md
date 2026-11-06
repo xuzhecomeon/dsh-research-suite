@@ -1,5 +1,3 @@
-<!-- source: r-machine-learning-interpretability @ r-machine-learning-interpretability | domain: stats -->
-
 ---
 name: r-machine-learning-interpretability
 description: 临床机器学习建模与可解释性研究（R 语言）实战技能。覆盖二分类 8 模型（Logistic / 决策树 / 随机森林 / XGBoost / LightGBM / KNN / SVM / 神经网络）与生存数据 6 模型（RSF / CoxBoost / survivalsvm / GBM / Lasso-Cox / Cox）的完整流水线，含数据插补（missForest / MICE）、特征选择（先单后多 / Lasso）、超参数调优的正确做法（交叉验证而非训练集）、模型评价（AUC 及有效 95%CI、混淆矩阵、校准斜率截距 Brier、DCA）、**DeLong 检验与多重比较校正**、SHAP 可解释性（kernelshap + shapviz：蜂群图/依赖图/瀑布图/力导向图），以及 26 条高频陷阱与「课程原版 vs 修正版」量化对照。触发场景：用户要做/复现/审阅机器学习临床预测研究、SHAP 可解释性分析、多模型性能比较、ML 与 Logistic 的增量价值评估、或给出 ML 相关 R 代码/数据要求代为运行调试纠错。

@@ -1,5 +1,3 @@
-<!-- source: paper-writer @ paper-writer | domain: writing -->
-
 ---
 name: paper-writer
 description: >-

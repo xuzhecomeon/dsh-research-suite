@@ -1,5 +1,3 @@
-<!-- source: ima-skill @ ima-skill | domain: literature -->
-
 ---
 name: ima-skill
 description: |

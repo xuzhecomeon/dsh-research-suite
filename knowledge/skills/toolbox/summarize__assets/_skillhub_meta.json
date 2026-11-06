@@ -1,0 +1,19 @@
+{
+  "slug": "summarize",
+  "name": "Summarize",
+  "version": "1.0.0",
+  "installedAt": 1789391850847,
+  "source": "skillhub",
+  "namespace": "clawhub_paudyyin",
+  "canonicalName": "@clawhub_paudyyin/summarize",
+  "iconSource": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/0c9b068f-f22e-44e2-96fe-d2b6f5b43b07.png",
+  "labels": {
+    "requires_api_key": "true"
+  },
+  "description_zh": "智能摘要工具，自动为长文本、文档、网页生成摘要，提取要点与关键词，支持自定义摘要长度。",
+  "description_en": "智能内容摘要工具，支持长文本、文档、网页内容自动摘要，提取核心要点、关键词，支持自定义摘要长度。",
+  "installs": 612095,
+  "iconLocalPath": "C:\\Users\\zy\\.workbuddy\\skills\\summarize__skillhub\\_icon.png",
+  "iconDownloadedFrom": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/0c9b068f-f22e-44e2-96fe-d2b6f5b43b07.png",
+  "installedContentHash": "sha256:1516e3eafcc4a787adfa4db7a228caa235b09bdb5216788e4c6e3717b53e6ea8"
+}

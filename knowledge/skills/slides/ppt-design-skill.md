@@ -1,5 +1,3 @@
-<!-- source: ppt-design-skill @ ppt-design-skill | domain: slides -->
-
 ---
 name: ppt-design-skill
 description: Design, generate, review, and revise editable PowerPoint presentations through a rigorous brief-to-PNG workflow using the public pptx-designer Python library.

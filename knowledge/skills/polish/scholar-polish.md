@@ -1,5 +1,3 @@
-<!-- source: scholar-polish @ scholar-polish | domain: polish -->
-
 ---
 name: scholar-polish
 description: >

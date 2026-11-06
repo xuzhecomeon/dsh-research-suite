@@ -1,5 +1,3 @@
-<!-- source: ppt-master @ ppt-master | domain: slides -->
-
 ---
 name: ppt-master
 description: >

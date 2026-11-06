@@ -1,0 +1,106 @@
+[
+ {
+  "name": "trabecular_bone",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\trabecular_bone.svg",
+  "src": "T01_Bone_structure p4"
+ },
+ {
+  "name": "bone_cross_sections",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\bone_cross_sections.svg",
+  "src": "T01_Bone_structure p2"
+ },
+ {
+  "name": "liver",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\liver.svg",
+  "src": "T38_Main_organs p4"
+ },
+ {
+  "name": "membrane_channels",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\membrane_channels.svg",
+  "src": "T08_Receptors_channels p2"
+ },
+ {
+  "name": "membrane_channels_a",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\membrane_channels_a.svg",
+  "src": "T08_Receptors_channels p1"
+ },
+ {
+  "name": "enzymes",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\enzymes.svg",
+  "src": "T05_Intracellular_components p4"
+ },
+ {
+  "name": "cell_membrane",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\cell_membrane.svg",
+  "src": "T03_Cell_membrane p1"
+ },
+ {
+  "name": "pelvis_bone",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\pelvis_bone.svg",
+  "src": "T02_Bones p2"
+ },
+ {
+  "name": "osteoclast_precursors",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\osteoclast_precursors.svg",
+  "src": "幻灯片14.svg",
+  "w": 460,
+  "h": 215
+ },
+ {
+  "name": "trabecular_4grid",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\trabecular_4grid.svg",
+  "src": "幻灯片12.svg",
+  "w": 860,
+  "h": 445
+ },
+ {
+  "name": "lipoprotein",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\lipoprotein.svg",
+  "src": "幻灯片3.svg",
+  "w": 550,
+  "h": 470
+ },
+ {
+  "name": "liver_clean",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\liver_clean.svg",
+  "src": "幻灯片12.svg",
+  "w": 575,
+  "h": 350
+ },
+ {
+  "name": "bone_remodeling_cycle",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\bone_remodeling_cycle.svg",
+  "src": "幻灯片14.svg",
+  "w": 850,
+  "h": 380
+ },
+ {
+  "name": "nucleus",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\nucleus.svg",
+  "src": "幻灯片10.svg",
+  "w": 560,
+  "h": 290
+ },
+ {
+  "name": "fat_tissue",
+  "category": "cns",
+  "svg": "C:/Users/zy/.workbuddy/skills/ai-figure-studio/assets\\cns\\fat_tissue.svg",
+  "src": "幻灯片10.svg",
+  "w": 480,
+  "h": 335
+ }
+]

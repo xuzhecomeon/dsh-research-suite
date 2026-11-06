@@ -1,5 +1,3 @@
-<!-- source: aris-paper-illustration-image2 @ aris-paper-illustration-image2 | domain: figures -->
-
 ---
 name: aris-paper-illustration-image2
 description: "Generate publication-quality academic illustrations through a local Codex app-server bridge that uses Codex native image generation. This is a separate experimental alternative to `paper-illustration`, intended for Claude Code users who want a GPT-image-style renderer without modifying the original skill."

@@ -1,5 +1,3 @@
-<!-- source: stable-baselines3 @ stable-baselines3 | domain: stats -->
-
 ---
 name: stable-baselines3
 description: Production-ready reinforcement learning algorithms (PPO, SAC, DQN, TD3, DDPG, A2C) with scikit-learn-like API. Use for standard RL experiments, quick prototyping, and well-documented algorithm implementations. Best for single-agent RL with Gymnasium environments. For high-performance parallel training, multi-agent systems, or custom vectorized environments, use pufferlib instead.

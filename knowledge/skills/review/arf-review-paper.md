@@ -1,5 +1,3 @@
-<!-- source: arf-review-paper @ arf-review-paper | domain: review -->
-
 ---
 name: arf-review-paper
 description: Run an 8-agent pre-submission referee report for an academic paper targeting a specified journal

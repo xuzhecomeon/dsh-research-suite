@@ -1,5 +1,3 @@
-<!-- source: figures-python @ figures-python | domain: figures -->
-
 ---
 name: figures-python
 description: Use when creating data visualizations for papers - generates publication-quality plots with top-journal color schemes

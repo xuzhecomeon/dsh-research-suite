@@ -1,0 +1,12 @@
+{
+  "name": "PPT设计",
+  "installedAt": 1788175850201,
+  "source": "marketplace",
+  "version": "1.0.29",
+  "skillId": "skill_2091019232211320832",
+  "description_zh": "使用美图设计室的「PPT设计」专家 Skill，一句话/一段话生成完整PPT。",
+  "description_en": "Slides from a single prompt.",
+  "iconSource": "https://openplatform-cdn.codebuddy.cn/public/2202d28d-910f-4c97-9c2e-6c8a67e90b7e/avatar/skill/au_4326936f-eff.jpg",
+  "iconLocalPath": "C:\\Users\\zy\\.workbuddy\\skills\\ppt-design\\_icon.jpg",
+  "iconDownloadedFrom": "https://openplatform-cdn.codebuddy.cn/public/2202d28d-910f-4c97-9c2e-6c8a67e90b7e/avatar/skill/au_4326936f-eff.jpg"
+}

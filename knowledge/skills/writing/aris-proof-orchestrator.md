@@ -1,5 +1,3 @@
-<!-- source: aris-proof-orchestrator @ aris-proof-orchestrator | domain: writing -->
-
 ---
 name: aris-proof-orchestrator
 description: "Manage a stateful, run-directory-based proof project: continuation across runs, run-local source bookkeeping, manual GPT Pro handoff packages when a local attempt stalls, and an optional DeepSeek second opinion as additional evidence only. Use when the user asks for proof-run orchestration, a GPT Pro handoff, or cross-run proof continuation — use /proof-writer for ordinary proof drafting and /proof-checker for rigorous verification or submission acceptance."

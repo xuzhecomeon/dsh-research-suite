@@ -1,5 +1,3 @@
-<!-- source: paper-slide-deck @ paper-slide-deck | domain: slides -->
-
 ---
 name: paper-slide-deck
 description: Generate professional slide deck images from academic papers and content. Creates comprehensive outlines with style instructions, auto-detects figures from PDFs, then generates individual slide images. Use when user asks to "create slides", "make a presentation", "generate deck", or "slide deck" for papers.

@@ -9,6 +9,38 @@
 - 待定：各域能力卡的最终数量与融合细节以 `data/capabilities/*.json` 为准，本节的域级统计待主控在内容定稿后回填。TODO(lead)
 - 待定：`scripts/selftest.mjs` 的加载期 smoke test 用例清单。TODO(lead)
 
+## [3.0.0] - 2026-11-06
+
+v3 不动运行架构，动的是**知识层**：把 719 篇「按关键词贴上域标签」的技能原文，换成 592 个**逐条判定过、带自带资产**的源技能，并为每一条判定留下可审计的账本。同时修掉一个会让 DSH Desktop 起不来的配置事故。
+
+### 新增
+
+- **592 个源技能的逐条判定账本**：`data/ledger/<domain>.json` 为每个源技能记一条判定（`fused` / `index-only` / `deprecated` / `out-of-scope` + 理由 + 融进哪些能力卡），对「每个技能都学过、择优录取」的要求给出可审计证据；`scripts/verify-ledger.mjs` 校验账本覆盖度（与 `knowledge/catalog.json` 的 `dir` 集合逐一对齐）与 `fused` 判定能否在能力卡 `members` 里核到。
+- **第 10 个能力域 `data`（数据库与组学数据）**：覆盖 GEO / TCGA / dbGaP / UK Biobank / ClinVar 等数据库检索、组学数据获取与整理。
+- **toolbox 索引桶**：233 个工具类技能归入 `toolbox` 域，只进 `research_catalog` 检索与 `research_kb_read` 深读，**不产能力卡**——工具是手段，不是「用户要办的一件事」。
+- **技能自带资产随包分发**：除正文外，收录源技能的 `references/`、`scripts/`、`templates/`（文本/代码类白名单扩展名、单文件 ≤256KB、用户级整包 ≤260KB、内置技能 ≤5MB）。当前 451 个技能带资产、共 3924 个文件、约 29 MB。
+- **`research_kb_read` 新增 `asset` 参数**：`research_kb_read(name, asset='scripts/plot.py')` 直接读技能自带的脚本/参考/模板；不给 `asset` 时列出该技能带了哪些资产。
+- **知识库索引重建**：`knowledge/catalog.json` 592 条，字段扩展为 `name / dir / slug / domain / source / category / layer / bytes / file / description / whenToUse / assets`，并新增 `knowledge/stats.json` 的资产统计。
+
+### 修复
+
+- **DSH Desktop 启动失败（v2.0.0 上线当天）**：`lib/index.js` 曾对外 `export const Config`（Standard Schema + `toJSON()` 返回 JSON Schema）。Host 的 settings 服务会把 `toJSON()` 结果当 **schemastery 信封**用 `new Schema(json)` 水合，`schema.meta` 为 `undefined` → 读 `.volatile` 抛 `Cannot read properties of undefined (reading 'volatile')` → Desktop 起不来（`The application could not start`）。**现已删除 `Config`**，配置改由 `apply()` 内的 `validateConfig()` 兜底到 `DEFAULTS`；副作用是 settings 面板里暂时没有本插件的配置项，覆盖配置写在 profile 的 `cordis.patch.yml` entry `config:` 里。详见 `docs/ARCHITECTURE.md` §5.3。
+- **源技能名带引号**（frontmatter 引号未剥离）导致能力卡成员匹配不到的问题，交由知识库构建侧修正（`scripts/verify-package.mjs` 现在会对带引号的 `name` 报错）。
+
+### 变更
+
+- **源技能 719 → 592**：v2 的 719 里包含 162 个噪声/错标技能（工程类、生活类、重复收录），v3 全部剔除或降为 `out-of-scope`，每条都留在账本里可查。
+- **能力域 9 → 10**（新增 `data`），能力卡数量与域内聚类相应重做；能力卡总数以 `data/capabilities/*.json` 为准。
+- **工具面**：仍是 7 个工具（`research_playbook` / `research_capability` / `research_catalog` / `research_kb_read` / `research_standard` / `research_gate` / `research_suite_status`），`research_catalog` 与 `research_kb_read` 增加资产维度，`research_suite_status` 装载自检改为读 592 条索引与资产统计。
+- **技能面**：11 个技能（1 入口 + 10 域 SOP）。
+- **包体**：592 篇原文 + 3924 个资产文件（约 29 MB）随包分发，仍保持「运行时不读取任何外部技能目录」的自包含约束；体量较 v2 明显增大，`npm pack` 体积以发布时实测为准。
+- **文档与 CI**：`docs/ARCHITECTURE.md` 新增「v3 知识层与判定账本」与 Config 事故复盘；`docs/PUBLISH.md` 按 3.0.0 更新；`.github/workflows/ci.yml` 增加 `verify-ledger.mjs` 步骤；两份 README 更新为 10 域 / 592 技能 / 资产与 `asset` 参数。
+
+### 移除
+
+- 移除对外导出的 `Config`（崩溃根因，见上）。
+- 移除 v2 的 719 条 catalog、`general` 域桶（改为 `toolbox` 索引桶）与旧的按标签自动聚类的域标注。
+
 ## [2.0.0] - 2026-11-04
 
 v2 是一次**架构级重写**，不是 v1 的增量修复。三处硬伤决定了必须重写：机械单选"首选技能"没有真正融合、误用 DSH 技能注册 API 导致技能全部注册失败、完全没有自动触发机制。

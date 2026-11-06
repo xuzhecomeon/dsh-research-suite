@@ -1,5 +1,3 @@
-<!-- source: scientific-graphical-abstract-skill__skillhub @ scientific-graphical-abstract-skill__skillhub | domain: writing -->
-
 # Scientific Graphical Abstract Generator
 
 > **AI-Powered Scientific Visualization Tool** - Generate editable graphical abstracts for research papers

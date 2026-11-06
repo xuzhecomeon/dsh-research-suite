@@ -1,0 +1,272 @@
+[
+ {
+  "name": "microscope_fluorescence",
+  "category": "instruments",
+  "w": 191,
+  "h": 188,
+  "desc": "Fluorescence super-resolution microscope, 3D isometric",
+  "source": "P01 Fig.1",
+  "paths": 143,
+  "svg": "instruments/microscope_fluorescence.svg"
+ },
+ {
+  "name": "cell_multicolor_organelles",
+  "category": "cells",
+  "w": 305,
+  "h": 190,
+  "desc": "Cell with multicolor organelle labeling network",
+  "source": "P01 Fig.1",
+  "paths": 506,
+  "svg": "cells/cell_multicolor_organelles.svg"
+ },
+ {
+  "name": "cytoskeleton_network",
+  "category": "cells",
+  "w": 210,
+  "h": 190,
+  "desc": "Cytoskeleton / mitochondria dense network field",
+  "source": "P01 Fig.1",
+  "paths": 423,
+  "svg": "cells/cytoskeleton_network.svg"
+ },
+ {
+  "name": "membrane_receptor_scheme",
+  "category": "molecules",
+  "w": 172,
+  "h": 188,
+  "desc": "Plasma membrane with receptors and ligands",
+  "source": "P01 Fig.1",
+  "paths": 231,
+  "svg": "molecules/membrane_receptor_scheme.svg"
+ },
+ {
+  "name": "tag_renewal_cycle",
+  "category": "icons",
+  "w": 392,
+  "h": 210,
+  "desc": "Self-renewable tag cycle (fading / photobleach / self-renew)",
+  "source": "P01 Fig.1",
+  "paths": 248,
+  "svg": "icons/tag_renewal_cycle.svg"
+ },
+ {
+  "name": "dish_culture_1",
+  "category": "containers",
+  "w": 255,
+  "h": 155,
+  "desc": "3D culture dish with medium and cells",
+  "source": "P01 Fig.1",
+  "paths": 121,
+  "svg": "containers/dish_culture_1.svg"
+ },
+ {
+  "name": "dish_culture_2",
+  "category": "containers",
+  "w": 255,
+  "h": 155,
+  "desc": "3D culture dish with medium and cells (variant)",
+  "source": "P01 Fig.1",
+  "paths": 148,
+  "svg": "containers/dish_culture_2.svg"
+ },
+ {
+  "name": "dish_culture_3",
+  "category": "containers",
+  "w": 255,
+  "h": 155,
+  "desc": "3D culture dish with medium and cells (variant)",
+  "source": "P01 Fig.1",
+  "paths": 120,
+  "svg": "containers/dish_culture_3.svg"
+ },
+ {
+  "name": "pipette_micropipette",
+  "category": "instruments",
+  "w": 124,
+  "h": 86,
+  "desc": "Micropipette with droplet (angled)",
+  "source": "P01 Fig.1",
+  "paths": 40,
+  "svg": "instruments/pipette_micropipette.svg"
+ },
+ {
+  "name": "vial_reagent_powder",
+  "category": "containers",
+  "w": 88,
+  "h": 148,
+  "desc": "Reagent vial with powder (NaBH4)",
+  "source": "P01 Fig.1",
+  "paths": 55,
+  "svg": "containers/vial_reagent_powder.svg"
+ },
+ {
+  "name": "cell_purple_nucleus_live",
+  "category": "cells",
+  "w": 156,
+  "h": 95,
+  "desc": "Irregular cell, purple nucleus (live-cell)",
+  "source": "P01 Fig.1",
+  "paths": 9,
+  "svg": "cells/cell_purple_nucleus_live.svg"
+ },
+ {
+  "name": "cell_purple_nucleus_fixed",
+  "category": "cells",
+  "w": 164,
+  "h": 114,
+  "desc": "Irregular cell, purple nucleus (fixed-cell)",
+  "source": "P01 Fig.1",
+  "paths": 5,
+  "svg": "cells/cell_purple_nucleus_fixed.svg"
+ },
+ {
+  "name": "cell_surface_modified",
+  "category": "cells",
+  "w": 198,
+  "h": 118,
+  "desc": "Beige cell with surface-modified proteins",
+  "source": "P01 Fig.1",
+  "paths": 27,
+  "svg": "cells/cell_surface_modified.svg"
+ },
+ {
+  "name": "cell_nonspecific_binding",
+  "category": "cells",
+  "w": 207,
+  "h": 138,
+  "desc": "Pink cell after non-specific binding",
+  "source": "P01 Fig.1",
+  "paths": 81,
+  "svg": "cells/cell_nonspecific_binding.svg"
+ },
+ {
+  "name": "protein_pink_pocket",
+  "category": "molecules",
+  "w": 56,
+  "h": 50,
+  "desc": "Protein cartoon with binding pocket (pink, unbound)",
+  "source": "P01 Fig.1",
+  "paths": 6,
+  "svg": "molecules/protein_pink_pocket.svg"
+ },
+ {
+  "name": "protein_bound_state",
+  "category": "molecules",
+  "w": 62,
+  "h": 60,
+  "desc": "Protein cartoon (bound state, ligand fitted)",
+  "source": "P01 Fig.1",
+  "paths": 13,
+  "svg": "molecules/protein_bound_state.svg"
+ },
+ {
+  "name": "protein_beige_hydrophobic",
+  "category": "molecules",
+  "w": 100,
+  "h": 101,
+  "desc": "Beige protein with chemical structure",
+  "source": "P01 Fig.1",
+  "paths": 30,
+  "svg": "molecules/protein_beige_hydrophobic.svg"
+ },
+ {
+  "name": "blocking_agents_icons",
+  "category": "icons",
+  "w": 48,
+  "h": 48,
+  "desc": "Blocking agent small molecules (3 dots)",
+  "source": "P01 Fig.1",
+  "paths": 4,
+  "svg": "icons/blocking_agents_icons.svg"
+ },
+ {
+  "name": "greenhouse_soilless_array",
+  "category": "containers",
+  "w": 210,
+  "h": 120,
+  "desc": "Greenhouse array with soilless cultivation trays (solar desalination)",
+  "source": "P02 Fig.1",
+  "paths": 616,
+  "svg": "containers/greenhouse_soilless_array.svg"
+ },
+ {
+  "name": "bioevaporator_block",
+  "category": "materials",
+  "w": 90,
+  "h": 60,
+  "desc": "Porous bioevaporator block (red, 3D)",
+  "source": "P02 Fig.1",
+  "paths": 64,
+  "svg": "materials/bioevaporator_block.svg"
+ },
+ {
+  "name": "fibril_bundle",
+  "category": "molecules",
+  "w": 45,
+  "h": 65,
+  "desc": "Amyloid fibril bundle (wavy filaments)",
+  "source": "P02 Fig.1",
+  "paths": 12,
+  "svg": "molecules/fibril_bundle.svg"
+ },
+ {
+  "name": "building_cluster",
+  "category": "icons",
+  "w": 100,
+  "h": 90,
+  "desc": "Residential building cluster (isometric)",
+  "source": "P02 Fig.1",
+  "paths": 60,
+  "svg": "icons/building_cluster.svg"
+ },
+ {
+  "name": "soybean_pods",
+  "category": "organisms",
+  "w": 55,
+  "h": 130,
+  "desc": "Soybean pods (two)",
+  "source": "P02 Fig.1",
+  "paths": 43,
+  "svg": "organisms/soybean_pods.svg"
+ },
+ {
+  "name": "fertilizer_icon",
+  "category": "icons",
+  "w": 60,
+  "h": 50,
+  "desc": "Fertilizer icon (turtle-shaped, granular)",
+  "source": "P02 Fig.1",
+  "paths": 34,
+  "svg": "icons/fertilizer_icon.svg"
+ },
+ {
+  "name": "food_products_bag",
+  "category": "containers",
+  "w": 60,
+  "h": 65,
+  "desc": "Food and high-value products (bag with grains)",
+  "source": "P02 Fig.1",
+  "paths": 44,
+  "svg": "containers/food_products_bag.svg"
+ },
+ {
+  "name": "soybean_meal_block",
+  "category": "materials",
+  "w": 65,
+  "h": 50,
+  "desc": "Soybean meal block (granular)",
+  "source": "P02 Fig.1",
+  "paths": 16,
+  "svg": "materials/soybean_meal_block.svg"
+ },
+ {
+  "name": "sun_icon",
+  "category": "icons",
+  "w": 51,
+  "h": 55,
+  "desc": "Sun icon (yellow, radial glow)",
+  "source": "P02 Fig.1",
+  "paths": 5,
+  "svg": "icons/sun_icon.svg"
+ }
+]

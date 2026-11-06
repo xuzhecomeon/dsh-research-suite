@@ -1,5 +1,3 @@
-<!-- source: scholar-conceptual @ scholar-conceptual | domain: figures -->
-
 ---
 name: scholar-conceptual
 description: "Build original theoretical frameworks and produce publication-quality conceptual diagrams for social science research. Two modes: (1) THEORIZE — construct new theories from empirical puzzles using typology construction (property-space analysis), process theorizing, mechanism specification (Coleman's boat, Hedström DBO), scope condition mapping, multi-level models, abductive inference, and synthetic framework integration; (2) DIAGRAM — generate conceptual figures (mechanism diagrams, multi-level models, typology matrices, process/temporal models, concept maps, feedback loops, scope boundaries) as publication-ready TikZ/PDF or Mermaid/SVG with journal-specific formatting. Distinct from scholar-hypothesis (which selects FROM existing theories to derive testable hypotheses) — this skill builds the theories themselves. Distinct from scholar-causal (which builds DAGs for identification) — this skill represents conceptual relationships, not causal identification."

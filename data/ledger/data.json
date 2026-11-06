@@ -1,0 +1,288 @@
+{
+  "domain": "data",
+  "version": "3.0.0",
+  "sourceTotal": 40,
+  "note": "v3 新建域，v2 无基线。判定口径：能用本地脚本、官方 REST／FTP／GraphQL 接口直接取数的进卡（fused）；需付费账号、需人工登录浏览器、需把个体级数据上传第三方平台的降级为 deprecated 并在 why 写明通道限制；与取数注释无关的判 out-of-scope 并注明应归域。",
+  "entries": [
+    {
+      "dir": "wos_search",
+      "name": "wos-search",
+      "verdict": "out-of-scope",
+      "why": "WoS 高级检索属文献域：需机构订阅与人工登录浏览器，不产出本域要的取数与注释对象",
+      "cards": []
+    },
+    {
+      "dir": "adaptyv",
+      "name": "adaptyv",
+      "verdict": "deprecated",
+      "why": "云实验室蛋白测试需 API key 与付费通道，且要把序列上传第三方，与本地处理闸门冲突",
+      "cards": []
+    },
+    {
+      "dir": "alphafold-database",
+      "name": "alphafold-database",
+      "verdict": "fused",
+      "why": "按 accession 取预测结构与 pLDDT／PAE，模型版本可固定，是本域结构取数的预测通道",
+      "cards": ["data.protein-structure"]
+    },
+    {
+      "dir": "arf-explain-diff",
+      "name": "arf-explain-diff",
+      "verdict": "out-of-scope",
+      "why": "读代码 diff 生成离线讲解页，属工程协作辅助，与科研数据获取与注释无关",
+      "cards": []
+    },
+    {
+      "dir": "arf-paper-version",
+      "name": "arf-paper-version",
+      "verdict": "out-of-scope",
+      "why": "把 LaTeX 论文转政策简报与网页，属写作与传播产物，应归 writing 域",
+      "cards": []
+    },
+    {
+      "dir": "bindingdb-database",
+      "name": "bindingdb-database",
+      "verdict": "fused",
+      "why": "按 UniProt 靶点取实测 Ki／Kd 并支持整包下载，是小分子亲和力取数的第二来源",
+      "cards": ["data.chem-target"]
+    },
+    {
+      "dir": "brenda-database",
+      "name": "brenda-database",
+      "verdict": "deprecated",
+      "why": "SOAP 接口需单独申请认证凭据，凭据即账号且不可自动化，按本域硬规则降级",
+      "cards": []
+    },
+    {
+      "dir": "cbioportal-database",
+      "name": "cbioportal-database",
+      "verdict": "fused",
+      "why": "TCGA 与 GENIE 的表达、突变、临床与生存可取，datahub 打包文件可离线复现",
+      "cards": ["data.expression-reuse"]
+    },
+    {
+      "dir": "chembl-database",
+      "name": "chembl-database",
+      "verdict": "fused",
+      "why": "活性记录带靶点与测定条件，药物与适应症成体系，字段过滤语法适合批量筛",
+      "cards": ["data.chem-target"]
+    },
+    {
+      "dir": "clinpgx-database",
+      "name": "clinpgx-database",
+      "verdict": "fused",
+      "why": "开放接口无需认证，给基因-药物对与 CPIC 指南，是变异药物基因组注释的证据源",
+      "cards": ["data.variant-annot"]
+    },
+    {
+      "dir": "clinvar-database",
+      "name": "clinvar-database",
+      "verdict": "fused",
+      "why": "分级与审核星级齐全，E-utilities 与 FTP 两通道，批量注释可离线做",
+      "cards": ["data.variant-annot", "data.provenance"]
+    },
+    {
+      "dir": "cobrapy",
+      "name": "cobrapy",
+      "verdict": "out-of-scope",
+      "why": "约束建模与通量分析工具，属计算建模而非数据获取，应归 stats 或建模场景",
+      "cards": []
+    },
+    {
+      "dir": "cosmic-database",
+      "name": "cosmic-database",
+      "verdict": "deprecated",
+      "why": "需注册账号，官方脚本要求明文传入邮箱与密码，凭据风险高，按硬规则弃用",
+      "cards": []
+    },
+    {
+      "dir": "depmap",
+      "name": "depmap",
+      "verdict": "fused",
+      "why": "按基因取 CRISPR 依赖性打分，细胞系谱系分布可看选择性，版本命名清晰",
+      "cards": ["data.expression-reuse"]
+    },
+    {
+      "dir": "dnanexus-integration",
+      "name": "dnanexus-integration",
+      "verdict": "deprecated",
+      "why": "云基因组平台需账号且要把 FASTQ／BAM 上传云端，与只本地处理的闸门直接冲突",
+      "cards": []
+    },
+    {
+      "dir": "drugbank-database",
+      "name": "drugbank-database",
+      "verdict": "deprecated",
+      "why": "下载器需在官方站点注册并接受许可协议，含商用限制，账号流程无法自动化",
+      "cards": []
+    },
+    {
+      "dir": "ena-database",
+      "name": "ena-database",
+      "verdict": "fused",
+      "why": "原始读段与运行记录检索齐全，直链便于批量与续传下载，补 GEO 原始数据缺口",
+      "cards": ["data.omics-download"]
+    },
+    {
+      "dir": "ensembl-database",
+      "name": "ensembl-database",
+      "verdict": "fused",
+      "why": "坐标、转录本与 VEP 预测可取，GRCh37 与 GRCh38 双端点，旧项目可锁版本",
+      "cards": ["data.gene-idmap"]
+    },
+    {
+      "dir": "gene-database",
+      "name": "gene-database",
+      "verdict": "fused",
+      "why": "符号、ID、GO 与定位检索齐全，Datasets API 一次给全，限速与错误处理写明",
+      "cards": ["data.gene-idmap"]
+    },
+    {
+      "dir": "geo-database",
+      "name": "geo-database",
+      "verdict": "fused",
+      "why": "GSE 层级与 GEOparse 取矩阵讲得最细，destdir 本地缓存让同批数据可复跑",
+      "cards": ["data.omics-download", "data.provenance"]
+    },
+    {
+      "dir": "ginkgo-cloud-lab",
+      "name": "ginkgo-cloud-lab",
+      "verdict": "deprecated",
+      "why": "云实验室需账号或机构准入，要上传 FASTA 或图像，付费与第三方上传两条都触线",
+      "cards": []
+    },
+    {
+      "dir": "glycoengineering",
+      "name": "glycoengineering",
+      "verdict": "index-only",
+      "why": "本地正则扫糖基化位点可用，但只服务蛋白工程，不构成独立取数能力，仅作索引",
+      "cards": []
+    },
+    {
+      "dir": "gnomad-database",
+      "name": "gnomad-database",
+      "verdict": "fused",
+      "why": "GraphQL 取群体频率与 pLI／LOEUF 约束指标，是变异分级里频率核对的必备来源",
+      "cards": ["data.variant-annot"]
+    },
+    {
+      "dir": "gtex-database",
+      "name": "gtex-database",
+      "verdict": "fused",
+      "why": "组织层中位表达与样本数可批量取，须用带版本 GENCODE ID，口径讲得清",
+      "cards": ["data.expression-reuse"]
+    },
+    {
+      "dir": "gwas-database",
+      "name": "gwas-database",
+      "verdict": "fused",
+      "why": "研究、关联与汇总统计三层接口加 FTP 批次目录，更新节律与引用要求有专节",
+      "cards": ["data.gwas-eqtl", "data.provenance"]
+    },
+    {
+      "dir": "hmdb-database",
+      "name": "hmdb-database",
+      "verdict": "fused",
+      "why": "代谢物理化性质、谱图与通路关联齐全，数据集可下载，学术非商业条款写明",
+      "cards": ["data.metab-omics"]
+    },
+    {
+      "dir": "interpro-database",
+      "name": "interpro-database",
+      "verdict": "fused",
+      "why": "结构域、家族与位点条目可取并映射 GO，批量与按分类学检索都支持",
+      "cards": ["data.protein-structure"]
+    },
+    {
+      "dir": "jaspar-database",
+      "name": "jaspar-database",
+      "verdict": "fused",
+      "why": "转录因子矩阵可取可扫双链，能评估变异对结合的影响，作调控区注释补强",
+      "cards": ["data.variant-annot"]
+    },
+    {
+      "dir": "kegg-database",
+      "name": "kegg-database",
+      "verdict": "fused",
+      "why": "通路图与成员表直观，conv 可换多种标识符，仅限学术用途须在取数阶段声明",
+      "cards": ["data.pathway-ppi"]
+    },
+    {
+      "dir": "latchbio-integration",
+      "name": "latchbio-integration",
+      "verdict": "deprecated",
+      "why": "需 latch login 账号凭据并把工作流部署到平台，数据经第三方，与本地处理闸门冲突",
+      "cards": []
+    },
+    {
+      "dir": "metabolomics-workbench-database",
+      "name": "metabolomics-workbench-database",
+      "verdict": "fused",
+      "why": "研究级数据按编号直取，RefMet 提供命名标准化，跨研究合并全靠这一层",
+      "cards": ["data.metab-omics"]
+    },
+    {
+      "dir": "opentargets-database",
+      "name": "opentargets-database",
+      "verdict": "fused",
+      "why": "靶点与疾病实体检索一次拿 ENSG 与 EFO，证据分层汇总，可判靶点证据强度",
+      "cards": ["data.expression-reuse"]
+    },
+    {
+      "dir": "pdb-database",
+      "name": "pdb-database",
+      "verdict": "fused",
+      "why": "文本与属性查询接口可用，可按物种与方法筛结构，旧接口弃用需换新包",
+      "cards": ["data.protein-structure"]
+    },
+    {
+      "dir": "pubchem-database",
+      "name": "pubchem-database",
+      "verdict": "fused",
+      "why": "名称、CID、SMILES 三向检索，性质、结构与活性注释齐全，是小分子取数主入口",
+      "cards": ["data.chem-target"]
+    },
+    {
+      "dir": "r-pharmacology-singlecell-mr",
+      "name": "r-pharmacology-singlecell-mr",
+      "verdict": "fused",
+      "why": "本地 PLINK 加参考面板做 clump、bitr 映射与 EAF 校正可移植，铁律是凭据不入脚本",
+      "cards": ["data.gene-idmap", "data.gwas-eqtl"]
+    },
+    {
+      "dir": "reactome-database",
+      "name": "reactome-database",
+      "verdict": "fused",
+      "why": "通路层级与反应级细节完整，版本端点可查，旧 Python 封装停更需直调 REST",
+      "cards": ["data.pathway-ppi"]
+    },
+    {
+      "dir": "scientific-thinking-biology__skillhub",
+      "name": "scientific-thinking-biology",
+      "verdict": "out-of-scope",
+      "why": "生物层级推理框架，属论证与选题方法，不产出可核对的数据对象，应归 ideation 或 review",
+      "cards": []
+    },
+    {
+      "dir": "string-database",
+      "name": "string-database",
+      "verdict": "fused",
+      "why": "标识映射与网络取数脚本齐全，版本化 URL 加版本接口，限速要求明确可执行",
+      "cards": ["data.pathway-ppi", "data.provenance"]
+    },
+    {
+      "dir": "uniprot-database",
+      "name": "uniprot-database",
+      "verdict": "fused",
+      "why": "蛋白主记录、ID mapping 与 FASTA 可取，查询语法丰富，是跨库映射的枢纽",
+      "cards": ["data.gene-idmap"]
+    },
+    {
+      "dir": "zinc-database",
+      "name": "zinc-database",
+      "verdict": "fused",
+      "why": "按编号或 SMILES 取可购化合物与三维结构，tranche 标明可购层级，适合对接库准备",
+      "cards": ["data.chem-target"]
+    }
+  ]
+}

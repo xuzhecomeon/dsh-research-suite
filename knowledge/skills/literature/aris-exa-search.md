@@ -1,5 +1,3 @@
-<!-- source: aris-exa-search @ aris-exa-search | domain: literature -->
-
 ---
 name: aris-exa-search
 description: AI-powered web search via Exa with content extraction. Use when user says "exa search", "web search with content", "find similar pages", or needs broad web results beyond academic databases (arXiv, Semantic Scholar).

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Life Sciences Literature Search"
+  short_description: "Plan and synthesize traceable life-science evidence"
+  default_prompt: "Use $life-sciences-literature-search to choose the right life-science scenario and depth, run an auditable multi-source search, and return typed evidence with traceable citations and limitations."
+
+policy:
+  allow_implicit_invocation: true

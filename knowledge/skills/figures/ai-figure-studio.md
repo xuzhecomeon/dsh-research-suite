@@ -1,5 +1,3 @@
-<!-- source: ai-figure-studio @ ai-figure-studio | domain: figures -->
-
 ---
 name: ai-figure-studio
 description: 论文插图 AI 绘制工作室 —— 从论文 PDF 提取机制图/流程图/实验示意图，逐张临摹为可编辑矢量（活字文字 + 语义分组 + 全英文），并通读全文后重绘原创机制图，最终在 Adobe Illustrator 中输出 .ai 文件。当用户提到「临摹论文图」「重绘机制图」「AI 绘图」「生成 .ai 插画」「画流程图/示意图/机制图/图形摘要」时使用。本 skill 承载用户在长期训练中确立的全部硬性标准与技术经验，每次迭代须回写更新。
@@ -36,14 +34,14 @@ keywords: Illustrator, AI绘图, 论文插图, 机制图, 流程图, 临摹, 重
 ## 二、环境与硬约束（本机实测，2026-09-27）
 
 - **AI 版本**：Adobe Illustrator 2025 (v29.5.0)，中文版
-- **主程序**：`<APP_DIR>\adobe\AI\Adobe Illustrator 2025\Support Files\Contents\Windows\Illustrator.exe`
-- **脚本菜节目录**：`<APP_DIR>\adobe\AI\Adobe Illustrator 2025\Presets\zh_CN\脚本\`（注意目录名是中文「脚本」）
+- **主程序**：`D:\软件安装\adobe\AI\Adobe Illustrator 2025\Support Files\Contents\Windows\Illustrator.exe`
+- **脚本菜节目录**：`D:\软件安装\adobe\AI\Adobe Illustrator 2025\Presets\zh_CN\脚本\`（注意目录名是中文「脚本」）
 - **COM 直连不可用**：flue/DoJavaScript 在此环境永久挂起；原因：AI 由用户桌面会话启动，助手进程在隔离上下文，Windows 禁止跨会话 COM 调用（`CO_E_SERVER_EXEC_FAILURE` / `MK_E_UNAVAILABLE`）。
   → **必须由用户运行一次脚本**（脚本内可批量处理所有文件，用户不必逐张操作）
 - **AI 必须用户手动启动**：agent 启动的 Illustrator.exe 会在 1–2 分钟内静默退出（启动链路中 reg.exe 被安全策略拦截）
 - **模态对话框会阻塞脚本引擎**：运行脚本前必须关闭 AI 中所有对话框，否则脚本静默挂起
 
-**依赖（托管 venv：`<USER_HOME>\.workbuddy\binaries\python\envs\default`）**：
+**依赖（托管 venv：`C:\Users\zy\.workbuddy\binaries\python\envs\default`）**：
 `pymupdf`（PDF/渲染）、`vtracer`（矢量化）、`rapidocr-onnxruntime`（OCR）、`opencv-python`、`numpy`
 
 **SVG 渲染验证**：必须用 **Edge headless**（PyMuPDF 不支持 radialGradient 与负缩放）：
@@ -306,7 +304,7 @@ asset("instruments/microscope_fluorescence.svg", 100, 400, scale=0.8)
 
 **用法**（在任意 AI 脚本中）：
 ```javascript
-$.evalFile(new File("<USER_HOME>/.workbuddy/skills/ai-figure-studio/scripts/assets_lib.jsx"));
+$.evalFile(new File("C:/Users/zy/.workbuddy/skills/ai-figure-studio/scripts/assets_lib.jsx"));
 var doc = app.documents.add(DocumentColorSpace.RGB, 1200, 800);
 draw_cell_purple_nucleus_live(doc, 100, 700, 1.5);   // (doc, x, y, scale)
 draw_microscope_fluorescence(doc, 400, 700, 1.0);
@@ -352,7 +350,7 @@ draw_microscope_fluorescence(doc, 400, 700, 1.0);
    - 新流程 → 更新 §三 对应阶段
 4. **状态汇报**：更新 §七 任务进度表
 
-**当前工作目录**：`<USER_HOME>\WorkBuddy\2026-09-27-08-36-54\paper-figures\`
+**当前工作目录**：`C:\Users\zy\WorkBuddy\2026-09-27-08-36-54\paper-figures\`
 （每篇论文一个 `Pxx/` 文件夹：`original_FigN.png` / `Pxx_replica_live.svg` / `Pxx_redraw_pro.svg` / OCR json / 预览 PNG）
 
 ---

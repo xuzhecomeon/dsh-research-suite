@@ -1,5 +1,3 @@
-<!-- source: format-references-zotero @ format-references-zotero | domain: format -->
-
 ---
 name: format-references-zotero
 description: >

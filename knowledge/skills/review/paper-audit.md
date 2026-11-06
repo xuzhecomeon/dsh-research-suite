@@ -1,5 +1,3 @@
-<!-- source: paper-audit @ paper-audit | domain: review -->
-
 ---
 name: paper-audit
 description: Reviewer-style audit and submission gate for academic papers in .tex, .typ, or .pdf. Use for peer-review critique, readiness/gate decisions, blocker triage, revision roadmaps, journal-style reports, re-audits, and under-claim / self-weakening prose signals. Do not use for source editing, sentence polishing, bibliography search, or compile repair.

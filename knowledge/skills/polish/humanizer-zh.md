@@ -1,5 +1,3 @@
-<!-- source: humanizer-zh @ humanizer-zh | domain: polish -->
-
 ---
 name: humanizer-zh
 description: 编辑中文文章、评论和文档中的空话、重复及模板化表达，让文字更自然，同时保留事实、确定程度和作者声音。适用于润色已有文本，不用于判断作者身份或保证通过 AI 检测器。触发词：去 AI 味、去除 AI 痕迹、去 AI 化、降 AI 味、写得像人写的、论文/综述/标书/科普去 AI 味。

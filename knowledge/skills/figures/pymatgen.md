@@ -1,5 +1,3 @@
-<!-- source: pymatgen @ pymatgen | domain: figures -->
-
 ---
 name: pymatgen
 description: Materials science toolkit. Crystal structures (CIF, POSCAR), phase diagrams, band structure, DOS, Materials Project integration, format conversion, for computational materials science.

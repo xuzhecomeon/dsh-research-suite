@@ -1,5 +1,3 @@
-<!-- source: idea-evaluator @ idea-evaluator | domain: ideation -->
-
 ---
 name: idea-evaluator
 description: >-

@@ -1,5 +1,3 @@
-<!-- source: aris-embodiment-description @ aris-embodiment-description | domain: ideation -->
-
 ---
 name: aris-embodiment-description
 description: "Write detailed embodiment descriptions for patent specifications. Use when user says \"撰写实施例\", \"write embodiment\", \"实施例描述\", \"detailed description\", or wants to describe how to practice an invention."

@@ -1,34 +1,35 @@
 {
-  "generatedAt": "2026-11-04T13:35:24.958Z",
-  "source": "WorkBuddy user-level skills (fully vendored; no runtime dependency)",
-  "totalSkills": 719,
-  "researchSkills": 489,
-  "totalBytes": 9918478,
-  "domains": {
-    "writing": 51,
-    "polish": 24,
-    "figures": 76,
-    "stats": 180,
-    "ideation": 33,
-    "review": 39,
-    "slides": 44,
-    "literature": 152,
-    "format": 32,
-    "general": 88
-  },
-  "corePerDomain": {
-    "writing": 40,
-    "polish": 20,
-    "figures": 40,
-    "stats": 40,
-    "ideation": 25,
-    "review": 28,
-    "slides": 40,
-    "literature": 40,
-    "format": 31
-  },
-  "duplicatedNames": 3,
-  "missingFrontmatter": 2,
-  "sanitizedFiles": 8,
-  "sanitizedMatches": 25
+ "generatedAt": "2026-11-06T13:32:25.475Z",
+ "byDomain": {
+  "writing": 66,
+  "polish": 12,
+  "figures": 36,
+  "stats": 31,
+  "ideation": 39,
+  "review": 21,
+  "slides": 37,
+  "literature": 26,
+  "format": 51,
+  "data": 40,
+  "toolbox": 233
+ },
+ "skipped": [],
+ "skills": 592,
+ "researchSkills": 592,
+ "domains": 11,
+ "assets": {
+  "files": 3924,
+  "bytes": 29100270,
+  "skillsOmitted": 46
+ },
+ "nameDuplicates": [
+  "scientific-visualization×3",
+  "docx×2",
+  "pdf×2",
+  "pdfkit-py×2",
+  "research-grants×2",
+  "memory-setup×2",
+  "literature-review×2",
+  "scientific-writing×2"
+ ]
 }

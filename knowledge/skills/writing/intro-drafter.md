@@ -1,5 +1,3 @@
-<!-- source: intro-drafter @ intro-drafter | domain: writing -->
-
 ---
 name: intro-drafter
 description: >-

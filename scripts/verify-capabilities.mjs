@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * verify-capabilities.mjs —— 能力卡静态校验（契约来源：docs/CAPABILITY-SPEC.md §3.1 / §3.2）
+ * verify-capabilities.mjs —— 能力卡静态校验（契约来源：docs/CAPABILITY-SPEC.md §3.1；能力数区间见本文件 DOMAIN_RANGE，v3 起为 10 个能力域）
  *
  * 用法：
  *   node scripts/verify-capabilities.mjs            # 等价于 all
@@ -20,17 +20,18 @@ const ROOT = path.resolve(HERE, '..');
 const CAP_DIR = path.join(ROOT, 'data', 'capabilities');
 const CATALOG = path.join(ROOT, 'knowledge', 'catalog.json');
 
-/** SPEC §3.2 每域能力数区间（下限, 上限） */
+/** SPEC §3.2 每域能力数区间（下限, 上限）；v3 起含第 10 域 data */
 const DOMAIN_RANGE = {
-  writing: [8, 12],
-  polish: [5, 7],
-  figures: [7, 10],
-  stats: [12, 18],
-  ideation: [5, 7],
-  review: [5, 8],
-  slides: [5, 7],
-  literature: [8, 12],
-  format: [5, 7],
+  writing: [10, 14],
+  polish: [4, 7],
+  figures: [8, 12],
+  stats: [14, 20],
+  ideation: [6, 9],
+  review: [6, 10],
+  slides: [6, 10],
+  literature: [9, 13],
+  format: [8, 12],
+  data: [6, 10],
 };
 
 const ID_RE = /^[a-z][a-z0-9]*\.[a-z0-9-]+$/;
@@ -255,7 +256,7 @@ function validateFile(domain, report, catalog, globalIds) {
   // —— 域级数量区间（SPEC §3.2）——
   const range = DOMAIN_RANGE[domain];
   if (!range) {
-    report.warn(rel, 'domain', `"${domain}" 不在 SPEC §3.2 的 9 个能力域内，无法核对能力数区间`);
+    report.warn(rel, 'domain', `"${domain}" 不在本脚本已知的 10 个能力域内，无法核对能力数区间`);
   } else {
     const [lo, hi] = range;
     if (caps.length < lo) report.error(rel, 'capabilities', `能力数 ${caps.length} 少于下限 ${lo}（聚类没做完）`);

@@ -1,5 +1,3 @@
-<!-- source: latex-paper-en @ latex-paper-en | domain: writing -->
-
 ---
 name: latex-paper-en
 description: English LaTeX assistant for existing .tex journal or conference papers. Use for compile repair, venue formatting, bibliography/citation checks, section writing, logic, related work, tables, pseudocode, de-AI polish, claim-forward (self-weakening) fixes, translation, adaptation, and submission readiness; use latex-thesis-zh for Chinese theses and paper-audit for critique.

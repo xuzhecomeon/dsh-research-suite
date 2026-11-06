@@ -1,5 +1,3 @@
-<!-- source: aris-paper-write @ aris-paper-write | domain: writing -->
-
 ---
 name: aris-paper-write
 description: "Draft LaTeX paper section by section from an outline. Use when user says \"写论文\", \"write paper\", \"draft LaTeX\", \"开始写\", or wants to generate LaTeX content from a paper plan."

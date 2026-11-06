@@ -1,5 +1,3 @@
-<!-- source: thesis-writing-companion @ thesis-writing-companion__skillhub | domain: writing -->
-
 ---
 name: thesis-writing-companion
 description: 论文写作全流程助手。覆盖从选题、开题、文献综述、研究方法、写作、修改润色、查重与 AIGC 检测、答辩到发表的完整论文生命周期；支持多语言（中文 / English / 日本語 / 한국어 / Français / Deutsch / Español / Português / Русский / العربية / Italiano）与 36 个学科，零配置、无需任何 外部密钥或付费接口 即可使用。触发词：论文、thesis、选题、开题、文献综述、研究方法、论文写作、查重、降重、答辩、引用格式、学术写作、dissertation、paper writing、毕业论文、研究生论文、怎么写论文。

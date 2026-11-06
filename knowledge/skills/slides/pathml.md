@@ -1,5 +1,3 @@
-<!-- source: pathml @ pathml | domain: slides -->
-
 ---
 name: pathml
 description: Full-featured computational pathology toolkit. Use for advanced WSI analysis including multiplexed immunofluorescence (CODEX, Vectra), nucleus segmentation, tissue graph construction, and ML model training on pathology data. Supports 160+ slide formats. For simple tile extraction from H&E slides, histolab may be simpler.

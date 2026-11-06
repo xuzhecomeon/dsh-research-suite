@@ -1,5 +1,3 @@
-<!-- source: pdfkit-py @ pdfkit-py | domain: format -->
-
 ---
 name: pdfkit-py
 description: 仅用于对已存在的 .pdf 文件进行处理（读取/提取/编辑/合并/拆分/转换/水印/加密/OCR/表单/签名）。当且仅当用户输入或工作区中存在 .pdf 文件，且操作对象是该 PDF 时使用。不处理 docx/xlsx/pptx/html/md/txt/图片等非 PDF 文件，不承担论文写作、文本润色、内容创作、项目管理、文档排版咨询等任务。
@@ -97,7 +95,7 @@ skill 加载时会提供 base directory，CLI 入口在 `./scripts/pdfkit.py`。
 
 ```powershell
 # ✅ 正确的 Windows PowerShell 调用方式
-& "<USER_HOME>\.codebuddy\skills\pdfkit-py\scripts\venv\Scripts\python.exe" "<USER_HOME>\.codebuddy\skills\pdfkit-py\scripts\pdfkit.py" split --input "D:\docs\file.pdf" --output_dir "D:\docs\output" --mode ranges --ranges "[[0,2]]"
+& "C:\Users\xxx\.codebuddy\skills\pdfkit-py\scripts\venv\Scripts\python.exe" "C:\Users\xxx\.codebuddy\skills\pdfkit-py\scripts\pdfkit.py" split --input "D:\docs\file.pdf" --output_dir "D:\docs\output" --mode ranges --ranges "[[0,2]]"
 
 # ❌ 错误：没有 & 运算符
 "C:\...\python.exe" "C:\...\pdfkit.py" split ...

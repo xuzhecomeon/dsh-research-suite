@@ -1,5 +1,3 @@
-<!-- source: r-trajectory-models @ r-trajectory-models | domain: stats -->
-
 ---
 name: r-trajectory-models
 description: 纵向数据轨迹模型（组基轨迹模型 GBTM / 潜类别增长模型 LCGM / 多变量轨迹 GBMTM）R 语言实战技能。覆盖宽转长的多变量多时间点整形（pivot_longer + .value + names_pattern）、gbmt 包与 lcmm 包两条技术路线、模型选择的四项核心指标（AIC/BIC/CIC/SABIC + Avepp>0.7 + OCC>5 + 组占比 + entropy）、gridsearch 多随机起点处理局部最优、轨迹图绘制（总图/单组/未来外推）、轨迹分组提取与合并、多项 logistic 回归、以及 GRoLTS Checklist 报告规范。触发场景：用户要做潜类别轨迹分析、GBTM/LCGM/GMM/GBMTM、重复测量数据的异质性轨迹识别、轨迹分组后的结局分析，或给出轨迹模型相关 R 代码数据要求代为运行调试纠错。

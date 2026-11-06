@@ -1,5 +1,3 @@
-<!-- source: arf-explorable-beamer @ arf-explorable-beamer | domain: slides -->
-
 ---
 name: arf-explorable-beamer
 description: Build a LaTeX beamer slide deck in the explorable-explanation style (Nicky Case) — one idea per frame, assertion titles, a concrete running example, TikZ/pgfplots stages the presenter steps through, the source's own figures recoloured into the deck palette, an appendix of side rooms, and a screenshot-and-log check of every page. Use for any request for a Beamer, LaTeX or TeX presentation, talk, slides, seminar, conference, lecture, keynote or job-market deck, "turn this paper into beamer slides", a deck that must be a PDF, or for revising or reviewing a deck built this way. The sibling skill explorable-deck builds the same deck in Quarto reveal.js; use this one when the user names Beamer, LaTeX, TeX or PDF, or works in a LaTeX project. Not for a website explorable (that is explorable-explanations) or a poster.

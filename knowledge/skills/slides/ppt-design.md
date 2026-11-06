@@ -1,5 +1,3 @@
-<!-- source: ppt-design @ ppt-design | domain: slides -->
-
 ---
 name: "ppt-design"
 display_name: "PPT设计"

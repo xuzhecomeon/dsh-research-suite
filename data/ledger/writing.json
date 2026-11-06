@@ -1,0 +1,540 @@
+{
+  "domain": "writing",
+  "version": "3.0.0",
+  "sourceTotal": 66,
+  "note": "源清单 66 条中 literature-review 与 scientific-writing 各出现两次（内置版与用户版同 dir），按 dir 去重后为 64 条；每条的 cards 指该技能实际进入的能力卡 id。",
+  "entries": [
+    {
+      "dir": "library",
+      "name": "library",
+      "verdict": "out-of-scope",
+      "why": "文档库管理工具，属 toolbox 域",
+      "cards": []
+    },
+    {
+      "dir": "workbuddy-office-routing",
+      "name": "workbuddy-office-routing",
+      "verdict": "out-of-scope",
+      "why": "Office 文档路由，属 format 域",
+      "cards": []
+    },
+    {
+      "dir": "tdoc-orchestrator",
+      "name": "tdoc-orchestrator",
+      "verdict": "out-of-scope",
+      "why": "文档美化与排版编排，属 format 域",
+      "cards": []
+    },
+    {
+      "dir": "literature-review",
+      "name": "literature-review",
+      "verdict": "fused",
+      "why": "七阶段检索到成文流程与 PRISMA 计数可直接搬进综述卡",
+      "cards": [
+        "writing.review",
+        "writing.citation"
+      ]
+    },
+    {
+      "dir": "scientific-writing",
+      "name": "scientific-writing",
+      "verdict": "fused",
+      "why": "IMRAD 功能划分、时态与报告规范清单进入英文卡、摘要卡、图表卡与讨论卡",
+      "cards": [
+        "writing.en-sci",
+        "writing.abstract",
+        "writing.figure-table",
+        "writing.discussion"
+      ]
+    },
+    {
+      "dir": "aris-deepxiv",
+      "name": "aris-deepxiv",
+      "verdict": "out-of-scope",
+      "why": "DeepXiv 文献检索接口，属 literature 域",
+      "cards": []
+    },
+    {
+      "dir": "aris-paper-plan",
+      "name": "aris-paper-plan",
+      "verdict": "index-only",
+      "why": "多模式规划依赖外部 reviewer MCP，写作方法与本域卡重叠",
+      "cards": []
+    },
+    {
+      "dir": "aris-paper-write",
+      "name": "aris-paper-write",
+      "verdict": "index-only",
+      "why": "LaTeX 逐节生成依赖外部评审代理与运行目录，未取到可复用阈值",
+      "cards": []
+    },
+    {
+      "dir": "aris-proof-orchestrator",
+      "name": "aris-proof-orchestrator",
+      "verdict": "out-of-scope",
+      "why": "数学证明流水线，属 ideation 与理论工具",
+      "cards": []
+    },
+    {
+      "dir": "aris-proof-writer",
+      "name": "aris-proof-writer",
+      "verdict": "out-of-scope",
+      "why": "数学证明写作，不属论文写作域",
+      "cards": []
+    },
+    {
+      "dir": "aris-render-html",
+      "name": "aris-render-html",
+      "verdict": "out-of-scope",
+      "why": "Markdown 到 HTML 渲染工具，属 format 域",
+      "cards": []
+    },
+    {
+      "dir": "aris-result-to-claim",
+      "name": "aris-result-to-claim",
+      "verdict": "index-only",
+      "why": "结果到主张的判定依赖外部评审代理，证据门已由证据链卡覆盖",
+      "cards": []
+    },
+    {
+      "dir": "ars-academic-paper",
+      "name": "ars-academic-paper",
+      "verdict": "fused",
+      "why": "多模式写作编排思路进蓝图卡兜底，具体流水线模板不搬",
+      "cards": [
+        "writing.blueprint"
+      ]
+    },
+    {
+      "dir": "benchmark-paper-template",
+      "name": "benchmark-paper-template",
+      "verdict": "fused",
+      "why": "引言六段与五柱结构进蓝图卡，仅限 benchmark 类论文",
+      "cards": [
+        "writing.blueprint"
+      ]
+    },
+    {
+      "dir": "bgpt-paper-search",
+      "name": "bgpt-paper-search",
+      "verdict": "deprecated",
+      "why": "依赖付费 MCP 与外部检索服务，无法作为本地可复现流程",
+      "cards": []
+    },
+    {
+      "dir": "biomedical-sci-manuscript",
+      "name": "biomedical-sci-manuscript",
+      "verdict": "index-only",
+      "why": "草稿顺序与 NLM 编号已成英文卡默认做法，整篇流程依赖 PubMed E-utilities",
+      "cards": []
+    },
+    {
+      "dir": "brainstorming-research",
+      "name": "brainstorming-research",
+      "verdict": "fused",
+      "why": "开题六问与研究问题收敛进学位论文卡兜底",
+      "cards": [
+        "writing.thesis"
+      ]
+    },
+    {
+      "dir": "chinese-medical-paper-writer",
+      "name": "chinese-medical-paper-writer",
+      "verdict": "fused",
+      "why": "中文刊铁律、统计表述、GB/T 7714 与版式进入八张中文卡",
+      "cards": [
+        "writing.zh-imrad",
+        "writing.zh-voice",
+        "writing.review",
+        "writing.case-report",
+        "writing.abstract",
+        "writing.figure-table",
+        "writing.discussion",
+        "writing.citation"
+      ]
+    },
+    {
+      "dir": "clinical-reports",
+      "name": "clinical-reports",
+      "verdict": "fused",
+      "why": "CARE 清单、去标识与知情同意进病例卡，伦理声明句进投稿包卡",
+      "cards": [
+        "writing.case-report",
+        "writing.submission"
+      ]
+    },
+    {
+      "dir": "clinicaltrials-database",
+      "name": "clinicaltrials-database",
+      "verdict": "out-of-scope",
+      "why": "临床试验注册库检索，属 literature 域",
+      "cards": []
+    },
+    {
+      "dir": "cover-letter",
+      "name": "cover-letter",
+      "verdict": "fused",
+      "why": "五段附信与主张对齐检查进投稿包卡主用",
+      "cards": [
+        "writing.submission"
+      ]
+    },
+    {
+      "dir": "dhdna-profiler",
+      "name": "dhdna-profiler",
+      "verdict": "out-of-scope",
+      "why": "文本认知画像分析，与论文写作无关",
+      "cards": []
+    },
+    {
+      "dir": "evidence-driven-writing",
+      "name": "evidence-driven-writing",
+      "verdict": "fused",
+      "why": "证据台账、段落蓝图与反枚举门槛进证据链卡主用",
+      "cards": [
+        "writing.evidence"
+      ]
+    },
+    {
+      "dir": "intro-drafter",
+      "name": "intro-drafter",
+      "verdict": "fused",
+      "why": "六段式引言与挑战-模块映射进证据链卡补强",
+      "cards": [
+        "writing.evidence"
+      ]
+    },
+    {
+      "dir": "karpathy-guidelines",
+      "name": "karpathy-guidelines",
+      "verdict": "out-of-scope",
+      "why": "LLM 编码规范，与论文写作无关",
+      "cards": []
+    },
+    {
+      "dir": "lab-report-writer",
+      "name": "lab-report-writer",
+      "verdict": "deprecated",
+      "why": "缺真实数据时默认生成模拟数据且不标注来源，违反不编造铁律",
+      "cards": []
+    },
+    {
+      "dir": "latex-paper-en",
+      "name": "latex-paper-en",
+      "verdict": "index-only",
+      "why": "LaTeX 编译与模块路由属 format 域，本域只借其分节思路",
+      "cards": []
+    },
+    {
+      "dir": "latex-thesis-zh",
+      "name": "latex-thesis-zh",
+      "verdict": "fused",
+      "why": "模块串行顺序、盲审与规范终检进学位论文卡主用",
+      "cards": [
+        "writing.thesis"
+      ]
+    },
+    {
+      "dir": "literature-monitor-skills",
+      "name": "literature-monitor-skills",
+      "verdict": "out-of-scope",
+      "why": "期刊与预警监控，属 literature 域",
+      "cards": []
+    },
+    {
+      "dir": "medical-review-writer",
+      "name": "medical-review-writer",
+      "verdict": "fused",
+      "why": "中文综述 3000～5000 字配额与章节字数进综述卡",
+      "cards": [
+        "writing.review"
+      ]
+    },
+    {
+      "dir": "nature-academic-search",
+      "name": "nature-academic-search",
+      "verdict": "out-of-scope",
+      "why": "文献检索路由，属 literature 域",
+      "cards": []
+    },
+    {
+      "dir": "nature-data",
+      "name": "nature-data",
+      "verdict": "fused",
+      "why": "数据集七类访问路线与 FAIR 审计进投稿包卡数据声明",
+      "cards": [
+        "writing.submission"
+      ]
+    },
+    {
+      "dir": "nature-paper-to-patent",
+      "name": "nature-paper-to-patent",
+      "verdict": "out-of-scope",
+      "why": "专利撰写流程，不属论文写作",
+      "cards": []
+    },
+    {
+      "dir": "nature-shared",
+      "name": "nature-shared",
+      "verdict": "index-only",
+      "why": "内部共享支撑包，没有面向用户的写作方法",
+      "cards": []
+    },
+    {
+      "dir": "nature-writing",
+      "name": "nature-writing",
+      "verdict": "fused",
+      "why": "五轴路由与模态校准进英文卡、选刊卡与讨论卡",
+      "cards": [
+        "writing.en-sci",
+        "writing.journal-profile",
+        "writing.discussion"
+      ]
+    },
+    {
+      "dir": "paper-2-web",
+      "name": "paper-2-web",
+      "verdict": "out-of-scope",
+      "why": "论文转网站与海报，属 format 与 figures 域",
+      "cards": []
+    },
+    {
+      "dir": "paper-checker__skillhub",
+      "name": "paper-checker",
+      "verdict": "deprecated",
+      "why": "AI 率检测基于统计启发式且无语料基线，结果不可作判定依据",
+      "cards": []
+    },
+    {
+      "dir": "paper-orchestration",
+      "name": "paper-orchestration",
+      "verdict": "fused",
+      "why": "章节架构表、任务包与能力审计进蓝图卡主用",
+      "cards": [
+        "writing.blueprint"
+      ]
+    },
+    {
+      "dir": "paper-revision-sop__skillhub",
+      "name": "paper-revision-sop",
+      "verdict": "fused",
+      "why": "超长句与同型句判据进语体卡，意见分级作为改写门槛",
+      "cards": [
+        "writing.zh-voice"
+      ]
+    },
+    {
+      "dir": "paper-writer",
+      "name": "paper-writer",
+      "verdict": "fused",
+      "why": "六阶段、证据等级与红牌信号进中文论著卡、英文卡、证据链卡与蓝图卡",
+      "cards": [
+        "writing.zh-imrad",
+        "writing.en-sci",
+        "writing.evidence",
+        "writing.blueprint"
+      ]
+    },
+    {
+      "dir": "paper-writing-studio",
+      "name": "paper-writing-studio",
+      "verdict": "fused",
+      "why": "profile 路由与受保护 token 进选刊卡与图表卡",
+      "cards": [
+        "writing.journal-profile",
+        "writing.figure-table"
+      ]
+    },
+    {
+      "dir": "prompts-collection",
+      "name": "prompts-collection",
+      "verdict": "fused",
+      "why": "去 AI 九条与题注句式进语体卡、摘要卡与图表卡",
+      "cards": [
+        "writing.zh-voice",
+        "writing.abstract",
+        "writing.figure-table"
+      ]
+    },
+    {
+      "dir": "qinyan-paper-analysis",
+      "name": "qinyan-paper-analysis",
+      "verdict": "deprecated",
+      "why": "需 API key 并上传全文，且不产出可复用写作方法",
+      "cards": []
+    },
+    {
+      "dir": "research-lookup",
+      "name": "research-lookup",
+      "verdict": "deprecated",
+      "why": "依赖外部 API key（PARALLEL/OPENROUTER），离线不可用",
+      "cards": []
+    },
+    {
+      "dir": "research-writing-assistant",
+      "name": "research-writing-assistant",
+      "verdict": "index-only",
+      "why": "写作问答式辅助，方法与现有卡重复且次之",
+      "cards": []
+    },
+    {
+      "dir": "scholar-evaluation",
+      "name": "scholar-evaluation",
+      "verdict": "out-of-scope",
+      "why": "稿件评审打分，属 review 域",
+      "cards": []
+    },
+    {
+      "dir": "scholar-hypothesis",
+      "name": "scholar-hypothesis",
+      "verdict": "out-of-scope",
+      "why": "假说生成与理论推演，属 ideation 域",
+      "cards": []
+    },
+    {
+      "dir": "scholar-journal",
+      "name": "scholar-journal",
+      "verdict": "fused",
+      "why": "八维评分、字数审计与声明模板进选刊卡与投稿包卡",
+      "cards": [
+        "writing.journal-profile",
+        "writing.submission"
+      ]
+    },
+    {
+      "dir": "scholar-openai",
+      "name": "scholar-openai",
+      "verdict": "out-of-scope",
+      "why": "调用 Codex CLI 外部代理审稿，属 review 域",
+      "cards": []
+    },
+    {
+      "dir": "scholar-respond",
+      "name": "scholar-respond",
+      "verdict": "out-of-scope",
+      "why": "审稿回复与改投策略，属 review 域",
+      "cards": []
+    },
+    {
+      "dir": "scholar-verify",
+      "name": "scholar-verify",
+      "verdict": "fused",
+      "why": "主张-证据-结果三方核对进证据链卡兜底",
+      "cards": [
+        "writing.evidence"
+      ]
+    },
+    {
+      "dir": "scholar-write",
+      "name": "scholar-write",
+      "verdict": "index-only",
+      "why": "社科英文分节与字数预算与英文卡重叠，其证据台账依赖自有写作日志",
+      "cards": []
+    },
+    {
+      "dir": "sci-writing-master",
+      "name": "SCI-Writing-Master",
+      "verdict": "fused",
+      "why": "分刊摘要模板、讨论五段与反假量化进六张英文相关卡",
+      "cards": [
+        "writing.en-sci",
+        "writing.review",
+        "writing.case-report",
+        "writing.abstract",
+        "writing.discussion",
+        "writing.citation"
+      ]
+    },
+    {
+      "dir": "scientific-graphical-abstract-skill__skillhub",
+      "name": "scientific-graphical-abstract-skill__skillhub",
+      "verdict": "deprecated",
+      "why": "图形摘要属 figures 域且依赖图像生成服务",
+      "cards": []
+    },
+    {
+      "dir": "sepia",
+      "name": "sepia",
+      "verdict": "deprecated",
+      "why": "面向虚构与创意写作去 AI，语体目标与学术论文相反",
+      "cards": []
+    },
+    {
+      "dir": "style-journal-rewrite",
+      "name": "style-journal-rewrite",
+      "verdict": "fused",
+      "why": "三边界与路径 A/B/C 进选刊卡主用",
+      "cards": [
+        "writing.journal-profile"
+      ]
+    },
+    {
+      "dir": "thesis-writing-companion__skillhub",
+      "name": "thesis-writing-companion",
+      "verdict": "fused",
+      "why": "十阶段地图与四步交互进学位论文卡补强",
+      "cards": [
+        "writing.thesis"
+      ]
+    },
+    {
+      "dir": "typst-paper",
+      "name": "typst-paper",
+      "verdict": "index-only",
+      "why": "Typst 编译与版式归 format 域，写作规则已被英文卡覆盖",
+      "cards": []
+    },
+    {
+      "dir": "using-research-writing",
+      "name": "using-research-writing",
+      "verdict": "index-only",
+      "why": "入口索引类技能，只做路由不给具体方法",
+      "cards": []
+    },
+    {
+      "dir": "vibe-research-workflow",
+      "name": "vibe-research-workflow",
+      "verdict": "index-only",
+      "why": "工作流编排思路已被蓝图卡覆盖，未提供独立阈值",
+      "cards": []
+    },
+    {
+      "dir": "writing-chapters",
+      "name": "writing-chapters",
+      "verdict": "fused",
+      "why": "章节契约、方法六段流与正文污染防护进中文论著卡与学位论文卡",
+      "cards": [
+        "writing.zh-imrad",
+        "writing.thesis"
+      ]
+    },
+    {
+      "dir": "writing-core",
+      "name": "writing-core",
+      "verdict": "fused",
+      "why": "禁用词表与段落结构进语体卡主用",
+      "cards": [
+        "writing.zh-voice"
+      ]
+    },
+    {
+      "dir": "writing-humanities",
+      "name": "writing-humanities",
+      "verdict": "fused",
+      "why": "古籍与译著条目体例进引文卡补强",
+      "cards": [
+        "writing.citation"
+      ]
+    },
+    {
+      "dir": "writing-medical",
+      "name": "writing-medical",
+      "verdict": "fused",
+      "why": "报告规范对照与统计书写口径进中文论著卡与病例卡",
+      "cards": [
+        "writing.zh-imrad",
+        "writing.case-report"
+      ]
+    }
+  ]
+}

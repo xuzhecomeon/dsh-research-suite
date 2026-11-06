@@ -1,5 +1,3 @@
-<!-- source: writing-medical @ writing-medical | domain: writing -->
-
 ---
 name: writing-medical
 description: Use when writing medical, biological, or clinical research papers - provides IMRaD structure and reporting guidelines

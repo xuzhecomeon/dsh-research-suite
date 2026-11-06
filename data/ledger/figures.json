@@ -1,0 +1,233 @@
+{
+  "domain": "figures",
+  "version": "3.0.0",
+  "sourceTotal": 36,
+  "entries": [
+    {
+      "dir": "workbuddy-smartsheet",
+      "name": "workbuddy-smartsheet",
+      "verdict": "out-of-scope",
+      "why": "操作智能表文档与仪表盘，产出的是数据表不是图件，归数据域更合适"
+    },
+    {
+      "dir": "tencent-docs",
+      "name": "tencent-docs",
+      "verdict": "out-of-scope",
+      "why": "腾讯文档在线编辑与协作，本域只出图不写文档"
+    },
+    {
+      "dir": "tencent-saas-docs",
+      "name": "tencent-saas-docs",
+      "verdict": "out-of-scope",
+      "why": "企业版云文档协作，与图件生成、终检无交集"
+    },
+    {
+      "dir": "scientific-visualization",
+      "name": "scientific-visualization",
+      "verdict": "fused",
+      "why": "期刊栏宽字号表与 13 项终检清单是本域硬指标来源，三处同名来源按同一判定处理",
+      "cards": ["figures.panel", "figures.style", "figures.audit"]
+    },
+    {
+      "dir": "xmed-figure",
+      "name": "xmed-figure",
+      "verdict": "deprecated",
+      "why": "走 X-Med 云服务上传 CSV 远程渲染、系统默认只出 150 dpi，数据出机且不合 ≥300 dpi 口径"
+    },
+    {
+      "dir": "academic-figures__skillhub",
+      "name": "academic-figures",
+      "verdict": "fused",
+      "why": "40 种图型加 PRISMA 数字自洽与重叠门禁，是统计图族与流程图的生成主力",
+      "cards": ["figures.statplot", "figures.panel", "figures.flow", "figures.audit"]
+    },
+    {
+      "dir": "ai-figure-studio",
+      "name": "ai-figure-studio",
+      "verdict": "deprecated",
+      "why": "须在用户本机手工启动 Illustrator 跑 .jsx，产物 .ai 不可复现也不可审计"
+    },
+    {
+      "dir": "aris-auto-review-loop-llm",
+      "name": "aris-auto-review-loop-llm",
+      "verdict": "out-of-scope",
+      "why": "自治评审回环（评审—修—再评审），属审稿回复域而非绘图"
+    },
+    {
+      "dir": "aris-paper-illustration-image2",
+      "name": "aris-paper-illustration-image2",
+      "verdict": "deprecated",
+      "why": "经 Codex 原生图像生成产出位图，分子标签与箭头不可控、不可编辑"
+    },
+    {
+      "dir": "csv-data-summarizer",
+      "name": "csv-data-summarizer",
+      "verdict": "index-only",
+      "why": "只做 CSV 速览与探索图，无出版级样式与 dpi 字号门控，可当数据体检入口"
+    },
+    {
+      "dir": "document-illustrator",
+      "name": "document-illustrator",
+      "verdict": "deprecated",
+      "why": "按文档主题生成装饰性配图，非实验数据渲染，不能当论文图"
+    },
+    {
+      "dir": "drawio-reconstruction",
+      "name": "drawio-reconstruction",
+      "verdict": "fused",
+      "why": "先建可见元素清单再复刻的方法与 check_drawio 校验，是可编辑矢量卡的主线",
+      "cards": ["figures.vector", "figures.schematic"]
+    },
+    {
+      "dir": "figure-designer",
+      "name": "figure-designer",
+      "verdict": "fused",
+      "why": "文字版布局草图、通用规则审计与问题分级，用于机制图前置与终检排序",
+      "cards": ["figures.mechanism", "figures.audit", "figures.schematic"]
+    },
+    {
+      "dir": "figures-diagram",
+      "name": "figures-diagram",
+      "verdict": "deprecated",
+      "why": "只把图需求转成生图提示词，自身不产出任何图件"
+    },
+    {
+      "dir": "figures-python",
+      "name": "figures-python",
+      "verdict": "fused",
+      "why": "三套配色常量、栏宽英寸与数据清单表头，是样式文件的直接来源",
+      "cards": ["figures.style", "figures.render"]
+    },
+    {
+      "dir": "fireworks-tech-graph",
+      "name": "fireworks-tech-graph",
+      "verdict": "fused",
+      "why": "SVG 为唯一真源加语义连线与碰撞校验，补流程图的校验缺口",
+      "cards": ["figures.vector", "figures.flow"]
+    },
+    {
+      "dir": "generate-image",
+      "name": "generate-image",
+      "verdict": "deprecated",
+      "why": "通用文生图，产出位图无数据依据，实验图不可回溯"
+    },
+    {
+      "dir": "geopandas",
+      "name": "geopandas",
+      "verdict": "out-of-scope",
+      "why": "地理空间数据处理，出图仍走 matplotlib，本域不单列地图能力"
+    },
+    {
+      "dir": "imaging-data-commons",
+      "name": "imaging-data-commons",
+      "verdict": "fused",
+      "why": "公共肿瘤影像检索与引用标注，用于影像图追溯公开数据来源",
+      "cards": ["figures.imaging"]
+    },
+    {
+      "dir": "infographics",
+      "name": "infographics",
+      "verdict": "deprecated",
+      "why": "Nano Banana Pro 外部生图加评审循环，只出位图且文字数值不可控"
+    },
+    {
+      "dir": "markdown-mermaid-writing",
+      "name": "markdown-mermaid-writing",
+      "verdict": "fused",
+      "why": "文本即源的拓扑表达与两阶段出图顺序，是流程图的主线起点",
+      "cards": ["figures.flow"]
+    },
+    {
+      "dir": "matplotlib",
+      "name": "matplotlib",
+      "verdict": "fused",
+      "why": "对象式 API 与 rcParams 是出版级底座的唯一可控入口",
+      "cards": ["figures.render", "figures.panel"]
+    },
+    {
+      "dir": "nature-figure",
+      "name": "nature-figure",
+      "verdict": "fused",
+      "why": "figure contract、1.5 pt 面板对齐门与碰撞审计三件套，是终检主线",
+      "cards": ["figures.audit", "figures.panel"]
+    },
+    {
+      "dir": "nature-reader",
+      "name": "nature-reader",
+      "verdict": "out-of-scope",
+      "why": "中英文对照精读与图文对齐，属文献精读域"
+    },
+    {
+      "dir": "plotly",
+      "name": "plotly",
+      "verdict": "fused",
+      "why": "交互探索期看图省返工，只在探索期当兜底，终稿一律弃用",
+      "cards": ["figures.render"]
+    },
+    {
+      "dir": "pymatgen",
+      "name": "pymatgen",
+      "verdict": "out-of-scope",
+      "why": "材料科学晶体与能带计算，出图仍走 matplotlib，属材料专用工具"
+    },
+    {
+      "dir": "scholar-conceptual",
+      "name": "scholar-conceptual",
+      "verdict": "out-of-scope",
+      "why": "社科理论建构与概念图，理论侧归选题立题域；其 TikZ 体裁仅作参考"
+    },
+    {
+      "dir": "science-figures__skillhub",
+      "name": "science-figures",
+      "verdict": "fused",
+      "why": "17 种图型与 8 种期刊风格一键切换，用于换刊快速对照",
+      "cards": ["figures.statplot", "figures.style"]
+    },
+    {
+      "dir": "scientific-drawing__skillhub",
+      "name": "scientific-drawing",
+      "verdict": "fused",
+      "why": "技术路线图版式、三套配色与每框十字原则可借，但无脚本无门禁只能兜底",
+      "cards": ["figures.flow", "figures.style"]
+    },
+    {
+      "dir": "scientific-schematics",
+      "name": "scientific-schematics",
+      "verdict": "deprecated",
+      "why": "经 OpenRouter 上传描述到外部模型生图，分子标签与箭头不可控，只出位图"
+    },
+    {
+      "dir": "scientific-visualization__skillhub",
+      "name": "scientific-visualization",
+      "verdict": "fused",
+      "why": "与主来源同内容，图版式硬指标一致，按同一判定并入三张卡",
+      "cards": ["figures.panel", "figures.style", "figures.audit"]
+    },
+    {
+      "dir": "seaborn",
+      "name": "seaborn",
+      "verdict": "fused",
+      "why": "统计图与分面快速成稿，供底座精修前出初稿",
+      "cards": ["figures.render", "figures.statplot"]
+    },
+    {
+      "dir": "sfkislev-flue-illustrator",
+      "name": "Illustrator",
+      "verdict": "deprecated",
+      "why": "需本机安装 Illustrator 与 Flue 桥接，换台机器就断，发布版不可依赖"
+    },
+    {
+      "dir": "wnmc-figure__skillhub",
+      "name": "medical-illustration",
+      "verdict": "fused",
+      "why": "百余原创矢量组件加三语义箭头，是机制图与元件示意的唯一主线",
+      "cards": ["figures.mechanism", "figures.schematic", "figures.vector"]
+    },
+    {
+      "dir": "xiantao-plot-api",
+      "name": "xiantao-plot-api",
+      "verdict": "deprecated",
+      "why": "用 requests 调在线接口，数据与结果都经第三方，涉患者数据绝不出机"
+    }
+  ]
+}

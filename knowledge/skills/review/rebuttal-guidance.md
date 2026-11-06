@@ -1,5 +1,3 @@
-<!-- source: rebuttal-guidance @ rebuttal-guidance | domain: review -->
-
 ---
 name: rebuttal-guidance
 description: >-

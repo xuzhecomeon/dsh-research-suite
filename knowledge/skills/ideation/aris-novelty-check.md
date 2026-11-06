@@ -1,5 +1,3 @@
-<!-- source: aris-novelty-check @ aris-novelty-check | domain: ideation -->
-
 ---
 name: aris-novelty-check
 description: Verify research idea novelty against recent literature. Use when user says "查新", "novelty check", "有没有人做过", "check novelty", or wants to verify a research idea is novel before implementing.

@@ -1,0 +1,158 @@
+{
+  "form": {
+    "fields": [
+      {
+        "key": "topic",
+        "label": "主题/内容",
+        "maxLength": 10000,
+        "placeholder": "输入PPT主题，或粘贴详细内容大纲",
+        "required": true,
+        "type": "textarea"
+      },
+      {
+        "key": "audience",
+        "label": "目标受众",
+        "placeholder": "如：投资人、客户、学生",
+        "type": "text"
+      },
+      {
+        "file_types": [
+          "image",
+          "video",
+          "word",
+          "ppt",
+          "text",
+          "pdf",
+          "markdown"
+        ],
+        "hint": "支持 PDF、Word、图片等；非任务执行、上传、大小处理、格式转换或完整性校验所必需，不解析附件；必要解析结果不得用于推测、补充或改写其他参数。",
+        "key": "ref_files",
+        "label": "参考文件（可选）",
+        "maxCount": 10,
+        "type": "file_upload"
+      },
+      {
+        "default": "auto",
+        "key": "language",
+        "label": "语言",
+        "options": [
+          {
+            "key": "auto",
+            "label": "自动匹配"
+          },
+          {
+            "key": "chinese",
+            "label": "中文"
+          },
+          {
+            "key": "english",
+            "label": "英文"
+          },
+          {
+            "key": "japanese",
+            "label": "日语"
+          },
+          {
+            "key": "korean",
+            "label": "韩语"
+          },
+          {
+            "key": "portuguese_brazil",
+            "label": "葡萄牙语（巴西）"
+          },
+          {
+            "key": "spanish_mexico",
+            "label": "西班牙语（墨西哥）"
+          },
+          {
+            "key": "russian",
+            "label": "俄语"
+          }
+        ],
+        "required": false,
+        "type": "select"
+      },
+      {
+        "default": "auto",
+        "key": "pages",
+        "label": "页数范围",
+        "options": [
+          {
+            "key": "auto",
+            "label": "自动匹配"
+          },
+          {
+            "key": "p1_10",
+            "label": "1-10页"
+          },
+          {
+            "key": "p11_15",
+            "label": "11-15页"
+          },
+          {
+            "key": "p16_20",
+            "label": "16-20页"
+          },
+          {
+            "key": "p21_25",
+            "label": "21-25页"
+          },
+          {
+            "key": "p26_30",
+            "label": "26-30页"
+          }
+        ],
+        "required": false,
+        "type": "select"
+      },
+      {
+        "key": "style",
+        "label": "视觉风格",
+        "options": [
+          {
+            "key": "auto",
+            "label": "自动匹配"
+          },
+          {
+            "key": "minimal_luxe",
+            "label": "简约高级"
+          },
+          {
+            "key": "business_professional",
+            "label": "商务专业"
+          },
+          {
+            "key": "creative_layout",
+            "label": "创意版式"
+          },
+          {
+            "key": "digital_trendy",
+            "label": "网感潮流"
+          },
+          {
+            "key": "party_civic",
+            "label": "党建思政"
+          },
+          {
+            "key": "grand_luxury",
+            "label": "奢华大气"
+          },
+          {
+            "key": "chinese_style",
+            "label": "中国风"
+          }
+        ],
+        "required": false,
+        "type": "radio_tags"
+      }
+    ],
+    "prompt": "[PPT设计]生成PPT。\n主题/内容：{topic}\n受众：{audience}\n参考文件（可选）：{ref_files}\n语言：{language}\n篇幅：{pages}\n视觉风格：{style}"
+  },
+  "schema_version": 1,
+  "skill": {
+    "category": "办公设计",
+    "description": "根据文字、数据或参考图生成可编辑PPT，完成信息整理与页面设计。适用于PPT设计、汇报页制作。美图设计室提供。",
+    "id": "ppt-design",
+    "title": "PPT设计"
+  }
+}

@@ -1,5 +1,3 @@
-<!-- source: scholar-hypothesis @ scholar-hypothesis | domain: writing -->
-
 ---
 name: scholar-hypothesis
 description: "Develop theoretically grounded hypotheses and draft publication-ready Theory sections. Covers puzzle framing (5 types: anomaly, contradiction, extension, mechanism, scope), framework selection from 25+ sociological/linguistic theories (stratification, networks, culture, institutional, life course, analytical sociology via Coleman's boat + Hedström DBO, intersectionality, racial formation, social movements, status characteristics, signaling, non-Western: guanxi/Ubuntu/coloniality/world-systems), mechanism chain specification, hypothesis formalization (7 types: directional, interaction, mediation, curvilinear, comparative, boundary, null-as-finding) with formal and competing-prediction tables, text-based DAG construction (routes to /scholar-causal), and journal-calibrated drafts (ASR/AJS 1000–1500 words; Demography 600–1000; NHB/Science Advances 300–600 in Introduction; NCS 200–400; qualitative propositions). Saves internal theory log + section draft. Use after /scholar-lit-review and before /scholar-design."

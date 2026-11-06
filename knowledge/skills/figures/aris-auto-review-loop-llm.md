@@ -1,5 +1,3 @@
-<!-- source: aris-auto-review-loop-llm @ aris-auto-review-loop-llm | domain: figures -->
-
 ---
 name: aris-auto-review-loop-llm
 description: "Autonomous research review loop using any OpenAI-compatible LLM API. Configure via llm-chat MCP server or environment variables. Trigger with \"auto review loop llm\" or \"llm review\"."

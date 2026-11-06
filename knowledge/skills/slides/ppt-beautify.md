@@ -1,5 +1,3 @@
-<!-- source: ppt-beautify @ ppt-beautify | domain: slides -->
-
 ---
 name: "ppt-beautify"
 display_name: "PPT美化"

@@ -1,5 +1,3 @@
-<!-- source: academic-figures @ academic-figures__skillhub | domain: figures -->
-
 ---
 name: academic-figures
 description: >-
@@ -26,7 +24,7 @@ when_to_use: >-
 ZCode 技能自动发现只读 frontmatter 白名单键（name/description/when_to_use/
 license/metadata），description 超 1024 字符被静默丢弃（v2.x 失效根因）。
 移出键（信息不丢失）：
-  version: 7.1.0
+  version: 7.3.0
   date: 2026-10-31
   author: docsor1212
   lang: zh
@@ -39,7 +37,7 @@ license/metadata），description 超 1024 字符被静默丢弃（v2.x 失效�
 > 📊 **40种图表 · 9套配色（含色盲安全+期刊色板） · 零配置中文 · 600dpi出版级输出 · PDF/TIFF/SVG全支持 · 渲染看门狗+中文诊断**
 > 纯本地运行 · 数据不出本机 · Python一条命令搞定 · 内置校验+验证门禁
 
-> ⚡ **三条最常用边界**：投稿 PDF 加 `--verify`（仅 PDF 生效）；`--journal` 会锁定图宽（`--width` 被忽略）；cluster_heatmap >3000 行自动降采样到 2000 行。
+> ⚡ **三条最常用边界**：投稿 PDF 加 `--verify`（仅 PDF 生效）；`--journal` 会锁定图宽（`--width` 被忽略，`--height` 有效）；cluster_heatmap >3000 行自动降采样到 2000 行。
 
 **一条命令，输出即验证：**
 ```bash
@@ -345,7 +343,7 @@ matplotlib/numpy/pymupdf/scipy 四依赖并镜像回退）；自动行为（降�
 | 反模式集中页（应避免用法一览，交叉链接） | `references/antipatterns.md` |
 | 场景卡片（13 个完整工作流一文件跑通） | `references/scenario-cards.md` |
 | 提示词卡片（13 张「对智能体说」可粘贴指令→命令→验收点） | `references/prompt-cards.md` |
-| 视觉样例库（可复现 JSON+命令；成品图预览见 GitHub 仓库） | `examples/gallery/` |
+| 视觉样例库（可复现 JSON+命令；成品图预览：github.com/docsor1212/academic-figures/tree/main/examples/gallery） | `examples/gallery/` |
 
 | 某图型的 JSON/CSV/Excel schema | `references/data-formats.md` |
 | "为什么报错 / exit 3 什么意思" | `references/faq.md` |

@@ -1,5 +1,3 @@
-<!-- source: slidep-pptx-notes @ slidep-pptx-notes | domain: slides -->
-
 ---
 name: slidep-pptx-notes
 description: 为 slidep 生成的 PPTX 注入真实 PowerPoint 备注区讲稿（speaker notes）。解决 slidep notes 属性不生成 notesSlides part、zip 级 OOXML 注入后 python-pptx 读不到、descr 双重转义三大问题。触发词：PPT 备注、讲稿、speaker notes、notesSlide、slidep。
@@ -14,7 +12,7 @@ agent_created: true
 
 1. **slidep 的 `notes={...}` 属性不生成真备注**。转换器把讲稿文本塞进 slide 根元素的 `<p:cNvPr descr="notes={...}">`（alt 文本），包内 notesSlides 数为 0，PowerPoint 备注区为空。
 2. **python-pptx 救不了原生缺陷**：slidep 的 notesMaster 没有任何 placeholder，`slide.notes_slide` 自动新建的空 part 中 `notes_text_frame` 为 `None`。
-3. python-pptx 环境：`<USER_HOME>\.workbuddy\binaries\python\envs\default\Scripts\python.exe`（含 python-pptx 1.0.2 + lxml）。
+3. python-pptx 环境：`C:\Users\zy\.workbuddy\binaries\python\envs\default\Scripts\python.exe`（含 python-pptx 1.0.2 + lxml）。
 
 ## 推荐方案：python-pptx 原生注入（关系链自动正确）
 

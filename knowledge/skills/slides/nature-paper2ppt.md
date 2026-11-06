@@ -1,5 +1,3 @@
-<!-- source: nature-paper2ppt @ nature-paper2ppt | domain: slides -->
-
 ---
 name: nature-paper2ppt
 description: Create or improve a Chinese academic PPTX from a scientific paper or research reading notes, with source figures and speaker notes. Use for 论文做PPT、文献汇报、组会PPT and paper-based conference or defense presentations.

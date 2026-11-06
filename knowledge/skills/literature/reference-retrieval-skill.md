@@ -1,5 +1,3 @@
-<!-- source: reference-retrieval-skill @ reference-retrieval-skill | domain: literature -->
-
 ---
 name: reference-retrieval-skill
 description: 根据用户输入的中文或英文意图，直接根据需求查找相关文献，或自动构建PubMed布尔检索式，检索并筛选适合引用的参考文献。适用于快速寻找特定主题的高质量文献证据及补全引用。

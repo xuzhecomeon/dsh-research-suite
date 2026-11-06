@@ -1,5 +1,3 @@
-<!-- source: aris-paper-claim-audit @ aris-paper-claim-audit | domain: review -->
-
 ---
 name: aris-paper-claim-audit
 description: "Zero-context verification that every number, comparison, and scope claim in the paper matches raw result files. Uses a fresh cross-model reviewer with NO prior context to prevent confirmation bias. Use when user says \"审查论文数据\", \"check paper claims\", \"verify numbers\", \"论文数字核对\", or before submission to ensure paper-to-evidence fidelity."

@@ -1,5 +1,3 @@
-<!-- source: r-propensity-score-methods @ r-propensity-score-methods | domain: stats -->
-
 ---
 name: r-propensity-score-methods
 description: 倾向得分方法（Propensity Score Methods）R 语言全流程实战技能。覆盖混杂偏倚的识别与应对体系、反事实框架与潜在结局、倾向得分的计算与四大用法（PSM 匹配 / PS 分层 / IPTW 加权 / PS 作为协变量回归）、Robins 与 Hernán 两种权重公式、ATT/ATE/ATO 估计量的区别与选择、MatchIt 匹配参数（caliper=0.2 SD 规范）、WeightIt 加权、平衡性诊断（SMD<0.1 而非 P 值）、生存资料加权分析（RISCA::ipw.log.rank、svycoxph）、权重诊断（ESS/权重范围/截断）、缺失数据的倾向得分方法、E-value 敏感性分析。触发场景：用户要做/复现/审阅倾向得分匹配、IPTW、加权分析、观察性研究的混杂控制、真实世界研究、单臂比较基线不均衡的调整，或给出 PSM/IPW 相关 R 代码数据要求代为运行调试纠错。

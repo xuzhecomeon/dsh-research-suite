@@ -1,5 +1,3 @@
-<!-- source: brainstorming-research @ brainstorming-research | domain: writing -->
-
 ---
 name: brainstorming-research
 description: Use before writing any paper - clarifies paper type, discipline, topic, methodology, and chapter structure through natural dialogue

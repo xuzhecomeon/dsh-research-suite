@@ -1,5 +1,3 @@
-<!-- source: r-real-world-evidence @ r-real-world-evidence | domain: stats -->
-
 ---
 name: r-real-world-evidence
 description: 真实世界研究（RWE）R 语言实战技能。覆盖倾向得分匹配与加权的进阶方法：cobalt 平衡性诊断（love.plot 以 SMD<0.1 为阈值、bal.plot 重叠性检查）、重叠加权 Overlap Weighting（PSweight，估计 ATO、天然规避极端权重、报告 ESS）、克隆删失加权 Clone-Censor-Weight（序贯试验模拟，处理时依混杂）、E-value 未测量混杂敏感性分析、survey 设计下的正确方差（svyglm + svycoxph + quasibinomial）、缺失数据的九种填补方法对比。触发场景：用户要做真实世界研究、观察性疗效比较、时依治疗/时依暴露分析、未测量混杂敏感性分析、单臂/非随机比较的因果推断，或给出 PSM/IPTW/CCW/E-value 相关 R 代码数据要求代为运行调试纠错。

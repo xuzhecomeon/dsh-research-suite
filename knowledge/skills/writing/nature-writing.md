@@ -1,5 +1,3 @@
-<!-- source: nature-writing @ nature-writing | domain: writing -->
-
 ---
 name: nature-writing
 description: Draft or restructure scientific manuscript arguments, sections, and initial-submission materials from author-provided evidence. Use for 论文写作、章节起草、论证重构、正文压缩、首次投稿材料. Use nature-polishing for language-only edits to existing prose and nature-response for post-decision correspondence.

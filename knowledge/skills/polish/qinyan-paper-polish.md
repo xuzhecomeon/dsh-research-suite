@@ -1,5 +1,3 @@
-<!-- source: qinyan-paper-polish @ qinyan-paper-polish | domain: polish -->
-
 ---
 name: qinyan-paper-polish
 description: "沁言学术论文润色优化 - 按照专业学术规范对中英文学术论文、专业报告进行文本润色，提升语言表达质量、逻辑连贯性和学术规范性。触发词：论文润色、论文修改、润色优化、paper polishing、academic writing、论文改写、文本润色、报告润色"

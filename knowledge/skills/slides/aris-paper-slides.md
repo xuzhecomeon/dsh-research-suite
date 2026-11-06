@@ -1,5 +1,3 @@
-<!-- source: aris-paper-slides @ aris-paper-slides | domain: slides -->
-
 ---
 name: aris-paper-slides
 description: "Generate conference presentation slides (beamer LaTeX → PDF + editable PPTX) from a compiled paper, with speaker notes and full talk script. Use when user says \"做PPT\", \"做幻灯片\", \"make slides\", \"conference talk\", \"presentation slides\", \"生成slides\", \"写演讲稿\", or wants beamer slides for a conference talk."

@@ -1,5 +1,3 @@
-<!-- source: wb-academic-polish @ wb-academic-polish__skillhub | domain: polish -->
-
 ---
 name: "wb-academic-polish"
 slug: wb-academic-polish

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Academic Reference Enhancer"
+  short_description: "Verify, format, and insert academic references."
+  default_prompt: "Use $academic-reference-enhancer to verify candidate references, format them in GB/T 7714, and plan citation insertion for my paper."
+
+policy:
+  allow_implicit_invocation: true

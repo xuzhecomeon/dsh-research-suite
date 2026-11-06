@@ -1,5 +1,3 @@
-<!-- source: basic-research-design-extractor @ basic-research-design-extractor | domain: ideation -->
-
 ---
 
 name: basic-research-design-extractor

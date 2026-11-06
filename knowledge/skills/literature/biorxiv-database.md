@@ -1,5 +1,3 @@
-<!-- source: biorxiv-database @ biorxiv-database | domain: literature -->
-
 ---
 name: biorxiv-database
 description: Efficient database search tool for bioRxiv preprint server. Use this skill when searching for life sciences preprints by keywords, authors, date ranges, or categories, retrieving paper metadata, downloading PDFs, or conducting literature reviews.

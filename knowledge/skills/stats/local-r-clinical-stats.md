@@ -1,5 +1,3 @@
-<!-- source: local-r-clinical-stats @ local-r-clinical-stats | domain: stats -->
-
 ---
 name: local-r-clinical-stats
 description: 直接调用本机已安装的 R 4.5.2 执行临床科研统计与绘图（不是生成代码给人跑，而是自己跑完并把统计结果与统计图交付）。本机 R 有一个隐蔽的 locale 阻断点必须先处理，否则 R 完全无法加载任何包。触发场景：需要用 R 做描述性统计、基线表（tableone/gtsummary）、组间比较、Logistic/Cox/线性混合回归、ROC 与 AUC、Kaplan-Meier 生存分析、森林图、列线图、剂量-反应曲线，或需要用 ggplot2 / patchwork / ComplexHeatmap / survminer 出版级出图，或用户提供 R 代码要求代为运行、修改、调试并返回结果与图片。
@@ -18,17 +16,17 @@ agent_created: true
 | 项 | 值 |
 |---|---|
 | R 版本 | 4.5.2 (2025-10-31 ucrt) |
-| R_HOME | `<APP_DIR>\R-4.5.2` |
-| Rscript | `<APP_DIR>\R-4.5.2\bin\Rscript.exe` |
+| R_HOME | `D:\软件安装\R-4.5.2` |
+| Rscript | `D:\软件安装\R-4.5.2\bin\Rscript.exe` |
 | 扩展包 | 436 个（`R_HOME/library`，约 0.8 GB） |
-| 用户库 | `<USER_HOME>\AppData\Local\R\win-library\4.5`（空） |
+| 用户库 | `C:\Users\zy\AppData\Local\R\win-library\4.5`（空） |
 
 ## ⚠️ 第一铁律：调用前必须清除 locale 变量
 
 外壳环境预设 `LC_ALL=C.UTF-8`、`LANG=en_US.UTF-8`。这是 POSIX 取值，**Windows 版 R 无法识别**，启动时 locale 初始化失败，退化为 `codepage = 0`，后果是：
 
 - `package 'compiler' does not have a namespace` → R 直接启动失败
-- `unable to translate '<APP_DIR>/...' to native encoding` → 含中文的路径全部失效
+- `unable to translate 'D:/软件安装/...' to native encoding` → 含中文的路径全部失效
 - `installed.packages()` 返回 **0 个包**（436 个包全部"隐身"）
 - `library(ggplot2)` 报 `there is no package called 'ggplot2'` 或 `not a valid installed package`
 
@@ -44,7 +42,7 @@ PowerShell 是唯一可靠通道（Bash 通道的本机 Git Bash 缺 `dirname`/`
 Remove-Item Env:LC_ALL -ErrorAction SilentlyContinue
 Remove-Item Env:LANG -ErrorAction SilentlyContinue
 Remove-Item Env:LANGUAGE -ErrorAction SilentlyContinue
-& "<APP_DIR>\R-4.5.2\bin\Rscript.exe" "script.R" *> "_r_output.log"
+& "D:\软件安装\R-4.5.2\bin\Rscript.exe" "script.R" *> "_r_output.log"
 ```
 
 **必须重定向到文件再读**：本环境 PowerShell 的 stdout 不会被工具捕获（返回空），且控制台回显 UTF-8 会变乱码。
@@ -88,7 +86,7 @@ sink(type = "message"); sink(); close(con)
 
 装包走清华镜像（见用户长期记忆）：
 ```r
-install.packages("forestplot", lib = "<APP_DIR>/R-4.5.2/library",
+install.packages("forestplot", lib = "D:/软件安装/R-4.5.2/library",
                  repos = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/")
 ```
 

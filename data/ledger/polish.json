@@ -1,0 +1,92 @@
+{
+  "domain": "polish",
+  "version": "3.0.0",
+  "sourceTotal": 12,
+  "note": "polish 域 12 个源技能全部判为 fused：本域没有纯噪声条目，每一个都在下面 5 张能力卡里承担明确角色。弃用只发生在「卡内成员」层面（sepia、paper-checker 属其他域技能，被本域卡标为弃用），不减少源技能计数。",
+  "entries": [
+    {
+      "dir": "paper-deweight-fd__skillhub",
+      "name": "paper-deweight",
+      "verdict": "fused",
+      "why": "中文去 AI 味与降重改写两张卡的主用。七类结构层痕迹、字数守恒 ±5%、双层改写顺序这三条是别的技能都没有的硬约束。",
+      "cards": ["polish.deai", "polish.rewrite"]
+    },
+    {
+      "dir": "humanizer-zh",
+      "name": "humanizer-zh",
+      "verdict": "fused",
+      "why": "去 AI 味卡补强。空话三级分级与同义轮换表补上主用技能偏重结构、句子层粒度不足的短板。",
+      "cards": ["polish.deai"]
+    },
+    {
+      "dir": "no-ai-slop",
+      "name": "no-ai-slop",
+      "verdict": "fused",
+      "why": "去 AI 味卡补强。Edit/Detect 双模式与「可移植性检验」提供了一条可机械判定的废话判据，是本域唯一的可判定性工具。",
+      "cards": ["polish.deai"]
+    },
+    {
+      "dir": "stop-slop",
+      "name": "stop-slop",
+      "verdict": "fused",
+      "why": "去 AI 味卡兜底。清单极短只够交付前快扫，但正因为短，作为最后一道 60 秒闸门成本最低。",
+      "cards": ["polish.deai"]
+    },
+    {
+      "dir": "paper-polish",
+      "name": "paper-polish",
+      "verdict": "fused",
+      "why": "英文润色与中译英卡的主用。把「忠实作者原意」置于一切规则之上、越界改动逐条确认，这是英改最容易失控处最需要的纪律。",
+      "cards": ["polish.en"]
+    },
+    {
+      "dir": "nature-polishing",
+      "name": "nature-polishing",
+      "verdict": "fused",
+      "why": "英改与语体两卡补强。它的轴路由（类型/章节/语言/期刊四轴）与「结构缺陷只标注不硬编」是本域最有价值的两个设计。",
+      "cards": ["polish.en", "polish.voice"]
+    },
+    {
+      "dir": "wb-academic-polish__skillhub",
+      "name": "wb-academic-polish",
+      "verdict": "fused",
+      "why": "英改卡补强。术语校准清单与投稿信、回复信结构可用；其宣称的 AIGC 检测与影响因子数据本插件不能执行，只取其清单部分。",
+      "cards": ["polish.en"]
+    },
+    {
+      "dir": "humanizer__skillhub",
+      "name": "humanizer",
+      "verdict": "fused",
+      "why": "英改卡兜底。英文学术 AI 痕迹十类模式覆盖面最全，适合作为英文稿的最后一遍通扫。",
+      "cards": ["polish.en"]
+    },
+    {
+      "dir": "scholar-polish",
+      "name": "scholar-polish",
+      "verdict": "fused",
+      "why": "语体指纹卡主用、审校卡补强。六维语体指纹是本域唯一能给出改前改后数值对照的方法，让文风迁移可验收。",
+      "cards": ["polish.voice", "polish.audit"]
+    },
+    {
+      "dir": "academic-polish-s__skillhub",
+      "name": "academic-polish",
+      "verdict": "fused",
+      "why": "语体卡补强、降重卡兜底。去口语化词表与对照式输出格式轻便可靠，适合作为轻改场景的低成本路径。",
+      "cards": ["polish.voice", "polish.rewrite"]
+    },
+    {
+      "dir": "paper-polisherskill__skillhub",
+      "name": "paper-polisher",
+      "verdict": "fused",
+      "why": "降重卡补强、审校卡补强。降重到 Word 精修的流水线顺序与版式要求可直接复用，但自动化程度高、不解释改动依据，故不作主用。",
+      "cards": ["polish.rewrite", "polish.audit"]
+    },
+    {
+      "dir": "qinyan-paper-polish",
+      "name": "qinyan-paper-polish",
+      "verdict": "fused",
+      "why": "降重卡补强。学术规范句式库与「术语不动」的纪律补上改写时最容易跑掉的准确性。",
+      "cards": ["polish.rewrite"]
+    }
+  ]
+}

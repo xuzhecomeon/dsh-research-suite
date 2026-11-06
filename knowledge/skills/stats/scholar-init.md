@@ -1,5 +1,3 @@
-<!-- source: scholar-init @ scholar-init | domain: stats -->
-
 ---
 name: scholar-init
 description: "Initialize a new research project directory for open-scholar-skill. Creates the standard layout (data/raw, data/interim, data/processed, materials, output, .claude, logs), copies or symlinks raw files and materials into place, runs a local safety scan on every ingested file, and writes .claude/safety-status.json so the PreToolUse guard knows which files Claude may Read. Four modes: (1) init — create a fresh project from a slug and file list; (2) review — walk through NEEDS_REVIEW entries interactively and resolve each to CLEARED/LOCAL_MODE/ANONYMIZED/OVERRIDE/HALTED with logged rationale; (3) add — ingest new files into an existing project without rebuilding; (4) status — print the current state of .claude/safety-status.json and logs/init-report.md. Invoke before any data-touching scholar-* skill on a new dataset."

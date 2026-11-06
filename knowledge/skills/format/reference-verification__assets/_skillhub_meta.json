@@ -1,0 +1,11 @@
+{
+  "slug": "reference-verification",
+  "name": "论文参考文献真伪核验",
+  "version": "1.0.0",
+  "installedAt": 1785651986197,
+  "source": "skillhub",
+  "iconSource": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/7422abc7-fa86-4505-a723-0575c56e7a2d.png",
+  "iconLocalPath": "C:\\Users\\zy\\.workbuddy\\skills\\reference-verification__skillhub\\_icon.png",
+  "iconDownloadedFrom": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/7422abc7-fa86-4505-a723-0575c56e7a2d.png",
+  "installedContentHash": "sha256:8026b9a045b0b3becd45877ff71ff78cf651f5653ea24147030bc6dd63a0610e"
+}

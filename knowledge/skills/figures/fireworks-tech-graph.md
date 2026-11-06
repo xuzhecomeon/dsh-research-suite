@@ -1,5 +1,3 @@
-<!-- source: fireworks-tech-graph @ fireworks-tech-graph | domain: figures -->
-
 ---
 name: fireworks-tech-graph
 description: >-

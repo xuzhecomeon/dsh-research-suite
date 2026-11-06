@@ -1,5 +1,3 @@
-<!-- source: aris-rebuttal @ aris-rebuttal | domain: review -->
-
 ---
 name: aris-rebuttal
 description: "Workflow 4: Submission rebuttal pipeline. Parses external reviews, enforces coverage and grounding, drafts a safe text-only rebuttal under venue limits, and manages follow-up rounds. Use when user says \"rebuttal\", \"reply to reviewers\", \"ICML rebuttal\", \"OpenReview response\", or wants to answer external reviews safely."

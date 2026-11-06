@@ -1,0 +1,16 @@
+{
+  "finding_id": "F-Q1-demo",
+  "claim": "Demo claim: inference_chain should be captured when the researcher records a finding, not reconstructed after synthesis.",
+  "claim_type": "process",
+  "confidence": "medium",
+  "source_url": "local-demo",
+  "evidence_span": "This local fixture documents the intended schema only; it is not a research source.",
+  "evidence_hash": "demo",
+  "source_published_date": null,
+  "inference_chain": {
+    "premise_finding_ids": [],
+    "inference_type": "direct_observation",
+    "hypothesis_tested": "If inference_chain is filled at finding time, later REFLECT can detect unsupported or unchallenged claims.",
+    "challenges_thesis": false
+  }
+}

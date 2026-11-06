@@ -1,5 +1,3 @@
-<!-- source: arf-explorable-deck @ arf-explorable-deck | domain: slides -->
-
 ---
 name: arf-explorable-deck
 description: Build a Quarto reveal.js slide deck in the explorable-explanation style (Nicky Case) — one idea per slide, assertion titles, a concrete running example, run-time SVG stages the presenter drives live, the source's own figures recoloured into the deck palette, and an appendix of side rooms. Use for any request for a presentation, talk, slides, a seminar, conference, lecture, keynote or job-market deck, a Quarto or reveal.js deck, "turn this paper into slides", "a deck like the explorable", or for revising or reviewing a deck built this way. Prefer it over .pptx skills unless the user names PowerPoint, Beamer, LaTeX or Google Slides. Not for a website explorable (that is explorable-explanations) or a poster.

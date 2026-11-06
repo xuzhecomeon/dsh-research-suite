@@ -1,5 +1,3 @@
-<!-- source: medical-imaging-review @ medical-imaging-review | domain: literature -->
-
 ---
 name: medical-imaging-review
 description: >

@@ -1,5 +1,3 @@
-<!-- source: using-research-writing @ using-research-writing | domain: writing -->
-
 ---
 name: using-research-writing
 description: Use when starting any research writing task - establishes workflow and routes to appropriate skills

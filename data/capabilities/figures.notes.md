@@ -1,45 +1,38 @@
-# figures 域写作笔记（figures.json / research-figures.md）
+# figures 域写作笔记（v3）
 
-## 一、76 条目录怎么聚的类
+## 一、36 条源技能怎么聚的类（按 dir 去重后 35 条）
 
-按 `catalog.json` 中 `domain === "figures"` 筛出 76 条、按字节降序后聚成七簇（数字为条目数）：
-
-| 簇 | 条目数 | 代表条目（字节） | 结论 |
+| 簇 | 条数 | 代表（字节） | 结论 |
 |---|---|---|---|
-| 数据图渲染底座 | 12 | matplotlib 11514 / seaborn 19655 / plotly 7251 / matlab 10096 | 只取 matplotlib 做底座、seaborn 做补强 |
-| 图表族生成器 | 6 | academic-figures 31545 / science-figures 6686 / xiantao-plot-api 20894 | academic-figures 主用；在线 API 类弃用 |
-| 期刊与多面板规范 | 5 | scientific-visualization 25616 / nature-figure 11906 / figures-python 6301 | 三件互补：硬指标／证据架构／常量与清单 |
-| 示意图与机制图 | 9 | medical-illustration 12018 / scientific-schematics 23932 / scientific-drawing 5442 | 只留可编辑矢量的那条 |
-| 流程与矢量编辑 | 8 | drawio-reconstruction 22104 / fireworks-tech-graph 5738 / markdown-mermaid-writing 14976 | 拓扑用文本定、成品用 .drawio 交 |
-| 影像与照片 | 7 | pydicom 13242 / histolab 20206 / airs-segment-anything-model 14002 | 只有本地解码与本地取块可进流程 |
-| 文生图与外部服务 | 14 | ai-figure-studio 26072 / figures-diagram 4374 / generate-image 7116 | 整簇弃用，仅借纪律不借执行 |
-| 其它（学者类大件） | 15 | scholar-analyze 82437 / scholar-eda 49498 / scholar-verify 29391 | 只有 scholar-verify 的表图对账可借用 |
+| 数据图底座 | 4 | matplotlib 11454／seaborn 19601／plotly 7199／figures-python 6233 | matplotlib 主用，其余补强或兜底 |
+| 统计图生成器 | 4 | academic-figures 31534／science-figures 6606／xmed-figure 15008／csv-data-summarizer 5692 | academic-figures 主用，xmed 弃用 |
+| 期刊规范与拼版 | 4 | scientific-visualization 20526×3／nature-figure 11840 | 同名三来源同判，拆成 panel／style／audit |
+| 机制与示意图 | 5 | medical-illustration 11937／ai-figure-studio 26012／scientific-schematics 23850／figure-designer 7661／document-illustrator 11648 | 只留可编辑矢量一条链 |
+| 流程与矢量 | 4 | drawio-reconstruction 22022／fireworks-tech-graph 5658／markdown-mermaid-writing 14888／scientific-drawing 5356 | 文本定拓扑，交 .drawio 源文件 |
+| 影像与切片 | 3 | imaging-data-commons 34425；pydicom／histolab 取自 toolbox 域 | 本地解码与取块才进流程 |
+| 文生图与外部服务 | 6 | infographics 18071／aris-paper-illustration-image2 20237／generate-image 7048／figures-diagram 4304／Illustrator 1801／xiantao-plot-api 20822 | 整簇弃用，只借纪律 |
+| 域外 | 8 | workbuddy-smartsheet 27789／tencent-docs／tencent-saas-docs／aris-auto-review-loop-llm 8600／geopandas 7117／pymatgen 20034／nature-reader 3902／scholar-conceptual 21271 | 不属图件生产 |
 
-## 二、四问的答案落在哪
+## 二、四问的答案
 
-- 最擅长：academic-figures 在图型覆盖面与门禁上最强（40 图型、PRISMA 数字自洽、重叠 exit 2）；scientific-visualization 在期刊硬指标上最细（栏宽、字号、Okabe-Ito、禁 jet）。
-- 不做什么：academic-figures 明确不做无数据支撑的纯示意图；medical-illustration 只做矢量组件不做数据图；figures-diagram 只产提示词。
-- 搬进协议：1.5 pt 面板对齐门（nature-figure）、字号门禁与重叠门禁（academic-figures）、15 项终检读数（scientific-visualization）、四要素与三语义箭头（medical-illustration）。
-- 与谁冲突：scientific-schematics、ai-figure-studio、figures-diagram 会把「机制图」导向外部生图，与「机制图必须可控、可编辑、不标 [n]」直接冲突，故整簇弃用。
+- 最擅长：academic-figures（40 图型、PRISMA 数字自洽、重叠 exit 2）；scientific-visualization（栏宽、字号、Okabe-Ito、禁 jet）；nature-figure（1.5 pt 对齐门、碰撞审计）；medical-illustration（百余矢量组件、激活／抑制／易位三语义箭头）。
+- 不做什么：academic-figures 不做无数据示意图；medical-illustration 不做数据图；figure-designer 只出建议；scientific-drawing 无脚本无门禁。
+- 搬进协议：1.5 pt 对齐门、exit 2 重叠门、13 项终检、四要素与实线／虚线／T 型、PRISMA 五框核数。
+- 与谁冲突：xmed-figure 与全部文生图技能把「机制图」导向外部渲染，与「可控可编辑、图内不标 [n]」直接冲突。
 
-## 三、五个弃用条目与理由
+## 三、10 个弃用条目分三类
 
-| 技能 | 理由 |
-|---|---|
-| `xiantao-plot-api` | 数据经 requests 上传第三方接口，无法本地复核复现；涉患者数据绝不出机 |
-| `scientific-schematics` | 经 OpenRouter 调外部生图模型，只出位图，分子标签与箭头语义不可控 |
-| `ai-figure-studio` | 依赖本机 Illustrator 手工运行 .jsx，产物 .ai 不可复现、不可审计 |
-| `generate-image` | 上传外部服务生成像素，实验图不可回溯，不得替代真实数据渲染 |
-| `figures-diagram` | 只把需求转成生图提示词，自身不产出图件，不构成交付物 |
+- **数据出机**：xiantao-plot-api（requests 调在线接口）、scientific-schematics（OpenRouter 生图）、infographics（Nano Banana Pro）、aris-paper-illustration-image2（Codex 位图）、xmed-figure（X-Med MCP 上传 CSV，默认 150 dpi）、generate-image（通用文生图）。
+- **本机依赖**：ai-figure-studio（本机 Illustrator 跑 .jsx，产物 .ai 不可复现）、Illustrator（需装 Illustrator 与 Flue 桥）。
+- **不出图件**：figures-diagram（只产提示词）、document-illustrator（装饰配图，非实验图）。
 
-## 四、本机实测事实（只当环境记录，不写进对用户的硬性要求）
+## 四、本机实测（只当环境记录，不写成对用户的硬性要求）
 
-- Python 侧可用：matplotlib 3.11.2、Pillow 12.3.0、PyMuPDF 1.28.2；`import fitz` 有弃用警告，新写法 `import pymupdf`。
-- 中文字体回退链在本机命中 Microsoft YaHei；未装 Noto Sans CJK SC。
-- 本机**没有 Rscript**，故 MD §5.2 显式给出「无 R 时改用 Python 出图」的分支，不把 R 写成必需前置。
-- 5.1／5.3／5.4 三段代码已在本机实跑：PNG 3598×2901 px、dpi 599.9988、PDF 最小字号 7.0 pt，`check_figure.py` 退出码 0。
+- matplotlib 3.11.2、Pillow 12.3.0、PyMuPDF 1.28.2；中文回退链命中 Microsoft YaHei；`import pymupdf as fitz` 可消弃用警告。
+- 本机没有 Rscript，故 MD 写明「有 R 用 R、无 R 用 Python 出同一张图，.R 源文件照旧交付」。
+- MD 两段 python 已实跑：PNG 3705×2987 px、dpi 599.9988、PDF 最小字号 7.0 pt，check_figure.py exit 0。
 
 ## 五、校验记录
 
-- `node scripts/verify-capabilities.mjs figures`：首轮 2 errors（两条 `limits` 只有 7 字）；改为「仅适用于示意场景」「偏重社科稿件流程」后 **9 capabilities, 0 errors, 0 warnings**。
-- `node scripts/verify-package.mjs`：0 errors（3 warnings 属包级既有项，非本域产物）。
+- `verify-capabilities figures`：首轮 38 errors，全是 best_at／limits／take 只有 6～7 字；补到 8 字以上后 **10 capabilities, 0 errors, 0 warnings**。
+- `verify-ledger figures`：**35 entries, 0 errors, 0 warnings**（源 36 条，scientific-visualization 两条同名 dir 合并为一条判定）。

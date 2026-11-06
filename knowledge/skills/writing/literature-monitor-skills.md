@@ -1,5 +1,3 @@
-<!-- source: literature-monitor-skills @ literature-monitor-skills | domain: writing -->
-
 ---
 name: literature-monitor-skills
 description: Monitor when scholarly articles first become visible to readers on official journal or publisher surfaces—such as ASAP, Online First, Early View, Advance Articles, FirstView, Early Access, Articles in Press, or Latest Articles—and report newly observed relevant work with verified titles, persistent identifiers, and source-grounded abstract summaries. Works for user-specified STEM/SCI, social-science, arts, and humanities journals. Use for recurring target-journal alerts or a 本周最新论文/期刊周报, not broad reviews without a journal whitelist.

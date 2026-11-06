@@ -1,5 +1,3 @@
-<!-- source: latex-defense-zh @ latex-defense-zh | domain: slides -->
-
 ---
 name: latex-defense-zh
 description: Chinese thesis defense deck builder for existing XeLaTeX PhD or master thesis repositories. Extracts chapters, figures, equations, tables and publications read-only, plans pages by talk length, renders a Beamer pre-defense or defense deck with speaker notes, and runs a fidelity quality gate plus page previews. Not for .pptx, journal talks, or English defenses.

@@ -1,5 +1,3 @@
-<!-- source: arf-review-grant @ arf-review-grant | domain: ideation -->
-
 ---
 name: arf-review-grant
 description: Run a 6-agent pre-submission panel review for a grant proposal targeting a specified funder or program

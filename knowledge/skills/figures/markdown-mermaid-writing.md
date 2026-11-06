@@ -1,5 +1,3 @@
-<!-- source: markdown-mermaid-writing @ markdown-mermaid-writing | domain: figures -->
-
 ---
 name: markdown-mermaid-writing
 description: Comprehensive markdown and Mermaid diagram writing skill. Use when creating any scientific document, report, analysis, or visualization. Establishes text-based diagrams as the default documentation standard with full style guides (markdown + mermaid), 24 diagram type references, and 9 document templates.

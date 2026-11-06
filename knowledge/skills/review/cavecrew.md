@@ -1,5 +1,3 @@
-<!-- source: cavecrew @ cavecrew | domain: review -->
-
 ---
 name: cavecrew
 description: >

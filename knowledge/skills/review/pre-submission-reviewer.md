@@ -1,5 +1,3 @@
-<!-- source: pre-submission-reviewer @ pre-submission-reviewer | domain: review -->
-
 ---
 name: pre-submission-reviewer
 description: >-

@@ -1,5 +1,3 @@
-<!-- source: aris-idea-discovery @ aris-idea-discovery | domain: ideation -->
-
 ---
 name: aris-idea-discovery
 description: "Workflow 1: Full idea discovery pipeline to go from a broad research direction to validated, pilot-tested ideas. Use when user says \"找idea全流程\", \"idea discovery pipeline\", \"从零开始找方向\", or wants the complete idea exploration workflow."

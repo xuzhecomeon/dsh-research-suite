@@ -1,5 +1,3 @@
-<!-- source: clinical-research-design-extractor @ clinical-research-design-extractor | domain: ideation -->
-
 ---
 
 name: clinical-research-design-extractor

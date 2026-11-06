@@ -1,5 +1,3 @@
-<!-- source: r-nhanes-analysis @ r-nhanes-analysis | domain: stats -->
-
 ---
 name: r-nhanes-analysis
 description: NHANES（美国国家健康与营养调查）数据挖掘 R 语言实战技能。覆盖复杂抽样权重的正确处理（svydesign + options(survey.lonely.psu="adjust") + nest=TRUE + 权重变量选择 + 多周期合并权重除以周期数）、加权描述与检验（svymean/svyby/svyttest/svytable/svychisq/svyquantile）、加权回归（svyglm + quasibinomial + svycoxph）、加权 RCS 曲线的自写实现（svy2rms + NHS_rcs）、多周期 XPT 数据合并（read.xport）、检出限（LOD/√2）处理、量表条目重叠规避、多模型策略与 ShowRegTable 出表、加权中介分析。触发场景：用户要用 NHANES 做研究、公共数据库挖掘、加权复杂抽样数据分析、加权剂量-反应曲线（RCS）、或给出 NHANES 相关 R 代码数据要求代为运行调试纠错。

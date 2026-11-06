@@ -1,5 +1,3 @@
-<!-- source: scholar-safety @ scholar-safety | domain: stats -->
-
 ---
 name: scholar-safety
 description: Real-time data privacy and leakage protection layer for AI-assisted research. Before any file is read by Claude Code and transmitted to Anthropic's API, proactively scans it locally for sensitive content (PII, HIPAA, IRB-protected, restricted licensed data) using local Bash pattern matching — so the sensitive data itself never enters the AI context during the scan. Issues tiered warnings (green/yellow/red), requests explicit user permission before transmitting any sensitive data, and offers safe alternatives: anonymization scripts, local-mode analysis (bash-only, no data in context), data minimization, or full halt. Four modes: SCAN (audit a file using only local grep/awk — sensitive data stays local), GATE (intercept a proposed operation and ask permission before execution), PROTOCOL (generate a project-level data safety protocol), STATUS (safety status log). Works alongside scholar-eda, scholar-analyze, scholar-compute, and scholar-data to protect any data-touching operation.

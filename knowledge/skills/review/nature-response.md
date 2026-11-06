@@ -1,5 +1,3 @@
-<!-- source: nature-response @ nature-response | domain: review -->
-
 ---
 name: nature-response
 description: >-

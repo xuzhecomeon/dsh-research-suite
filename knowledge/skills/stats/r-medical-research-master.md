@@ -1,5 +1,3 @@
-<!-- source: r-medical-research-master @ r-medical-research-master | domain: stats -->
-
 ---
 name: r-medical-research-master
 description: R 语言医学统计与科研全流程总纲技能（九大领域一体化总入口）。当用户提出任何医学统计、临床科研数据分析、论文图表制作、科研绘图、统计方法选择、代码排错需求时，先加载本技能以定位应调用的子技能：临床预测模型 / 机器学习与可解释性 / 孟德尔随机化 / 七大老年数据库 / 倾向得分方法 / 网络药理学与单细胞 / 真实世界研究 / 纵向轨迹模型 / NHANES 数据挖掘。本技能还提供跨域通用的「数据质量六道闸门」「四个域的静默陷阱清单」「报告规范对照表（TRIPOD/PROBAST、STROBE-MR、GRoLTS、STROBE）」「统计方法选择决策树」「本机 R 环境调用配方」。触发场景：不确定该用哪个统计方法、拿到数据不知从何下手、要复核一项分析是否可靠、要写 Methods 或 Statistical Analysis 章节、或给出任意 R 代码要求运行调试。
@@ -161,7 +159,7 @@ Q4 是否存在以下威胁？（决定必须做哪些敏感性分析）
 Remove-Item Env:LC_ALL  -ErrorAction SilentlyContinue
 Remove-Item Env:LANG    -ErrorAction SilentlyContinue
 Remove-Item Env:LANGUAGE -ErrorAction SilentlyContinue
-& "<APP_DIR>\R-4.5.2\bin\Rscript.exe" "脚本.R"
+& "D:\软件安装\R-4.5.2\bin\Rscript.exe" "脚本.R"
 ```
 **三条要点**
 1. **必须先清除 `LC_ALL`/`LANG`/`LANGUAGE`**（POSIX locale 会让 Windows 版 R 加载包失败、中文路径失效）

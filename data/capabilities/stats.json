@@ -2,434 +2,429 @@
   "domain": "stats",
   "label": "科研统计",
   "skill": "research-stats",
-  "version": "2.0.0",
-  "summary": "科研统计融合技能：把一份临床或流行病学数据变成可投稿的统计结果，全程用 R 执行，Python 只做抽取、文档与绘图排版。它强制六道数据闸门先于任何统计数字，按研究设计选择方法（先分后选、EPV≥10、PSM 看 |SMD|<0.1、生存报 HR+95%CI 并验 PH、MR 三假设逐条交代），并交付效应量+95%CI+精确 P 的完整报告。本域不负责论文写作、图片美化排版与文献检索，这些转交 research-writing、research-figures 与 research-lit。",
+  "version": "3.0.0",
+  "summary": "统计一律用 R 执行，Python 统计栈只作方法选择与效应量基准的来源。本域把 31 个源技能融合成 18 张能力卡，覆盖基线表、两组与多组比较、纵向轨迹、回归、生存、预测模型、可解释性、倾向评分、诊断试验、Meta、孟德尔随机化、复杂抽样、缺失值、样本量、相关一致性、数据清洗与统计报告审查；所有统计分析先过六道数据闸门，未过闸门的 P 值不得写入论文，方法必须与研究设计匹配，报告必须给效应量与 95%CI。",
   "capabilities": [
     {
       "id": "stats.baseline",
       "label": "描述统计与基线表",
-      "summary": "把原始数据变成可直接进论文的基线表：先过数据闸门与正态性判定，再按变量类型给出 mean±SD、中位数(IQR) 或 n(%)，并补齐组间比较、SMD 与缺失率三列。输入 csv/xlsx/sav/dta 与变量定义，输出 DOCX 三线表、XLSX 明细与分布图。它不替你判断组间差异是否有临床意义，也不做复杂抽样加权（转 stats.survey）。",
+      "summary": "把清洗后的分析数据集变成期刊可用的 Table 1：先过闸门判分布，再选描述方式与组间检验，交付三线表、缺失列、SMD 与分布图，并把每一步判断依据留痕，供方法段直接引用。",
       "triggers": [
         "帮我做基线表",
-        "Table 1 怎么画",
-        "正态性怎么判断",
-        "基线两组可比性怎么看",
-        "基线段缺失率怎么写",
-        "中位数和四分位距怎么报"
+        "Table 1 怎么做",
+        "基线资料表加 P 值",
+        "描述性统计与组间比较",
+        "基线特征表要 SMD"
       ],
       "inputs": [
-        "原始数据文件（csv/xlsx/sav/dta）",
-        "分组变量、结局变量与变量清单",
-        "变量的单位、正常值范围与缺失码定义"
+        "分析数据集（csv/xlsx/sav/dta）",
+        "变量清单与结局定义",
+        "分组变量或暴露变量",
+        "目标期刊的表格格式要求"
       ],
       "members": [
         {
           "skill": "r-medical-stats",
           "verdict": "主用",
           "best_at": [
-            "tableone/gtsummary 基线表与 DOCX 三线表",
-            "六道闸门先于任何描述统计",
-            "正态性判定后自动切换均值或中位数"
+            "tableone 与 gtsummary 三线表",
+            "闸门脚本先于任何描述数字",
+            "正态性判定与检验自动分流"
           ],
           "limits": [
-            "不判断组间差异的临床意义",
-            "不处理复杂抽样权重与分层"
+            "不替用户判断临床意义",
+            "复杂抽样须另建设计对象"
           ],
           "take": [
-            "lib_00 的 read_any 与 table1 封装",
-            "闸门前四道先跑，未过闸门不落数字"
+            "tableone 分离缺失列并给 SMD",
+            "先跑闸门 1–2 再出描述统计"
+          ]
+        },
+        {
+          "skill": "scholar-eda",
+          "verdict": "补强",
+          "best_at": [
+            "分析样本逐步排除并记 N 前后",
+            "轻量缺失与小样本格处理"
+          ],
+          "limits": [
+            "社会 sci 口径，缺医学检验细节",
+            "偏 HTML/TeX 输出需转 DOCX"
+          ],
+          "take": [
+            "排除流程表写明每步 N 与原因",
+            "缺失超 20% 单列并标为限制",
+            "格内 n<10 折叠不报百分比"
           ]
         },
         {
           "skill": "r-aging-cohort-databases",
           "verdict": "补强",
           "best_at": [
-            "tableone 的 nonnormal 变量显式声明",
-            "老年队列离散波次与缺失码清洗"
+            "老年队列 Harmonized 变量核对",
+            "离散波次随访的基线处理"
           ],
           "limits": [
-            "面向固定队列数据，变量语义依赖 Codebook",
-            "不做加权基线表与分层"
+            "只覆盖七个老年队列数据源",
+            "不外推到其他数据库"
           ],
           "take": [
-            "非正态变量必须在 nonnormal= 列表里逐个点名",
-            "Harmonized 变量先对照 Codebook 再入表"
-          ]
-        },
-        {
-          "skill": "statistical-analysis",
-          "verdict": "补强",
-          "best_at": [
-            "效应量基准表与假设检验前置检查",
-            "APA 与中文期刊结果句式"
-          ],
-          "limits": [
-            "Python 执行，与统计一律 R 的铁律冲突",
-            "不产出三线表与 Word 交付物"
-          ],
-          "take": [
-            "效应量基准：d 0.2/0.5/0.8，η²p 0.01/0.06/0.14",
-            "假设检查顺序：正态→方差齐→离群→线性"
+            "分类变量 nonnormal 必须显式声明",
+            "分组前先对 Codebook 核编码"
           ]
         },
         {
           "skill": "exploratory-data-analysis",
           "verdict": "兜底",
           "best_at": [
-            "变量分布、异常值与重复值快速概览",
-            "多变量关系矩阵与缺失热图"
+            "200+ 科学数据格式识别",
+            "结构与质量摘要报告"
           ],
           "limits": [
-            "只做探索，不产出可发表统计量",
-            "不替代正式假设检验"
+            "只做探索不出检验",
+            "不做任何统计推断与建模"
           ],
           "take": [
-            "先出分布图与离群点清单，再决定检验路线",
-            "离群点处置必须写进方法，不得静默删除"
+            "未知格式先出结构摘要再定读法"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "列类型核对",
-          "from": "r-medical-stats#五",
-          "do": "逐列核对连续/分类/时间/ID，跑闸门一与闸门二",
-          "detail": "连续列若含千分位逗号、空串或单位混写，先改数值型；扫描不可能值（年龄>120、BMI<10 或>60、日期倒挂），命中项列清单并回问数据来源，不得自行改值。"
+          "step": "跑闸门 1–2 定列类型",
+          "from": "r-medical-stats#§五 六道闸门 + exploratory-data-analysis#格式检测",
+          "do": "逐列核对类型、码表与不可能值",
+          "detail": "read_any 读入后逐列检查 is.numeric 与因子水平；千分位逗号按正则改回数值并记录被改行数；年龄>120、BMI<10 或>60、日期倒挂逐列计数，为 0 才允许进入描述，任何非零先回问来源。"
         },
         {
-          "step": "正态性判定",
-          "from": "r-medical-stats#五",
-          "do": "按组做 Shapiro-Wilk 并结合 Q-Q 图与偏度",
-          "detail": "每组 n<50 以 Shapiro-Wilk p<0.05 判偏态；n≥50 以 Q-Q 图与实际分布为主判据，不单看 P 值（大样本几乎必然拒绝正态）。偏态变量报中位数(IQR)，并在表注写明判定方法。"
+          "step": "定义分析样本并记 N 变化",
+          "from": "scholar-eda#Phase 2 分析样本",
+          "do": "按排除规则逐步 filter 并留痕",
+          "detail": "按结局缺失、关键暴露缺失、失访、年龄界值逐条 filter，每步记录排除前 N、排除后 N 与原因，输出排除流程表；Table 1 的 N 必须与此表末行一致，不一致视为错误。"
         },
         {
-          "step": "基线表生成",
-          "from": "r-aging-cohort-databases#模块一",
-          "do": "CreateTableOne 显式传 nonnormal 与 catVars 出表",
-          "detail": "连续正态 mean(SD)、非正态 median[IQR]、分类 n(%)，固定列为总体/组1/组2/SMD/缺失；SMD>0.1 的变量在表注点名，P 值只作参考并注明检验方法。"
+          "step": "判分布选描述方式",
+          "from": "r-medical-stats#§六 决策树",
+          "do": "Shapiro-Wilk 或偏度加 Q-Q 分流",
+          "detail": "连续变量分组做 Shapiro-Wilk（每组 n≤50）或看偏度与 Q-Q 图（n>50），组间方差用 Levene 检验；正态报均数±标准差，偏态报中位数（P25，P75），判定依据写进表注而不是隐去。"
         },
         {
-          "step": "组间比较",
-          "from": "r-medical-stats#六",
-          "do": "按变量类型选 t/秩和/卡方/Fisher 并做多重校正",
-          "detail": "三组以上用 ANOVA 或 Kruskal-Wallis 并给 post-hoc（Tukey/Dunn）；同一张表比较变量数超过 10 时用 Holm 或 FDR 校正，表注写明校正方法与比较次数，避免只挑显著项报告。"
+          "step": "组间比较选检验",
+          "from": "r-medical-stats#§六 + statistical-analysis#检验选择",
+          "do": "按分布、设计与配对关系选检验",
+          "detail": "两组正态用 t、偏态用 Mann-Whitney；多组用 ANOVA 或 Kruskal-Wallis；分类用卡方（期望频数<5 用 Fisher）；配对或重复测量用配对检验或混合模型；每个 P 值同报统计量与自由度，不只写 P<0.05。"
         },
         {
-          "step": "三线表与图",
-          "from": "r-medical-stats#七",
-          "do": "导出 DOCX 三线表并配分布图",
-          "detail": "三线表只保留顶线、表头线与底线，无竖线；连续变量配箱线或小提琴图（含个体点），分类变量配堆叠条形图，图统一输出 SVG+PDF+PNG 三格式、dpi=300。"
+          "step": "出三线表与缺失列",
+          "from": "r-medical-stats#lib_00 table1 + scholar-eda#Phase 10 Table 1",
+          "do": "生成 DOCX 与 XLSX 双份",
+          "detail": "gtsummary 或 tableone 出三线表：整体列、分组列、P 列、缺失列；分类变量报 n(%)，连续变量注明均数或中位数；表注写检验方法、缺失比例、SMD 绝对阈值 0.1，格内 n<10 折叠不报百分比。"
         },
         {
-          "step": "分布核查",
-          "from": "exploratory-data-analysis",
-          "do": "出直方图与箱线图并标出离群点",
-          "detail": "对每个连续变量标出 |z|>3 或 IQR 规则离群点；保留、缩尾（阈值写明）或做敏感性分析三选一，处置方式必须写进方法段，禁止无记录删除或替换。"
+          "step": "出分布图并存证",
+          "from": "r-medical-stats#§三 SVG 出图",
+          "do": "关键变量出图并写日志",
+          "detail": "关键连续变量出直方图或小提琴图，异常值单独标出不擅自删除；每图同时输出 SVG、PDF、PNG（300 dpi）；sessionInfo、数据版本与闸门结果写入 out/logs，作为可复现证据。"
         }
       ],
       "decide": [
         {
-          "when": "连续变量明显偏态且每组 n<30",
-          "use": "中位数(IQR) 配 Mann-Whitney，不做变换后硬套 t 检验",
-          "instead_of": "先 log 变换再 t 检验并只报变换后结果",
-          "why": "小样本变换不能保证正态，且变换后效应量难回译，审稿人常追问原始尺度差异"
+          "when": "样本量小且分布明显偏态",
+          "use": "报中位数与四分位并补个体点图",
+          "instead_of": "一律均数±标准差",
+          "why": "均数被极值拖动，读者无法判断真实分布"
         },
         {
-          "when": "两组基线 P<0.05 但对应 SMD<0.1",
-          "use": "以 SMD 判可比性，在表注解释 P 值受样本量驱动",
-          "instead_of": "仅凭 P 值声称基线不均衡",
-          "why": "大样本下 P 对微小差异敏感，SMD<0.1 才是均衡判据（Austin 等建议）"
+          "when": "目的是描述而非筛混杂",
+          "use": "只出整体列与分组列，不逐列做 P 值",
+          "instead_of": "每个基线变量都做假设检验",
+          "why": "基线 P 值不能用于筛选混杂，过度解读会误导"
         }
       ],
       "gates": [
-        "每列类型已核对并写明（连续/分类/时间/ID），连续列无字符型混入",
-        "不可能值扫描通过：年龄≤120、BMI 10–60、日期无倒挂，异常清单已列出",
-        "每个变量的缺失率已列出，>20% 缺失的变量已在局限性中说明",
-        "所有偏态变量已用中位数(IQR)，表注写明正态性判定方法",
-        "组间比较已注明检验方法、多重比较校正方法与比较次数"
+        "闸门 1–2 逐列记录齐全且不可能值计数为 0 或已回问来源",
+        "Table 1 每个变量都注明描述方式与所用检验",
+        "缺失列与总体缺失率同表呈现",
+        "排除流程表 N 前后与 Table 1 的 N 一致"
       ],
       "outputs": [
-        "基线表 DOCX（三线表）+ XLSX（含缺失列与 SMD）",
-        "分布图 SVG/PDF/PNG 三格式",
-        "数据质量核查记录（六道闸门逐项结果）"
+        "基线表 DOCX（三线表）与 XLSX（含缺失列与 SMD）",
+        "分布图 SVG/PDF/PNG 三格式 300dpi",
+        "闸门与排除流程记录（N 前后对照）"
       ],
       "kb": [
         "r-medical-stats",
-        "r-aging-cohort-databases",
-        "statistical-analysis"
+        "scholar-eda",
+        "r-aging-cohort-databases"
       ]
     },
     {
       "id": "stats.twogroup",
       "label": "两组比较",
-      "summary": "两组之间的比较：先查前提再选 t、Mann-Whitney、配对 t/Wilcoxon、卡方或 Fisher，并同时给出统计量、自由度、效应量与 95%CI、精确 P。输入分组变量与结局变量，输出检验表与图。它不做三组以上比较（转 stats.multigroup），也不把 P<0.05 当成临床重要性的证据。",
+      "summary": "接两组或配对数据，先查前提再选检验，交付统计量、自由度、效应量与 95%CI、精确 P 与配套图，并把假设检查结果写进结果段，避免只报一个 P 值。",
       "triggers": [
         "两组差异怎么检验",
         "t 检验还是秩和检验",
-        "卡方还是 Fisher 精确",
         "配对数据怎么比较",
-        "效应量怎么算",
-        "P 值精确到几位"
+        "两组比较要效应量",
+        "P 值怎么报才完整"
       ],
       "inputs": [
-        "分组变量（两组）与结局变量",
-        "配对/重复测量的对应关系",
-        "预期效应量与最小临床重要差异"
+        "两组连续或分类数据",
+        "配对或独立的设计说明",
+        "分组变量",
+        "目标期刊的统计报告要求"
       ],
       "members": [
         {
           "skill": "r-medical-stats",
           "verdict": "主用",
           "best_at": [
-            "t/秩和/卡方/Fisher 的检验选择树",
-            "正态性与方差齐性前置检查",
-            "效应量与统计量同表输出"
+            "检验选择树与前提检查脚本",
+            "效应量与 CI 的 R 实现"
           ],
           "limits": [
-            "不判断临床重要性",
-            "不覆盖三组以上与重复测量"
+            "不覆盖复杂抽样设计",
+            "不自动生成期刊排版"
           ],
           "take": [
-            "决策树先定结局类型再定检验",
-            "非参数结果报 Hodges-Lehmann 中位数差"
+            "先 Shapiro 与 Levene 再分流",
+            "结果同报统计量、df 与精确 P"
           ]
         },
         {
           "skill": "statistical-analysis",
           "verdict": "补强",
           "best_at": [
-            "Welch 校正与稳健标准误处置",
-            "效应量基准与报告句式"
+            "效应量基准表与假设违反处置",
+            "APA 式报告句式"
           ],
           "limits": [
-            "执行层用 Python，不能直接产出 R 结果",
-            "不处理配对设计的图"
+            "执行栈是 Python，不能直接落地",
+            "不管中文期刊格式"
           ],
           "take": [
-            "方差不齐用 Welch t 或 Brown-Forsythe",
-            "报告句式：统计量+df+精确 P+效应量及 CI"
+            "Cohen's d 取 0.2/0.5/0.8 解释",
+            "方差不齐改 Welch 并说明理由"
           ]
         },
         {
-          "skill": "r-medical-research-master",
+          "skill": "nature-statistics",
           "verdict": "补强",
           "best_at": [
-            "按研究目的路由到正确检验",
-            "静默陷阱速查要点清单"
+            "审稿人视角的统计报告审查",
+            "图注统计与误差棒定义"
           ],
           "limits": [
-            "总纲性质，单招细节不如子技能",
-            "不产出任何图表交付"
+            "只审报告不改数据",
+            "不替作者重算检验"
           ],
           "take": [
-            "先回答结局类型与配对关系再落方法",
-            "结果方向与常识不符先查编码而不是解释结论"
+            "误差棒必须写清 SD 或 SEM",
+            "图注注明 n 的独立单位"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "前提检查",
-          "from": "statistical-analysis#假设检查",
-          "do": "正态性、方差齐性与配对差值分布逐项检查",
-          "detail": "两组各自 Shapiro-Wilk 与 Q-Q；Levene 检验方差齐性；配对设计还要看差值分布。n>30/组轻度偏离可继续参数检验，方差不齐改 Welch t，差值明显偏态改 Wilcoxon 符号秩。"
+          "step": "确认设计与独立单位",
+          "from": "nature-statistics#Default stance",
+          "do": "分清配对、独立与重复测量",
+          "detail": "先确认两组是独立样本、配对样本还是同一对象的重复读数；若同一对象有多个读数（多部位、多时点），独立单位按对象计，用配对或混合模型，不允许把重复读数当独立样本扩大 n。"
         },
         {
-          "step": "选择检验",
-          "from": "r-medical-stats#六",
-          "do": "按结局类型与设计选检验并写明理由",
-          "detail": "二分类看期望频数：2×2 且任一格期望<5 用 Fisher 精确，否则卡方（是否 Yates 连续校正按目标期刊要求）；连续结局按独立/配对与正态性落到四种检验之一，方法段写明选择依据。"
+          "step": "查前提并记录",
+          "from": "r-medical-stats#§六 + statistical-analysis#假设检查",
+          "do": "正态、方差齐与离群值三项",
+          "detail": "每组做 Shapiro-Wilk 与 Q-Q 图，两组做 Levene 或 F 检验查方差齐，用 IQR 规则标离群但不擅自删除；三项结果写入结果段或附录，任一违反都要说明改用了哪种稳健或非参数方法。"
         },
         {
-          "step": "效应量",
-          "from": "statistical-analysis#效应量",
-          "do": "报效应量与 95%CI，不只报 P",
-          "detail": "参数检验报 Cohen's d 或均值差及其 95%CI；二分类报 OR/RR 及 CI；非参数报 rank-biserial 或 Hodges-Lehmann 中位数差 CI，并说明 d 的基准（0.2/0.5/0.8）来自何处。"
+          "step": "按选择树定检验",
+          "from": "r-medical-stats#§六 决策树 + statistical-analysis#检验选择",
+          "do": "独立与配对各走一条路径",
+          "detail": "独立连续正态用 t 检验（方差不齐用 Welch），偏态用 Mann-Whitney U；配对连续用配对 t 或 Wilcoxon 符号秩；二分类用卡方，期望频数<5 用 Fisher 精确检验；等级资料用秩和并报中位数。"
         },
         {
-          "step": "结果报告",
-          "from": "statistical-analysis#APA",
-          "do": "按期刊版式写统计量与 P",
-          "detail": "中文期刊同报统计量与 P（t=2.31，P=0.023）；SCI 报 t(df)=2.31，P=0.023，效应量 d=0.46（95%CI 0.08–0.84）；P<0.001 才写不等式，其余给精确值，保留三位小数。"
+          "step": "计效应量与 95%CI",
+          "from": "statistical-analysis#效应量基准 + r-medical-stats#lib_01",
+          "do": "每项检验配对应效应量",
+          "detail": "连续用 Cohen's d 或 Hedges' g 并给 95%CI，秩和检验可用 rank-biserial r 或中位数差，二分类用 RR 或 OR 与 95%CI；效应量按小 0.2、中 0.5、大 0.8 解释，且说明这是约定不是临床阈值。"
         },
         {
-          "step": "出检验配图",
-          "from": "r-medical-stats#七",
-          "do": "出箱线/小提琴图、配对连线图与堆叠条形图",
-          "detail": "连续结局用箱线或小提琴加个体散点（抖动宽度写明），配对数据用连线图展示个体前后变化；二分类用堆叠条形并标百分比，图注写明样本量与检验方法。"
+          "step": "写结果段与出图",
+          "from": "r-medical-stats#§三 + nature-statistics#图注统计",
+          "do": "中文与英文各一版结果句",
+          "detail": "结果句同报统计量、df、精确 P 与效应量，例如 t=2.31、df=58、P=0.023、d=0.61；图用箱线或小提琴叠加个体点，配对数据出连线图，图注注明误差棒含义、n 的独立单位与检验名称。"
         }
       ],
       "decide": [
         {
-          "when": "小样本非正态但两组差异方向一致且离群点多",
-          "use": "Mann-Whitney 加 Bootstrap 中位数差 CI，并做敏感性分析",
-          "instead_of": "删除离群点后跑 t 检验",
-          "why": "删点会改变目标人群且不可复现，Bootstrap 保留全部观测并给出稳健区间"
+          "when": "每组 n<30 且分布接近正态",
+          "use": "t 检验并同时报效应量与敏感性",
+          "instead_of": "一律改用非参数检验",
+          "why": "小样本非参数检验功效低，正态近似在稳健范围内可用"
         },
         {
-          "when": "多重比较中的某一项 P=0.049",
-          "use": "报校正后 P 与未校正 P 并说明主次假设",
-          "instead_of": "只报未校正 P 宣称显著",
-          "why": "未校正的多重比较会把偶然波动当发现，审稿人按比较次数追问"
+          "when": "两项测量存在系统偏移",
+          "use": "先算差值再报一致性（ICC 或 Bland-Altman）",
+          "instead_of": "只做配对 t 检验",
+          "why": "配对 t 只检验均值差，无法揭示个体层面偏移"
         }
       ],
       "gates": [
-        "每组样本量与缺失数已报",
-        "检验前提（正态/方差齐/期望频数）已检验并在方法段写明",
-        "效应量与 95%CI 同报，不只报 P 值",
-        "P 值给精确值（<0.001 除外），保留三位小数",
-        "多重比较已写明校正方法与比较次数"
+        "前提检查结果（正态、方差齐、离群）已写进结果或附录",
+        "效应量与 95%CI 与检验结果同报，未只写 P<0.05",
+        "P 值保留三位小数并给出精确值，不出现 P=0.000",
+        "配对或重复测量数据未按独立样本检验"
       ],
       "outputs": [
-        "两组比较结果表（统计量/df/效应量/95%CI/P）",
-        "箱线或小提琴图 + 配对连线图（SVG/PDF/PNG）",
-        "方法段与结果段文字草稿"
+        "两组比较结果表（统计量、df、效应量、95%CI、P）",
+        "箱线或小提琴图与配对连线图 SVG/PDF/PNG",
+        "中文与英文结果段落草稿"
       ],
       "kb": [
         "r-medical-stats",
         "statistical-analysis",
-        "r-medical-research-master"
+        "nature-statistics"
       ]
     },
     {
       "id": "stats.multigroup",
       "label": "多组与重复测量",
-      "summary": "三组以上比较与同一批对象的重复测量：ANOVA/Kruskal-Wallis、重复测量方差分析、线性混合模型与 GEE，处理球形假设、post-hoc 与 ICC。输入长表或宽表与分组/时间变量，输出模型表、边际均值与交互图。轨迹异质性建模（GBTM/LCMM 选组）不在本能力内，本能力只回答组间与时间趋势差异。",
+      "summary": "接三组以上或纵向重复测量数据，先判断相关结构再选 ANOVA、混合模型或 GEE，交付组间与交互效应、事后比较与校正、ICC 与趋势图，并说明为何不用简单的多组 t 检验。",
       "triggers": [
-        "三组比较怎么做",
+        "三组以上怎么比较",
         "重复测量方差分析",
-        "球形检验不过怎么办",
         "混合模型还是 GEE",
-        "post-hoc 怎么校正",
-        "交互作用显著怎么解释"
+        "组间交互效应怎么做",
+        "事后比较怎么校正"
       ],
       "inputs": [
-        "分组变量与时间点（≥2 个测量）",
-        "对象 ID（重复测量必需）",
-        "结局变量与协变量清单"
+        "三组以上或纵向数据（长表）",
+        "个体 ID 与时间变量",
+        "结局变量与协变量",
+        "缺失与失访情况说明"
       ],
       "members": [
         {
           "skill": "r-medical-stats",
           "verdict": "主用",
           "best_at": [
-            "RM-ANOVA 与 LMM/GEE 决策树",
-            "球形检验与 Greenhouse-Geisser 校正",
-            "ICC 与随机效应报告"
+            "RM-ANOVA、混合模型与 GEE 决策树",
+            "球形检验与 ICC 计算"
           ],
           "limits": [
-            "不覆盖轨迹分组与类别数选择",
-            "不做复杂抽样加权"
+            "不覆盖非线性轨迹建模",
+            "不自动选协方差结构"
           ],
           "take": [
-            "Mauchly p<0.05 用 GG ε 校正并报 ε",
-            "缺失与不平衡数据直接上 LMM 而非 RM-ANOVA"
+            "先判球形再定校正方式",
+            "奇异拟合时改随机效应结构"
           ]
         },
         {
           "skill": "r-trajectory-models",
           "verdict": "补强",
           "best_at": [
-            "纵向数据的轨迹分组",
-            "AIC/BIC/SABIC/CIC 与 Avepp 综合判据"
+            "组基轨迹与潜类别增长模型",
+            "网格搜索处理局部最优"
           ],
           "limits": [
-            "面向轨迹异质性，不处理组间均值比较",
-            "需要较长随访与足够样本"
+            "只处理轨迹分组不处理一般交互",
+            "对样本量要求较高"
           ],
           "take": [
-            "比较组数时多项式阶次必须统一",
-            "每组占比≥5% 且 Avepp>0.7 才接受"
+            "用多项式阶次统一的准则比 AIC",
+            "多随机起点避免局部最优"
           ]
         },
         {
           "skill": "statistical-analysis",
           "verdict": "补强",
           "best_at": [
-            "ANOVA 前提检查与 post-hoc 选择",
-            "效应量 η²p 基准"
+            "球形违反与事后检验处置",
+            "η²p 效应量解释"
           ],
           "limits": [
-            "Python 执行，混合模型生态弱于 R",
-            "不产出期刊格式图"
+            "Python 执行栈不落地",
+            "不熟悉临床纵向设计"
           ],
           "take": [
-            "η²p 基准 0.01/0.06/0.14",
-            "球形违反时自由度校正的思路"
+            "球形违反用 Greenhouse-Geisser",
+            "事后用 Tukey 或 Holm 校正"
           ]
         },
         {
           "skill": "statsmodels",
           "verdict": "兜底",
           "best_at": [
-            "本机无 R 时的混合效应与 GEE 实现",
-            "方差分析与事后检验"
+            "混合模型与残差诊断类齐全",
+            "系数表与推断输出规范"
           ],
           "limits": [
-            "与统计一律 R 冲突，只作应急",
-            "图与表需另写脚本"
+            "无 R 生态的 survey 支持",
+            "权重语义易被误当精度权重"
           ],
           "take": [
-            "仅在 R 不可用时使用，并在交付中标注路线"
+            "仅在无 R 时作交叉验证"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "设计判断",
-          "from": "r-medical-stats#六",
-          "do": "区分独立三组、重复测量与不平衡设计",
-          "detail": "独立三组→one-way ANOVA/Kruskal-Wallis；同一批人多次测量→先试 RM-ANOVA，有缺失或时间点不齐直接上线性混合模型；关心群体平均效应可用 GEE（exchangeable 相关结构）。"
+          "step": "判相关结构与设计",
+          "from": "r-medical-stats#§六 重复测量决策",
+          "do": "定独立单位、时间点数与缺失形态",
+          "detail": "确认每个对象的读数个数、时间点是否等距、是否有失访；完全随机三组走单因素 ANOVA，同一对象多时点走重复测量或混合模型，多层嵌套（中心-患者）走多层模型，不能把多层数据压平。"
         },
         {
-          "step": "前提检验",
-          "from": "r-medical-stats#六",
-          "do": "跑正态性、方差齐性与球形检验",
-          "detail": "残差 Q-Q 与 Levene；重复测量必跑 Mauchly，p<0.05 用 Greenhouse-Geisser ε 校正，ε<0.75 时也可改报 Huyhn-Feldt，两处校正都要在表注写明。"
+          "step": "查前提与球形性",
+          "from": "statistical-analysis#假设检查 + r-medical-stats#§六",
+          "do": "正态、方差齐与 Mauchly 球形检验",
+          "detail": "残差看 Q-Q 与 Shapiro，组间方差用 Levene，重复测量用 Mauchly 球形检验；球形违反用 Greenhouse-Geisser 校正并在结果中写 ε 值，严重违反或缺失多时改用混合模型或 GEE。"
         },
         {
-          "step": "拟合模型",
-          "from": "r-medical-stats#九",
-          "do": "lmer 或 geeglm 拟合并报固定与随机效应",
-          "detail": "lme4::lmer(y~time*group+(1|id)) 报 β+95%CI、随机截距方差与 ICC；GEE 用 geepack::geeglm(corstr=exchangeable, id=)，报群体平均效应与稳健 SE，两路线不得混报。"
+          "step": "拟合模型并定效应",
+          "from": "r-medical-stats#lib_06 + statsmodels#混合模型",
+          "do": "固定效应、随机效应与交互项",
+          "detail": "混合模型写清固定效应（组、时间、组×时间）与随机效应（个体截距至少）；报告交互项系数与 95%CI，交互显著才做分组事后比较；GEE 需指定工作相关结构与稳健标准误，并说明选择理由。"
         },
         {
-          "step": "交互与事后",
-          "from": "statistical-analysis#APA",
-          "do": "先检验交互再看分层，post-hoc 做校正",
-          "detail": "time×group 交互 P<0.05 才做各时间点组间比较；emmeans 出边际均值与对比，Tukey 或 Holm 校正，报校正后 P 与 95%CI，未交互时不逐点比较。"
+          "step": "事后比较与多重校正",
+          "from": "statistical-analysis#事后检验 + r-medical-stats#references 22",
+          "do": "两两比较并校正",
+          "detail": "两两比较用 emmeans 或 Tukey，同一族比较数超过 3 时用 Holm 或 FDR 校正并写校正次数；报告校正后 P 与未校正 P 的差异，不能只挑显著的那一对写进正文。"
         },
         {
-          "step": "图与表",
-          "from": "r-medical-stats#七",
-          "do": "出均值折线图与个体 spaghetti 图",
-          "detail": "分组均值±SE 折线（时间×组）标出交互 P；个体轨迹抽 30 条作 spaghetti，否则全画会糊成一团；模型表给 β/OR、95%CI、P 与 ICC，图三格式输出。"
+          "step": "出趋势图与模型表",
+          "from": "r-medical-stats#§七 图表对照",
+          "do": "均值折线加个体 spaghetti",
+          "detail": "主图画各组均值±95%CI 随时间的折线，辅图抽样个体轨迹（spaghetti）避免糊图；表格给固定效应估计、95%CI、P、ICC，ICC 低于 0.05 说明个体内相关弱，可作为敏感性说明。"
         }
       ],
       "decide": [
         {
-          "when": "重复测量数据有缺失或时间点不齐",
-          "use": "直接上线性混合模型（可处理 MAR 缺失）",
-          "instead_of": "删除不完整对象后跑 RM-ANOVA",
-          "why": "完全案例删除会引入选择偏倚并损失效能，LMM 用全部可用观测且允许不平衡"
+          "when": "同一对象多时点且缺失较多",
+          "use": "混合模型（可处理随机缺失）",
+          "instead_of": "重复测量 ANOVA 完整病例",
+          "why": "RM-ANOVA 删缺失对象会损失样本并有偏"
         },
         {
-          "when": "研究问题是个体效应且相关结构复杂",
-          "use": "LMM 报条件效应与随机效应",
-          "instead_of": "GEE 报群体平均效应却按个体解释",
-          "why": "GEE 估的是群体平均效应，个体层面解释会错位；两者估计目标不同不能混用"
+          "when": "关注总体平均效应而非个体差异",
+          "use": "GEE 加稳健标准误",
+          "instead_of": "随机效应混合模型",
+          "why": "GEE 对相关结构误设稳健，适合群体平均推断"
         }
       ],
       "gates": [
-        "球形假设或方差齐性已检验，校正方法（GG/HF/Welch）已写明",
-        "post-hoc 校正方法、比较次数与校正后 P 已报",
-        "随机效应方差与 ICC 已报（用 LMM 时）",
-        "缺失处理方式已说明（删除/可用观测/MAR 假设）",
-        "交互项检验结果已报，未交互时未做逐点比较"
+        "球形或相关结构假设已检验并写明校正方式",
+        "交互项结果与事后比较的校正方法同时出现",
+        "重复测量数据按对象聚类，未按独立样本处理",
+        "模型表含 ICC 或随机效应方差分量"
       ],
       "outputs": [
-        "模型结果表（β/OR、95%CI、P、ICC）",
-        "均值折线图 + spaghetti 图（SVG/PDF/PNG）",
+        "模型结果表（β 或 OR、95%CI、P、ICC）",
+        "均值折线图与 spaghetti 图 SVG/PDF/PNG",
         "方法段（含相关结构与校正说明）"
       ],
       "kb": [
@@ -439,304 +434,424 @@
       ]
     },
     {
-      "id": "stats.regression",
-      "label": "线性与 logistic 回归",
-      "summary": "多因素回归：先按设计拆分与变量筛选，再查 LINE 假设、共线性（VIF）与交互，最后给未调整/部分调整/完全调整三模型递进表、OR 森林图与 RCS 剂量反应曲线。输入结局、暴露与混杂清单，输出回归表与图。它不把关联当因果（转 stats.psm），也不在无 EPV 支撑时硬塞变量。",
+      "id": "stats.trajectory",
+      "label": "纵向轨迹分组",
+      "summary": "把多时点测量归成若干条轨迹：整形宽表、按阶次统一比较组数、以四项指标选模型、按均值高低重编号，交付轨迹图、分组归属表与后续多项 logistic 分析，并写明外推的不确定性。",
       "triggers": [
-        "多因素回归怎么做",
-        "变量怎么筛选",
-        "VIF 多少算共线",
-        "交互作用怎么加",
-        "限制性立方样条怎么画",
-        "OR 值和 95%CI 怎么报"
+        "轨迹分析怎么做",
+        "GBTM 和 LCGM 区别",
+        "潜类别增长模型选几组",
+        "纵向数据分组轨迹",
+        "轨迹分组后做回归"
       ],
       "inputs": [
-        "结局变量（连续/二分类）",
-        "暴露变量与混杂清单（附选择依据）",
-        "分层/亚组变量与随访时间信息"
+        "宽表多时点测量数据",
+        "个体 ID 与时间编码",
+        "结局或协变量",
+        "样本量与失访情况"
+      ],
+      "members": [
+        {
+          "skill": "r-trajectory-models",
+          "verdict": "主用",
+          "best_at": [
+            "gbmt 与 lcmm 两条技术路线",
+            "AIC/BIC/CIC/SABIC 四指标选组"
+          ],
+          "limits": [
+            "对稀疏时点与样本量敏感",
+            "外推只给趋势不给置信带"
+          ],
+          "take": [
+            "比较组数时多项式阶次必须统一",
+            "lcmm 先网格搜索再精跑"
+          ]
+        },
+        {
+          "skill": "r-medical-stats",
+          "verdict": "补强",
+          "best_at": [
+            "轨迹作暴露后的回归与森林图",
+            "三格式出图与结果段落模板"
+          ],
+          "limits": [
+            "自身不含轨迹模型代码",
+            "对分组不确定性处理有限"
+          ],
+          "take": [
+            "分组后多项 logistic 报 RRR 与 CI",
+            "图统一 SVG/PDF/PNG 三格式"
+          ]
+        },
+        {
+          "skill": "scholar-eda",
+          "verdict": "补强",
+          "best_at": [
+            "时点缺失模式与失访诊断",
+            "分析样本逐步留痕"
+          ],
+          "limits": [
+            "不做轨迹模型拟合",
+            "社会 sci 口径偏多"
+          ],
+          "take": [
+            "先看各时点缺失率再决定时点数"
+          ]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "宽转长并统一时间轴",
+          "from": "r-trajectory-models#流程",
+          "do": "pivot_longer 重建长表",
+          "detail": "用 names_to=c('.value','time') 与 names_pattern 把多时点宽表转长表，确认每个 ID 的时点数与缺失形态；时点少于 3 个或每组预期个体过少时先评估是否值得做轨迹，不要硬拟合。"
+        },
+        {
+          "step": "固定阶次比较组数",
+          "from": "r-trajectory-models#四铁律",
+          "do": "按统一阶次跑 1 到 5 组",
+          "detail": "先在固定多项式阶次下跑 ng=1 到 5，比较 AIC、BIC、SABIC 与 CIC；再调阶次，但任何跨模型比较必须阶次一致，否则信息准则不可比；每组占比低于 5% 视为过拟合信号。"
+        },
+        {
+          "step": "按四项指标定模型",
+          "from": "r-trajectory-models#模型选择",
+          "do": "信息准则加分类质量双约束",
+          "detail": "除信息准则外必须有 Avepp>0.7、OCC>5、entropy 接近 1，且每组占比≥5%；lcmm 路线先 gridsearch 多随机起点再 hlme 精跑，报告 loglik 与 best 起点，避免局部最优被当成最优解。"
+        },
+        {
+          "step": "重编号并描述轨迹",
+          "from": "r-trajectory-models#流程",
+          "do": "按均值高低重排组号",
+          "detail": "模型给出的组号随机，必须按结局均值从低到高重编号并在表里写清，否则读者会把 Class 1 误解为最低组；每组建模均值±CI 图，辅以抽样个体轨迹，不画全部个体糊图。"
+        },
+        {
+          "step": "分组后再分析",
+          "from": "r-medical-stats#lib_01 + r-trajectory-models#后续",
+          "do": "多项 logistic 或 Cox",
+          "detail": "以轨迹组为暴露做多项 logistic（RRR 与 95%CI）或以轨迹为结局做回归；必须说明分组是数据驱动，存在分类不确定性，敏感性分析可用软分类概率或调整组数复核结论。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "时点等距且样本量充足",
+          "use": "GBTM（gbmt 包）",
+          "instead_of": "LCGM 随机效应路线",
+          "why": "GBTM 假设组内无随机变异，参数少更稳定"
+        },
+        {
+          "when": "组内异质明显且样本量大",
+          "use": "lcmm 加随机效应并网格搜索",
+          "instead_of": "固定阶次 GBTM",
+          "why": "随机效应能吸收个体差异，但需更多起点防局部最优"
+        }
+      ],
+      "gates": [
+        "跨模型比较的阶次一致并写明",
+        "四项指标（准则、Avepp、OCC、占比）齐全",
+        "组号已按轨迹高低重编号并解释",
+        "已写明数据驱动分组的不确定性"
+      ],
+      "outputs": [
+        "轨迹图（各组均值±CI）与抽样 spaghetti 图",
+        "模型比较表（ng、阶次、AIC/BIC/SABIC/CIC、Avepp、占比）",
+        "个体轨迹归属表与后续回归结果表"
+      ],
+      "kb": [
+        "r-trajectory-models",
+        "r-medical-stats",
+        "scholar-eda"
+      ]
+    },
+    {
+      "id": "stats.regression",
+      "label": "线性与 logistic 回归",
+      "summary": "接单因素到多因素递进建模：先筛变量再查共线性与线性假定，交付未调整、部分调整、完全调整三套模型、OR 或 β 与 95%CI、VIF 诊断与剂量反应曲线，并写清调整了哪些混杂、为什么保留该变量。",
+      "triggers": [
+        "多因素回归怎么做",
+        "Logistic 回归 OR 怎么报",
+        "变量怎么筛进模型",
+        "共线性怎么查",
+        "剂量反应关系怎么画",
+        "回归"
+      ],
+      "inputs": [
+        "结局变量（连续、二分类或计数）",
+        "候选自变量与混杂清单",
+        "样本量与事件数",
+        "研究设计与调整策略说明"
       ],
       "members": [
         {
           "skill": "r-medical-stats",
           "verdict": "主用",
           "best_at": [
-            "LINE 假设与 VIF/自相关诊断",
-            "三模型递进与亚组森林图",
-            "RCS 剂量反应与非线性检验"
+            "uni_multi 与 three_models 递进建模",
+            "VIF、DW 与 LINE 假定诊断"
           ],
           "limits": [
-            "不做倾向评分与因果识别",
-            "不处理加权抽样数据"
+            "变量筛选策略需人工定",
+            "不自动判断临床混杂"
           ],
           "take": [
-            "三模型递进：未调整/部分/完全调整",
-            "RCS 的 P for nonlinear 必须动态取"
+            "三套模型同表呈现",
+            "连续变量先查 VIF 再入模"
           ]
         },
         {
           "skill": "r-aging-cohort-databases",
           "verdict": "补强",
           "best_at": [
-            "多模型策略与趋势分析",
-            "RCS 节点数与 datadist 管理"
+            "未调整、部分、完全调整策略",
+            "RCS 非线性与趋势分析"
           ],
           "limits": [
-            "偏队列随访数据，量纲依赖 Codebook",
-            "不覆盖诊断模型评价"
+            "面向老年队列数据结构",
+            "不覆盖复杂抽样权重"
           ],
           "take": [
-            "四分位趋势取组中位数作节点",
-            "datadist 先设后用且用后重置"
-          ]
-        },
-        {
-          "skill": "statsmodels",
-          "verdict": "兜底",
-          "best_at": [
-            "OLS/GLM 与模型诊断实现",
-            "无 R 环境时的应急回归"
-          ],
-          "limits": [
-            "与 R 铁律冲突，结果表需另做",
-            "RCS 与列线图生态弱"
-          ],
-          "take": [
-            "仅在无 R 时启用并标注执行路线"
+            "RCS 用 rcs(x,4) 并报非线性 P",
+            "效应量按每 IQR 或每 10 单位报"
           ]
         },
         {
           "skill": "r-nhanes-analysis",
           "verdict": "补强",
           "best_at": [
-            "加权数据的 svyglm 多模型递进",
-            "加权 RCS（svy2rms 改写）"
+            "svyglm 加权回归与多模型",
+            "加权 RCS 的改写方法"
           ],
           "limits": [
-            "只服务复杂抽样数据",
-            "变量清洗依赖 NHANES 命名"
+            "只针对 NHANES 类调查数据",
+            "不负责常规院内数据"
           ],
           "take": [
-            "加权数据必须 svyglm，不得裸 lm",
-            "svy2rms 让 rms 能吃 survey 设计"
+            "抽样数据必须 svyglm 不裸 glm"
+          ]
+        },
+        {
+          "skill": "statsmodels",
+          "verdict": "兜底",
+          "best_at": [
+            "OLS 与 GLM 诊断类齐全",
+            "系数表与稳健标准误"
+          ],
+          "limits": [
+            "无 R 的 rms 与 survey 生态",
+            "不适合作为最终交付物"
+          ],
+          "take": [
+            "仅无 R 时交叉验证系数方向"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "明确模型目的",
-          "from": "r-medical-research-master#决策树",
-          "do": "先定预测、关联还是因果",
-          "detail": "预测目的先按结局分层拆分再筛变量（先分后选）；关联目的按临床先验列混杂，中介与碰撞变量不得进模型；因果目的转 stats.psm 并先画 DAG。目的不同，变量集与报告口径不同。"
+          "step": "定结局与候选变量",
+          "from": "r-medical-stats#§五 闸门 + scholar-eda#共线性",
+          "do": "先过闸门再定候选集",
+          "detail": "先跑闸门 1–4：连续结局用 lm，二分类用 glm，计数先试 Poisson 再看过离散；二分类必须核算事件数与 EPV，每个自变量至少 10 个事件，事件不足时减变量或改用 Firth 惩罚。"
         },
         {
-          "step": "跑回归诊断",
-          "from": "r-medical-stats#六",
-          "do": "跑 LINE、VIF、EPV 与小样本补救",
-          "detail": "连续结局查线性、独立、残差正态、等方差并做 DW 自相关；VIF<5 为安全、5–10 需说明、>10 必须处理；二分类 EPV=事件数/参数个数 <10 时改用 Firth 惩罚或减少变量。"
+          "step": "单因素筛选并判混杂",
+          "from": "r-medical-stats#lib_01 uni_multi",
+          "do": "单因素 P<0.2 入候选",
+          "detail": "单因素 P<0.2 或临床公认混杂进入多因素，不只看 P 值；把候选变量按混杂、暴露、中介分类，中介不放进主模型以免过度调整；每一步保留与剔除都记录理由。"
         },
         {
-          "step": "变量筛选",
-          "from": "r-medical-stats#九",
-          "do": "先单后多或 Lasso，并报筛选前后变量数",
-          "detail": "单因素 P<0.2（保守用 0.1）入多因素，逐步 AIC 只作敏感性；Lasso 用 glmnet 并先 model.matrix 转哑变量；无论哪条路线都要报入选变量数、EPV 与筛选依据。"
+          "step": "查共线性与线性假定",
+          "from": "scholar-eda#Phase 6 共线性 + r-medical-stats#§六",
+          "do": "VIF、相关系数与残差图",
+          "detail": "连续自变量算 VIF，超过 10 视为严重共线，5–10 之间需说明；高度相关对（|r|>0.8）只保留一个；线性结局查残差 Q-Q 与 DW，二分类查 Hosmer-Lemeshow 与线性 logit 假定。"
         },
         {
-          "step": "建模与交互",
-          "from": "r-medical-stats#九",
-          "do": "拟合三模型并检验交互",
-          "detail": "lm 或 glm(binomial) 出未调整/部分调整/完全调整三列；交互项先在模型内检验（P<0.10 再解释），报分层 OR 或 RERI 及 CI，不得只挑显著亚组讲。"
+          "step": "三套模型递进拟合",
+          "from": "r-aging-cohort-databases#多模型策略",
+          "do": "未调整、部分调整、完全调整",
+          "detail": "同一暴露给三套模型：未调整、调整人口学（年龄性别）、再加临床混杂；表格并列 OR 或 β 与 95%CI 和 P，观察效应是否被混杂明显改变，方向反转必须解释而不是删掉。"
         },
         {
-          "step": "剂量反应",
-          "from": "r-aging-cohort-databases#模块六",
-          "do": "RCS 拟合并给非线性 P",
-          "detail": "rms::rcs(x,4) 节点数按样本量（<100 用 3 节点），anova 取 P for nonlinear；Predict 按每 IQR 或每 10 单位出 HR/OR 曲线并标参考点，图注写明节点位置。"
+          "step": "剂量反应与交互",
+          "from": "r-aging-cohort-databases#RCS + r-medical-stats#§六",
+          "do": "RCS 曲线与交互项",
+          "detail": "连续暴露用 rcs(x,4) 拟合限制性立方样条，报整体 P 与非线性 P；交互项先做乘法交互并报交互 P，显著才做分层，分层必须写各层的样本量与事件数，避免小样本层被过度解读。"
         },
         {
-          "step": "出表与图",
-          "from": "r-medical-stats#七",
-          "do": "出三模型表、森林图与剂量反应图",
-          "detail": "表列：β 或 OR、95%CI、精确 P、模型调整变量数；森林图 x 轴用 log 尺度并标无效线；RCS 图给参考值与分布地毯，图三格式输出。"
+          "step": "出表与森林图",
+          "from": "r-medical-stats#lib_08 forest + §三",
+          "do": "模型表与 OR 森林图",
+          "detail": "结果表给变量、β 或 OR、95%CI、P，连续变量注明每单位或每 IQR；森林图横轴用对数刻度并标参考线 1 或 0；同时输出 DOCX 表与 SVG/PDF/PNG 图，附 sessionInfo。"
         }
       ],
       "decide": [
         {
-          "when": "目标是预测且样本量有限",
-          "use": "先按结局分层拆分训练/验证集，再在训练集筛变量",
-          "instead_of": "全数据筛变量后做交叉验证",
-          "why": "全数据筛选会让验证集信息泄漏，AUC 出现乐观偏倚，外部复现失败"
+          "when": "事件数不足且变量较多",
+          "use": "减变量或 Firth 惩罚 logistic",
+          "instead_of": "硬塞全部变量",
+          "why": "EPV 低于 10 时 OR 有偏且 CI 过窄"
         },
         {
-          "when": "结局发生率>15% 且 OR 被误读为风险比",
-          "use": "改报 RR 或采用对数二项/泊松稳健方差模型",
-          "instead_of": "直接把 OR 当 RR 写进结论",
-          "why": "常见结局下 OR 会夸大相对风险，审稿人会按发生率追问"
+          "when": "暴露与结局呈非线性",
+          "use": "RCS 拟合并报非线性 P",
+          "instead_of": "只按四分位分组比较",
+          "why": "RCS 保留连续信息，分组会损失功效"
         }
       ],
       "gates": [
-        "VIF 已逐变量计算并在表中或补充材料给出",
-        "EPV 已核算并写出事件数与参数个数（logistic）",
-        "三模型递进表齐（未调整/部分调整/完全调整）",
-        "交互或 RCS 的非线性 P 值已动态获取，非硬编码文本",
-        "加权数据已用 svyglm/svycoxph，未使用裸 lm/glm"
+        "EPV≥10 已核算并写出事件数与变量数",
+        "VIF 表与严重共线变量的处置已写明",
+        "三套模型同表呈现且调整变量逐一列出",
+        "RCS 曲线报非线性 P 或说明未做非线性"
       ],
       "outputs": [
-        "三模型回归表 DOCX/XLSX",
-        "OR/β 森林图 + RCS 剂量反应图（SVG/PDF/PNG）",
-        "方法段与结果段文字（含调整变量清单）"
+        "三模型结果表（β 或 OR、95%CI、P、VIF）",
+        "OR 森林图与 RCS 曲线 SVG/PDF/PNG 300dpi",
+        "变量筛选与调整理由说明段"
       ],
       "kb": [
         "r-medical-stats",
         "r-aging-cohort-databases",
-        "statistical-analysis"
+        "r-nhanes-analysis"
       ]
     },
     {
       "id": "stats.survival",
       "label": "生存分析",
-      "summary": "时间到事件数据分析：KM 曲线与 log-rank、Cox 比例风险、PH 假定检验（Schoenfeld 残差）、竞争风险（CIF/Fine-Gray）。输入随访时间、事件状态与协变量，输出 HR+95%CI、中位生存与风险人数表。它不做预测模型列线图与外部验证（转 stats.prediction），也不在 PH 违反时硬报一个 HR 了事。",
+      "summary": "接带随访时间与结局状态的数据：先核时间单位与删失规则，再出 KM 与 log-rank、Cox 的 HR 与 95%CI、PH 假定检验与竞争风险，最后给风险表与分层森林图，避免把 1 减 KM 当累积发生率。",
       "triggers": [
         "生存分析怎么做",
-        "KM 曲线怎么画",
-        "Cox 回归",
-        "比例风险假定怎么检验",
+        "KM 曲线和 log-rank",
+        "Cox 回归 HR 怎么报",
+        "比例风险假定怎么验",
         "竞争风险怎么处理",
-        "HR 和 95%CI 怎么报"
+        "生存分析"
       ],
       "inputs": [
-        "随访时间与事件状态（含删失规则）",
-        "暴露与混杂变量",
-        "竞争事件定义（如有）"
+        "随访时间与结局状态（事件、删失、竞争事件）",
+        "暴露与协变量",
+        "时间单位与随访起止定义",
+        "样本量与事件数"
       ],
       "members": [
         {
           "skill": "r-medical-stats",
           "verdict": "主用",
           "best_at": [
-            "KM/log-rank 与 Cox 标准流程",
-            "cox.zph 与 tt/strata 补救",
-            "竞争风险与离散时间模型"
+            "survfit 与 coxph 全套流程",
+            "cox.zph 与 Schoenfeld 残差"
           ],
           "limits": [
-            "不做预测模型校准与 DCA",
-            "不覆盖 ML 生存模型"
+            "不覆盖复杂抽样生存设计",
+            "竞争风险需另接风险回归"
           ],
           "take": [
-            "PH 违反时 tt() 只接受数值型变量",
-            "有竞争事件禁用 1−KM 与普通 timeROC"
+            "HR 必须配 95%CI 与 PH 检验",
+            "时间单位统一并写进方法"
           ]
         },
         {
           "skill": "r-clinical-prediction-model",
           "verdict": "补强",
           "best_at": [
-            "时间依赖 ROC 与 C-index 计算",
-            "Bootstrap 内部验证与校准"
+            "竞争风险与累积发生率函数",
+            "时间依赖 ROC 与 C-index"
           ],
           "limits": [
-            "面向预测评价，不替代基础 Cox 报告",
-            "复杂竞争风险需额外包"
+            "面向预测建模不为因果推断",
+            "绝对风险差需另算"
           ],
           "take": [
-            "C 用 summary(coxph)$concordance[1]",
-            "timeROC 第一时点下标为 2"
+            "竞争事件用 cuminc 不用 1 减 KM",
+            "sHR 与病因别 HR 不能混报"
           ]
         },
         {
           "skill": "r-aging-cohort-databases",
           "verdict": "补强",
           "best_at": [
-            "离散随访波次的 cloglog 处理",
-            "Cox 与亚组森林图并出"
+            "离散波次随访的 cloglog 模型",
+            "亚组森林与多模型策略"
           ],
           "limits": [
-            "固定队列场景，不适合任意随访数据",
-            "变量依赖 Harmonized Codebook"
+            "面向固定波次队列",
+            "连续时间随访不适用"
           ],
           "take": [
-            "时间只有 7–9 个唯一值时改 cloglog 并明说 ties",
-            "亚组必须报校正后 P"
+            "离散时点用 cloglog 或写明 ties",
+            "随访波次少时报告离散时间模型"
           ]
         },
         {
           "skill": "scikit-survival",
           "verdict": "兜底",
           "best_at": [
-            "无 R 环境时的 Cox/RSF 实现",
-            "Uno C 与 CIF 计算"
+            "随机生存森林与生存 SVM",
+            "C-index 与时间 AUC 实现"
           ],
           "limits": [
-            "与统计一律 R 冲突，仅应急",
-            "PH 检验与加权方差生态弱"
+            "Python 执行栈不可作主交付",
+            "无 PH 检验与风险表输出"
           ],
           "take": [
-            "仅在 R 不可用时启用并标注路线"
+            "仅在无 R 时做交叉验证"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "定义时间",
-          "from": "r-medical-stats#六",
-          "do": "固定起点、终点与删失规则",
-          "detail": "起点（诊断/手术/入组）与终点（死亡/复发/末次随访）必须唯一；时间单位统一为月或天并在表注写明；随访为离散波次（唯一值≤10）时改用 cloglog 离散时间模型并说明 ties 处理。"
+          "step": "核时间与删失定义",
+          "from": "r-medical-stats#§五 闸门 + §六 生存",
+          "do": "时间单位、起点、删失与竞争事件",
+          "detail": "明确时间单位（月或年）与随访起点，删失包括失访、研究结束与撤出；检查时间是否为负、是否为 0、结局状态是否只有 0 与 1；竞争事件必须单列编码，不能与删失混为一类。"
         },
         {
-          "step": "KM 与 log-rank",
-          "from": "r-medical-stats#七",
-          "do": "survfit 出曲线并报中位生存",
-          "detail": "survminer 画 KM（含风险人数表），报中位生存时间及 95%CI；log-rank 用于两组，三组以上做校正并给校正后 P；曲线交叉时提示 PH 可能不成立。"
+          "step": "出 KM 与中位生存",
+          "from": "r-medical-stats#§七 KM + r-clinical-prediction-model#竞争风险",
+          "do": "KM 曲线、风险表与 log-rank",
+          "detail": "KM 曲线附风险人数表，组间用 log-rank；有竞争事件时画累积发生率函数而不是 1−KM（实测 1−KM 会高估累积发生率，t=8 时可达 71%），中位生存时间报 95%CI 并注明未达到。"
         },
         {
-          "step": "Cox 建模",
-          "from": "r-medical-stats#六",
-          "do": "coxph 拟合与 HR 报告",
-          "detail": "报 HR+95%CI+精确 P，多因素模型给调整变量；连续变量报每单位或每 IQR/10 单位的 HR 并写明量纲；分类变量以最低风险组或临床参照为 reference 并 relevel 赋值。"
+          "step": "Cox 建模与 PH 检验",
+          "from": "r-medical-stats#§六 + r-clinical-prediction-model#PH 违反",
+          "do": "coxph 加 cox.zph",
+          "detail": "Cox 模型报 HR 与 95%CI 与精确 P，同时跑 cox.zph 与 Schoenfeld 残差图；全局或变量 PH 违反时用时间交互 tt()（仅数值变量）、分层 strata()（该变量失去 HR）或改参数生存模型，并写明选择理由。"
         },
         {
-          "step": "PH 假定",
-          "from": "r-medical-stats#六",
-          "do": "cox.zph 检验并处置违反",
-          "detail": "cox.zph 逐变量与全局 P；违反时用 tt() 加时变效应（只接受数值型变量）或 strata() 分层（分层变量失去 HR，需在结果中说明），不得删掉显著变量掩盖违反。"
+          "step": "竞争风险与敏感性",
+          "from": "r-clinical-prediction-model#竞争风险 + r-aging-cohort-databases#多模型",
+          "do": "Fine-Gray 与病因别 HR 分开报",
+          "detail": "竞争风险用 cuminc 或 Fine-Gray 求 sHR，同时报病因别 HR；两者含义不同（实测 sHR 1.59 vs 病因别 HR 2.52，差 58%），不能混为一谈；多模型递进给未调整、部分与完全调整。"
         },
         {
-          "step": "竞争风险",
-          "from": "r-clinical-prediction-model#竞争风险",
-          "do": "改 CIF/Fine-Gray 并报绝对风险",
-          "detail": "存在竞争事件时 1−KM 会高估累积发生率，改 cuminc 或 Fine-Gray；同时报 sHR 与病因别 HR（二者含义不同），并给指定时点的绝对风险差；普通 timeROC 不可用于竞争风险。"
-        },
-        {
-          "step": "图与报告",
-          "from": "r-medical-stats#七",
-          "do": "KM 曲线加森林图，写方法与局限性",
-          "detail": "KM 图配风险人数表并标注 log-rank P 与中位生存；多因素结果配森林图（log 尺度）；局限性写明删失比例、事件数/EPV、是否考虑竞争风险与残余混杂。"
+          "step": "亚组与森林图",
+          "from": "r-aging-cohort-databases#亚组 + r-medical-stats#lib_08",
+          "do": "亚组 HR 与交互 P",
+          "detail": "亚组分析报每组事件数、HR 与 95%CI、交互 P；亚组变量超过 5 个要做多重校正，交互 P 不显著时不得声称某亚组获益，森林图横轴用对数刻度并标参考线 1。"
         }
       ],
       "decide": [
         {
-          "when": "存在明确的竞争事件（如非目标死因）",
-          "use": "报 CIF 与 Fine-Gray sHR，或同时给病因别 HR 并说明解释差异",
-          "instead_of": "用 1−KM 当累积发生率并报普通 Cox HR",
-          "why": "1−KM 把竞争事件当删失，会系统性高估目标事件风险，结论方向可能相反"
+          "when": "存在竞争事件",
+          "use": "累积发生率函数加 Fine-Gray sHR",
+          "instead_of": "1 减 KM 曲线",
+          "why": "1 减 KM 把竞争事件当删失，会高估发生率"
         },
         {
-          "when": "PH 假定被违反但研究者只想要一个总体 HR",
-          "use": "报时变效应或分段 HR，并在摘要注明非比例风险",
-          "instead_of": "忽略 cox.zph 结果直接报平均 HR",
-          "why": "违反 PH 时单一 HR 不能概括整段随访，属于误导性摘要"
+          "when": "PH 假定明显违反",
+          "use": "分层或时依系数并报告交互项",
+          "instead_of": "仍报单一 HR",
+          "why": "单值 HR 无法概括随时间变化的效应"
         }
       ],
       "gates": [
-        "HR 与 95%CI 同报，连续变量写明每单位或每 IQR 的量纲",
-        "比例风险假定已用 cox.zph 检验并写明结果与处置",
-        "中位生存时间及 95%CI 已报（或说明未达到）",
-        "竞争风险场景已说明是否考虑，未用 1−KM 冒充累积发生率",
-        "删失比例、事件数与 EPV 已报"
+        "HR 与 95%CI 同报，未只写 P 值",
+        "比例风险假定已检验并写明结果与处置",
+        "竞争事件未被当作删失处理",
+        "KM 图附风险人数表且时间单位已注明"
       ],
       "outputs": [
-        "生存分析结果表（HR、95%CI、P、事件数）",
-        "KM 曲线（含风险人数表）+ 森林图（SVG/PDF/PNG）",
-        "方法与局限性段落草稿"
+        "KM 或累积发生率图（含风险表）SVG/PDF/PNG",
+        "Cox 结果表（HR、95%CI、P、PH 检验）",
+        "亚组森林图与多模型对照表"
       ],
       "kb": [
         "r-medical-stats",
@@ -747,148 +862,142 @@
     {
       "id": "stats.prediction",
       "label": "预测模型开发",
-      "summary": "诊断或预后预测模型的全流程：先过六道闸门，按结局分层拆分训练/验证集，再筛变量、拟合 Logistic 或 Cox、画列线图，评价区分度/校准/DCA 并做 Bootstrap 内部验证，按 TRIPOD 报告。输入候选预测变量与结局，输出模型表与四张评价图。缺外部验证必须写进局限性；不做 ML 调参与 SHAP（转 stats.interpret）。",
+      "summary": "从变量到可用的预测工具：先按结局分层拆分数据再建模，交付列线图、ROC 与校准曲线、DCA、内部验证的乐观度校正与 TRIPOD 清单，缺外部验证时必须在局限性中写明，而不是用训练集 AUC 自证。",
       "triggers": [
         "预测模型怎么做",
         "列线图怎么画",
-        "ROC 和校准曲线",
-        "DCA 是什么",
-        "内部验证怎么做",
-        "TRIPOD 怎么写"
+        "ROC 和校准曲线一起报",
+        "DCA 决策曲线",
+        "模型内部验证怎么做"
       ],
       "inputs": [
-        "候选预测变量与结局定义",
-        "训练/验证拆分方案或外部验证数据",
-        "预期用途与目标人群"
+        "候选预测变量与结局",
+        "样本量与事件数",
+        "时间维度（诊断或预后）",
+        "外部验证数据（若有）"
       ],
       "members": [
         {
           "skill": "r-clinical-prediction-model",
           "verdict": "主用",
           "best_at": [
-            "10 步建模流程与列线图",
-            "校准/DCA/内部验证全套",
-            "TRIPOD 与 PROBAST 报告清单"
+            "十步建模流程与 TRIPOD 对照",
+            "列线图、校准与 DCA 全套"
           ],
           "limits": [
-            "不覆盖 ML 调参与 SHAP",
-            "外部验证需另备数据"
+            "不负责数据采集与外部数据获取",
+            "模型更新需新数据支持"
           ],
           "take": [
-            "拆分先于筛选与标准化（先分后选）",
-            "校准斜率与截距必须与 AUC 并列报告"
+            "按结局分层拆分先于一切建模",
+            "报告乐观度校正后的 C 指数"
           ]
         },
         {
           "skill": "r-medical-stats",
           "verdict": "补强",
           "best_at": [
-            "六道闸门与 EPV 核算",
-            "bootstrap_validate 与三格式出图"
+            "bootstrap_validate 与 roc_compare",
+            "三格式出图与结果段落"
           ],
           "limits": [
-            "不专精模型报告规范",
-            "ML 部分另走子技能"
+            "预测建模细节不及专精技能",
+            "不含列线图交互式版本"
           ],
           "take": [
-            "C-index>0.95 先查泄漏再报喜",
-            "EPV<10 改 Firth 或减变量"
+            "bootstrap 至少 200 次再报校正值",
+            "模型表与图统一三格式交付"
           ]
         },
         {
           "skill": "r-machine-learning-interpretability",
           "verdict": "补强",
           "best_at": [
-            "与 Logistic 的增量价值比较",
-            "DeLong+多重校正的模型对比"
+            "DeLong 检验与多重校正",
+            "重复交叉验证与防泄漏流水线"
           ],
           "limits": [
-            "重点是 ML 与解释，不是模型开发",
-            "不产出列线图与校准图"
+            "偏重机器学习模型",
+            "不产出临床可用评分表"
           ],
           "take": [
-            "模型比较必须 DeLong+Holm/FDR",
-            "标准化必须在拆分后做"
+            "模型比较用 DeLong 加 Holm 校正",
+            "标准化与筛选只在训练集内做"
           ]
         },
         {
           "skill": "scikit-survival",
           "verdict": "弃用",
           "best_at": [
-            "Python 侧生存模型与 Uno C 计算"
+            "随机生存森林实现完整",
+            "C-index 计算可用"
           ],
           "limits": [
-            "无法产出列线图、校准曲线与 DCA 的期刊版式",
-            "与统计一律 R 的执行铁律冲突"
+            "无列线图与校准曲线输出",
+            "与 R 交付栈冲突"
           ],
           "take": [
-            "只在 R 完全不可用时应急，且注明未按 TRIPOD 交付"
+            "仅在无 R 时借其 C-index 参考"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "闸门与拆分",
-          "from": "r-medical-stats#五",
-          "do": "六道闸门全过后按结局分层拆分",
-          "detail": "六道闸门逐项留痕；拆分用 createDataPartition(y=结局) 分层，先拆分再筛变量与标准化，任何用全量数据算均值方差的预处理都算泄漏；拆分比例与随机种子写入方法段。"
+          "step": "定类型与拆分策略",
+          "from": "r-clinical-prediction-model#三铁律 + r-medical-stats#§五",
+          "do": "诊断用 Logistic、预后用 Cox",
+          "detail": "结局发生在当前时点用 logistic，需随访时间用 Cox 并把时间单位常量化；拆分必须按结局分层（createDataPartition y 为结局），拆分代码放在任何筛选与标准化之前，否则乐观偏倚不可逆。"
         },
         {
-          "step": "变量筛选",
-          "from": "r-clinical-prediction-model#变量筛选",
-          "do": "单因素→多因素或 Lasso 并报 EPV",
-          "detail": "单因素 P<0.2/0.1 进多因素候选，或 Lasso（glmnet 先 model.matrix 转哑变量）；报候选变量数、最终变量数与 EPV，EPV<10 用 Firth 或减少变量，不得靠删样本凑数。"
+          "step": "筛变量并控 EPV",
+          "from": "r-clinical-prediction-model#变量筛选 + r-machine-learning-interpretability#防泄漏",
+          "do": "单因素加 Lasso 双路径",
+          "detail": "训练集内先单因素 P<0.2 再多因素，或直接用 Lasso；候选变量数必须满足每个变量至少 10 个事件（EPV≥10），分类变量按哑变量数计参数，超标先减变量而不是硬拟合。"
         },
         {
-          "step": "建模与列线图",
-          "from": "r-clinical-prediction-model#建模",
-          "do": "lrm/cph 并输出列线图",
-          "detail": "诊断模型用 lrm（x=TRUE,y=TRUE），预后用 cph（加 surv=TRUE,x=TRUE,y=TRUE）；列线图诊断用反 logit 总分、预后用 Survival()/Quantile() 指定时间点；系数表与列线图必须能互算。"
+          "step": "建模与辨别度",
+          "from": "r-clinical-prediction-model#AUC + r-medical-stats#roc_eval",
+          "do": "AUC、C-index 与 DeLong",
+          "detail": "AUC 必须带 95%CI（pROC 的 ci.auc 传 roc 对象），生存模型用 C-index 并说明是否校正乐观度；模型间比较用 DeLong 检验，多模型时用 Holm 或 FDR 校正，校正后不显著的差异不得写成更优。"
         },
         {
-          "step": "区分度与校准",
-          "from": "r-clinical-prediction-model#评价",
-          "do": "AUC/DeLong、校准曲线与 Brier",
-          "detail": "AUC+95%CI 用 pROC::ci.auc（必须传 roc 对象）；C-index 用 summary(coxph)$concordance[1]；校准用 val.prob/calibrate（u 与 time.inc 一致，cmethod=KM）+H-L（df=g−2）+Brier，斜率偏离 1 或截距偏离 0 要在结果里点明。"
+          "step": "校准与临床效用",
+          "from": "r-clinical-prediction-model#校准 + DCA",
+          "do": "校准曲线、Brier 与 DCA",
+          "detail": "校准曲线看斜率与截距（理想为 1 与 0），配 Brier 分数与 Hosmer-Lemeshow（df=组数−2）；DCA 净获益曲线阈值区间要覆盖临床决策范围，并与全治、全不治两条参考线比较，不只报 AUC。"
         },
         {
-          "step": "临床效用",
-          "from": "r-clinical-prediction-model#DCA",
-          "do": "DCA net benefit 与风险分层",
-          "detail": "dcurves 优先出决策曲线，阈值范围覆盖临床可接受区间；再按模型总分分低/中/高危三层出 KM 或发生率表，报每层事件数与比例，避免只给一条平滑曲线。"
-        },
-        {
-          "step": "验证与报告",
-          "from": "r-clinical-prediction-model#验证",
-          "do": "Bootstrap 校正 optimism，按 TRIPOD 逐条报告",
-          "detail": "Bootstrap≥200 次算 optimism 校正后的 AUC 与校准；有外部数据必须另报一组；无外部验证时在局限性首句声明，并按 TRIPOD 15 条核对条目，缺项写明原因。"
+          "step": "内部验证与呈现",
+          "from": "r-medical-stats#bootstrap_validate + r-clinical-prediction-model#列线图",
+          "do": "Bootstrap 校正与列线图",
+          "detail": "用 bootstrap 至少 200 次计算乐观度并报校正后 C 指数与校准斜率；列线图给每个变量的分值刻度与总分对应风险，诊断模型总分经反 logit 转概率；缺外部验证时必须在局限性写明。"
         }
       ],
       "decide": [
         {
-          "when": "目标是诊断（结局与预测同时点可得）",
-          "use": "Logistic 回归 + 列线图（反 logit 总分）+ 诊断 cutoff 与敏感度特异度",
-          "instead_of": "用 Cox 模型出诊断列线图",
-          "why": "诊断场景没有随访时间，Cox 的基线风险函数无定义，列线图无法反推个体概率"
+          "when": "样本量有限且无外部数据",
+          "use": "Bootstrap 内部验证加局限声明",
+          "instead_of": "宣称模型可直接临床应用",
+          "why": "无外部验证的模型在不同人群常校准失败"
         },
         {
-          "when": "模型 AUC 高但校准斜率明显偏离 1",
-          "use": "优先报告并解释校准问题，必要时重估或收缩系数",
-          "instead_of": "只报 AUC 宣称模型优秀",
-          "why": "区分度高的模型可以在绝对风险上系统性高估或低估，临床决策依赖校准而非仅排序"
+          "when": "目标是临床可用的评分工具",
+          "use": "列线图加风险分层 KM",
+          "instead_of": "只报机器学习的 AUC",
+          "why": "临床需要可手算的分值与风险分层，而非黑箱概率"
         }
       ],
       "gates": [
-        "数据拆分先于变量筛选与标准化，时间顺序可核（脚本顺序与日志）",
-        "AUC 与 95%CI 同报，且落在 0.5–1 区间",
-        "校准斜率、截距与 Brier 已报，并与 AUC 同表",
-        "EPV≥10 已核算并写出事件数与参数个数，或已用 Firth 补救",
-        "外部验证状态已明确写入局限性（有/无/样本来源）"
+        "拆分代码在筛选与标准化之前且按结局分层",
+        "EPV≥10 已核算并写出事件数与参数数",
+        "AUC 或 C-index 带 95%CI 并说明是否校正乐观度",
+        "校准曲线与 DCA 与辨别度同报",
+        "缺外部验证时局限性已写明"
       ],
       "outputs": [
-        "模型系数表 + 列线图（SVG/PDF/PNG）",
-        "ROC/校准/DCA/风险分层四图",
-        "TRIPOD 核对清单与模型报告表"
+        "列线图与评分表 SVG/PDF/PNG",
+        "ROC、校准曲线、DCA 三图与对应指标表",
+        "TRIPOD 清单对照表与模型方程"
       ],
       "kb": [
         "r-clinical-prediction-model",
@@ -899,142 +1008,141 @@
     {
       "id": "stats.interpret",
       "label": "模型可解释性",
-      "summary": "给已建好的模型做解释：kernelshap+shapviz 出蜂群/依赖/瀑布图与变量重要性排序，并用 DeLong+Holm 检验 ML 相对 Logistic 的增量价值。输入验证集上的模型与数据，输出解释图、重要性表与增量价值表。解释只针对模型行为，不构成因果结论；线性模型优先直接解释系数。",
+      "summary": "回答模型为什么这样判：在验证集上算 SHAP 与变量重要性、画蜂群与依赖图、与 Logistic 的 OR 排序互校，交付可解释性报告并说明哪些解释是模型内生的、哪些只是相关，避免把重要性当因果。",
       "triggers": [
-        "SHAP 怎么画",
-        "特征重要性怎么排",
-        "ML 模型怎么解释",
-        "SHAP 和 OR 对不上",
-        "增量价值 NRI 怎么算",
-        "变量依赖图"
+        "SHAP 怎么解释模型",
+        "变量重要性怎么算",
+        "黑箱模型怎么让医生信",
+        "特征贡献图怎么做",
+        "模型可解释性报告怎么写"
       ],
       "inputs": [
-        "已训练模型与验证集数据",
-        "特征清单与基线参照",
-        "对照模型（通常为 Logistic）"
+        "已训练模型对象",
+        "验证集特征矩阵",
+        "背景样本",
+        "预测函数与输出类型"
       ],
       "members": [
         {
           "skill": "r-machine-learning-interpretability",
           "verdict": "主用",
           "best_at": [
-            "kernelshap+shapviz 全流程",
-            "防泄漏建模与 DeLong 校正比较",
-            "校准与增量价值并报"
+            "kernelshap 与 shapviz 全流程",
+            "模型无关解释与增量价值评估"
           ],
           "limits": [
-            "不负责模型开发前的变量设计",
-            "ML 性能无增益时不强推"
+            "不负责模型训练与调参",
+            "解释依赖背景样本选择"
           ],
           "take": [
-            "验证集上解释，不在训练集算 SHAP",
-            "8 模型对比必须 Holm/FDR 校正"
+            "SHAP 排序必须与 OR 排序互校",
+            "背景样本固定并记录抽样种子"
           ]
         },
         {
           "skill": "shap",
           "verdict": "补强",
           "best_at": [
-            "Python 侧 SHAP 图与交互值",
-            "TreeSHAP 对树模型的高效实现"
+            "SHAP 理论与图型体系完整",
+            "多种解释器实现细节"
           ],
           "limits": [
-            "Python 执行，与 R 铁律冲突",
-            "与 R 结果需交叉核对"
+            "Python 执行栈不落主流程",
+            "不产出统计学推断"
           ],
           "take": [
-            "仅在 R 端无对应包时作对照实现",
-            "解释前确认特征顺序与 R 完全一致"
+            "取蜂群与依赖图的解释逻辑",
+            "用其一致性检验思路做自检"
           ]
         },
         {
           "skill": "r-medical-stats",
           "verdict": "补强",
           "best_at": [
-            "结果段写作与三格式出图",
-            "闸门与隐私数据核查"
+            "线性模型 SHAP 与系数等价推导",
+            "三格式出图与结果段落"
           ],
           "limits": [
-            "不专精 SHAP 实现",
-            "不做 ML 调参"
+            "不自带 ML 模型库",
+            "不覆盖深度学习解释"
           ],
           "take": [
-            "解释结论必须带效应方向与量级",
-            "含身份证号等标识列先脱敏"
+            "线性模型 SHAP 应还原系数乘偏差",
+            "解释结果写进结果段而非附录"
           ]
         },
         {
           "skill": "scikit-learn",
           "verdict": "弃用",
           "best_at": [
-            "通用 ML 建模与交叉验证工具"
+            "模型接口统一便于批量训练",
+            "内置 permutation importance"
           ],
           "limits": [
-            "无 SHAP 与统计推断交付",
-            "与统计一律 R 冲突"
+            "无 SHAP 值与统计推断交付",
+            "与 R 解释栈重复且更弱"
           ],
           "take": [
-            "不用于本能力的解释与报告环节"
+            "仅在需要快速对照时借用"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "前置核查",
-          "from": "r-machine-learning-interpretability#三铁律",
-          "do": "确认模型在验证集评估过且无泄漏",
-          "detail": "模型必须在验证集或交叉验证上评估过（AUC+校准齐备）；标准化/插补只能在拆分后拟合；超参只能由 CV 或验证集选；任一条件不满足先回 stats.prediction 重做，不在坏模型上解释。"
+          "step": "确认模型与解释对象",
+          "from": "r-machine-learning-interpretability#流水线 + shap#解释器",
+          "do": "锁定已训练模型与验证集",
+          "detail": "解释只在验证集或新数据上做，不用训练集；明确解释对象是单个预测还是全局，全局用背景样本（固定种子、记录抽样数），单个预测用瀑布图，两者不能混在同一张图里。"
         },
         {
-          "step": "SHAP 计算",
-          "from": "r-machine-learning-interpretability#SHAP",
-          "do": "kernelshap 计算并转 shapviz 对象",
-          "detail": "kernelshap(model, X, bg_X, pred_fun) 取背景集 100–200 行，验证集全量或抽样≤1000 行；结果转 shapviz 出 sv_importance(蜂群)、sv_dependence、sv_waterfall，图注写明模型类型与背景集规模。"
+          "step": "算 SHAP 值",
+          "from": "r-machine-learning-interpretability#kernelshap",
+          "do": "kernelshap 模型无关计算",
+          "detail": "kernelshap 需要模型、特征矩阵、背景样本与预测函数，分类模型指定输出类型为概率；样本大时先固定随机子样本（如 500 行）保证可复现，并记录抽样种子与背景样本量。"
         },
         {
-          "step": "一致性自检",
-          "from": "r-machine-learning-interpretability#自检",
-          "do": "用线性模型的系数排序校验 SHAP",
-          "detail": "对线性/Logistic 模型，SHAP 近似 系数×(x−基线均值)，其特征排序必须与 OR/β 排序一致；不一致说明特征顺序、参照或预处理有错，先修实现再谈临床解释。"
+          "step": "互校解释一致性",
+          "from": "r-medical-stats#SHAP 自检 + shap#一致性",
+          "do": "线性模型 SHAP 对 OR 排序",
+          "detail": "对 logistic 模型，SHAP 近似等于系数乘（特征值减基线均值），因此 SHAP 排序必须与 OR 排序一致；不一致说明实现或变量编码有错，先排查再解释，不允许把矛盾结果直接写进结论。"
         },
         {
-          "step": "增量价值",
-          "from": "r-machine-learning-interpretability#模型比较",
-          "do": "与 Logistic 比 ΔAUC、NRI、IDI",
-          "detail": "在验证集上比 ΔAUC+95%CI、NRI/IDI；多模型比较用 DeLong 检验并 Holm 或 FDR 校正（实测 8 模型与 Logistic 校正后常全无差异），报校正后 P 而不是原始 P。"
+          "step": "出解释图与报告",
+          "from": "r-machine-learning-interpretability#shapviz + r-medical-stats#§三",
+          "do": "蜂群、依赖与瀑布三图",
+          "detail": "全局给蜂群图（按重要性排序）与依赖图（重点变量），个体给瀑布图；图注写清背景样本、单位与方向含义；报告中区分模型内解释与因果推断，强调 SHAP 不证明因果。"
         },
         {
-          "step": "出图与写作",
-          "from": "r-medical-stats#七",
-          "do": "出三张解释图并写结果段",
-          "detail": "蜂群图给全局方向与量级、依赖图给非线性与阈值、瀑布图给个体分解；结果段按重要性降序列 top10 特征，每个给效应方向与量级，并声明这是模型解释而非因果效应。"
+          "step": "与临床变量对照",
+          "from": "r-machine-learning-interpretability#增量价值",
+          "do": "解释与领域知识对账",
+          "detail": "把高重要性变量与临床常识、既往文献对照，出现反常识强贡献时回到闸门 6 查编码与方向；同时报该模型相对 logistic 的增量 AUC 与 NRI、IDI，若增量不显著则不必上复杂模型。"
         }
       ],
       "decide": [
         {
-          "when": "模型是线性或 Logistic 且系数稳定",
-          "use": "优先解释 OR/β 与 CI，SHAP 只作补充图",
-          "instead_of": "用 SHAP 替代系数解释",
-          "why": "线性模型系数有明确统计推断与 CI，SHAP 是拟合值分解，二者混用会得出无法检验的结论"
+          "when": "需要向临床解释单个病例",
+          "use": "瀑布图或力图给个体贡献",
+          "instead_of": "只给全局重要性排序",
+          "why": "全局排序无法回答这个病人为何被判高风险"
         },
         {
-          "when": "ML 相对 Logistic 的校正后 ΔAUC 无统计学差异",
-          "use": "退回 Logistic 作为主模型，ML 列在补充材料",
-          "instead_of": "继续用复杂 ML 模型做主角并只报训练集表现",
-          "why": "无增量价值时复杂模型只增加不可解释性与过拟合风险，审稿人会问临床收益"
+          "when": "模型是线性或广义线性",
+          "use": "用系数与 OR 解释并做 SHAP 互校",
+          "instead_of": "只上 SHAP 忽略可解释的原生参数",
+          "why": "GLM 的系数本身可解释，SHAP 只作校验"
         }
       ],
       "gates": [
-        "SHAP 的特征排序已与 OR/β 排序交叉核对并一致",
-        "模型比较已用 DeLong 并做 Holm/FDR 校正，报校正后 P",
-        "增量价值已报 ΔAUC 与 95%CI（有 NRI/IDI 时同报）",
-        "解释结论已声明为模型解释而非因果效应",
-        "含个人标识的列已脱敏，原数据未外传"
+        "SHAP 排序与 OR 排序已互校并记录差异",
+        "背景样本量与随机种子已记录可复现",
+        "解释结果注明不等于因果",
+        "解释图在验证集或新数据上生成"
       ],
       "outputs": [
-        "SHAP 蜂群/依赖/瀑布图（SVG/PDF/PNG）",
-        "变量重要性表（含方向与量级）",
-        "增量价值表（ΔAUC、NRI/IDI、校正后 P）"
+        "蜂群图、依赖图与个体瀑布图 SVG/PDF/PNG",
+        "变量重要性排序表（含 SHAP 均值与方向）",
+        "可解释性报告段与一致性校验记录"
       ],
       "kb": [
         "r-machine-learning-interpretability",
@@ -1045,36 +1153,35 @@
     {
       "id": "stats.psm",
       "label": "倾向评分与真实世界证据",
-      "summary": "观察性数据的因果效应估计：先画 DAG 并声明 ATT/ATE/ATO，再做 PSM、IPTW、重叠加权或克隆删失，平衡看 |SMD|<0.1 与 Love plot，权重看 ESS，最后报 E-value。输入治疗/暴露、结局与混杂清单，输出平衡表、加权效应与敏感性表。它不能消除未测混杂，不能把 PS 当因果证明。",
+      "summary": "接观察性比较数据：先定因果问题与估计量，再建 PS 做匹配或加权，交付 |SMD|<0.1 的全表平衡核验、Love plot、ESS 与加权效应、E-value 与多方案敏感性，避免匹配后还用 P 值判平衡。",
       "triggers": [
         "倾向评分匹配怎么做",
-        "PSM 和 IPTW 区别",
-        "SMD 多少算平衡",
-        "Love plot 怎么画",
-        "E-value 怎么算",
-        "真实世界研究怎么控制混杂"
+        "PSM 后怎么查平衡",
+        "IPTW 权重怎么算",
+        "真实世界研究怎么控混杂",
+        "E-value 怎么报"
       ],
       "inputs": [
-        "治疗/暴露变量与时间窗",
-        "结局变量与随访",
-        "混杂清单（附 DAG 或临床依据）"
+        "处理组与对照组数据",
+        "基线协变量清单",
+        "结局与随访信息",
+        "目标估计量（ATT/ATE/ATO）说明"
       ],
       "members": [
         {
           "skill": "r-real-world-evidence",
           "verdict": "主用",
           "best_at": [
-            "PSM/IPTW/重叠加权/CCW 四路线",
-            "cobalt Love plot 与 ESS 诊断",
-            "E-value 与目标试验要素"
+            "cobalt 平衡诊断与 Love plot",
+            "IPTW、重叠权重与 CCW"
           ],
           "limits": [
-            "不解决未测混杂问题",
-            "时依治疗需额外数据与假设"
+            "不负责数据链接与外部对照",
+            "未测混杂只能靠 E-value 量化"
           ],
           "take": [
-            "权重必须配 svyglm/svycoxph 或稳健方差",
-            "结局>15% 用 rare=FALSE 或报 RR"
+            "全表核 |SMD|<0.1 并出 Love plot",
+            "必报 ESS 与权重范围"
           ]
         },
         {
@@ -1082,260 +1189,236 @@
           "verdict": "补强",
           "best_at": [
             "ATT/ATE/ATO 反事实框架",
-            "caliper 与匹配参数设置",
-            "加权 log-rank 实现"
+            "caliper 与匹配算法细节"
           ],
           "limits": [
-            "图与诊断不如 RWE 技能完整",
-            "不覆盖 CCW 时依治疗"
+            "平衡诊断不及 RWE 技能完整",
+            "不覆盖时依治疗的克隆设计"
           ],
           "take": [
-            "caliper=0.2×PS 的 SD，replace=FALSE 并设种子",
-            "匹配后平衡看 SMD 不看 P"
+            "先声明估计量再选方法",
+            "匹配 caliper 取 0.2 个 PS 标准差"
           ]
         },
         {
           "skill": "r-medical-stats",
           "verdict": "补强",
           "best_at": [
-            "smd_table 手写 SMD 与 psm_pipeline",
-            "六闸门与结果段写作"
+            "E-value 计算与结果段落",
+            "多方案敏感性分析模板"
           ],
           "limits": [
-            "不是 RWE 主流程",
-            "不覆盖重叠权重与诊断"
+            "PS 方法细节少于专精技能",
+            "不覆盖 CCW 克隆设计"
           ],
           "take": [
-            "ps_effect 对照展示 glm(weights=) 的 CI 偏窄",
-            "条件 logistic 用 clogit 处理匹配对"
-          ]
-        },
-        {
-          "skill": "scholar-causal",
-          "verdict": "补强",
-          "best_at": [
-            "DAG 后门路径与最小调整集",
-            "E-value/Oster/Rosenbaum 敏感性"
-          ],
-          "limits": [
-            "偏社科识别策略，医学场景需裁剪",
-            "不产出医学版式图表"
-          ],
-          "take": [
-            "先定最小调整集再选协变量",
-            "E-value 公式 RR+sqrt(RR×(RR−1)) 并给 CI 下限"
+            "E-value 点估计与 CI 下限各报一个",
+            "敏感性分析写明改了什么"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "因果问题与估计量",
-          "from": "scholar-causal#DAG",
-          "do": "画 DAG 并声明 ATT/ATE/ATO",
-          "detail": "用 DAG 列混杂、中介、碰撞变量并写后门路径与最小调整集；按目标人群声明估计量：治疗组→ATT（PSM）、全人群→ATE（IPTW）、临床均势→ATO（重叠加权）；声明后不得中途改口径。"
+          "step": "定因果问题与估计量",
+          "from": "r-propensity-score-methods#反事实框架",
+          "do": "声明 ATT、ATE 或 ATO",
+          "detail": "先写清比较的是哪两个治疗策略、目标人群是谁；ATT 对应治疗组平均效应、ATE 对应全人群、ATO 对应临床均势人群；估计量决定加权公式与分母，不能事后按结果挑一个。"
         },
         {
-          "step": "倾向评分",
-          "from": "r-propensity-score-methods#PS",
-          "do": "glm 拟合 PS 并选匹配/加权方法",
-          "detail": "PS=glm(T~X,binomial) 的 fitted()，X 只放混杂不放中介与碰撞；PSM 用 MatchIt nearest、distance=glm、caliper=0.2×PS 的 SD、replace=FALSE、设随机种子；IPTW 用 Robins 或稳定化权重。"
+          "step": "建 PS 并选方法",
+          "from": "r-propensity-score-methods#8 步 + r-real-world-evidence#四方法",
+          "do": "匹配、IPTW 或重叠权重",
+          "detail": "PS 用 logistic 回归以处理为因变量；匹配用最近邻 caliper 取 0.2 个 PS 标准差，IPTW 用稳定化权重，极端权重用 1% 与 99% 截断；重叠人群用重叠权重 1−e/e 天然落在 0 与 1 之间。"
         },
         {
-          "step": "平衡诊断",
-          "from": "r-real-world-evidence#平衡",
-          "do": "全表 SMD+Love plot+PS 密度叠合",
-          "detail": "逐变量算 SMD，全表 |SMD|<0.1 才算平衡；cobalt::love.plot(thresholds=c(m=.1)) 与 bal.plot(which=both) 出图；不得用 P 值判平衡（加权后样本量变大，P 必然显著）。"
+          "step": "平衡核验",
+          "from": "r-real-world-evidence#cobalt",
+          "do": "全表 SMD 与 Love plot",
+          "detail": "匹配或加权后对全部基线变量算标准化差异，阈值 |SMD|<0.1 全表通过才算平衡；出 Love plot 对照调整前后，并给 PS 分布叠合图；不得用 P 值判平衡（加权后样本量变大，P 必显著）。"
         },
         {
-          "step": "效应估计",
-          "from": "r-real-world-evidence#效应",
-          "do": "用抽样权重方差估计器拟合结局模型",
-          "detail": "IPTW 后用 svyglm(quasibinomial)/svycoxph 或 coxph(weights=,robust=TRUE,cluster=id)；匹配后用 clogit 或配对分析；二分类与计数结局必须用拟二项/拟泊松族处理加权过离散，报 OR/HR+95%CI。"
+          "step": "估计效应与权重诊断",
+          "from": "r-real-world-evidence#加权方差 + r-propensity-score-methods#ESS",
+          "do": "svyglm 或稳健方差",
+          "detail": "加权后必须用 survey 设计或稳健三明治方差，二分类与计数用 quasibinomial、quasipoisson 处理过离散；报权重范围、均值与有效样本量 ESS=(Σw)²/Σw²，ESS 过小时结论不稳定。"
         },
         {
-          "step": "权重诊断",
-          "from": "r-propensity-score-methods#权重",
-          "do": "报 ESS、权重范围与极端权重比例",
-          "detail": "ESS=(Σw)²/Σw²，ESS 远小于样本量说明权重集中；报权重最小值/最大值/均值与>10 的比例；必要时按 1%/99% 截断作敏感性分析，截断前后效应并列报告。"
-        },
-        {
-          "step": "敏感性分析",
-          "from": "r-real-world-evidence#敏感性",
-          "do": "E-value、负对照与口径对比",
-          "detail": "E-value 给点估计与 CI 下限各一个；结局发生率>15% 时 rare=FALSE 或改报 RR；再做负对照结局与 ATT/ATE 口径对比，所有敏感性结果放同一张表，不挑有利的报。"
+          "step": "敏感性与 E-value",
+          "from": "r-medical-stats#e_value + r-real-world-evidence#敏感性",
+          "do": "多方案加未测混杂量化",
+          "detail": "至少三种敏感性：换估计量（ATT 与 ATE）、权重截断阈值、排除极端 PS 人群；E-value 按点估计与 CI 下限各给一个，并解释需要多大未测混杂才能推翻结论。"
         }
       ],
       "decide": [
         {
-          "when": "治疗组样本充足但对照池远大于治疗组",
-          "use": "重叠加权（ATO）或 IPTW+截断，避免大量对照被丢弃",
-          "instead_of": "1:1 最近邻匹配丢弃大多数对照",
-          "why": "匹配丢弃样本会改变目标人群且降低效能；重叠权重把权重限制在 0–1 内并保留可比人群"
+          "when": "目标是治疗组的实际获益",
+          "use": "PSM 或 IPTW 估计 ATT",
+          "instead_of": "用全人群 ATE 替代",
+          "why": "临床决策常针对已治疗人群，ATE 会稀释效应"
         },
         {
-          "when": "治疗在随访中随时间变化",
-          "use": "克隆-删失-加权（CCW）做目标试验模拟，并给多窗口敏感性",
-          "instead_of": "用基线单次 PS 一次匹配",
-          "why": "时依治疗下基线 PS 无法消除随访期混杂，结论会被后续治疗切换污染"
+          "when": "存在时依治疗与删失",
+          "use": "克隆删失加权 CCW",
+          "instead_of": "基线单次 PS 匹配",
+          "why": "时依治疗下基线 PS 无法处理治疗切换与删失"
         }
       ],
       "gates": [
-        "全表 |SMD|<0.1 已核并附 Love plot",
-        "ESS、权重范围与极端权重比例已报",
-        "E-value（点估计与 CI 下限）已计算",
-        "结局模型已用抽样权重方差估计器（非裸 glm(weights=)）",
-        "估计量（ATT/ATE/ATO）已声明且全文口径一致"
+        "|SMD| 全表 <0.1 且 Love plot 已出",
+        "ESS 与权重范围已报告",
+        "E-value 点估计与 CI 下限均已给",
+        "加权后使用 survey 或稳健方差估计",
+        "估计量（ATT/ATE/ATO）已在方法段声明"
       ],
       "outputs": [
-        "平衡表（匹配/加权前后 SMD）+ Love plot",
-        "效应表（OR/HR、95%CI、ESS、E-value）",
-        "DAG 图与目标试验要素说明"
+        "Love plot、PS 分布叠合图与 SMD 对照表",
+        "加权效应表（OR 或 HR、95%CI、P、ESS）",
+        "敏感性分析表与 E-value 说明"
       ],
       "kb": [
         "r-real-world-evidence",
         "r-propensity-score-methods",
-        "scholar-causal"
+        "r-medical-stats"
       ]
     },
     {
       "id": "stats.diagnostic",
-      "label": "诊断试验",
-      "summary": "诊断准确性研究：ROC 曲线与 AUC+95%CI、DeLong 比较多个指标、按 Youden 或临床阈值定截断，报敏感度/特异度/似然比/预测值，并按 STARD 交代金标准与不确定结果。输入待评价指标与金标准，输出 ROC、诊断四格表与决策曲线。它不把诊断模型当预后模型，也不在无金标准时硬算准确率。",
+      "label": "诊断试验与一致性",
+      "summary": "接金标准对照数据：先做 2×2 再报敏感度、特异度、似然比与预测值，用 ROC 选切点并给 AUC 的 95%CI，比较两个诊断指标时用 DeLong 与 NRI、IDI，交付三线表与 ROC 图，不把阳性预测值脱离患病率单独吹。",
       "triggers": [
-        "诊断试验怎么做",
-        "ROC 曲线怎么画",
-        "两个 AUC 怎么比较",
+        "诊断试验怎么分析",
+        "ROC 曲线和 AUC",
         "敏感度特异度怎么报",
-        "似然比怎么算",
-        "截断值怎么定"
+        "诊断切点怎么定",
+        "两个指标哪个诊断价值高"
       ],
       "inputs": [
-        "待评价诊断指标（连续或分类）",
-        "金标准定义与判定方法",
-        "目标人群与不确定结果的处置规则"
+        "金标准结果与待评指标",
+        "样本的患病率信息",
+        "切点或连续测量值",
+        "配对或独立设计说明"
       ],
       "members": [
         {
           "skill": "r-medical-stats",
           "verdict": "主用",
           "best_at": [
-            "pROC 的 ROC/AUC/DeLong 全流程",
-            "敏感度特异度似然比计算与出图",
-            "STARD 要素核查"
+            "pROC 与 epiR 的 2×2 全套",
+            "似然比与预测值计算"
           ],
           "limits": [
-            "不覆盖诊断模型评价的外部验证设计",
-            "不处理诊断路径的卫生经济学评估"
+            "不覆盖复杂抽样诊断设计",
+            "不自动选临床切点"
           ],
           "take": [
-            "ci.auc 必须传 roc 对象，传数值 CI 无效",
-            "四格表四格都要给，不只报准确率"
+            "AUC 必带 ci.auc 的 95%CI",
+            "敏感度特异度与似然比同表"
           ]
         },
         {
           "skill": "r-clinical-prediction-model",
           "verdict": "补强",
           "best_at": [
-            "诊断与预后的场景区分",
-            "诊断模型校准与 DCA"
+            "NRI、IDI 增量价值评估",
+            "时间依赖 ROC 与 DeLong"
           ],
           "limits": [
-            "重点在建模与验证，不是单指标评价",
-            "列线图偏向预测用途"
+            "面向预测模型不为单指标评价",
+            "需要配对设计才可比较"
           ],
           "take": [
-            "诊断模型用 Logistic，不用 Cox",
-            "校准曲线与 ROC 同表报告"
+            "两指标比较用 DeLong 加校正",
+            "增量价值报 NRI 与 IDI 并给 CI"
           ]
         },
         {
           "skill": "statistical-analysis",
           "verdict": "补强",
           "best_at": [
-            "效应量与 CI 的方法学表述",
-            "假设与样本量的写法"
+            "效应量与置信区间基准",
+            "卡方与 Fisher 的适用判定"
           ],
           "limits": [
-            "Python 执行且无诊断专用包",
-            "不产出诊断四格表"
+            "Python 执行栈不落地",
+            "不覆盖诊断切点选择"
           ],
           "take": [
-            "敏感度/特异度的 CI 用精确法并写明方法",
-            "报告比例时同时给分子分母"
+            "2×2 期望频数<5 用 Fisher",
+            "报告效应量而非只报 P"
           ]
         },
         {
           "skill": "scikit-learn",
           "verdict": "弃用",
           "best_at": [
-            "机器学习分类与交叉验证工具"
+            "roc_auc_score 快速计算",
+            "混淆矩阵批量评估"
           ],
           "limits": [
-            "roc_auc_score 不给 CI 与 DeLong 检验",
-            "无法直接产出 STARD 交付"
+            "AUC 不给 CI 与 DeLong",
+            "无似然比与预测值输出"
           ],
           "take": [
-            "本能力的 AUC 与比较一律用 pROC，不用 sklearn 指标替代"
+            "仅在无 R 时做数值对账"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "定义金标准",
-          "from": "r-medical-stats#七",
-          "do": "写清病例定义、目标人群与不确定结果",
-          "detail": "金标准（病理/随访确诊/临床诊断）必须唯一且可复现；明确目标人群与排除标准；金标准无法判定者单列不确定组，不得强行并入阴性，STARD 流程图要给出每一层人数。"
+          "step": "建 2×2 并辨设计",
+          "from": "r-medical-stats#§六 诊断 + statistical-analysis#卡方",
+          "do": "配对与非配对分开处理",
+          "detail": "先确认同一批对象是否接受两种指标（配对）还是两组独立；建 2×2 表核 TP、FP、FN、TN 之和是否等于样本量；任一格为 0 时敏感度或特异度的 CI 需用精确法，不能套正态近似。"
         },
         {
-          "step": "ROC 与 AUC",
-          "from": "r-medical-stats#七",
-          "do": "pROC 拟合并报 AUC 与 95%CI",
-          "detail": "pROC::roc(response, predictor, direction=, levels=) 明确正类方向；AUC 与 95%CI 必须用 ci.auc(roc 对象)，传数值型会得到无效 CI；AUC<0.5 先查方向是否写反。"
+          "step": "算诊断指标",
+          "from": "r-medical-stats#§六 + epiR",
+          "do": "敏感度、特异度、似然比与预测值",
+          "detail": "报敏感度、特异度、阳性与阴性似然比及各自 95%CI；阳性与阴性预测值必须绑定本研究的患病率，跨人群使用时说明患病率不同会改变预测值；约登指数只作切点参考，不替代临床可接受度。"
         },
         {
-          "step": "指标比较",
-          "from": "r-medical-stats#七",
-          "do": "DeLong 比较多个指标并做校正",
-          "detail": "roc.test(method=DeLong) 比较两个 AUC，差值+95%CI；三个以上指标比较后做 Holm 或 FDR 校正，报校正后 P；相关样本必须用配对 DeLong，不得当独立样本。"
+          "step": "ROC 与切点",
+          "from": "r-medical-stats#§七 ROC + r-clinical-prediction-model#AUC",
+          "do": "AUC 带 CI 并标注切点",
+          "detail": "用 pROC 画 ROC，AUC 用 ci.auc 给 95%CI（必须传 roc 对象，传数值会得到无效 CI）；切点按约登指数或临床可接受敏感度确定，并在图上标出该点的敏感度与特异度，避免只报一个最优 AUC。"
         },
         {
-          "step": "截断与四格表",
-          "from": "r-medical-stats#九",
-          "do": "按 Youden 或临床阈值定 cutoff 并出四格表",
-          "detail": "Youden 指数（敏感度+特异度−1）最大或按临床可接受敏感度；给敏感度/特异度/PPV/NPV/阳性似然比/阴性似然比及 95%CI（Bootstrap 或精确法），四格表四格与合计都要列。"
+          "step": "比较两个指标",
+          "from": "r-clinical-prediction-model#NRI/IDI + DeLong",
+          "do": "DeLong 加 NRI、IDI",
+          "detail": "配对设计用 roc.test 的 DeLong 法比较 AUC，多个比较用 Holm 校正；增量价值报 NRI 与 IDI 及 95%CI（nribin 需 glm 加 x=TRUE，nricens 用 coxph 不加 surv=TRUE）；NRI 必须写清是连续型还是分类型。"
         },
         {
-          "step": "临床效用与报告",
-          "from": "r-clinical-prediction-model#DCA",
-          "do": "加决策曲线并按 STARD 报告",
-          "detail": "DCA 展示在临床可接受阈值区间内的净收益，与 treat-all/treat-none 对照；按 STARD 清单写方法（盲法、金标准、样本量依据），结果段先给 AUC 再给截断处指标，避免只报一个漂亮 cutoff。"
+          "step": "出表出图写局限",
+          "from": "r-medical-stats#§三 + nature-statistics#图注",
+          "do": "三线表、ROC 图与图注",
+          "detail": "结果表给指标、切点、敏感度、特异度、似然比、AUC 与 CI；ROC 图注明金标准、样本量、患病率与切点；局限性写清单中心、病例谱偏倚与未做外部验证，图注注明误差棒与 n。"
         }
       ],
       "decide": [
         {
-          "when": "诊断指标连续且研究目的是筛检",
-          "use": "报 AUC 曲线并给高敏感度截断（排除性），PPV/NPV 按患病率换算",
-          "instead_of": "只按 Youden 最优点报一个截断",
-          "why": "筛检与确诊的目标不同，Youden 点未必满足临床对漏诊的容忍度"
+          "when": "目标是筛查而非确诊",
+          "use": "提高敏感度并接受较低特异度",
+          "instead_of": "用约登指数最大化整体正确率",
+          "why": "筛查漏诊代价高，正确率最大不等于临床最优"
         },
         {
-          "when": "病例组与对照组来自不同来源（病例对照设计）",
-          "use": "报敏感度/特异度与似然比，明确 PPV/NPV 不可直接外推",
-          "instead_of": "直接报 PPV/NPV 作为人群预测值",
-          "why": "PPV/NPV 随患病率变化，病例对照设计的人为患病率会让预测值失真"
+          "when": "两指标在同一批对象上比较",
+          "use": "DeLong 检验加配对 NRI",
+          "instead_of": "分别报 AUC 大小直接比较",
+          "why": "同一批数据的 AUC 相关，独立比较会低估标准误"
         }
       ],
       "gates": [
-        "AUC 与 95%CI 同报，且明确正类方向与判定依据",
-        "截断值方法（Youden/临床阈值）已写明",
-        "敏感度、特异度及其 95%CI 已报，四格表四格齐全",
-        "金标准定义与不确定结果处置已说明",
-        "多指标比较已做 DeLong 并写校正方法"
+        "AUC 带 95%CI 且注明计算方式",
+        "敏感度、特异度、似然比与预测值同表呈现",
+        "阳性预测值注明所依赖的患病率",
+        "两指标比较使用配对方法并写校正"
       ],
       "outputs": [
-        "ROC 曲线图（多指标叠加）+ 四格表",
-        "诊断指标表（敏感度/特异度/似然比/PPV/NPV+CI）",
-        "STARD 流程图与文案"
+        "诊断效能三线表（含 CI 与似然比）",
+        "ROC 图与切点标注 SVG/PDF/PNG",
+        "增量价值表（NRI、IDI 与 CI）"
       ],
       "kb": [
         "r-medical-stats",
@@ -1346,150 +1429,126 @@
     {
       "id": "stats.meta",
       "label": "Meta 分析",
-      "summary": "把多个研究合并成一个效应量：按结局选 OR/RR/HR/MD/SMD 或比例（Freeman-Tukey 变换），用 DerSimonian-Laird 随机效应合并，报 Q/I²/τ²、k<10 时补 HKSJ，做发表偏倚与森林图。输入结构化研究数据表，输出合并结果、森林图与数据集。先判 k 再决定是否合并；不替代系统评价的检索与筛选流程。",
+      "summary": "把多项研究的效应量合并成一张森林图：先定效应量类型与随机效应模型，用 DerSimonian-Laird 或 HKSJ 校正算合并值与 I²，再查异质性来源与发表偏倚，交付森林图、漏斗图与敏感性分析，并在方法段如实写明无专职 Meta 包、公式为自实现。",
       "triggers": [
         "Meta 分析怎么做",
-        "异质性 I² 怎么解释",
         "森林图怎么画",
-        "Egger 检验",
-        "随机效应模型",
-        "比例怎么合并"
+        "异质性 I² 怎么解释",
+        "发表偏倚怎么查",
+        "多个研究怎么合并"
       ],
       "inputs": [
-        "每个研究的效应量与标准误（或四格表/分母分子）",
-        "研究标签、年份与口径定义",
-        "预先设定的亚组与敏感性分析方案"
+        "各研究的效应量与标准误（或 2×2 表）",
+        "研究标签与年份",
+        "效应量类型（OR、RR、比例或均数差）",
+        "检索与筛选流程记录"
       ],
       "members": [
         {
           "skill": "ima-lit-meta-ppt",
           "verdict": "主用",
           "best_at": [
-            "FT 双反正弦与 DL 随机效应自实现",
-            "比例 Meta 的 14 类陷阱核查",
-            "森林图与验证链条留证"
+            "随机效应合并与 I² 计算",
+            "森林图、漏斗图与分层分析"
           ],
           "limits": [
-            "面向比例与构成比，连续/二分类效应量需换算",
-            "不覆盖正式系统评价检索流程"
+            "无 metafor 包，公式须自实现",
+            "偏重比例型与文献图表提取"
           ],
           "take": [
-            "k<10 必补 HKSJ 并与 Wald 并列",
-            "FT 反变换截断 t∈[0,π]"
+            "DL 法 tau² 与 HKSJ 校正并用",
+            "异质性按口径分层不混池"
           ]
         },
         {
           "skill": "r-medical-stats",
           "verdict": "补强",
           "best_at": [
-            "森林图版式与三格式出图",
-            "结果段写作与报告纪律"
+            "效应量与 CI 的报告纪律",
+            "三格式出图与结果段落"
           ],
           "limits": [
-            "不专精异质性与偏倚检验",
-            "不实现 HKSJ 等稳健方差"
+            "不含 Meta 专用函数",
+            "不负责文献检索与筛选"
           ],
           "take": [
-            "森林图给权重（方块面积）与 I² 列",
-            "结果段给合并值+95%CI+I²+异质性 P"
+            "合并值必带 95%CI 与精确 P",
+            "森林图与漏斗图统一三格式"
           ]
         },
         {
           "skill": "statistical-analysis",
           "verdict": "补强",
           "best_at": [
-            "效应量类型与 CI 的方法学基准",
-            "异质性解释与阴性结果的写法"
+            "效应量类型与基准映射",
+            "异质性与亚组的方法学解释"
           ],
           "limits": [
-            "Python 执行，不产出森林图",
-            "不覆盖比例 Meta 的变换陷阱"
+            "Python 执行栈不落地",
+            "不实现随机效应合并"
           ],
           "take": [
-            "效应量口径必须与原始研究设计匹配",
-            "报合并值同时报预测区间更稳妥"
-          ]
-        },
-        {
-          "skill": "chinese-medical-paper-writer",
-          "verdict": "补强",
-          "best_at": [
-            "中文 Meta 论文结构与结果段句式",
-            "PRISMA 条目与局限性的写法"
-          ],
-          "limits": [
-            "只写文字，不产出统计结果",
-            "不判断统计方法是否恰当"
-          ],
-          "take": [
-            "结果段先主分析再亚组再敏感性",
-            "局限性必须写异质性来源与发表偏倚"
+            "先定效应量类型再谈合并",
+            "亚组解释需写清假设与检验"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "效应量与口径",
-          "from": "statistical-analysis#效应量",
-          "do": "按结局选效应量并统一口径",
-          "detail": "二分类用 OR/RR、时间事件用 HR、连续用 MD（同量表）或 SMD（不同量表）；比例用 Freeman-Tukey 双反正弦 t=asin√(k/(n+1))+asin√((k+1)/(n+1))、方差 1/(n+0.5)；不同口径不得混池。"
+          "step": "定效应量与模型",
+          "from": "statistical-analysis#效应量基准 + ima-lit-meta-ppt#效应量",
+          "do": "按结局类型选 OR、RR 或比例",
+          "detail": "二分类用 OR 或 RR 并统一为对数尺度，连续用均数差或标准化均数差，单组比例用双反正弦变换；先声明随机效应模型（研究间异质几乎必然存在），并说明 tau² 的估计方法与是否用 HKSJ 校正。"
         },
         {
-          "step": "先判 k",
-          "from": "ima-lit-meta-ppt#陷阱8",
-          "do": "数清每个分析的研究数以决定是否合并",
-          "detail": "k=1 报单一研究值与 CI 并标注未合并；k=2 报两个值并说明不合并理由；k≥3 才合并且必须报 I² 与 τ²；比例 Meta 还要报每个研究的分子分母，不能只报百分比。"
+          "step": "算合并值与 I²",
+          "from": "ima-lit-meta-ppt#DL 与 HKSJ",
+          "do": "DL 法 tau² 加逆方差权重",
+          "detail": "DL 法 tau²=(Q−df)/C，C=Σw−Σw²/Σw；合并值用逆方差权重；研究数少于 10 时 Wald 型 CI 偏窄，必须补 HKSJ 校正（实测 HKSJ 的 CI 约为 Wald 的两倍宽），两者并列报告并说明主分析用哪个。"
         },
         {
-          "step": "随机效应合并",
-          "from": "ima-lit-meta-ppt#第5步",
-          "do": "DL 法估 τ² 并算合并值与 CI",
-          "detail": "tau2=(Q−dfree)/C，C=Σw−Σw²/Σw；合并值按权重 Σw·θ/Σw，CI 用 1.96×SE；REML 估 τ² 发散时按尺度设上限（FT ≤(π/2)²=2.467），k=3 优先 DL。"
+          "step": "查异质性与分层",
+          "from": "ima-lit-meta-ppt#分层 + r-medical-stats#报告",
+          "do": "I² 加 Q 检验加亚组",
+          "detail": "报 I² 与 Q 的 P；I²>50% 视为中高度异质，做亚组或 meta 回归找来源；不同测量口径（病灶数、血管支数、患者数）必须分层后各自合并，混池会让 I² 虚高（实测混池 81% 至 97%，分层后降至 0% 至 26%）。"
         },
         {
-          "step": "异质性与稳健",
-          "from": "ima-lit-meta-ppt#陷阱4",
-          "do": "查口径分层，k<10 补 HKSJ",
-          "detail": "Q 检验+I²（>50% 提示中高度异质）+τ²；先做口径分层 Q_between，p<0.001 说明口径主导异质性，主分析限定单一口径；k<10 用 HKSJ（se=√(q/Σw)，t 分布 df=k−1）并列报告。"
+          "step": "查发表偏倚",
+          "from": "r-medical-stats#报告纪律 + ima-lit-meta-ppt#验证",
+          "do": "漏斗图加 Egger 检验",
+          "detail": "研究数≥10 才做漏斗图与 Egger 回归，少于 10 个研究时检验功效不足，只能描述性说明；Egger 报截距与 P 并解释方向；补充剪补法或留一法敏感性，且写明每一步做了什么、结果如何变化。"
         },
         {
-          "step": "偏差与敏感性",
-          "from": "ima-lit-meta-ppt#陷阱5",
-          "do": "排二次数据、Egger 与缺失口径判定",
-          "detail": "Egger 回归（k≥10 才做）+漏斗图；二次数据（汇总综述、分母 100）必须排除；缺失=0 还是成对删除用闭合检验判定（Σk 是否等于分母），表注写明之和是否 100%。"
-        },
-        {
-          "step": "出图与数据集",
-          "from": "r-medical-stats#七",
-          "do": "森林图三栏并交付结构化数据集",
-          "detail": "森林图左侧研究标签与效应量、中间 CI 线与方块（面积∝权重）、右侧权重与 I²；同时交付 Excel 三表（文献清单/分析数据集/亚组结果），保证他人可重跑。"
+          "step": "出图与写方法",
+          "from": "ima-lit-meta-ppt#森林图 + nature-statistics#报告",
+          "do": "森林图、漏斗图与方法段",
+          "detail": "森林图三栏：左研究标签、中效应量与 CI（方块面积按权重）、右权重与合计；漏斗图横轴效应量纵轴标准误并画伪 95% 界；方法段如实写软件为 R、无 metafor 时说明公式自实现并经交叉验证，检索与筛选给 PRISMA 数字。"
         }
       ],
       "decide": [
         {
-          "when": "研究间设计、人群或口径明显不同",
-          "use": "先做口径分层亚组，主分析限定单一口径，其余进敏感性",
-          "instead_of": "全部研究一起随机效应合并后只解释 I²",
-          "why": "混池会把口径差异伪装成统计异质性，I² 可高达 80% 以上而分层后接近 0"
+          "when": "研究数少于 10",
+          "use": "只做描述性异质与敏感性",
+          "instead_of": "强做 Egger 与漏斗图下结论",
+          "why": "小样本下检验功效低，阴性不能证明无偏倚"
         },
         {
-          "when": "比例类结局且个别研究分母很小",
-          "use": "Freeman-Tukey 变换 + DL，稀疏时加 HKSJ 并报 k",
-          "instead_of": "直接对原始比例做正态近似合并",
-          "why": "小分母下比例的抽样分布严重偏斜，原始尺度合并会给出越界 CI 与虚假精度"
+          "when": "同一结局有多种测量口径",
+          "use": "按口径分层各自合并",
+          "instead_of": "全部研究混池求一个值",
+          "why": "口径不同导致异质虚高，合并值无临床意义"
         }
       ],
       "gates": [
-        "每个分析的研究数 k 已写明，且 k<3 时未合并",
-        "I²、τ²、Q 与异质性 P 已报",
-        "k<10 时 HKSJ 结果已与 Wald 并列",
-        "缺失=0 还是成对删除已用闭合检验判定并表注说明",
-        "合并值与 CI 自检通过（下界≤点估计≤上界，无越界）"
+        "合并值带 95%CI 与 I² 及 tau² 估计方法",
+        "研究数<10 时未强做 Egger 下结论",
+        "不同测量口径已分层未混池",
+        "方法段写明自实现公式与交叉验证证据"
       ],
       "outputs": [
-        "森林图（三栏）+ 漏斗图（k≥10）",
-        "合并结果表（效应量、95%CI、I²、τ²、k）",
-        "Excel 分析数据集（文献清单/数据/亚组）"
+        "森林图与漏斗图 SVG/PDF/PNG 300dpi",
+        "合并结果表（效应量、CI、I²、tau²、研究数）",
+        "敏感性分析表与方法段（含 PRISMA 数字）"
       ],
       "kb": [
         "ima-lit-meta-ppt",
@@ -1500,280 +1559,271 @@
     {
       "id": "stats.mr",
       "label": "孟德尔随机化",
-      "summary": "用遗传变异作工具变量推断暴露对结局的因果效应：选工具（p<5e-8、clump）、协调等位基因方向、IVW 主分析配 Egger/加权中位数/众数与 MR-PRESSO/留一法/Steiger，按 STROBE-MR 逐条报告。输入 GWAS 汇总数据，输出散点/森林/漏斗图与敏感性表。三假设只有相关性可检验，结论不能脱离假设谈因果。",
+      "summary": "用遗传工具变量推因果：先按 p<5e-8 与 LD 独立筛工具，协调等位基因方向后跑 IVW、Egger、加权中位数与众数，逐条交代三大假设并报 Egger 截距、MR-PRESSO 与 Steiger，交付散点、森林与留一法三图。",
       "triggers": [
         "孟德尔随机化怎么做",
-        "IVW 和 MR-Egger 区别",
+        "两样本 MR 流程",
         "工具变量怎么选",
         "多效性怎么检验",
-        "MR-PRESSO 怎么用",
-        "STROBE-MR 怎么写"
+        "MR 结果怎么写"
       ],
       "inputs": [
-        "暴露与结局的 GWAS 汇总统计（含 SNP、效应等位基因、β、SE、P）",
-        "参考面板与 LD 信息",
-        "样本重叠情况与人群 ancestry"
+        "暴露与结局的 GWAS 汇总数据",
+        "工具变量 SNP 清单",
+        "参考面板与人群信息",
+        "样本重叠情况说明"
       ],
       "members": [
         {
           "skill": "r-mendelian-randomization",
           "verdict": "主用",
           "best_at": [
-            "两样本 MR 九步与三铁律",
-            "四层多效性检验（Q/Egger/PRESSO/留一）",
-            "STROBE-MR 报告清单"
+            "两样本 MR 九步与多效性四检",
+            "MVMR 与协调剔除处理"
           ],
           "limits": [
-            "不解决弱工具与样本重叠的根本问题",
-            "MVMR 需额外工具与假设"
+            "依赖 GWAS 数据可得性",
+            "工具弱时结论不稳"
           ],
           "take": [
-            "等位基因方向写反是零报警致命错误，先核对",
-            "MR-PRESSO 的 NbDistribution≥5000"
-          ]
-        },
-        {
-          "skill": "r-pharmacology-singlecell-mr",
-          "verdict": "补强",
-          "best_at": [
-            "药靶 MR 与单细胞 eQTL 工具选择",
-            "药物靶点方向一致性讨论"
-          ],
-          "limits": [
-            "面向药物靶点场景，通用性弱",
-            "依赖特定数据库与人群"
-          ],
-          "take": [
-            "药靶 MR 可把工具 P 阈值放宽到 1e-5",
-            "结论要区分靶点效应与适应证效应"
+            "Egger 截距与 MR-PRESSO 必报",
+            "先核等位基因方向再算效应"
           ]
         },
         {
           "skill": "r-medical-research-master",
           "verdict": "补强",
           "best_at": [
-            "方法路由与报告规范对照",
-            "静默陷阱速查要点"
+            "STROBE-MR 报告清单",
+            "九域路由与设计匹配"
           ],
           "limits": [
-            "总纲，不实现 MR 计算",
-            "不产出任何图表交付"
+            "本身不跑 MR 计算",
+            "报告模板需按研究裁剪"
           ],
           "take": [
-            "按 STROBE-MR 条目逐项打勾再投稿",
-            "结果方向异常先查协调与编码"
+            "按 STROBE-MR 逐条交代三假设",
+            "写明样本重叠与工具强度"
+          ]
+        },
+        {
+          "skill": "r-medical-stats",
+          "verdict": "补强",
+          "best_at": [
+            "方向核对闸门与数据核查",
+            "三格式出图与结果段落"
+          ],
+          "limits": [
+            "不覆盖遗传学专用流程",
+            "不做 GWAS 数据清洗"
+          ],
+          "take": [
+            "编码方向与效应方向不一致必须回查",
+            "MR 图统一三格式交付"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "工具变量",
-          "from": "r-mendelian-randomization#工具选择",
-          "do": "按 P 阈值与 LD clump 选工具并算 F",
-          "detail": "工具 SNP 取 p<5e-8（药靶可放宽 1e-5），clump_kb=10000、clump_r2=0.001，需 OPENGWAS_JWT 或本地 LD 面板；逐个算 F 值，F<10 为弱工具，弱工具偏倚方向指向零并需在局限性说明。"
+          "step": "筛工具并剥 LD",
+          "from": "r-mendelian-randomization#9 步",
+          "do": "p<5e-8 加 clump r²<0.001",
+          "detail": "工具 SNP 取 p<5e-8，按参考面板剥连锁不平衡（clump_kb=10000、clump_r2=0.001）；报告工具数量、F 统计量（通常要求 F>10）与解释方差 R²，弱工具会使 IVW 有偏并放大偏倚方向。"
         },
         {
-          "step": "方向协调",
-          "from": "r-mendelian-randomization#harmonise",
-          "do": "harmonise 后逐 SNP 核对效应等位基因",
-          "detail": "harmonise_data(action=2) 后会静默剔除 SNP，必须查 table(dat$mr_keep) 与被剔名单及原因；回文 SNP 用 EAF 匹配；等位基因方向写反会让全部 β 反向而 P/SE/Q 不变，属零报警错误。"
+          "step": "协调等位基因方向",
+          "from": "r-mendelian-randomization#三铁律 + r-medical-stats#闸门 6",
+          "do": "harmonise 并查剔除清单",
+          "detail": "用 harmonise_data(action=2) 协调等位基因，必须查 table(mr_keep) 与被剔除 SNP 明细；回文 SNP 用效应等位基因频率匹配；方向写反时全部 beta 反转而 SE 与 P 不变，是唯一不会报错的致命错误。"
         },
         {
-          "step": "主分析",
-          "from": "r-mendelian-randomization#IVW",
-          "do": "IVW 为主并配三种稳健估计",
-          "detail": "IVW 作主分析，同时报 MR-Egger、加权中位数、加权众数；报每 SD 或每单位暴露的 OR/β+95%CI，并写明暴露单位与是否经 log 转换，四个估计方向不一致时先查多效性而非挑结果。"
+          "step": "主分析与敏感性",
+          "from": "r-mendelian-randomization#四层敏感性",
+          "do": "IVW 主分析加三种稳健法",
+          "detail": "IVW 为主分析，Egger、加权中位数、加权众数作敏感性；报 Cochran Q 检验异质性、MR-Egger 截距（功效低，阴性不等于无多效性）、MR-PRESSO（NbDistribution 至少 5000）与留一法，逐一说明是否改变结论。"
         },
         {
-          "step": "敏感性四检",
-          "from": "r-mendelian-randomization#敏感性",
-          "do": "Q、Egger 截距、MR-PRESSO、留一法",
-          "detail": "mr_heterogeneity 报 Q 与 P；mr_pleiotropy_test 报截距与 P（功效低，阴性不等于无多效性）；run_mr_presso(NbDistribution≥5000) 报全局与离群 SNP；mr_leaveoneout 查单点驱动。"
+          "step": "方向与强度检验",
+          "from": "r-mendelian-randomization#Steiger + 报告",
+          "do": "Steiger 与 F 统计量",
+          "detail": "用 Steiger 检验确认暴露到结局方向强于反向，报 F 统计量与 R²；三假设逐条写：相关性由工具强度支持、独立性靠设计说明、排他性靠多效性检验代理但不等于已证，禁止写三假设均已满足。"
         },
         {
-          "step": "方向与强度",
-          "from": "r-mendelian-randomization#Steiger",
-          "do": "Steiger 方向检验与 R²/F 报告",
-          "detail": "directionality_test 报 Steiger 方向 P，反向因果需讨论；add_rsq 报 R² 与 F；两样本样本重叠必须讨论（重叠会放大 I 类错误），人群 ancestry 不一致要在局限性声明。"
-        },
-        {
-          "step": "按清单报告",
-          "from": "r-mendelian-randomization#STROBE-MR",
-          "do": "按 STROBE-MR 逐条写方法与结果",
-          "detail": "三假设逐条交代（相关性可检验、独立性靠设计、排他性靠多效性检验代理）；给工具数、F、协调剔除数、主分析+全部敏感性、Steiger 与重叠讨论；散点/森林/漏斗/留一法四图齐。"
+          "step": "出图与写局限",
+          "from": "r-medical-stats#§三 + r-medical-research-master#STROBE-MR",
+          "do": "散点、森林、留一法三图",
+          "detail": "散点图按方法分线，森林图给单 SNP 与合并效应，留一法图标出影响最大的 SNP；局限写清人群限制、样本重叠、弱工具与多效性残余风险；方法段按 STROBE-MR 条目组织。"
         }
       ],
       "decide": [
         {
-          "when": "Egger 截距不显著但 MR-PRESSO 报离群 SNP",
-          "use": "报 PRESSO 校正后估计并以离群 SNP 为线索做留一法",
-          "instead_of": "以 Egger 截距阴性宣称无多效性",
-          "why": "Egger 截距功效低，阴性只能说明未检出；PRESSO 对离群值更敏感，二者结论冲突时应保守报告"
+          "when": "工具 SNP 很少或 F 偏低",
+          "use": "改加权中位数为主并降结论强度",
+          "instead_of": "仍以 IVW 为唯一结论",
+          "why": "弱工具下 IVW 偏倚大且方向不可控"
         },
         {
-          "when": "暴露与结局来自同一队列（样本重叠）",
-          "use": "换独立样本复算或做重叠校正，并在局限性声明",
-          "instead_of": "忽略重叠直接按两样本 MR 解释",
-          "why": "样本重叠会使工具与结局误差相关，I 类错误膨胀，效应量方向也可能被拉动"
+          "when": "存在明显多效性信号",
+          "use": "MR-PRESSO 剔除离群 SNP 并报剔除前后",
+          "instead_of": "只报 Egger 截距",
+          "why": "Egger 功效低，PRESSO 能定位具体离群工具"
         }
       ],
       "gates": [
-        "等位基因方向已逐 SNP 核对（效应等位基因与 β 方向一致）",
-        "三大假设已逐条声明，并写明哪些可检验、哪些靠设计",
-        "MR-Egger 截距与 MR-PRESSO 全局检验结果已报",
-        "工具 F 值或 R² 已报，弱工具已讨论",
-        "样本重叠与人群 ancestry 已讨论或声明不适用"
+        "MR-Egger 截距与 MR-PRESSO 结果均已报告",
+        "三大假设逐条交代且未声称全部已验证",
+        "等位基因方向协调后剔除清单已核对",
+        "工具强度（F 或 R²）与样本重叠已写明"
       ],
       "outputs": [
-        "MR 结果表（IVW/Egger/中位数/众数、OR 或 β、95%CI）",
-        "散点图/森林图/漏斗图/留一法四图",
-        "STROBE-MR 核对清单"
+        "散点图、单 SNP 森林图与留一法图 SVG/PDF/PNG",
+        "方法比较表（IVW、Egger、中位数、众数、PRESSO）",
+        "STROBE-MR 对照清单与结果段"
       ],
       "kb": [
         "r-mendelian-randomization",
-        "r-pharmacology-singlecell-mr",
-        "r-medical-research-master"
+        "r-medical-research-master",
+        "r-medical-stats"
       ]
     },
     {
       "id": "stats.survey",
       "label": "复杂抽样与加权",
-      "summary": "复杂抽样数据（NHANES/HRS/CHARLS 等）的加权分析：选对权重列、设分层与 PSU、处理多周期合并与 lonely.psu，再做加权基线、加权回归与加权 RCS。输入含权重与设计变量的数据，输出加权结果表与敏感性分析。忘掉权重会同时造成有偏点估计与过窄 CI。",
+      "summary": "接 NHANES 等复杂抽样数据：先对齐权重来源与周期数，建设计对象后所有描述与回归都走 svy 系列，交付加权比例、加权回归与设计效应说明，避免裸用 mean 与 lm 得到偏窄 CI。",
       "triggers": [
-        "NHANES 怎么分析",
-        "复杂抽样怎么处理",
-        "权重怎么用",
-        "svydesign 怎么建",
+        "NHANES 数据怎么分析",
+        "复杂抽样权重怎么用",
+        "加权回归怎么做",
         "多周期数据怎么合并",
-        "加权回归怎么做"
+        "抽样设计对象怎么建"
       ],
       "inputs": [
-        "调查数据（含权重、分层、PSU 变量）",
-        "周期/年份标识与合并方案",
-        "变量编码手册与缺失码清单"
+        "调查数据文件（XPT 或 CSV）",
+        "权重、分层与 PSU 变量",
+        "周期/年份信息",
+        "研究变量与结局"
       ],
       "members": [
         {
           "skill": "r-nhanes-analysis",
           "verdict": "主用",
           "best_at": [
-            "svydesign 与 lonely.psu 配置",
-            "多周期权重合并与加权 RCS",
-            "NHANES 缺失码与条目重叠清洗"
+            "svydesign 建设计对象全套",
+            "多周期合并与 lonely PSU 处理"
           ],
           "limits": [
-            "强绑定 NHANES 命名与结构",
-            "不覆盖其他调查的抽样设计细节"
+            "绑定 NHANES 变量命名体系",
+            "不覆盖其他调查项目"
           ],
           "take": [
-            "多周期合并权重除以周期数 K",
-            "RCS 用 svy2rms 改写以支持 survey"
+            "抽样数据一律 svy 系列",
+            "多周期权重按周期数相除"
           ]
         },
         {
           "skill": "r-aging-cohort-databases",
           "verdict": "补强",
           "best_at": [
-            "老年队列的复杂抽样与随访设计",
-            "加权 Cox 与亚组分析"
+            "加权队列的协变量与 Harmonized 核对",
+            "离散波次随访处理"
           ],
           "limits": [
-            "以固定队列为主，权重列需另查手册",
-            "不处理 NHANES 特有变量"
+            "面向老年队列固定结构",
+            "不覆盖复杂抽样方差估计"
           ],
           "take": [
-            "队列若为复杂抽样必须用 survey 系列",
-            "报告筛选流程与排除例数"
+            "变量编码先对 Codebook",
+            "离散随访用 cloglog 并说明"
           ]
         },
         {
           "skill": "r-real-world-evidence",
           "verdict": "补强",
           "best_at": [
-            "抽样权重方差估计与三明治方差",
-            "ESS 与极端权重诊断"
+            "加权后稳健方差与 ESS 诊断",
+            "权重截断与敏感性"
           ],
           "limits": [
-            "面向因果效应，不是描述性调查",
-            "不熟 NHANES 编码"
+            "面向因果推断不覆盖调查设计",
+            "不处理 4 年权重合并"
           ],
           "take": [
-            "权重模型用 svyglm/svycoxph 或稳健方差",
-            "报加权 ESS 与权重范围"
+            "报 ESS 与权重范围",
+            "加权回归用稳健方差并说明"
           ]
         },
         {
           "skill": "statsmodels",
           "verdict": "弃用",
           "best_at": [
-            "Python 广义线性模型实现"
+            "GLM 与稳健标准误实现",
+            "系数表与稳健标准误输出"
           ],
           "limits": [
-            "无调查设计对象，权重只当精度权重",
-            "CI 与自由度处理不符合复杂抽样规范"
+            "没有调查设计对象的概念",
+            "权重被当精度权重致 CI 过窄"
           ],
           "take": [
-            "本能力不用 Python 权重接口替代 svydesign"
+            "仅用于数值对账不作交付"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "权重来源",
+          "step": "对齐权重与周期",
           "from": "r-nhanes-analysis#五铁律",
-          "do": "按数据来源选对权重列并合并周期",
-          "detail": "MEC 检查→WTMEC2YR、访谈→WTINT2YR、1999–2002→WTMEC4YR；K 个两年周期合并时权重除以 K，并在方法段写明权重列名与周期数；权重列选错会让估计值偏离且 CI 失真。"
+          "do": "按来源选权重并对齐变量",
+          "detail": "先确认变量来自体检（MEC）还是访谈，体检用 WTMEC2YR、访谈用 WTINT2YR、1999 至 2002 用 WTMEC4YR；合并 K 个两年周期时权重除以 K，并设 nest=TRUE 与 strate 变量，权重来源错会使估计系统性偏高或偏低。"
         },
         {
-          "step": "建立设计对象",
-          "from": "r-nhanes-analysis#设计",
-          "do": "svydesign 设 PSU/分层/权重与 lonely.psu",
-          "detail": "svydesign(ids=~SDMVPSU, strata=~SDMVSTRA, weights=~wt, nest=TRUE)；必设 options(survey.lonely.psu=「adjust」)，否则单 PSU 层无法估方差、分析直接失败；设计变量缺失要检查层内 PSU 数。"
+          "step": "清洗缺失码与单位",
+          "from": "r-nhanes-analysis#缺失码 + scholar-eda",
+          "do": "特殊码转 NA 并查量纲",
+          "detail": "7、9、77、99、777、999 等拒绝回答与不知道码必须先转 NA 再分析；多周期同一指标变量名与单位可能不同（如 C 反应蛋白 mg/dL 与 mg/L），合并前核对单位并统一；量表条目重叠（如睡眠研究里的抑郁量表包含睡眠条目）要剔除。"
         },
         {
-          "step": "清洗数据",
-          "from": "r-nhanes-analysis#清洗",
-          "do": "缺失码转 NA 并核查条目重叠",
-          "detail": "7/9/77/99/777/999 先转 NA 再算；量表条目重叠必须剔除（研究睡眠时抑郁量表含睡眠条目，会人为制造相关）；跨周期变量名与单位不同（mg/dL vs mg/L）要统一后再合并。"
+          "step": "建设计对象并设参数",
+          "from": "r-nhanes-analysis#svydesign",
+          "do": "svydesign 加 lonely.psu",
+          "detail": "svydesign(ids=~PSU, strata=~STRATA, weights=~W, nest=TRUE)；必须设 options(survey.lonely.psu='adjust')，否则单 PSU 层会因方差无法估计而报错或给出无效结果；设计对象建好后所有分析都接它。"
         },
         {
-          "step": "加权分析",
-          "from": "r-nhanes-analysis#分析",
-          "do": "用 svy 系列完成基线、回归与剂量反应",
-          "detail": "svyquantile 程序化算切点（不硬编码某一年的分位数）、svyCreateTableOne 出加权基线、svyglm 多模型递进并 ShowRegTable；加权 RCS 用 svy2rms 改写为 rms 模型（权重归一化、normwt=TRUE）。"
+          "step": "加权描述与回归",
+          "from": "r-nhanes-analysis#svy 系列 + r-real-world-evidence#方差",
+          "do": "svymean、svyquantile 与 svyglm",
+          "detail": "描述用 svymean、svyquantile、svytable，回归用 svyglm 并指定 family；二分类与计数用 quasibinomial、quasipoisson；连续暴露的剂量反应可把 svyglm 改写为 rms 的 ols 或 lrm（svy2rms，权重归一化）后出 RCS 曲线。"
         },
         {
-          "step": "报告与敏感性",
-          "from": "r-real-world-evidence#敏感性",
-          "do": "报设计要素、加权 ESS 与敏感性",
-          "detail": "结果表报加权比例/均值与 95%CI，方法段写权重来源、周期数、设计变量与 lonely.psu 设置；给加权 ESS 与子人群敏感性分析（子人群需重算权重与设计），并声明未加权结果仅作对照。"
+          "step": "报设计效应与敏感性",
+          "from": "r-real-world-evidence#ESS + r-nhanes-analysis#报告",
+          "do": "ESS、设计效应与敏感性",
+          "detail": "报告权重范围、有效样本量与设计效应（deff），说明加权后 CI 为何比未加权宽；敏感性分析可对比未加权结果、排除极重权重者或改用不同周期集合，并明确结论是否稳健。"
         }
       ],
       "decide": [
         {
-          "when": "合并多个调查周期以增加样本",
-          "use": "权重除以周期数并加入周期变量，检查各周期变量一致性",
-          "instead_of": "直接把各周期数据 rbind 后沿用单周期权重",
-          "why": "多周期权重之和会重复计权，导致点估计偏移与 CI 变窄"
+          "when": "研究变量来自不同权重来源",
+          "use": "以主分析变量决定权重并说明",
+          "instead_of": "混用两套权重",
+          "why": "不同子样本的权重口径不同，混用会破坏设计一致性"
         },
         {
-          "when": "研究某亚人群（如某年龄段）",
-          "use": "用 subset 建立域（domain）分析并保留完整设计信息",
-          "instead_of": "先筛数据再重建 svydesign",
-          "why": "先筛数据会丢失未入选者的抽样信息，方差估计失真；survey 的 subset 保留设计结构"
+          "when": "关注人群分布而非个体效应",
+          "use": "加权分位数与加权比例",
+          "instead_of": "未加权均值",
+          "why": "复杂抽样下未加权统计量不能代表目标人群"
         }
       ],
       "gates": [
-        "分析全程使用 svy 系列，未出现裸 lm/mean/t.test",
-        "options(survey.lonely.psu=「adjust」) 已设置并写明",
-        "权重来源、周期数与设计变量已在方法段写明",
-        "加权 ESS 或权重分布已报",
-        "缺失码转换与跨周期变量一致性已核对"
+        "权重来源与周期数已写明，权重按周期数处理",
+        "svydesign 已设 nest 与 lonely.psu 参数",
+        "缺失特殊码已转 NA 且量表重叠条目已剔除",
+        "加权回归使用 svyglm 等设计对象方法"
       ],
       "outputs": [
-        "加权基线表与加权回归结果表",
-        "加权 RCS/趋势图（SVG/PDF/PNG）",
-        "设计要素与权重来源说明段"
+        "加权描述表（含权重范围与 ESS）",
+        "加权回归表（OR 或 β、95%CI、设计效应）",
+        "多周期合并说明与敏感性对照表"
       ],
       "kb": [
         "r-nhanes-analysis",
@@ -1784,168 +1834,181 @@
     {
       "id": "stats.missing",
       "label": "缺失值与多重插补",
-      "summary": "缺失数据的处置：先判缺失比例与机制（MCAR/MAR/MNAR），再决定完全案例分析、多重插补还是放弃插补，用 mice 插补（m≥20、method 按变量类型显式传、查收敛），Rubin 规则合并并做机制敏感性。输入带缺失的数据与变量类型，输出插补诊断、合并结果与敏感性表。>40% 缺失不插补。",
+      "summary": "先诊断缺失机制与比例，再决定完整病例、多重插补还是敏感性分析：用 m 至少 20 的 MICE 按变量类型设方法，逐插补集建模后 Rubin 合并，交付缺失模式图、插补诊断与完整病例对比，并写明插补假设。",
       "triggers": [
         "缺失值怎么处理",
         "多重插补怎么做",
-        "MCAR MAR MNAR 怎么判断",
-        "mice 怎么用",
-        "缺失比例多少不能插补",
-        "插补后模型怎么合并"
+        "MCAR 和 MAR 怎么判断",
+        "缺失太多还能分析吗",
+        "插补后结果怎么合并"
       ],
       "inputs": [
-        "带缺失的原始数据与变量说明",
-        "缺失模式描述与可能的缺失原因",
-        "目标模型与必须保留的变量"
+        "含缺失的分析数据集",
+        "缺失变量清单与比例",
+        "插补模型候选变量",
+        "结局与待估参数"
       ],
       "members": [
         {
           "skill": "r-aging-cohort-databases",
           "verdict": "主用",
           "best_at": [
-            "mice 参数规范（m≥20、method 显式）",
-            "按变量类型配 make.method",
-            "pool 合并与陷阱清单"
+            "MICE 方法按变量类型设定",
+            "插补后合并与收敛诊断"
           ],
           "limits": [
-            "以队列随访数据为主",
-            "不覆盖非随机缺失的复杂模型"
+            "面向队列数据不覆盖抽样设计",
+            "不替代缺失机制的外部论证"
           ],
           "take": [
-            "m≥20 且 maxit 至收敛，method 必须传给 mice()",
-            "合并用 pool() 不用 pool.syn()"
+            "m≥20 且 maxit 至收敛",
+            "pool() 合并而非手动平均"
+          ]
+        },
+        {
+          "skill": "scholar-eda",
+          "verdict": "补强",
+          "best_at": [
+            "Little's MCAR 检验与影子矩阵",
+            "缺失比例分级与限制声明"
+          ],
+          "limits": [
+            "不做插补建模执行",
+            "社会 sci 口径偏多"
+          ],
+          "take": [
+            "缺失分级超 20% 标为重大限制",
+            "m 取 max(缺失百分比,20)"
           ]
         },
         {
           "skill": "r-clinical-prediction-model",
           "verdict": "补强",
           "best_at": [
-            "预测模型的插补后评价",
-            "逐插补集计算再 Rubin 合并"
+            "插补后模型评价的正确姿势",
+            "逐插补集算再合并"
           ],
           "limits": [
-            "不专门讲缺失机制判定",
-            "不产出缺失模式图"
+            "面向预测模型评价",
+            "不覆盖插补模型选择理论"
           ],
           "take": [
-            "模型性能必须逐插补集算再合并",
-            "插补间 SD 远小于合并 SE 时说明不确定性主要来自抽样"
+            "模型指标逐插补集算再 Rubin 合并",
+            "插补间 SD 远小于合并 SE 要解释"
           ]
         },
         {
           "skill": "r-medical-stats",
           "verdict": "补强",
           "best_at": [
-            "md.pattern 缺失模式图",
-            "六道闸门的缺失率扫描"
+            "md.pattern 与闸门 3 缺失检查",
+            "三格式出图与结果段"
           ],
           "limits": [
-            "不展开 MNAR 敏感性建模",
-            "插补后分析需另接模块"
+            "不实现具体插补算法",
+            "仅作流程与报告支撑"
           ],
           "take": [
-            "缺失率按变量与行双向统计",
-            ">20% 缺失的变量在局限性点名"
+            "先看 md.pattern 再看比例",
+            "缺失处理写进方法段"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "查缺失模式",
-          "from": "r-medical-stats#闸门三",
-          "do": "按变量与行统计缺失率并画模式图",
-          "detail": "汇总每个变量的缺失率与每行的完整度，mice::md.pattern 画缺失模式矩阵；找出共缺失簇（同一次随访整批缺失提示结构性缺失），并在方法段给出一句缺失比例汇总。"
+          "step": "查缺失模式与比例",
+          "from": "r-medical-stats#闸门 3 + scholar-eda#缺失诊断",
+          "do": "md.pattern 加比例分级",
+          "detail": "先用 md.pattern 看缺失是否成块，再按变量算缺失比例；比例低于 5% 可完整病例并说明，5% 至 20% 建议多重插补，超过 20% 视为重大限制必须在局限性写明，关键变量缺失超过 20% 还要做敏感性分析。"
         },
         {
-          "step": "判机制",
-          "from": "r-aging-cohort-databases#三铁律",
-          "do": "用观测变量关联与设计线索判断 MCAR/MAR/MNAR",
-          "detail": "MCAR 的正式检验（Little 检验）只作参考；更可靠的是看缺失与观测变量的关联（有系统关联→MAR）与缺失原因（如病情重者未复查→MNAR）；机制判断必须写进方法段并配敏感性分析。"
+          "step": "判缺失机制",
+          "from": "scholar-eda#Little's MCAR",
+          "do": "MCAR 检验加机制论证",
+          "detail": "做 Little's MCAR 检验（p<0.05 拒绝 MCAR），并用影子矩阵看缺失与其他变量的关联；判断 MAR 需说明哪些观测变量可解释缺失，MNAR 无法从数据验证，只能靠设计与敏感性分析讨论。"
         },
         {
-          "step": "选择策略",
-          "from": "r-aging-cohort-databases#模块四",
-          "do": "按缺失比例决定完全案例、插补或放弃",
-          "detail": "关键变量缺失<5% 可完全案例分析并说明；5%–40% 用多重插补；>40% 不做插补，改为报告缺失或加缺失指示变量；结局变量缺失不得插补，只能做完整案例或敏感性分析。"
+          "step": "设插补模型与次数",
+          "from": "r-aging-cohort-databases#MICE + scholar-eda#m 公式",
+          "do": "按类型设方法并定 m",
+          "detail": "连续用 pmm，二分类用 logreg，无序分类用 polyreg，计数用 poisson；m 取缺失百分比与 20 的较大值（15% 缺失取 20，30% 缺失取 30），maxit 至少 10 并检查收敛；插补模型应包含结局以避免向零偏倚。"
         },
         {
-          "step": "执行插补",
-          "from": "r-aging-cohort-databases#模块四",
-          "do": "mice 设定 m、method、maxit 并查收敛",
-          "detail": "m≥20（正式分析建议 20–50）、maxit 至链收敛，method 按变量类型（连续 pmm、二分类 logreg、有序 polr）；插补模型应含结局与所有分析变量，不得把结局排除在插补模型外。"
+          "step": "逐插补集建模并合并",
+          "from": "r-clinical-prediction-model#逐插补集 + r-aging-cohort-databases#pool",
+          "do": "with.mids 加 pool",
+          "detail": "用 with(imp, glm(...)) 在每个插补集上建模，再用 pool() 做 Rubin 合并；不能先取插补值平均再建模；报告插补间方差与合并方差的比例，比例过小说明不确定性主要来自抽样而非缺失。"
         },
         {
-          "step": "合并与敏感性",
-          "from": "r-clinical-prediction-model#MICE",
-          "do": "pool 合并并做机制/参数敏感性",
-          "detail": "with(mids)+pool() 按 Rubin 合并，禁止手工对各插补集取平均；模型性能逐插补集计算再合并；敏感性分析至少做（MAR vs MNAR 假设、m 数量、插补变量集）三选二，结果放同一张表对照。"
+          "step": "完整病例对比与敏感性",
+          "from": "r-medical-stats#敏感性 + r-clinical-prediction-model",
+          "do": "两套结果并列",
+          "detail": "把完整病例分析与插补后分析并列，效应方向一致则结论更稳；再做模式混合或 delta 调整的敏感性分析（假设缺失者结局更差），并写明假设；图出缺失模式图与插补值分布对照图。"
         }
       ],
       "decide": [
         {
-          "when": "缺失比例中等且缺失与观测变量相关",
-          "use": "多重插补（m≥20）并做 MNAR 敏感性",
-          "instead_of": "用均值/中位数单一填补",
-          "why": "单一填补会低估方差并压缩分布，CI 过窄且相关性被低估"
+          "when": "缺失比例低于 5% 且完全随机",
+          "use": "完整病例分析并说明理由",
+          "instead_of": "一律多重插补",
+          "why": "小比例 MCAR 下完整病例几乎无偏且更简单"
         },
         {
-          "when": "某一关键变量缺失超过 40%",
-          "use": "不插补，报告缺失并在局限性说明，或改用缺失指示变量分组分析",
-          "instead_of": "硬插补后照常建模",
-          "why": "高比例插补的结果主要由插补模型决定，结论对真实数据不再敏感"
+          "when": "缺失比例高且机制不明",
+          "use": "插补加 MNAR 敏感性双报",
+          "instead_of": "只报插补结果",
+          "why": "MAR 假设不可验证，单报会高估结论稳健性"
         }
       ],
       "gates": [
-        "每个变量的缺失率与缺失机制判断已写明",
-        "m≥20 且 method 已显式传入 mice()",
-        "插补收敛已检查（trace plot 或收敛统计）",
-        "结果用 pool() 按 Rubin 规则合并，未手工平均",
-        ">40% 缺失的变量未被硬插补，结局变量未被插补"
+        "缺失比例分级与机制判断已写明",
+        "MICE 的 m≥20 且方法按变量类型设定",
+        "插补结果用 pool 合并而非手动平均",
+        "完整病例与插补结果并列对照"
       ],
       "outputs": [
-        "缺失模式图 + 缺失率表",
-        "插补诊断（收敛图、插补间方差）",
-        "合并结果表与敏感性分析表"
+        "缺失模式图与缺失比例表",
+        "插补诊断（收敛、分布对照）与合并结果表",
+        "完整病例对比与敏感性分析表"
       ],
       "kb": [
         "r-aging-cohort-databases",
-        "r-clinical-prediction-model",
-        "r-medical-stats"
+        "scholar-eda",
+        "r-clinical-prediction-model"
       ]
     },
     {
       "id": "stats.power",
       "label": "样本量与效能计算",
-      "summary": "在研究开始前算清需要多少样本：按设计类型（两组/多组/重复测量/生存/诊断/MR/预测模型）取公式与 R 函数，基于文献或最小临床重要差异定效应量，报参数、事件数与含失访的招募量。输入主要结局与预期效应，输出计算代码、参数表与一段可直接进标书的方法文字。事后效能不作结论。",
+      "summary": "在研究开始前算出需要多少例、能检出多大效应：按设计类型选公式与参数，交付样本量计算表、参数来源与敏感性曲线，并对已发表研究做回顾性效能评估，避免把事后效能当作结论辩护。",
       "triggers": [
         "样本量怎么算",
         "需要多少例",
-        "效能 80% 怎么定",
-        "生存分析要多少事件",
-        "EPV 是什么",
-        "标书样本量段落怎么写"
+        "效能分析怎么做",
+        "研究做完了能不能补算样本量",
+        "最小可检出效应"
       ],
       "inputs": [
-        "主要结局与设计类型",
-        "预期效应量及其文献依据",
-        "α、power、失访率与分组比例"
+        "研究设计与主要结局",
+        "预期效应量与变异度",
+        "显著性水平与把握度",
+        "失访率与分组比例"
       ],
       "members": [
         {
           "skill": "r-medical-stats",
           "verdict": "主用",
           "best_at": [
-            "15 种设计的样本量公式与 R 实现",
-            "生存事件数与 EPV 口径",
-            "样本量方法段模板"
+            "15 种设计的样本量公式",
+            "pwr 与生存、ROC 专用函数"
           ],
           "limits": [
-            "不做复杂自适应设计与期中分析",
-            "不负责研究可行性判断"
+            "参数须由用户与研究设计提供",
+            "不替代预试验估效应量"
           ],
           "take": [
-            "生存分析算事件数不是人数",
-            "预测模型按 EPV≥10 反推样本"
+            "参数与来源逐项列出",
+            "失访按比例放大样本量"
           ]
         },
         {
@@ -1953,91 +2016,89 @@
           "verdict": "补强",
           "best_at": [
             "先验效能与效应量基准",
-            "敏感性分析式样本量估算"
+            "事后效能不宜作为辩护"
           ],
           "limits": [
-            "Python 执行，与 R 铁律冲突",
-            "不产出标书与论文文字"
+            "Python 执行栈不落地",
+            "不覆盖生存与诊断设计"
           ],
           "take": [
-            "post-hoc power 不作结论，改报最小可检出效应",
-            "效应量给基准区间而非单点"
+            "按 d=0.2、0.5、0.8 三档算",
+            "不把事后效能写成研究结论"
           ]
         },
         {
           "skill": "r-clinical-prediction-model",
           "verdict": "补强",
           "best_at": [
-            "预测模型样本量的 EPV 视角",
-            "事件数不足的补救方案"
+            "预测模型样本量的 EPV 经验法则",
+            "事件数与变量数匹配"
           ],
           "limits": [
             "只覆盖预测建模场景",
-            "不覆盖试验设计场景"
+            "不替代通用样本量公式"
           ],
           "take": [
-            "EPV<10 时减变量或用 Firth",
-            "外部验证样本量单独估算"
+            "预测模型按每变量 10 事件核算"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "定参数",
-          "from": "r-medical-stats#refs20",
-          "do": "固定结局、效应量、α、power 与失访率",
-          "detail": "主要结局只设一个（多终点要校正）；效应量取文献区间中点或最小临床重要差异，并写明来源；双侧 α=0.05、power=0.80（探索性可 0.90）；失访率按同类研究给 10%–20%。"
+          "step": "定设计与主要结局",
+          "from": "r-medical-stats#references 20 样本量",
+          "do": "先定主结局与比较结构",
+          "detail": "明确主要结局是连续、二分类、生存还是诊断准确性，比较是两组、多组、配对还是非劣效；一个研究只能有一个主要结局用于样本量计算，多个主结局需做多重比较校正或分别估算。"
         },
         {
-          "step": "选公式",
-          "from": "r-medical-stats#refs20",
-          "do": "按设计类型落到对应函数",
-          "detail": "两组连续 pwr.t.test、两组率 pwr.2p.test、多组 pwr.anova.test、重复测量 wp.rmanova、生存用 Schoenfeld 算事件数再折人数、诊断用 power.roc.test、预测模型按 EPV≥10 反推。"
+          "step": "取参数并说明来源",
+          "from": "statistical-analysis#效能参数 + r-medical-stats",
+          "do": "效应量、变异度与把握度",
+          "detail": "效应量来源必须是既往文献、预试验或临床最小重要差异，并注明出处；显著性水平默认双侧 0.05，把握度取 0.8 或 0.9；连续结局还须给标准差，参数缺失时用敏感性范围而非随便取一个。"
         },
         {
-          "step": "计算与留证",
-          "from": "r-medical-stats#refs20",
-          "do": "写 R 代码并存参数表",
-          "detail": "计算脚本必须落盘并可在他人机器重跑；输出参数表（效应量假设、α、power、失访、所得样本量/事件数/招募量）；生存研究同时给事件数与人数并注明预期事件率来源。"
+          "step": "按设计套公式",
+          "from": "r-medical-stats#15 种设计",
+          "do": "每组独立或配对分别计算",
+          "detail": "两组连续用 pwr.t.test，二分类用 pwr.2p.test，生存用 Schoenfeld 公式（需事件数），诊断用 power.roc.test，重复测量用 wp.rmanova 或 Diggle 公式；多组用 pwr.anova.test 并说明是整体检验还是两两比较。"
         },
         {
-          "step": "敏感性",
-          "from": "statistical-analysis#效能",
-          "do": "给效应量上下浮动后的样本量区间",
-          "detail": "对效应量取保守/基准/乐观三档各算一次，给样本量区间；若招募量不可行，改报在现有样本下能检出的最小效应量（sensitivity analysis），而不是事后效能。"
+          "step": "放大失访并做敏感性",
+          "from": "r-medical-stats#样本量 + r-clinical-prediction-model#EPV",
+          "do": "按失访率放大并给曲线",
+          "detail": "按预期失访率换算需入组数（失访 20% 则除以 0.8）；再做敏感性：效应量取保守与乐观两端各算一次，给效能随样本量变化的曲线；预测模型还应满足每变量至少 10 个事件。"
         },
         {
-          "step": "写方法段",
-          "from": "r-medical-stats#refs20",
-          "do": "产出可进标书/论文的样本量段落",
-          "detail": "写清软件与版本、检验类型、效应量及依据、α 与 power、失访假设、最终样本量；例如两组均数比较，d=0.5、双侧 α=0.05、power=0.80，每组需 64 例，按 15% 失访扩至每组 76 例。"
+          "step": "出表与写方法",
+          "from": "r-medical-stats#§三 + nature-statistics#报告",
+          "do": "计算表加方法段",
+          "detail": "表格给设计、主结局、效应量及来源、α、把握度、每组例数与失访后总数；方法段写清软件与函数；回顾性研究中若已做完再算效能，只能作为解释局限，不得用来证明研究有把握度。"
         }
       ],
       "decide": [
         {
-          "when": "研究已结束才想起样本量",
-          "use": "报最小可检出效应量与 CI 精度，不报事后效能",
-          "instead_of": "用观察到的效应量算 post-hoc power",
-          "why": "事后效能是观察 P 值的单调变换，不提供新信息，且会误导读者"
+          "when": "研究已完成才想到样本量",
+          "use": "只报最小可检出效应并写入局限",
+          "instead_of": "做事后效能分析",
+          "why": "事后效能是 P 值的函数，不能证明研究设计合理"
         },
         {
-          "when": "主要结局为生存且失访较多",
-          "use": "按事件数设计并上调人数，报预期事件率来源",
-          "instead_of": "只按人数与固定随访时长估算",
-          "why": "Cox 的效能由事件数决定，人数乘以事件率不足会导致实际效能远低于 0.80"
+          "when": "效应量来源不确定",
+          "use": "给保守与乐观两套方案",
+          "instead_of": "取一个中间值交差",
+          "why": "参数不确定时区间估计比点估计更稳健"
         }
       ],
       "gates": [
-        "效应量及其文献/临床依据已写明",
-        "α、power、失访率与分组比例已给",
-        "生存研究的事件数已单独计算并报",
-        "样本量计算代码已落盘且可重跑",
-        "未使用事后效能作为结论"
+        "效应量来源与显著性水平、把握度均已写明",
+        "失访率已换算并体现在总例数",
+        "所用公式与设计类型一致且写出函数名",
+        "回顾性效能未当作结论辩护"
       ],
       "outputs": [
-        "样本量计算脚本（R，可直接跑）",
-        "参数表（假设、公式、结果、敏感性区间）",
-        "方法段文字（中英文各一版）"
+        "样本量计算表（参数、公式、每组例数）",
+        "效能随样本量变化曲线 SVG/PDF/PNG",
+        "方法段与敏感性对照表"
       ],
       "kb": [
         "r-medical-stats",
@@ -2048,128 +2109,126 @@
     {
       "id": "stats.corr",
       "label": "相关与一致性",
-      "summary": "两个变量之间的关系与两次测量的吻合程度：按分布选 Pearson/Spearman 并报 r+95%CI，按设计选 ICC(2,1)/(3,1)、加权 Kappa 或 CCC，做 Bland-Altman 报偏差与 95% 一致性界限。输入配对数据或评分者数据，输出相关矩阵、一致性表与 BA 图。相关不等于一致，不能互相替代。",
+      "summary": "回答两变量是否同向变化、两个测量是否可互换：按分布选 Pearson 或 Spearman 并给 CI，用 ICC 与 Bland-Altman 评估一致性并说明系统偏移与界限，交付散点、Bland-Altman 图与一致性结论，不把相关系数当一致性证据。",
       "triggers": [
-        "ICC 怎么算",
-        "Kappa 系数怎么报",
-        "Bland-Altman 图怎么画",
-        "一致性检验怎么做",
+        "相关分析怎么做",
         "Pearson 还是 Spearman",
-        "重测信度怎么评价"
+        "ICC 怎么算",
+        "Bland-Altman 图怎么画",
+        "两个测量方法能不能互换"
       ],
       "inputs": [
-        "配对测量值或评分者评分",
-        "测量设计的层次（评分者/重测/方法）",
-        "一致性的临床可接受界限"
+        "两变量或两次测量数据",
+        "配对结构说明",
+        "测量单位与临床可接受界限",
+        "样本量与分布特征"
       ],
       "members": [
         {
           "skill": "r-medical-stats",
           "verdict": "主用",
           "best_at": [
-            "ICC/Kappa/Bland-Altman 四要素",
-            "相关系数与 95%CI 计算",
-            "图与表规范版式输出"
+            "Kappa、ICC 与 Bland-Altman 四要素",
+            "相关系数的 CI 与检验"
           ],
           "limits": [
-            "不覆盖结构方程潜变量一致性",
-            "不做测量误差建模"
+            "不自动判断临床可互换界限",
+            "重测信度需重复测量设计"
           ],
           "take": [
-            "ICC 必须写明模型类型与定义",
-            "BA 报偏差±1.96SD 并查比例偏倚"
+            "一致性必须给界限与系统偏移",
+            "ICC 型号与置信区间一并报"
           ]
         },
         {
           "skill": "statistical-analysis",
           "verdict": "补强",
           "best_at": [
-            "相关前提与效应量基准",
-            "Bootstrap CI 的实现思路"
+            "相关方法选择与假设",
+            "效应量大小的约定解释"
           ],
           "limits": [
-            "Python 执行，图不达标",
-            "无 ICC 完整选项"
+            "Python 栈不落地",
+            "不覆盖 ICC 与 Bland-Altman 细节"
           ],
           "take": [
-            "相关前查线性与离群点",
-            "r 的基准 0.1/0.3/0.5 并给 CI"
+            "偏态或等级数据用 Spearman",
+            "报告 r 与 95%CI 不只报 P"
           ]
         },
         {
           "skill": "r-medical-research-master",
           "verdict": "补强",
           "best_at": [
-            "按研究问题路由到正确系数",
-            "一致性报告的常见误用清单"
+            "一致性研究的报告规范",
+            "方法选择决策树与路由规则"
           ],
           "limits": [
-            "总纲，不含具体计算",
-            "不产出图形与表格"
+            "本身不含计算代码",
+            "需按场景裁剪条目"
           ],
           "take": [
-            "先问是一致性还是相关性再选系数",
-            "报告一致性不得只给 r 值"
+            "相关不等于一致须在结论区分",
+            "重测信度写清间隔与条件"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "定问题",
-          "from": "r-medical-research-master#决策树",
-          "do": "区分相关、一致性与信度",
-          "detail": "两个不同变量的关系用相关；同一量纲的重复测量（重测/评分者/两种方法）用一致性；量表内部条目用信度（Cronbach α 或 ω）。问题类型决定系数，选错系数是这一块最常见的错误。"
+          "step": "确认变量类型与配对",
+          "from": "r-medical-research-master#决策树 + statistical-analysis#相关选择",
+          "do": "定连续、等级与配对结构",
+          "detail": "两连续变量看散点与离群，等级或明显偏态用 Spearman，二分类一致性用 Kappa；两次测量必须配对同一对象，若为不同对象则不能算一致性，只能算组间相关。"
         },
         {
-          "step": "算相关系数",
-          "from": "statistical-analysis#效应量",
-          "do": "按分布选 Pearson/Spearman 并报 CI",
-          "detail": "双变量正态且线性用 Pearson，否则 Spearman；报 r 或 ρ+95%CI 与样本量，散点图必须看（Anscombe 陷阱）；相关系数不给 CI 等于没报不确定性。"
+          "step": "算相关系数与 CI",
+          "from": "r-medical-stats#§六 + statistical-analysis",
+          "do": "Pearson 或 Spearman 加 CI",
+          "detail": "正态且线性用 Pearson，否则用 Spearman；相关系数必须带 95%CI 与样本量，P 值只说明是否非零；报告 r 绝对值按 0.1、0.3、0.5 三档解释并强调这是约定，不是因果或一致性证据。"
         },
         {
-          "step": "一致性",
-          "from": "r-medical-stats#refs22",
-          "do": "按设计选 ICC 模型或 Kappa",
-          "detail": "连续测量用 ICC：双向随机、绝对一致、单次测量报 ICC(2,1)，多次取均值报 ICC(2,k)；分类一致性用 Cohen/Fleiss Kappa，有序用加权 Kappa；ICC 必须写明模型、类型与定义三个要素。"
+          "step": "一致性三种工具",
+          "from": "r-medical-stats#22 一致性",
+          "do": "ICC、Bland-Altman 与 Kappa",
+          "detail": "连续测量一致性用 ICC（写明型号与 95%CI，单次或平均、绝对一致或一致性），同时画 Bland-Altman 看系统偏移与 95% 界限；分类一致性用 Kappa 并注明加权方式；三种工具回答的问题不同，不能互相替代。"
         },
         {
-          "step": "Bland-Altman",
-          "from": "r-medical-stats#refs22",
-          "do": "画差值-均值图并报 LoA",
-          "detail": "差值对均值作图，报偏差与 95% 一致性界限（偏差±1.96SD），检查差值是否随均值变化（比例偏倚）与离群点；异方差时改画百分比差或回归法 LoA，并列临床可接受界限判断。"
+          "step": "定临床可接受界限",
+          "from": "r-medical-research-master#报告规范",
+          "do": "先定界限再看数据",
+          "detail": "一致性结论必须对照预先设定的临床可接受界限（如血压差 5 mmHg 内），不能看数据后再定界限；界限内的比例、系统偏移方向与离群点都要报告，超出界限说明不可互换。"
         },
         {
-          "step": "按清单报告",
-          "from": "r-medical-stats#refs22",
-          "do": "给系数、CI 与解释阈值",
-          "detail": "ICC>0.90 优、0.75–0.90 良、0.50–0.75 中（Koo & Li），Kappa>0.80 强；报系数+95%CI 与样本量，并说明是否达到预设的临床可接受界限，相关矩阵另附热图。"
+          "step": "出图写结论",
+          "from": "r-medical-stats#§三 + §七",
+          "do": "散点图与 Bland-Altman 图",
+          "detail": "散点图加拟合线与相关系数，Bland-Altman 图横轴均值纵轴差值并画平均差与 95% 界限；结论段必须分开写相关强度与一致性可接受度，二者不一致时以一致性为准判断互换性。"
         }
       ],
       "decide": [
         {
-          "when": "两次测量高度相关但绝对数值系统偏移",
-          "use": "报 Bland-Altman 偏差与 LoA，并给出系统偏移的临床含义",
-          "instead_of": "用高 r 或高 ICC 宣称一致性好",
-          "why": "相关只反映线性趋势，系统偏移会被高 r 掩盖；BA 直接暴露平均差与个体差异范围"
+          "when": "两次测量方法不同且需互换",
+          "use": "Bland-Altman 加 ICC 双报",
+          "instead_of": "只报相关系数",
+          "why": "高相关可以有系统偏移，不能证明可互换"
         },
         {
-          "when": "评分者多于两名且为有序等级",
-          "use": "加权 Kappa（Fleiss）或 ICC(3,k)",
-          "instead_of": "两两算 Cohen Kappa 后取平均",
-          "why": "两两平均会重复计权且不同对之间不可比，多人同时评价应用整体系数"
+          "when": "评分者多于两人或多次重测",
+          "use": "ICC(2,k) 或 ICC(3,k) 并说明选择",
+          "instead_of": "两两算 Pearson 平均",
+          "why": "两两相关会低估整体一致性且无法给单一系数"
         }
       ],
       "gates": [
-        "系数与设计匹配，ICC 的模型/类型/定义三要素已写明",
-        "所有系数均附 95%CI 与样本量",
-        "Bland-Altman 偏差与 95% LoA 已报，并检查比例偏倚",
-        "一致性结论未用相关系数替代",
-        "解释阈值（0.90/0.75/0.50 等）来源已写"
+        "相关系数带 95%CI 与样本量",
+        "一致性结论对照了预先设定的可接受界限",
+        "ICC 型号与 Bland-Altman 界限含义已写明",
+        "结论区分相关强度与一致可互换性"
       ],
       "outputs": [
-        "相关矩阵/热图",
-        "一致性表（ICC/Kappa/CCC+CI）+ Bland-Altman 图",
-        "方法段（模型类型与阈值依据）"
+        "相关与一致性结果表（r 或 ICC、CI、Kappa）",
+        "散点图与 Bland-Altman 图 SVG/PDF/PNG",
+        "一致性结论段（含可接受界限说明）"
       ],
       "kb": [
         "r-medical-stats",
@@ -2180,165 +2239,291 @@
     {
       "id": "stats.clean",
       "label": "数据清洗与衍生变量",
-      "summary": "把原始数据整理成可分析的数据集：多格式读入（csv/xlsx/sav/dta）、修复千分位与空串、识别缺失码、统一类型与单位、按公式衍生 BMI/eGFR/变化率，并留下可复现的清洗审计日志。输入原始文件与变量字典，输出干净数据集、衍生变量表与日志。原始文件不得被覆盖。",
+      "summary": "把原始导出变成可分析数据集：统一编码与单位、修千分位与日期、生成衍生变量并留清洗日志，交付清洗后数据、变量字典与可复跑脚本，涉及患者隐私时先本地扫描再决定是否外传。",
       "triggers": [
-        "数据清洗怎么做",
-        "变量怎么衍生",
+        "数据怎么清洗",
+        "变量怎么派生",
+        "日期格式乱了怎么办",
         "缺失码怎么处理",
-        "SPSS 数据怎么读",
-        "数据核对不上",
-        "清洗日志怎么留"
+        "清洗脚本要可复现"
       ],
       "inputs": [
-        "原始数据文件（csv/xlsx/sav/dta）",
-        "变量字典、单位与缺失码定义",
-        "衍生变量的公式与临床阈值"
+        "原始数据导出（csv、xlsx、sav、dta）",
+        "变量字典或码表",
+        "单位与正常值范围",
+        "伦理与数据外传限制"
       ],
       "members": [
         {
           "skill": "r-medical-stats",
           "verdict": "主用",
           "best_at": [
-            "read_any 多格式读入与千分位修复",
-            "data_gates 六闸门清洗函数",
-            "清洗审计日志留痕"
+            "read_any 多格式读入与清洗",
+            "六道闸门前置的数据规整"
           ],
           "limits": [
-            "不覆盖复杂数据链接（多表主键合并）",
-            "不处理非结构化文本清洗"
+            "不负责源系统导出",
+            "不外推未提供的码表"
           ],
           "take": [
-            "read_any 自动识别格式并修千分位",
-            "闸门逐项输出清单而非只报通过"
-          ]
-        },
-        {
-          "skill": "r-clinical-prediction-model",
-          "verdict": "补强",
-          "best_at": [
-            "0 值实为缺失码的识别",
-            "类型规范化与 relevel 赋值"
-          ],
-          "limits": [
-            "聚焦建模前的数据处理",
-            "不覆盖多源数据合并"
-          ],
-          "take": [
-            "0 值必须生理核查后再定 NA",
-            "relevel 结果必须赋值回变量"
-          ]
-        },
-        {
-          "skill": "exploratory-data-analysis",
-          "verdict": "补强",
-          "best_at": [
-            "分布、重复值与众数快速体检",
-            "变量间异常组合筛查"
-          ],
-          "limits": [
-            "只做探查，不改数据",
-            "不出可复跑的清洗脚本"
-          ],
-          "take": [
-            "清洗后重跑分布图对比前后",
-            "重复 ID 与重复行单独清单"
+            "千分位与日期统一在此修",
+            "每步改动作写日志"
           ]
         },
         {
           "skill": "local-r-clinical-stats",
           "verdict": "补强",
           "best_at": [
-            "本机 R 执行通道与 locale 陷阱",
-            "脚本编码与输出重定向规范"
+            "本机 R 执行通道与 locale 处理",
+            "脚本无 BOM 与输出重定向"
           ],
           "limits": [
-            "只管执行环境与编码",
-            "不做数据语义判断"
+            "只负责运行不负责清洗规则",
+            "依赖本机 R 安装"
           ],
           "take": [
-            "调用前清 LC_ALL/LANG/LANGUAGE",
-            "脚本用 Write 生成保持 UTF-8 无 BOM"
+            "调用前清 LC_ALL、LANG",
+            "脚本 UTF-8 无 BOM 再执行"
+          ]
+        },
+        {
+          "skill": "scholar-safety",
+          "verdict": "补强",
+          "best_at": [
+            "PII 与伦理标识本地扫描",
+            "上传前按绿黄红分级放行"
+          ],
+          "limits": [
+            "二进制格式无法直接扫",
+            "不替代伦理委员会审查"
+          ],
+          "take": [
+            "外传前本地 grep 扫身份证与电话",
+            "二进制格式默认黄灯需人工确认"
+          ]
+        },
+        {
+          "skill": "exploratory-data-analysis",
+          "verdict": "补强",
+          "best_at": [
+            "多格式结构识别与质量摘要",
+            "变量类型初步判定"
+          ],
+          "limits": [
+            "只探索不修改数据",
+            "不做任何统计推断"
+          ],
+          "take": [
+            "先出结构摘要再定清洗规则"
           ]
         },
         {
           "skill": "scholar-code-review",
           "verdict": "兜底",
           "best_at": [
-            "分析脚本的硬编码与复现性审查",
-            "口径不一致的自动化检查"
+            "脚本只读审计与问题定位",
+            "可复现性与规范检查"
           ],
           "limits": [
-            "偏科研代码审查，不产出数据",
-            "需要可运行的脚本与数据"
+            "只做审计不改脚本",
+            "不替代人工最终复核"
           ],
           "take": [
-            "交付前审一遍硬编码路径与手改数字",
-            "口径与表注一致性由审查项兜底"
+            "交付前审一次清洗脚本"
           ]
         }
       ],
       "protocol": [
         {
-          "step": "读入与格式识别",
-          "from": "r-medical-stats#九",
-          "do": "统一读入并修复字符型污染",
-          "detail": "read_any 按扩展名识别 csv/xlsx/sav/dta；连续列若被读成字符型，查千分位逗号、空串与单位后缀，修复后强转数值并记录被改行数；日期统一转 ISO 格式并标记时区。"
+          "step": "读入并先做隐私扫描",
+          "from": "scholar-safety#SCAN + r-medical-stats#read_any",
+          "do": "格式识别加 PII 扫描",
+          "detail": "先确认数据格式与编码，再用本地命令扫身份证号、手机号、姓名与地址字段；二进制格式（sav、dta、rds、parquet、xlsx、zip）无法直接 grep，默认判黄灯需人工确认，不得因扫描计数为 0 就判为安全。"
         },
         {
-          "step": "缺失码与逻辑核对",
-          "from": "r-medical-stats#五",
-          "do": "缺失码转 NA 并做逻辑一致性检查",
-          "detail": "把 -9/7/9/77/99/777/999 等按变量字典转 NA 并记录清单；0 值必须先做生理核查（血压 0、BMI 0 是缺失码而非真值）；检查日期倒挂（出院早于入院）与重复 ID，命中项列清单待确认。"
+          "step": "统一编码与单位",
+          "from": "r-medical-stats#闸门 1 加清洗",
+          "do": "因子水平、码表与单位对齐",
+          "detail": "按变量字典核对因子水平与数字码（0 与 1 的含义、7 与 9 是否缺失码），统一单位（mg/dL 与 mg/L、cm 与 m）并记录换算；同一变量多来源合并时建立对照表，避免同名不同义被静默合并。"
         },
         {
-          "step": "类型与单位",
-          "from": "r-clinical-prediction-model#类型规范化",
-          "do": "统一类型、单位与参照水平",
-          "detail": "ID 列不进模型；分类变量转因子并 relevel 后赋值回变量；单位统一（mg/dL 与 mmol/L 不混用），并在变量表标注单位；连续变量保留原始精度，不在清洗阶段做标准化。"
+          "step": "修数值与日期陷阱",
+          "from": "r-medical-stats#静默陷阱",
+          "do": "千分位、日期倒挂与离群",
+          "detail": "数值列含千分位逗号会整列变字符，按正则修回并记录被改行数；日期统一为 ISO 格式并查倒挂（出院早于入院）；离群值用 IQR 或 z 分数标记，标记不删除，删除须有方案并留痕。"
         },
         {
-          "step": "衍生变量",
-          "from": "r-medical-stats#九",
-          "do": "按公式衍生并做边界核查",
-          "detail": "每个衍生变量写清公式与单位（BMI=kg/m²、eGFR 用 CKD-EPI 2021、变化率=(后−前)/前）；衍生后跑边界核查（BMI 10–60、eGFR>0），越界值回溯原始值而不是直接截断。"
+          "step": "生成衍生变量",
+          "from": "r-medical-stats#lib_00 + scholar-eda",
+          "do": "BMI、eGFR、评分与分组",
+          "detail": "衍生变量写清公式、单位与边界处理（如 eGFR 用 CKD-EPI 并注明版本）；分组切点优先用公认标准，自行切分须给依据；每个衍生变量在变量字典登记来源、公式与缺失规则。"
         },
         {
-          "step": "审计与复现",
-          "from": "scholar-code-review#质量检查",
-          "do": "留清洗日志并重跑核对",
-          "detail": "每步记录输入行数、输出行数、被改值计数与规则编号，形成清洗日志；用同一脚本从原始文件重跑一次，核对行数与关键统计量一致；原始文件只读，输出写入新文件。"
+          "step": "出变量字典与复跑脚本",
+          "from": "local-r-clinical-stats#运行通道 + scholar-code-review",
+          "do": "脚本无 BOM 可复跑",
+          "detail": "清洗脚本用 UTF-8 无 BOM 保存，首行清 locale 环境变量再调 Rscript；输出清洗后数据、变量字典与清洗日志（每步改了什么、多少行受影响）；交付前对脚本做一次只读审计，确认无硬编码绝对路径。"
         }
       ],
       "decide": [
         {
-          "when": "连续变量出现极端值但无法确认真伪",
-          "use": "保留原值并做缩尾/截断的敏感性分析，两种结果并列",
-          "instead_of": "直接删除或替换为均值",
-          "why": "无法确认的极端值可能是真实重症病例，删除会改变目标人群且不可复现"
+          "when": "缺失码与真实 0 混淆",
+          "use": "按码表核对后显式转 NA 并记录",
+          "instead_of": "把 0 一律当缺失删除",
+          "why": "实验室 0 可能是真实低值或缺失码，误删会改变分布"
         },
         {
-          "when": "实验室指标出现 0 或检测下限值",
-          "use": "按变量字典判为缺失或按下限处理并记录，再进闸门",
-          "instead_of": "当作真实 0 参与计算",
-          "why": "0 值会让 log 与比率报错或产生 -Inf，且会把缺失伪装成极端低值"
+          "when": "数据含可识别个人信息",
+          "use": "本地分析加脱敏后再外传",
+          "instead_of": "直接上传原始文件",
+          "why": "伦理与法规要求最小化外传，且上传不可撤回"
         }
       ],
       "gates": [
-        "清洗前后行数、列数与被改值计数已记录",
-        "每个衍生变量的公式、单位与边界核查已写",
-        "缺失码清单与转换规则已列出",
-        "同一脚本重跑后行数与关键统计量一致",
-        "原始数据文件未被覆盖或修改"
+        "数值列无千分位残留且日期无倒挂",
+        "缺失码已按码表转 NA 并记录",
+        "变量字典含每个衍生变量的公式与来源",
+        "清洗脚本 UTF-8 无 BOM 且可复跑",
+        "外传前完成 PII 扫描并留分级结论"
       ],
       "outputs": [
-        "干净数据集（csv/xlsx）+ 衍生变量表",
-        "清洗审计日志（逐步行数与规则）",
-        "可重跑的 R 清洗脚本（UTF-8 无 BOM）"
+        "清洗后数据（csv 或 rds）与变量字典",
+        "清洗日志（每步改动与受影响行数）",
+        "可复跑清洗脚本与隐私扫描结论"
       ],
       "kb": [
         "r-medical-stats",
-        "r-clinical-prediction-model",
-        "exploratory-data-analysis"
+        "local-r-clinical-stats",
+        "scholar-safety"
+      ]
+    },
+    {
+      "id": "stats.reportaudit",
+      "label": "统计报告审查",
+      "summary": "以审稿人视角核一段统计表述是否站得住：先问测量了什么、分析单位是什么、推断有多强，再按 P0、P1、P2 分级列问题并给可直接粘贴的修改句，缺信息处标作者补充，绝不替作者编数字。",
+      "triggers": [
+        "帮我审统计部分",
+        "这段统计描述有问题吗",
+        "审稿人说 P 值有问题",
+        "表格图注统计规范吗",
+        "统计报告怎么自查"
+      ],
+      "inputs": [
+        "待审的方法段与结果段",
+        "表格与图注",
+        "样本量与分组信息",
+        "软件与检验方法说明"
+      ],
+      "members": [
+        {
+          "skill": "nature-statistics",
+          "verdict": "主用",
+          "best_at": [
+            "三问框架与 P0/P1/P2 分级",
+            "独立单位与伪重复识别"
+          ],
+          "limits": [
+            "只审不改数据与重算",
+            "缺信息只能标待补"
+          ],
+          "take": [
+            "先问分析单位再判 P 值",
+            "问题按 P0 到 P2 分级交付"
+          ]
+        },
+        {
+          "skill": "r-medical-stats",
+          "verdict": "补强",
+          "best_at": [
+            "六道闸门清单复核",
+            "报告完整度检查项"
+          ],
+          "limits": [
+            "不负责文字润色与改写",
+            "不替代正式审稿意见"
+          ],
+          "take": [
+            "逐条对照闸门清单打勾",
+            "检查效应量与 CI 是否同报"
+          ]
+        },
+        {
+          "skill": "r-medical-research-master",
+          "verdict": "补强",
+          "best_at": [
+            "TRIPOD、STROBE 与 STROBE-MR 条目",
+            "报告规范逐项对照"
+          ],
+          "limits": [
+            "条目偏多需按研究裁剪",
+            "不判断研究学术价值"
+          ],
+          "take": [
+            "按研究类型选一套清单对照"
+          ]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "问测量与分析单位",
+          "from": "nature-statistics#三问",
+          "do": "what measured 与 unit analysed",
+          "detail": "先问每组数字测量的是什么（细胞、视野、动物还是人）、分析单位是否与之匹配；同一动物多个切片、同一患者多个时点都算伪重复，若把细胞数当 n，P 值被严重高估，必须标为 P0。"
+        },
+        {
+          "step": "核 n 与重复来源",
+          "from": "nature-statistics#unit+replication",
+          "do": "独立重复次数与生物重复",
+          "detail": "核每个实验的 n 是独立生物学重复还是技术重复，n 的定义是否写进方法或图注；并列多个面板时 n 是否逐面板给出；重复数少且只报显著结果的，标 P1 并建议补重复或降结论强度。"
+        },
+        {
+          "step": "核推断强度",
+          "from": "nature-statistics#inference + r-medical-stats#闸门 5",
+          "do": "显著不等于重要",
+          "detail": "检查是否把统计显著写成临床重要、是否只报 P 值而无效应量与 95%CI、是否多个比较未校正、是否把相关写成因果；AUC、OR、HR 的量级是否合理（AUC 在 0.5 至 1 之间），异常值先疑数据错误。"
+        },
+        {
+          "step": "核表格与图注",
+          "from": "nature-statistics#figure-statistics",
+          "do": "n、误差棒与检验三件套",
+          "detail": "图注必须写清 n 的定义、误差棒是 SD 还是 SEM、用了什么检验、是否多重校正、给出精确 P；星号须写 adjusted p 与校正方法；条形图隐藏分布、箱线图未写须规则、时间序列未用重复测量模型的分别标 P1 或 P2。"
+        },
+        {
+          "step": "出分级报告与改句",
+          "from": "nature-statistics#ready-to-paste",
+          "do": "按 P0、P1、P2 列问题",
+          "detail": "每条问题给位置、问题、依据与建议改法，P0 为必须改否则结论不成立，P1 为影响可信度，P2 为规范性问题；缺信息处标 AUTHOR_INPUT_NEEDED 并列出需作者补的具体数字，不替作者编造 p、n、df 或软件版本。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "分析单位与统计单位不一致",
+          "use": "标 P0 并建议改用混合模型或汇总到个体",
+          "instead_of": "只提醒作者说明",
+          "why": "伪重复会让 P 值失真，属结论级错误"
+        },
+        {
+          "when": "报告缺关键数字",
+          "use": "标 AUTHOR_INPUT_NEEDED 列出待补清单",
+          "instead_of": "按经验补一个合理值",
+          "why": "编造数字会污染同行评议与后续复现"
+        }
+      ],
+      "gates": [
+        "每个 P 值与 n 的分析单位均已核对",
+        "问题按 P0、P1、P2 分级且每条有位置与依据",
+        "图注的 n、误差棒与检验方法逐项核对",
+        "未补任何作者未提供的数字，缺失处标待补"
+      ],
+      "outputs": [
+        "分级问题清单（位置、问题、依据、建议改法）",
+        "可直接粘贴的英文修改句与中文对照",
+        "AUTHOR_INPUT_NEEDED 待补清单"
+      ],
+      "kb": [
+        "nature-statistics",
+        "r-medical-stats",
+        "r-medical-research-master"
       ]
     }
   ]

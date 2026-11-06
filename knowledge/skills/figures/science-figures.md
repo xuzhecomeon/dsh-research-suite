@@ -1,5 +1,3 @@
-<!-- source: science-figures @ science-figures__skillhub | domain: figures -->
-
 ---
 name: science-figures
 description: >

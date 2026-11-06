@@ -1,7 +1,7 @@
 {
   "name": "dsh-research-suite",
-  "version": "2.0.0",
-  "description": "科研全流程能力套件：把写作、润色、绘图、统计、文献、选题、审稿、幻灯等数百个科研技能的优劣对齐成能力卡，用融合协议自动接管科研任务。",
+  "version": "3.0.0",
+  "description": "科研全流程能力套件：把 592 个科研技能逐条判优劣后融合成 10 域能力卡，用融合协议在识别到科研诉求时自动接管——写作、润色、绘图、统计、文献、数据库取数、选题、审稿、幻灯。",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -69,8 +69,9 @@
   "scripts": {
     "test": "node scripts/selftest.mjs",
     "verify": "node scripts/verify-package.mjs",
-    "verify:caps": "node scripts/verify-capabilities.mjs",
-    "check": "node scripts/selftest.mjs && node scripts/verify-capabilities.mjs && node scripts/verify-package.mjs",
+    "verify:caps": "node scripts/verify-capabilities.mjs all",
+    "verify:ledger": "node scripts/verify-ledger.mjs all",
+    "check": "node scripts/selftest.mjs && node scripts/verify-capabilities.mjs all && node scripts/verify-ledger.mjs all && node scripts/verify-package.mjs",
     "pack:check": "npm pack --dry-run"
   }
 }

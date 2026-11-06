@@ -1,5 +1,3 @@
-<!-- source: scholar-code-review @ scholar-code-review | domain: stats -->
-
 ---
 name: scholar-code-review
 description: >

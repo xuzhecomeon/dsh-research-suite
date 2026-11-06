@@ -573,6 +573,191 @@ function checkDocs(report) {
   report.info('docs', `${n} 个文件`);
 }
 
+// ---------- E2. v3 知识层：资产目录与资产预算 ----------
+// v3 约定（与 tools/build-knowledge-v3.mjs 保持一致）：
+//   资产目录 = knowledge/skills/<domain>/<slug>__assets/（按 slug 命名，不是 catalog 的 dir）
+//   只收白名单扩展名；单文件 ≤256KB；用户级技能整包 ≤260KB 才完整收录，插件内置 ≤5MB。
+const ASSET_TEXT_EXT = new Set([
+  '.md', '.mdx', '.py', '.r', '.sh', '.mjs', '.js', '.cjs', '.json', '.jsonl', '.csv', '.tsv', '.txt',
+  '.yml', '.yaml', '.tex', '.bib', '.ipynb', '.toml', '.cfg', '.ini', '.sql', '.rmd', '.qmd',
+  '.mplstyle', '.csl', '.sty', '.cls', '.tpl', '.xml', '.log.txt', '.j2', '.jinja', '.html', '.css',
+]);
+const ASSET_SKIP_DIR = new Set(['.git', 'node_modules', '__pycache__', '.cache', 'dist', 'build']);
+const ASSET_MAX_FILE = 256 * 1024;
+const ASSET_BUDGET = { user: 260 * 1024, builtin: 5 * 1024 * 1024 };
+
+function checkCatalogAssets(report) {
+  if (!existsSync(CATALOG)) return;
+  let catalog;
+  try {
+    catalog = JSON.parse(stripBom(readFileSync(CATALOG, 'utf8')));
+  } catch {
+    return; // 解析失败由 checkJsonParse 报
+  }
+  if (!Array.isArray(catalog)) return;
+
+  let included = 0;
+  let omitted = 0;
+  const problems = { missingDir: [], countMismatch: [], badExt: [], tooBig: [], overBudget: [], strayDir: [] };
+
+  for (const c of catalog) {
+    if (!c || typeof c !== 'object' || !isNonEmptyStr(c.slug) || !isNonEmptyStr(c.domain)) continue;
+    const assets = c.assets;
+    const dir = path.join(ROOT, 'knowledge', 'skills', c.domain, `${c.slug}__assets`);
+    const hasDir = existsSync(dir);
+
+    if (!assets || assets.included !== true) {
+      omitted++;
+      if (hasDir) problems.strayDir.push(rel(dir));
+      continue;
+    }
+    included++;
+    if (!hasDir) { problems.missingDir.push(`${rel(dir)}（catalog 声明 ${assets.files} 个文件）`); continue; }
+
+    const files = walk(dir, [], ASSET_SKIP_DIR);
+    const bytes = files.reduce((s, f) => s + statSync(f).size, 0);
+    if (files.length !== assets.files || bytes !== assets.bytes) {
+      problems.countMismatch.push(`${rel(dir)}：磁盘 ${files.length} 个/${bytes} B，catalog 记 ${assets.files} 个/${assets.bytes} B`);
+    }
+    for (const f of files) {
+      const ext = path.extname(f).toLowerCase();
+      if (!ASSET_TEXT_EXT.has(ext)) problems.badExt.push(`${rel(f)}（${ext || '无扩展名'}）`);
+      if (statSync(f).size > ASSET_MAX_FILE) problems.tooBig.push(`${rel(f)}（${(statSync(f).size / 1024).toFixed(0)} KB）`);
+    }
+    const budget = ASSET_BUDGET[c.source === 'builtin' ? 'builtin' : 'user'];
+    if (bytes > budget) problems.overBudget.push(`${rel(dir)}：${(bytes / 1024).toFixed(0)} KB > ${(budget / 1024).toFixed(0)} KB`);
+  }
+
+  const list = (arr, n = 3) => `${arr.slice(0, n).join('；')}${arr.length > n ? ` …（共 ${arr.length} 处）` : ''}`;
+  if (problems.missingDir.length) report.error('knowledge/catalog.json', `${problems.missingDir.length} 个技能资产目录缺失：${list(problems.missingDir)}`);
+  if (problems.countMismatch.length) report.error('knowledge/catalog.json', `${problems.countMismatch.length} 个资产目录的文件数/字节与 catalog 不一致：${list(problems.countMismatch)}`);
+  if (problems.badExt.length) report.warn('knowledge/skills', `资产里有非白名单扩展名 ${problems.badExt.length} 个：${list(problems.badExt)}`);
+  if (problems.tooBig.length) report.warn('knowledge/skills', `资产里有单文件超过 256KB 的 ${problems.tooBig.length} 个：${list(problems.tooBig)}`);
+  if (problems.overBudget.length) report.warn('knowledge/catalog.json', `${problems.overBudget.length} 个技能资产超预算：${list(problems.overBudget)}`);
+  if (problems.strayDir.length) report.warn('knowledge/skills', `有 ${problems.strayDir.length} 个未被 catalog 声明的资产目录：${list(problems.strayDir)}`);
+  report.info('knowledge/catalog.json', `资产：${included} 个技能随包收录，${omitted} 个未收录`);
+}
+
+// ---------- E3. v3 账本层：存在性与覆盖度（细化判定交给 verify-ledger.mjs） ----------
+
+const LEDGER_DOMAINS = ['writing', 'polish', 'figures', 'stats', 'ideation', 'review', 'slides', 'literature', 'format', 'data', 'toolbox'];
+
+function checkLedger(report) {
+  const dir = path.join(ROOT, 'data', 'ledger');
+  if (!existsSync(dir)) {
+    report.warn('data/ledger', '目录不存在（v3 判定账本缺失时 verify-ledger 会逐域报错）');
+    return;
+  }
+  const VERDICTS = new Set(['fused', 'index-only', 'deprecated', 'out-of-scope']);
+  const missing = [];
+  let entries = 0;
+  let checked = 0;
+  for (const d of LEDGER_DOMAINS) {
+    const abs = path.join(dir, `${d}.json`);
+    if (!existsSync(abs)) { missing.push(`${d}.json`); continue; }
+    let doc;
+    try {
+      doc = JSON.parse(stripBom(readFileSync(abs, 'utf8')));
+    } catch {
+      continue; // 解析错误由 checkJsonParse 统一报
+    }
+    checked++;
+    const where = `data/ledger/${d}.json`;
+    if (!doc || typeof doc !== 'object') { report.error(where, '顶层必须是对象'); continue; }
+    if (!Array.isArray(doc.entries)) { report.error(where, '缺 entries 数组'); continue; }
+    let bad = 0;
+    for (const e of doc.entries) {
+      if (!e || !isNonEmptyStr(e.dir) || !VERDICTS.has(e.verdict) || !isNonEmptyStr(e.why)) { bad++; continue; }
+      if (e.verdict === 'fused' && !(Array.isArray(e.cards) && e.cards.length)) bad++;
+    }
+    if (bad) report.error(where, `${bad}/${doc.entries.length} 条判定不合契约（dir/verdict/why，fused 必须有 cards）`);
+    entries += doc.entries.length;
+  }
+  if (missing.length) report.warn('data/ledger', `缺 ${missing.length}/${LEDGER_DOMAINS.length} 个域的账本：${missing.join('、')}`);
+  report.info('data/ledger', `${checked} 个域账本，共 ${entries} 条判定`);
+}
+
+// ---------- E4. 占位符：只管 README 里的 {{CAP_TOTAL}} ----------
+
+function checkPlaceholders(report) {
+  // 只扫"我们自己写的文档"：根目录 *.md + docs/**/*.md。
+  // knowledge/ 里是第三方技能原文，出现 {{...}} 是模板语法（如 Jinja/提示词占位），不该管。
+  const allowed = new Set(['README.md', 'README.zh-CN.md']);
+  const targets = [];
+  for (const name of readdirSync(ROOT)) {
+    if (!name.endsWith('.md')) continue;
+    const abs = path.join(ROOT, name);
+    if (statSync(abs).isFile()) targets.push(abs);
+  }
+  const docsDir = path.join(ROOT, 'docs');
+  if (existsSync(docsDir)) targets.push(...walk(docsDir, []).filter((f) => f.endsWith('.md')));
+
+  const hits = new Map(); // file -> Set(tokens)
+  for (const f of targets) {
+    let text;
+    try { text = stripBom(readFileSync(f, 'utf8')); } catch { continue; }
+    const m = text.match(/\{\{[^{}\n]{1,40}\}\}/g);
+    if (!m) continue;
+    hits.set(rel(f), new Set(m));
+  }
+  for (const [file, set] of hits) {
+    // GitHub Actions 表达式（${{ secrets.NPM_TOKEN }}、${{ github.ref }}）是文档正常内容，不算占位符
+    const tokens = [...set].filter((t) => !/secrets\.|github\./.test(t));
+    if (tokens.length === 0) continue;
+    if (!allowed.has(file)) {
+      report.error(file, `出现占位符 ${tokens.join('、')}（占位符只允许出现在 README.md / README.zh-CN.md，发布前必须替换）`);
+      continue;
+    }
+    for (const t of tokens) {
+      if (t !== '{{CAP_TOTAL}}') report.error(file, `未知占位符 ${t}（只认 {{CAP_TOTAL}}）`);
+      else report.warn(file, `${t} 待替换成最终能力卡总数`);
+    }
+  }
+}
+
+// ---------- E5. 知识层跨文件一致：catalog 技能数 vs 索引/融合文档 ----------
+
+function checkKnowledgeConsistency(report) {
+  if (!existsSync(CATALOG)) return;
+  let catalog;
+  try { catalog = JSON.parse(stripBom(readFileSync(CATALOG, 'utf8'))); } catch { return; }
+  if (!Array.isArray(catalog)) return;
+  const total = catalog.length;
+  const byDomain = new Map();
+  for (const c of catalog) byDomain.set(c.domain, (byDomain.get(c.domain) || 0) + 1);
+
+  // catalog name 带引号 = frontmatter 引号未剥离的构建 bug：会让能力卡成员匹配失败
+  const quotedNames = catalog.filter((c) => typeof c.name === 'string' && /^["'“”「」]|["'“”「」]$/.test(c.name));
+  if (quotedNames.length) {
+    report.error('knowledge/catalog.json', `${quotedNames.length} 条 name 带引号（frontmatter 引号未剥离，能力卡 members 会匹配不到）：${quotedNames.slice(0, 3).map((c) => c.name).join('、')}`);
+  }
+
+  // 能力卡文件域集合应等于 catalog 里"有卡的域"，toolbox 是索引桶不该有卡
+  const capFiles = existsSync(CAP_DIR) ? readdirSync(CAP_DIR).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5)) : [];
+  const missingCaps = [...byDomain.keys()].filter((d) => d !== 'toolbox' && !capFiles.includes(d));
+  if (missingCaps.length) report.warn('data/capabilities', `以下域尚无能力卡文件：${missingCaps.join('、')}（verify-capabilities 会报错）`);
+  if (capFiles.includes('toolbox')) report.error('data/capabilities/toolbox.json', 'toolbox 是索引桶（只进 research_catalog），不应有 data/capabilities/toolbox.json');
+  const unknown = capFiles.filter((d) => !byDomain.has(d));
+  if (unknown.length) report.error('data/capabilities', `能力卡文件名不在 catalog 的域里：${unknown.join('、')}`);
+
+  // knowledge/*.md（FUSION / INDEX）必须写当前技能总数，不能停留在上一版。
+  // 允许的写法：catalog 记录数（592）、去重后的唯一目录数（586）、随包资产技能数（451）——这三个都是 v3 的事实数字。
+  const dirsCount = new Set(catalog.map((c) => c.dir).filter(Boolean)).size;
+  const assetsCount = catalog.filter((c) => c.assets && c.assets.included).length;
+  const allowed = new Set([String(total), String(dirsCount), String(assetsCount)].filter((n) => n !== '0'));
+  for (const name of readdirSync(path.join(ROOT, 'knowledge'))) {
+    if (!name.endsWith('.md')) continue;
+    const abs = path.join(ROOT, 'knowledge', name);
+    if (!statSync(abs).isFile()) continue;
+    const text = stripBom(readFileSync(abs, 'utf8'));
+    const numbers = new Set((text.match(/\b(\d{3,4})\s*(?:个|条)\s*(?:SKILL|技能|源技能)/gi) || []).map((s) => s.match(/\d+/)[0]));
+    const stale = [...numbers].filter((n) => !allowed.has(n));
+    if (stale.length) {
+      report.warn(`knowledge/${name}`, `写到技能数 ${stale.join('、')}，但 catalog 现在是 ${total} 条（${dirsCount} 个目录 / ${assetsCount} 个带资产）；v3 重建后索引没重新生成？`);
+    }
+  }
+}
+
 // ---------- 统计 ----------
 
 function printStats(report) {
@@ -634,6 +819,10 @@ function main() {
   checkSkills(report, capMeta);
   checkJsonParse(report);
   checkCatalogFiles(report);
+  checkCatalogAssets(report);
+  checkLedger(report);
+  checkKnowledgeConsistency(report);
+  checkPlaceholders(report);
   checkGates(report);
   checkVersions(report, pkg, capMeta);
   checkReferences(report);

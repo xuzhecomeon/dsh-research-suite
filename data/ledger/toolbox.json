@@ -1,0 +1,1406 @@
+{
+  "domain": "toolbox",
+  "version": "3.0.0",
+  "sourceTotal": 233,
+  "note": "toolbox 是索引桶：收 233 个与科研写作无直接关系但可能被借用的技能（科学计算库、ML 工程、airs 工具族、通用办公等），不建能力卡，只进账本以便 research_catalog 检索。",
+  "entries": [
+    {
+      "dir": "aeon",
+      "name": "aeon",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "airs-academic-plotting",
+      "name": "airs-academic-plotting",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，科研绘图·可视化类，仅索引备用"
+    },
+    {
+      "dir": "airs-ara-compiler",
+      "name": "airs-ara-compiler",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，实验记录·实验平台类，仅索引备用"
+    },
+    {
+      "dir": "airs-ara-research-manager",
+      "name": "airs-ara-research-manager",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用"
+    },
+    {
+      "dir": "airs-ara-rigor-reviewer",
+      "name": "airs-ara-rigor-reviewer",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，审稿·投稿·回复审稿人类，仅索引备用"
+    },
+    {
+      "dir": "airs-audiocraft-audio-generation",
+      "name": "airs-audiocraft-audio-generation",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-autogpt-agents",
+      "name": "airs-autogpt-agents",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-autoresearch",
+      "name": "airs-autoresearch",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，基金标书·选题·科研思路类，仅索引备用"
+    },
+    {
+      "dir": "airs-awq-quantization",
+      "name": "airs-awq-quantization",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-axolotl",
+      "name": "airs-axolotl",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-blip-2-vision-language",
+      "name": "airs-blip-2-vision-language",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-brainstorming-research-ideas",
+      "name": "airs-brainstorming-research-ideas",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，基金标书·选题·科研思路类，仅索引备用"
+    },
+    {
+      "dir": "airs-chroma",
+      "name": "airs-chroma",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，科研基础设施·交付载体类，仅索引备用"
+    },
+    {
+      "dir": "airs-clip",
+      "name": "airs-clip",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-constitutional-ai",
+      "name": "airs-constitutional-ai",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-creative-thinking-for-research",
+      "name": "airs-creative-thinking-for-research",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-crewai-multi-agent",
+      "name": "airs-crewai-multi-agent",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-deepspeed",
+      "name": "airs-deepspeed",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-distributed-llm-pretraining-torchtitan",
+      "name": "airs-distributed-llm-pretraining-torchtitan",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-dspy",
+      "name": "airs-dspy",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-evaluating-code-models",
+      "name": "airs-evaluating-code-models",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-evaluating-cosmos-policy",
+      "name": "airs-evaluating-cosmos-policy",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-evaluating-llms-harness",
+      "name": "airs-evaluating-llms-harness",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-evolving-ai-agents",
+      "name": "airs-evolving-ai-agents",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-experiment-tracking-swanlab",
+      "name": "airs-experiment-tracking-swanlab",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-faiss",
+      "name": "airs-faiss",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-fine-tuning-openvla-oft",
+      "name": "airs-fine-tuning-openvla-oft",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-fine-tuning-serving-openpi",
+      "name": "airs-fine-tuning-serving-openpi",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-fine-tuning-with-trl",
+      "name": "airs-fine-tuning-with-trl",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-gguf-quantization",
+      "name": "airs-gguf-quantization",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-gptq",
+      "name": "airs-gptq",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-grpo-rl-training",
+      "name": "airs-grpo-rl-training",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-guidance",
+      "name": "airs-guidance",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-hqq-quantization",
+      "name": "airs-hqq-quantization",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-huggingface-accelerate",
+      "name": "airs-huggingface-accelerate",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-huggingface-tokenizers",
+      "name": "airs-huggingface-tokenizers",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-implementing-llms-litgpt",
+      "name": "airs-implementing-llms-litgpt",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-instructor",
+      "name": "airs-instructor",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-knowledge-distillation",
+      "name": "airs-knowledge-distillation",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-lambda-labs-gpu-cloud",
+      "name": "airs-lambda-labs-gpu-cloud",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-langchain",
+      "name": "airs-langchain",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-langsmith-observability",
+      "name": "airs-langsmith-observability",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-llama-cpp",
+      "name": "airs-llama-cpp",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-llama-factory",
+      "name": "airs-llama-factory",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-llamaguard",
+      "name": "airs-llamaguard",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-llamaindex",
+      "name": "airs-llamaindex",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，科研基础设施·交付载体类，仅索引备用"
+    },
+    {
+      "dir": "airs-llava",
+      "name": "airs-llava",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-long-context",
+      "name": "airs-long-context",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，医学统计·数据分析·预测模型类，仅索引备用"
+    },
+    {
+      "dir": "airs-mamba-architecture",
+      "name": "airs-mamba-architecture",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-miles-rl-training",
+      "name": "airs-miles-rl-training",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-ml-paper-writing",
+      "name": "airs-ml-paper-writing",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用"
+    },
+    {
+      "dir": "airs-ml-training-recipes",
+      "name": "airs-ml-training-recipes",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-mlflow",
+      "name": "airs-mlflow",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，医学统计·数据分析·预测模型类，仅索引备用"
+    },
+    {
+      "dir": "airs-modal-serverless-gpu",
+      "name": "airs-modal-serverless-gpu",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-model-merging",
+      "name": "airs-model-merging",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-model-pruning",
+      "name": "airs-model-pruning",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-moe-training",
+      "name": "airs-moe-training",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-nanogpt",
+      "name": "airs-nanogpt",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-nemo-curator",
+      "name": "airs-nemo-curator",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，医学统计·数据分析·预测模型类，仅索引备用"
+    },
+    {
+      "dir": "airs-nemo-evaluator-sdk",
+      "name": "airs-nemo-evaluator-sdk",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-nemo-guardrails",
+      "name": "airs-nemo-guardrails",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-nnsight-remote-interpretability",
+      "name": "airs-nnsight-remote-interpretability",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-openrlhf-training",
+      "name": "airs-openrlhf-training",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-optimizing-attention-flash",
+      "name": "airs-optimizing-attention-flash",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-outlines",
+      "name": "airs-outlines",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-peft-fine-tuning",
+      "name": "airs-peft-fine-tuning",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-phoenix-observability",
+      "name": "airs-phoenix-observability",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-pinecone",
+      "name": "airs-pinecone",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-presenting-conference-talks",
+      "name": "airs-presenting-conference-talks",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，PPT·海报·学术汇报类，仅索引备用"
+    },
+    {
+      "dir": "airs-prompt-guard",
+      "name": "airs-prompt-guard",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，医学统计·数据分析·预测模型类，仅索引备用"
+    },
+    {
+      "dir": "airs-pytorch-fsdp2",
+      "name": "airs-pytorch-fsdp2",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-pytorch-lightning",
+      "name": "airs-pytorch-lightning",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-pyvene-interventions",
+      "name": "airs-pyvene-interventions",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-qdrant-vector-search",
+      "name": "airs-qdrant-vector-search",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-quantizing-models-bitsandbytes",
+      "name": "airs-quantizing-models-bitsandbytes",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-ray-data",
+      "name": "airs-ray-data",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，医学统计·数据分析·预测模型类，仅索引备用"
+    },
+    {
+      "dir": "airs-ray-train",
+      "name": "airs-ray-train",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-rwkv-architecture",
+      "name": "airs-rwkv-architecture",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-segment-anything-model",
+      "name": "airs-segment-anything-model",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-sentence-transformers",
+      "name": "airs-sentence-transformers",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-sentencepiece",
+      "name": "airs-sentencepiece",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-serving-llms-vllm",
+      "name": "airs-serving-llms-vllm",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，医学统计·数据分析·预测模型类，仅索引备用"
+    },
+    {
+      "dir": "airs-sglang",
+      "name": "airs-sglang",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-simpo-training",
+      "name": "airs-simpo-training",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-skypilot-multi-cloud-orchestration",
+      "name": "airs-skypilot-multi-cloud-orchestration",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-slime-rl-training",
+      "name": "airs-slime-rl-training",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-sparse-autoencoder-training",
+      "name": "airs-sparse-autoencoder-training",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，PPT·海报·学术汇报类，仅索引备用"
+    },
+    {
+      "dir": "airs-speculative-decoding",
+      "name": "airs-speculative-decoding",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用"
+    },
+    {
+      "dir": "airs-stable-diffusion-image-generation",
+      "name": "airs-stable-diffusion-image-generation",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-systems-paper-writing",
+      "name": "airs-systems-paper-writing",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用"
+    },
+    {
+      "dir": "airs-tensorboard",
+      "name": "airs-tensorboard",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，科研绘图·可视化类，仅索引备用"
+    },
+    {
+      "dir": "airs-tensorrt-llm",
+      "name": "airs-tensorrt-llm",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-torchforge-rl-training",
+      "name": "airs-torchforge-rl-training",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用"
+    },
+    {
+      "dir": "airs-training-llms-megatron",
+      "name": "airs-training-llms-megatron",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+    },
+    {
+      "dir": "airs-transformer-lens-interpretability",
+      "name": "airs-transformer-lens-interpretability",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+    },
+    {
+      "dir": "airs-unsloth",
+      "name": "airs-unsloth",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-verl-rl-training",
+      "name": "airs-verl-rl-training",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，AI研究方法·通用研究工具类，仅索引备用"
+    },
+    {
+      "dir": "airs-weights-and-biases",
+      "name": "airs-weights-and-biases",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，科研绘图·可视化类，仅索引备用"
+    },
+    {
+      "dir": "airs-whisper",
+      "name": "airs-whisper",
+      "verdict": "index-only",
+      "why": "airs 工具族成员，医学统计·数据分析·预测模型类，仅索引备用"
+    },
+    {
+      "dir": "anndata",
+      "name": "anndata",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "arboreto",
+      "name": "arboreto",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "arf-audit-analysis",
+      "name": "arf-audit-analysis",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "aris-proof-checker",
+      "name": "aris-proof-checker",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "aris-research-pipeline",
+      "name": "aris-research-pipeline",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "astropy",
+      "name": "astropy",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "biopython",
+      "name": "biopython",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "bioservices",
+      "name": "bioservices",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "cellxgene-census",
+      "name": "cellxgene-census",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "cirq",
+      "name": "cirq",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "clinical-decision-copilot",
+      "name": "clinical-decision-copilot",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "consciousness-council",
+      "name": "consciousness-council",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "dask",
+      "name": "dask",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "datacommons-client",
+      "name": "datacommons-client",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "datamol",
+      "name": "datamol",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "dbt-auditing-skills",
+      "name": "dbt-auditing-skills",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "deepchem",
+      "name": "deepchem",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "deeptools",
+      "name": "deeptools",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "denario",
+      "name": "denario",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "design",
+      "name": "design",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（PPT·海报·学术汇报），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "design-system",
+      "name": "design-system",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（PPT·海报·学术汇报），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "diffdock",
+      "name": "diffdock",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "duckdb-attach-db",
+      "name": "duckdb-attach-db",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "duckdb-convert-file",
+      "name": "duckdb-convert-file",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "duckdb-duckdb-docs",
+      "name": "duckdb-docs",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "duckdb-install-duckdb",
+      "name": "duckdb-install-duckdb",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "duckdb-query",
+      "name": "duckdb-query",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "duckdb-read-file",
+      "name": "duckdb-read-file",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "duckdb-read-memories",
+      "name": "duckdb-read-memories",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "duckdb-s3-explore",
+      "name": "duckdb-s3-explore",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "duckdb-spatial",
+      "name": "duckdb-spatial",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "environment-setup",
+      "name": "environment-setup",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研绘图·可视化），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "esm",
+      "name": "esm",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "etetoolkit",
+      "name": "etetoolkit",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "experiment-results-planning",
+      "name": "experiment-results-planning",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "find-skills__skillhub",
+      "name": "find-skills",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "flowio",
+      "name": "flowio",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "fluidsim",
+      "name": "fluidsim",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "generative-ui",
+      "name": "generative-ui",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研绘图·可视化），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "geniml",
+      "name": "geniml",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "geomaster",
+      "name": "geomaster",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "get-available-resources",
+      "name": "get-available-resources",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "gget",
+      "name": "gget",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "github-skill-installer",
+      "name": "github-skill-installer",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "gtars",
+      "name": "gtars",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "histolab",
+      "name": "histolab",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "huashu-design",
+      "name": "huashu-design",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（PPT·海报·学术汇报），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "investigate-first",
+      "name": "investigate-first",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "ip-as-logo",
+      "name": "ip-as-logo",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "iso-13485-certification",
+      "name": "iso-13485-certification",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "lamindb",
+      "name": "lamindb",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "market-research-reports",
+      "name": "market-research-reports",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研绘图·可视化），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "matchms",
+      "name": "matchms",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "matlab",
+      "name": "matlab",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "medchem",
+      "name": "medchem",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "memory-setup-openclaw__skillhub",
+      "name": "memory-setup",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研绘图·可视化），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "memory-setup__skillhub",
+      "name": "memory-setup",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研绘图·可视化），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "modal",
+      "name": "modal",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "molecular-dynamics",
+      "name": "molecular-dynamics",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "molfeat",
+      "name": "molfeat",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "monarch-database",
+      "name": "monarch-database",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "mono-color",
+      "name": "mono-color",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "networkx",
+      "name": "networkx",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "neurokit2",
+      "name": "neurokit2",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "neuropixels-analysis",
+      "name": "neuropixels-analysis",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "offer-k-dense-web",
+      "name": "offer-k-dense-web",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "omero-integration",
+      "name": "omero-integration",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "open-notebook",
+      "name": "open-notebook",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "openmaic__skillhub",
+      "name": "openmaic",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研绘图·可视化），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "parallel-web",
+      "name": "parallel-web",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pennylane",
+      "name": "pennylane",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "perplexity-search",
+      "name": "perplexity-search",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "phylogenetics",
+      "name": "phylogenetics",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "polars",
+      "name": "polars",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "protocolsio-integration",
+      "name": "protocolsio-integration",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pufferlib",
+      "name": "pufferlib",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pydeseq2",
+      "name": "pydeseq2",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pydicom",
+      "name": "pydicom",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pyhealth",
+      "name": "pyhealth",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pymoo",
+      "name": "pymoo",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pyopenms",
+      "name": "pyopenms",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pysam",
+      "name": "pysam",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pytdc",
+      "name": "pytdc",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "pytorch-lightning",
+      "name": "pytorch-lightning",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "qiskit",
+      "name": "qiskit",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "qmd",
+      "name": "qmd",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "qutip",
+      "name": "qutip",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "rare-disease-diagnosis__skillhub",
+      "name": "rare-disease-diagnosis",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "rdkit",
+      "name": "rdkit",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "research",
+      "name": "research",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "research-add-fields",
+      "name": "research-add-fields",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "research-add-items",
+      "name": "research-add-items",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "research-proposal",
+      "name": "research-proposal",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "research-report",
+      "name": "research-report",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "rowan",
+      "name": "rowan",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "safe-refactor",
+      "name": "safe-refactor",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scanpy",
+      "name": "scanpy",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scholar-annotate",
+      "name": "scholar-annotate",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scholar-auto-improve",
+      "name": "scholar-auto-improve",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scholar-collaborate",
+      "name": "scholar-collaborate",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scholar-compute",
+      "name": "scholar-compute",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scholar-knowledge",
+      "name": "scholar-knowledge",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scholar-open",
+      "name": "scholar-open",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scholar-qual",
+      "name": "scholar-qual",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scholar-rag",
+      "name": "scholar-rag",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scholar-replication",
+      "name": "scholar-replication",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scikit-bio",
+      "name": "scikit-bio",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scroll-world",
+      "name": "scroll-world",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scvelo",
+      "name": "scvelo",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "scvi-tools",
+      "name": "scvi-tools",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "self-improving__skillhub",
+      "name": "Self-Improving + Proactive Agent",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "simpy",
+      "name": "simpy",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "skill-creator",
+      "name": "skill-creator",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "skill-library-audit",
+      "name": "skill-library-audit",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "skill-zip-installer",
+      "name": "skill-zip-installer",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "sp-diagnosing-superpowers",
+      "name": "sp-diagnosing-superpowers",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "summarize__skillhub",
+      "name": "summarize",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "surgical-patch",
+      "name": "surgical-patch",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "sympy",
+      "name": "sympy",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "sync-docs",
+      "name": "sync-docs",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "tiledbvcf",
+      "name": "tiledbvcf",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "timesfm-forecasting",
+      "name": "timesfm-forecasting",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "torch-geometric",
+      "name": "torch-geometric",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "torchdrug",
+      "name": "torchdrug",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "transformers",
+      "name": "transformers",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "treatment-plans",
+      "name": "treatment-plans",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "usfiscaldata",
+      "name": "usfiscaldata",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "vaex",
+      "name": "vaex",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "verification",
+      "name": "verification",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "verify-and-stop",
+      "name": "verify-and-stop",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "web-access",
+      "name": "web-access",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "what-if-oracle",
+      "name": "what-if-oracle",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "writing-law",
+      "name": "writing-law",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+    },
+    {
+      "dir": "zarr-python",
+      "name": "zarr-python",
+      "verdict": "index-only",
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+    }
+  ]
+}

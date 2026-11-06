@@ -1,0 +1,13 @@
+{
+  "slug": "paper-deweight-fd",
+  "name": "论文降重降AI工具(MPACC)",
+  "version": "1.4.0",
+  "installedAt": 1788581264871,
+  "source": "skillhub",
+  "namespace": "user_09cf1a59",
+  "canonicalName": "@user_09cf1a59/paper-deweight-fd",
+  "iconSource": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/7f79eb60-b8d8-4d8e-9b79-6ace0de1ff17.png",
+  "iconLocalPath": "C:\\Users\\zy\\.workbuddy\\skills\\paper-deweight-fd__skillhub\\_icon.png",
+  "iconDownloadedFrom": "https://cloudcache.tencent-cloud.com/qcloud/ui/static/other_external_resource/7f79eb60-b8d8-4d8e-9b79-6ace0de1ff17.png",
+  "installedContentHash": "sha256:9c40c66a28fee00a0e34a297589716b9eb724b49c9d5f33a6aef8327f93e3aa4"
+}
