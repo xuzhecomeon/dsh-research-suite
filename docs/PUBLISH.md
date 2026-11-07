@@ -63,6 +63,58 @@ npm publish --dry-run     # 先看清单，确认 knowledge/ 与 references/ 都
 npm publish --access public
 ```
 
+#### 3.1.1 2026-11 实测：发布已强制 2FA，且新包首发会被自动暂存
+
+下面这套是 2026-11-07 在 `dsh-research-suite@3.0.1` 上逐条试出来的，照抄可复现：
+
+**① 令牌必须是「Granular + Bypass 2FA」**
+
+npm 现在的策略是（[官方文档](https://docs.npmjs.com/requiring-2fa-for-package-publishing-and-settings-modification)）：**所有包发布都需要 2FA，或一个勾了 Bypass 2FA 的 granular token**。踩到的三种失败形态：
+
+| 令牌形态 | 结果 |
+|---|---|
+| 什么都没有 | `E401 Unauthorized` |
+| Classic `Publish` 令牌 | `E403 Two-factor authentication or granular access token with bypass 2fa enabled is required to publish packages` |
+| 同上 + `--otp=<码>` | **还是同一个 E403**。该 403 响应不带 `www-authenticate` 挑战头，所以 `--otp` 永远不生效，填假码和填真码报错一模一样 |
+| 浏览器 `npm login --auth-type=web` 的会话令牌 | 能 `whoami`，发布仍是同一个 E403 |
+| **Granular Access Token + 勾 Bypass 2FA** | ✅ 通过 |
+
+生成路径：npmjs.com → 右上角头像 → **Access Tokens** → Generate New Token → **Granular Access Token** → Permissions 选 **Read and write (publish and stage)**（不是 stage only）→ 勾 **Bypass two-factor authentication (2FA)** → Generate。
+
+> 如果账号的 2FA 是 **security key / passkey**（`Account` 页显示「1 security key」），CLI 永远拿不到 6 位 TOTP，`--otp` 这条路直接不存在，只能走 granular bypass 令牌。**这类令牌从 2027-01 起不能再直接发布**，届时应改用 Trusted Publishing（见 §3.2）。
+
+**② 新包首发会被 registry 自动暂存（约 6 分钟）**
+
+`npm publish` 返回 `+ dsh-research-suite@3.0.1`、exit 0，但 registry 上先只出现一个占位版本：
+
+```
+versions: 0.0.0-stage      # stub:true，只有 package.json + README（340 B）
+description: Temporary package placeholder for staged publishing
+```
+
+此阶段再发同版本会得到 `E409 Cannot publish over previously staged version "3.0.1"`，而 `npm stage list` 是**空的**——**这不是需要你去 Approve 的暂存**（`maintainer approve` 只属于显式 `npm stage publish` 的流程），而是 npm 对新包的自动处理队列，等就行。实测时间线：
+
+```
+04:05:07Z  placeholder 0.0.0-stage 出现
+04:11:21Z  3.0.1 上线（6 分 14 秒），dist-tags.latest 自动指向 3.0.1
+```
+
+**③ 上线后把占位版标为废弃**，避免别人 `npm i <包名>` 装到空壳：
+
+```powershell
+npm deprecate dsh-research-suite@0.0.0-stage "placeholder version created by npm staged publishing, do not install"
+```
+
+**④ 回读验证（不要只看 CLI 的 `+ name@version`）**
+
+```powershell
+npm view dsh-research-suite versions --prefer-online   # 必须看到 3.0.1
+npm pack dsh-research-suite@3.0.1                      # 从 registry 拉真包
+tar -xzf dsh-research-suite-3.0.1.tgz -C <空目录>      # 解包后跑四件套，必须全过
+```
+
+2026-11-07 实测：registry 上的 tarball `12,671,464 B / 4584 files / unpacked 40.7 MB / MIT`；解包后 `selftest 66 项`、`103 capabilities`、`586 entries`、`verify-package 0 errors` 全部通过。
+
 无 scope 的包默认就是 public。当前 `package.json` **没有** `publishConfig` 字段；如果希望把发布策略显式写进包（也避免以后误加 scope 后行为变化），可以补一段：
 
 ```json

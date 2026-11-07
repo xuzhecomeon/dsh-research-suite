@@ -64,14 +64,22 @@ Every one of the 592 source skills has a recorded verdict in `data/ledger/<domai
 
 ## Install
 
+Published on npm as [dsh-research-suite@3.0.1](https://www.npmjs.com/package/dsh-research-suite).
+
 ```powershell
-# via plugin_manager (GUI)
-plugin_manager(action="install_bundle", target="<absolute package path or dsh-research-suite@3.0.0>")
+# via plugin_manager (GUI) — recommended
+plugin_manager(action="install_bundle", target="dsh-research-suite@3.0.1")
 
 # via CLI (Windows)
-dsh.cmd plugin --profile desktop add <absolute package path or package name>
+dsh.cmd plugin --profile desktop add dsh-research-suite@3.0.1
 # via CLI (POSIX)
-dsh plugin --profile desktop add <absolute package path or package name>
+dsh plugin --profile desktop add dsh-research-suite@3.0.1
+
+# from a local checkout (plugin development)
+plugin_manager(action="install_bundle", target="<absolute package path>")
+
+# from GitHub, if npm is not reachable
+dsh plugin --profile desktop add github:xuzhecomeon/dsh-research-suite
 ```
 
 Fully quit and restart DSH Desktop afterwards (closing the window is not enough — the loader reads the bundle patch layer at startup). Verify with `research_suite_status`.

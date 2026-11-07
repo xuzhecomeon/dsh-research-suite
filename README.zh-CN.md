@@ -71,21 +71,28 @@ v2 的答案是**能力卡（capability）**：
 
 完整发布与排障看 [docs/PUBLISH.md](docs/PUBLISH.md)，这里只列最短路径。
 
-**A. plugin_manager（GUI，推荐）**
+**A. 从 npm 装（最省事，已发布 [dsh-research-suite@3.0.1](https://www.npmjs.com/package/dsh-research-suite)）**
+
+```
+plugin_manager(action="install_bundle", target="dsh-research-suite@3.0.1")
+```
+
+等价 CLI：
+
+```powershell
+dsh.cmd plugin --profile desktop add dsh-research-suite@3.0.1
+```
+
+**B. 从本地目录装（改源码调试时用）**
 
 ```
 plugin_manager(action="install_bundle", target="<包的绝对目录>")
 ```
 
-也可以从 npm 装：`target` 传 `dsh-research-suite@3.0.1`。
-
-**B. CLI**
+**C. 从 GitHub 装（npm 上还没发包时）**
 
 ```powershell
-# Windows
-dsh.cmd plugin --profile desktop add <包的绝对目录或包名>
-# POSIX shell
-dsh plugin --profile desktop add <包的绝对目录或包名>
+dsh.cmd plugin --profile desktop add github:xuzhecomeon/dsh-research-suite
 ```
 
 装完**必须完全退出 DSH Desktop 再启动**（不是关窗口，是退出进程）——loader 只在启动时读补丁层 `cordis.patch.yml`。

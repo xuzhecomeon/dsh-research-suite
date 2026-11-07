@@ -30,6 +30,12 @@
 - `dsh-tools` 内部拆包，但 `register()` 的校验语义逐条未变（`output.render` 必须是函数、`output.schema` 必须受支持、`timeoutMs` 正有限数、`run_code` 保留名）。
 - `export const Config` 依旧不导出——0.2.2-rc.1 下它仍然是启动崩溃的引信。
 
+### 发布
+
+- **首次上架 npm**：`dsh-research-suite@3.0.1`（https://www.npmjs.com/package/dsh-research-suite）。registry 侧的 tarball 为 `12,671,464 B / 4584 files / unpacked 40.7 MB / MIT`，从 registry 拉回来解包后四件套（selftest 66 项 / 103 能力卡 / 586 条账本 / verify-package）全过。
+- npm 现已强制「发布必须有 2FA，或带 Bypass 2FA 的 granular token」；本账号 2FA 是 security key，CLI 产生不了 TOTP，故 `--otp` 这条路的报错永远是同一个 `E403`。新包首次发布还会被 registry 自动暂存约 6 分钟（先出现 `0.0.0-stage` 占位版），期间 `npm stage list` 为空属正常。全过程与踩坑记录见 `docs/PUBLISH.md` §3.1.1。
+- 两份 README 的安装段改成「npm 优先、本地目录次之、GitHub 兜底」，并补了 `dsh.cmd plugin --profile desktop add dsh-research-suite@3.0.1` 的等价写法。
+
 ## [3.0.0] - 2026-11-06
 
 v3 不动运行架构，动的是**知识层**：把 719 篇「按关键词贴上域标签」的技能原文，换成 592 个**逐条判定过、带自带资产**的源技能，并为每一条判定留下可审计的账本。同时修掉一个会让 DSH Desktop 起不来的配置事故。
