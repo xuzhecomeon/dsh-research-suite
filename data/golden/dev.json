@@ -1,0 +1,1787 @@
+{
+  "version": 1,
+  "domain": "dev",
+  "note": "v3.2.0 调参集（150 条）。可随时增删；改识别层参数只在这一集上看效果，test.json 一经冻结不得修改。d001–d012 是外部评审给出的真实失败样例，原话照抄。",
+  "cases": [
+    {
+      "id": "d001",
+      "utterance": "我们科室想做个回顾性研究，看看两种术式的并发症差异",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.twogroup",
+        "alts": [
+          "stats.regression",
+          "stats.baseline"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase",
+      "note": "评审失败样例：口语、全句没有『统计』二字"
+    },
+    {
+      "id": "d002",
+      "utterance": "参考文献好像有重复的帮我理一下",
+      "expect": {
+        "domain": "format",
+        "cap": "format.ref-style",
+        "alts": [
+          "literature.library",
+          "format.intext-cite"
+        ]
+      },
+      "category": "格式",
+      "source": "constructed",
+      "note": "评审失败样例：文献表去重，不是检索"
+    },
+    {
+      "id": "d003",
+      "utterance": "帮我把这段中文翻成英文要能投 SCI",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.en",
+        "alts": [
+          "writing.en-sci",
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "paraphrase",
+      "note": "评审失败样例：中译英属润色域"
+    },
+    {
+      "id": "d004",
+      "utterance": "帮我起个标题要有记忆点",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.abstract",
+        "alts": [
+          "writing.zh-imrad"
+        ]
+      },
+      "category": "写作",
+      "source": "constructed",
+      "note": "评审失败样例：标题属摘要卡"
+    },
+    {
+      "id": "d005",
+      "utterance": "杂志要求图 300 dpi 我这图够不够",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.audit",
+        "alts": [
+          "figures.render",
+          "figures.style"
+        ]
+      },
+      "category": "绘图",
+      "source": "paraphrase",
+      "note": "评审失败样例：分辨率核验属图件终检"
+    },
+    {
+      "id": "d006",
+      "utterance": "这段文字查重 38% 怎么降到 15% 以下",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.rewrite",
+        "alts": [
+          "polish.audit",
+          "polish.deai"
+        ]
+      },
+      "category": "润色",
+      "source": "constructed",
+      "note": "评审失败样例：降重是改写，不是润色"
+    },
+    {
+      "id": "d007",
+      "utterance": "帮我把这堆随访数据清洗一下",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.clean",
+        "alts": [
+          "stats.missing",
+          "data.provenance"
+        ]
+      },
+      "category": "数据",
+      "source": "paraphrase",
+      "note": "评审失败样例：清洗属统计域"
+    },
+    {
+      "id": "d008",
+      "utterance": "帮我把这段 R 代码跑一下看看结果",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.reportaudit",
+        "alts": [
+          "stats.clean",
+          "stats.baseline"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed",
+      "note": "评审失败样例：跑代码看结果落统计域，具体卡依代码内容，判分时域正确优先"
+    },
+    {
+      "id": "d009",
+      "utterance": "帮我改改我闺女的作文",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish",
+      "note": "评审失败样例：家庭辅导，不该接管"
+    },
+    {
+      "id": "d010",
+      "utterance": "这个 P 值 0.06 还能救吗",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.reportaudit",
+        "alts": [
+          "stats.power",
+          "stats.twogroup"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase",
+      "note": "评审失败样例：P 值边界问题属统计解读/审查"
+    },
+    {
+      "id": "d011",
+      "utterance": "基金本子快截止了帮我看看逻辑通不通",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.grant",
+        "alts": [
+          "ideation.feasibility",
+          "ideation.design"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed",
+      "note": "评审失败样例：本子逻辑属标书卡"
+    },
+    {
+      "id": "d012",
+      "utterance": "我这篇文章被拒了说创新性不够",
+      "expect": {
+        "domain": "review",
+        "cap": "review.appeal",
+        "alts": [
+          "review.revise",
+          "ideation.novelty"
+        ]
+      },
+      "category": "审稿",
+      "source": "paraphrase",
+      "note": "评审失败样例：被拒先走申诉/转投判定"
+    },
+    {
+      "id": "d013",
+      "utterance": "我这篇论著的讨论部分写得太像结果复述了，能不能帮我重写一下",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.discussion",
+        "alts": [
+          "writing.zh-imrad",
+          "polish.deai"
+        ]
+      },
+      "category": "写作",
+      "source": "constructed"
+    },
+    {
+      "id": "d014",
+      "utterance": "开题报告下个月要交，理论框架那章我还没头绪",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.thesis",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "写作",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d015",
+      "utterance": "想写一篇肠道菌群和抑郁的综述，不知道从哪几个板块切",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.review",
+        "alts": [
+          "literature.synthesis"
+        ]
+      },
+      "category": "写作",
+      "source": "constructed"
+    },
+    {
+      "id": "d016",
+      "utterance": "英文稿被说语言不够地道，帮我逐句改一下",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.en",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d017",
+      "utterance": "摘要超过期刊二百五十字上限了，帮我压到二百四还要保留结论",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.abstract",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "写作",
+      "source": "constructed"
+    },
+    {
+      "id": "d018",
+      "utterance": "引言前三段都在铺背景，评审说 gap 没讲清楚",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.evidence",
+        "alts": [
+          "writing.zh-imrad",
+          "ideation.novelty"
+        ]
+      },
+      "category": "写作",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d019",
+      "utterance": "遇到个罕见个案，想整理成 CARE 格式的个案报道",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.case-report",
+        "alts": [
+          "writing.zh-imrad"
+        ]
+      },
+      "category": "写作",
+      "source": "constructed"
+    },
+    {
+      "id": "d020",
+      "utterance": "图二的题注和正文对不上，正文写 A 组题注写 B 组",
+      "expect": {
+        "domain": "format",
+        "cap": "format.figtable",
+        "alts": [
+          "writing.figure-table"
+        ]
+      },
+      "category": "格式",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d021",
+      "utterance": "投稿信要让编辑看出这篇的价值，该怎么下笔",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.submission",
+        "alts": [
+          "writing.journal-profile"
+        ]
+      },
+      "category": "写作",
+      "source": "constructed"
+    },
+    {
+      "id": "d022",
+      "utterance": "博士论文想拆成三篇小论文，章节怎么重新编",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.blueprint",
+        "alts": [
+          "writing.thesis"
+        ]
+      },
+      "category": "写作",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d023",
+      "utterance": "这段是我自己写的，读起来还是像机器生成，帮我去掉那股味",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.deai",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "constructed"
+    },
+    {
+      "id": "d024",
+      "utterance": "导师让我把整篇文风往中华内科杂志靠，我不会模仿",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.voice",
+        "alts": [
+          "writing.journal-profile"
+        ]
+      },
+      "category": "润色",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d025",
+      "utterance": "英文摘要语法改过了，但句子还是太长，帮我拆短",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.en",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "constructed"
+    },
+    {
+      "id": "d026",
+      "utterance": "这段方法跟前文重复太多，帮我改写得不像复制",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.rewrite",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d027",
+      "utterance": "润色后要回查：我的数字被改过没有",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.audit",
+        "alts": [
+          "polish.deai"
+        ]
+      },
+      "category": "润色",
+      "source": "constructed"
+    },
+    {
+      "id": "d028",
+      "utterance": "先把中文稿的语感理顺，数据和结论别碰",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.deai",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d029",
+      "utterance": "三组大鼠的炎症因子，想比较三个时间点的差异",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.multigroup",
+        "alts": [
+          "stats.twogroup"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "d030",
+      "utterance": "想做列线图预测术后三十天并发症，样本就二百四十例",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.prediction",
+        "alts": [
+          "stats.regression",
+          "figures.statplot"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d031",
+      "utterance": "同一批样本两个指标各测两次，想看看一致性",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.corr",
+        "alts": [
+          "stats.diagnostic"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "d032",
+      "utterance": "门诊数据缺失差不多三成，直接删行行不行",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.missing",
+        "alts": [
+          "stats.clean"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d033",
+      "utterance": "想比较两种术式，但两组年龄差很多，怎么控制混杂",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.psm",
+        "alts": [
+          "stats.regression"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "d034",
+      "utterance": "已有文献报了 OR 值，能不能合并出个总效应",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.meta",
+        "alts": [
+          "literature.evidence-matrix"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d035",
+      "utterance": "用基因做工具变量，看看某个指标和冠心病的因果关系",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.mr",
+        "alts": [
+          "data.gwas-eqtl"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "d036",
+      "utterance": "这份表格里性别年龄病程我要做成表一",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.baseline",
+        "alts": [
+          "stats.clean"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d037",
+      "utterance": "想画 ROC 看看 cutoff 应该定在哪",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.diagnostic",
+        "alts": [
+          "figures.statplot"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "d038",
+      "utterance": "课题要报三百例，我不知道能检出多大差异",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.power",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d039",
+      "utterance": "审稿人说我们生存分析没做比例风险检验",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.survival",
+        "alts": [
+          "stats.reportaudit"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "d040",
+      "utterance": "原始导出表里重复行和异常值很多，先处理一下",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.clean",
+        "alts": [
+          "stats.missing"
+        ]
+      },
+      "category": "数据",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d041",
+      "utterance": "想画一张信号通路图，把上下游和用药都标出来",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.mechanism",
+        "alts": [
+          "figures.vector",
+          "figures.style"
+        ]
+      },
+      "category": "绘图",
+      "source": "constructed"
+    },
+    {
+      "id": "d042",
+      "utterance": "四个子图拼成两行两列的主图，字号要统一",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.panel",
+        "alts": [
+          "figures.style"
+        ]
+      },
+      "category": "绘图",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d043",
+      "utterance": "PPT 里那张框线图要转成投稿能用的矢量文件",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.flow",
+        "alts": [
+          "figures.vector"
+        ]
+      },
+      "category": "绘图",
+      "source": "constructed"
+    },
+    {
+      "id": "d044",
+      "utterance": "柱状图加误差棒和显著性标记，配色要色盲友好",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.statplot",
+        "alts": [
+          "figures.style"
+        ]
+      },
+      "category": "绘图",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d045",
+      "utterance": "HE 切片的图要打码，不能露出病理号",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.imaging",
+        "alts": [
+          "data.provenance"
+        ]
+      },
+      "category": "绘图",
+      "source": "constructed"
+    },
+    {
+      "id": "d046",
+      "utterance": "整篇文章的图配色太杂，想统一成蓝灰系",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.style",
+        "alts": [
+          "figures.audit"
+        ]
+      },
+      "category": "绘图",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d047",
+      "utterance": "出图前核对一下 DPI、字体和线宽够不够投稿要求",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.audit",
+        "alts": [
+          "format.figtable"
+        ]
+      },
+      "category": "绘图",
+      "source": "constructed"
+    },
+    {
+      "id": "d048",
+      "utterance": "老板让我三天内把近五年 PD-1 耐药的文献捞全",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.search-plan",
+        "alts": [
+          "literature.federated-search"
+        ]
+      },
+      "category": "文献",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d049",
+      "utterance": "检索出一千多条，怎么按题目摘要先筛掉大部分",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.screen-prisma",
+        "alts": [
+          "literature.search-plan"
+        ]
+      },
+      "category": "文献",
+      "source": "constructed"
+    },
+    {
+      "id": "d050",
+      "utterance": "这篇二〇一九年的随机对照试验，我想逐段看方法有没有问题",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.critique",
+        "alts": [
+          "literature.close-read"
+        ]
+      },
+      "category": "文献",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d051",
+      "utterance": "这批文章要提取样本量、随访时长，做成表格",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.evidence-matrix",
+        "alts": [
+          "literature.close-read"
+        ]
+      },
+      "category": "文献",
+      "source": "constructed"
+    },
+    {
+      "id": "d052",
+      "utterance": "参考文献里有两篇我怀疑是编的，怎么查证",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.fact-check",
+        "alts": [
+          "format.ref-style"
+        ]
+      },
+      "category": "文献",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d053",
+      "utterance": "顺着这篇高被引往下追，看后来谁引用过",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.citation-chase",
+        "alts": [
+          "literature.search-plan"
+        ]
+      },
+      "category": "文献",
+      "source": "constructed"
+    },
+    {
+      "id": "d054",
+      "utterance": "EndNote 库里重复条目太多，帮我合一下",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.library",
+        "alts": [
+          "format.ref-bridge"
+        ]
+      },
+      "category": "文献",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d055",
+      "utterance": "综述要分几个主题块，现有六十篇撑得起来吗",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.synthesis",
+        "alts": [
+          "writing.review"
+        ]
+      },
+      "category": "文献",
+      "source": "constructed"
+    },
+    {
+      "id": "d056",
+      "utterance": "文末著录要按中华医学会的规范重排",
+      "expect": {
+        "domain": "format",
+        "cap": "format.ref-style",
+        "alts": [
+          "format.intext-cite"
+        ]
+      },
+      "category": "格式",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d057",
+      "utterance": "正文上标编号和后面文献表对不上，帮我理一遍",
+      "expect": {
+        "domain": "format",
+        "cap": "format.intext-cite",
+        "alts": [
+          "format.ref-style"
+        ]
+      },
+      "category": "格式",
+      "source": "constructed"
+    },
+    {
+      "id": "d058",
+      "utterance": "投稿包除了正文还要放哪些材料，我怕漏",
+      "expect": {
+        "domain": "format",
+        "cap": "format.submission-package",
+        "alts": [
+          "format.doc-audit"
+        ]
+      },
+      "category": "格式",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d059",
+      "utterance": "期刊要求正文十二号 Times 行距一点五，我不会改模板",
+      "expect": {
+        "domain": "format",
+        "cap": "format.typeset",
+        "alts": [
+          "format.final-delivery"
+        ]
+      },
+      "category": "格式",
+      "source": "constructed"
+    },
+    {
+      "id": "d060",
+      "utterance": "Word 导出的 PDF 页码和目录全乱了，帮我核一下",
+      "expect": {
+        "domain": "format",
+        "cap": "format.pdf-pipeline",
+        "alts": [
+          "format.typeset"
+        ]
+      },
+      "category": "格式",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d061",
+      "utterance": "目标杂志是否接收回顾性设计，怎么查它的要求",
+      "expect": {
+        "domain": "format",
+        "cap": "format.journal-fit",
+        "alts": [
+          "writing.journal-profile"
+        ]
+      },
+      "category": "格式",
+      "source": "constructed"
+    },
+    {
+      "id": "d062",
+      "utterance": "标书正文的字体页边距页数要过形式审查",
+      "expect": {
+        "domain": "format",
+        "cap": "format.doc-audit",
+        "alts": [
+          "format.typeset"
+        ]
+      },
+      "category": "格式",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d063",
+      "utterance": "稿子还没投，先帮我判断会不会一审就被退",
+      "expect": {
+        "domain": "review",
+        "cap": "review.presubmit",
+        "alts": [
+          "review.referee"
+        ]
+      },
+      "category": "审稿",
+      "source": "constructed"
+    },
+    {
+      "id": "d064",
+      "utterance": "假装你是审稿人，把这篇往死里挑",
+      "expect": {
+        "domain": "review",
+        "cap": "review.referee",
+        "alts": [
+          "review.presubmit",
+          "review.audit"
+        ]
+      },
+      "category": "审稿",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d065",
+      "utterance": "编辑部让我审这篇稿，要交一份正式意见",
+      "expect": {
+        "domain": "review",
+        "cap": "review.report",
+        "alts": [
+          "review.selfcheck"
+        ]
+      },
+      "category": "审稿",
+      "source": "constructed"
+    },
+    {
+      "id": "d066",
+      "utterance": "有评审指出表三和正文的数字不符，复核",
+      "expect": {
+        "domain": "review",
+        "cap": "review.audit",
+        "alts": [
+          "stats.reportaudit"
+        ]
+      },
+      "category": "审稿",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d067",
+      "utterance": "大修意见回来二十多条，不知道先从哪条改",
+      "expect": {
+        "domain": "review",
+        "cap": "review.revise",
+        "alts": [
+          "review.rebuttal"
+        ]
+      },
+      "category": "审稿",
+      "source": "constructed"
+    },
+    {
+      "id": "d068",
+      "utterance": "回复信的火候怎么拿捏，才不至于像在辩护",
+      "expect": {
+        "domain": "review",
+        "cap": "review.rebuttal",
+        "alts": [
+          "review.revise"
+        ]
+      },
+      "category": "审稿",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d069",
+      "utterance": "编辑部说范围不符直接退了，还能争吗",
+      "expect": {
+        "domain": "review",
+        "cap": "review.appeal",
+        "alts": [
+          "format.journal-fit"
+        ]
+      },
+      "category": "审稿",
+      "source": "constructed"
+    },
+    {
+      "id": "d070",
+      "utterance": "我自己写的审稿意见，帮我看看是不是太空泛",
+      "expect": {
+        "domain": "review",
+        "cap": "review.selfcheck",
+        "alts": [
+          "review.report"
+        ]
+      },
+      "category": "审稿",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d071",
+      "utterance": "审稿意见让我补一个根本做不了的实验，怎么回",
+      "expect": {
+        "domain": "review",
+        "cap": "review.rebuttal",
+        "alts": [
+          "review.revise"
+        ]
+      },
+      "category": "审稿",
+      "source": "constructed"
+    },
+    {
+      "id": "d072",
+      "utterance": "想做点东西，但不知道我们科能做什么方向",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.topic",
+        "alts": [
+          "ideation.feasibility"
+        ]
+      },
+      "category": "选题",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d073",
+      "utterance": "这个题目有人做过吗，怕做到一半发现重复",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.novelty",
+        "alts": [
+          "literature.search-plan"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed"
+    },
+    {
+      "id": "d074",
+      "utterance": "想研究术后认知障碍，问题太大了，不知道拆成什么",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.question",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "选题",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d075",
+      "utterance": "课题做成前瞻队列还是回顾，我拿不定主意",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.design",
+        "alts": [
+          "ideation.feasibility",
+          "stats.power"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed"
+    },
+    {
+      "id": "d076",
+      "utterance": "本子写完了，请用评审视角挑挑硬伤",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.grant",
+        "alts": [
+          "ideation.feasibility",
+          "review.presubmit"
+        ]
+      },
+      "category": "选题",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d077",
+      "utterance": "课题要收患者，伦理和知情同意走什么流程",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.ethics",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed"
+    },
+    {
+      "id": "d078",
+      "utterance": "这个想法能不能两年内做完，我心里没底",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.feasibility",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "选题",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d079",
+      "utterance": "国自然面上和青年基金写法上有区别吗",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.grant",
+        "alts": [
+          "ideation.feasibility"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed"
+    },
+    {
+      "id": "d080",
+      "utterance": "实验前要不要在 ChiCTR 注册，怎么注册",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.ethics",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "选题",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d081",
+      "utterance": "三个候选方向，怎么判断哪个更容易出成果",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.feasibility",
+        "alts": [
+          "ideation.topic"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed"
+    },
+    {
+      "id": "d082",
+      "utterance": "下周三组会要讲一篇二〇二三年的 Cell，帮我做个幻灯",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.journal-club",
+        "alts": [
+          "literature.close-read"
+        ]
+      },
+      "category": "幻灯",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d083",
+      "utterance": "答辩二十页讲十五分钟，节奏怎么排",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.conference-defense",
+        "alts": [
+          "slides.speaker-notes"
+        ]
+      },
+      "category": "幻灯",
+      "source": "constructed"
+    },
+    {
+      "id": "d084",
+      "utterance": "把这篇文章的图一改成适合投影的版本",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.figure-refit",
+        "alts": [
+          "figures.render"
+        ]
+      },
+      "category": "幻灯",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d085",
+      "utterance": "幻灯母版和字体每页都不一样，帮我统一",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.deck-system",
+        "alts": [
+          "slides.consistency"
+        ]
+      },
+      "category": "幻灯",
+      "source": "constructed"
+    },
+    {
+      "id": "d086",
+      "utterance": "讲解词想写在备注里，按每分钟多少字算",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.speaker-notes",
+        "alts": [
+          "slides.consistency"
+        ]
+      },
+      "category": "幻灯",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d087",
+      "utterance": "汇报幻灯与口头摘要不一致，帮我对一遍",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.consistency",
+        "alts": [
+          "slides.deck-system"
+        ]
+      },
+      "category": "幻灯",
+      "source": "constructed"
+    },
+    {
+      "id": "d088",
+      "utterance": "想从 GEO 下两组芯片数据，不会写样本表",
+      "expect": {
+        "domain": "data",
+        "cap": "data.omics-download",
+        "alts": [
+          "data.provenance"
+        ]
+      },
+      "category": "数据",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d089",
+      "utterance": "TCGA 里某个基因的表达和临床信息怎么对上",
+      "expect": {
+        "domain": "data",
+        "cap": "data.expression-reuse",
+        "alts": [
+          "data.omics-download"
+        ]
+      },
+      "category": "数据",
+      "source": "constructed"
+    },
+    {
+      "id": "d090",
+      "utterance": "要查一批基因的 Ensembl 和 HGNC 编号怎么互转",
+      "expect": {
+        "domain": "data",
+        "cap": "data.gene-idmap",
+        "alts": [
+          "data.variant-annot"
+        ]
+      },
+      "category": "数据",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d091",
+      "utterance": "这个突变位点的致病性在 ClinVar 里怎么判读",
+      "expect": {
+        "domain": "data",
+        "cap": "data.variant-annot",
+        "alts": [
+          "data.gene-idmap"
+        ]
+      },
+      "category": "数据",
+      "source": "constructed"
+    },
+    {
+      "id": "d092",
+      "utterance": "想做 KEGG 富集和 STRING 互作，数据从哪取",
+      "expect": {
+        "domain": "data",
+        "cap": "data.pathway-ppi",
+        "alts": [
+          "data.expression-reuse"
+        ]
+      },
+      "category": "数据",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d093",
+      "utterance": "蛋白结构想从 PDB 下五个，顺便看结构域",
+      "expect": {
+        "domain": "data",
+        "cap": "data.protein-structure",
+        "alts": [
+          "data.gene-idmap"
+        ]
+      },
+      "category": "数据",
+      "source": "constructed"
+    },
+    {
+      "id": "d094",
+      "utterance": "取完的数据要留版本号和下载时间，方便以后核对",
+      "expect": {
+        "domain": "data",
+        "cap": "data.provenance",
+        "alts": [
+          "data.omics-download"
+        ]
+      },
+      "category": "数据",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d095",
+      "utterance": "结果出来了，基线表先出，曲线后面补",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.baseline",
+        "alts": [
+          "stats.survival",
+          "figures.statplot"
+        ]
+      },
+      "category": "多域混合",
+      "source": "constructed"
+    },
+    {
+      "id": "d096",
+      "utterance": "稿子被拒了，先核一遍数字再决定改投哪家",
+      "expect": {
+        "domain": "review",
+        "cap": "review.audit",
+        "alts": [
+          "review.appeal",
+          "format.journal-fit"
+        ]
+      },
+      "category": "多域混合",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d097",
+      "utterance": "把这篇文献精读后做成组会幻灯",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.close-read",
+        "alts": [
+          "slides.journal-club"
+        ]
+      },
+      "category": "多域混合",
+      "source": "constructed"
+    },
+    {
+      "id": "d098",
+      "utterance": "选题定了，顺手把标书里的技术路线图画了",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.design",
+        "alts": [
+          "figures.flow",
+          "ideation.grant"
+        ]
+      },
+      "category": "多域混合",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d099",
+      "utterance": "润色之后按投稿刊的体例调版式",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.en",
+        "alts": [
+          "format.journal-fit",
+          "format.typeset"
+        ]
+      },
+      "category": "多域混合",
+      "source": "constructed"
+    },
+    {
+      "id": "d100",
+      "utterance": "统计结果出来了，写成论著的结果和讨论",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.zh-imrad",
+        "alts": [
+          "stats.reportaudit",
+          "writing.discussion"
+        ]
+      },
+      "category": "多域混合",
+      "source": "paraphrase"
+    },
+    {
+      "id": "d101",
+      "utterance": "孩子初二数学几何证明总丢分，怎么补",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "d102",
+      "utterance": "小学英语作文批改一下，用词太简单",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "d103",
+      "utterance": "帮我给孩子排一个背单词的计划表",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "d104",
+      "utterance": "侄女要高考了，志愿填报怎么选专业",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "d105",
+      "utterance": "这道小学奥数题怎么给孩子讲明白",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "d106",
+      "utterance": "帮我写一段空气炸锅卖点文案，要有促销感",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "d107",
+      "utterance": "公众号推文标题怎么写点击率高",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "d108",
+      "utterance": "详情页文案希望更有说服力，帮我改",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "d109",
+      "utterance": "招聘启事帮我写得吸引人一点",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "d110",
+      "utterance": "品牌口号要朗朗上口，给几个方向",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "d111",
+      "utterance": "家里九十平米想装修，预算怎么分配",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d112",
+      "utterance": "婆婆和媳妇闹矛盾了，怎么劝",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d113",
+      "utterance": "孩子该上哪个小学，学区怎么选",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d114",
+      "utterance": "这周买菜清单帮我列一下",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d115",
+      "utterance": "一家五口去三亚玩五天怎么安排",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d116",
+      "utterance": "我这两天发烧三十八度需要吃抗生素吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "d117",
+      "utterance": "高血压患者能不能把药减半",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "d118",
+      "utterance": "孩子身上起红疹要不要去医院",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "d119",
+      "utterance": "这个体检报告的箭头要紧吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "d120",
+      "utterance": "术后多久可以下地走路",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "d121",
+      "utterance": "帮我写一封给女朋友的道歉信",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "d122",
+      "utterance": "结婚致辞不知道说什么，帮我起个稿",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "d123",
+      "utterance": "分手信，我不想伤人，怎么写",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "d124",
+      "utterance": "妈妈生日祝福语帮我写几句",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "d125",
+      "utterance": "发朋友圈的文案，我不想让人觉得刻意",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "d126",
+      "utterance": "Excel 里怎么用公式把两列合并",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "d127",
+      "utterance": "电脑开机蓝屏报错怎么修",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "d128",
+      "utterance": "想装个双系统，步骤是什么",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "d129",
+      "utterance": "docker 部署时端口冲突，卡住了",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "d130",
+      "utterance": "Word 目录自动生成怎么弄",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "d131",
+      "utterance": "明天上海天气怎么样",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d132",
+      "utterance": "快递一直不派送怎么投诉",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d133",
+      "utterance": "下个月去日本机票什么时候买便宜",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d134",
+      "utterance": "家里想找个可靠保姆去哪找",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d135",
+      "utterance": "这个月电费怎么比上月多一半",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d136",
+      "utterance": "基金定投选指数还是主动",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "real-ish"
+    },
+    {
+      "id": "d137",
+      "utterance": "房贷提前还款划算吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "real-ish"
+    },
+    {
+      "id": "d138",
+      "utterance": "这波行情该不该加仓",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "real-ish"
+    },
+    {
+      "id": "d139",
+      "utterance": "给爸妈买什么保险合适",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "real-ish"
+    },
+    {
+      "id": "d140",
+      "utterance": "手头十万块怎么理财",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "real-ish"
+    },
+    {
+      "id": "d141",
+      "utterance": "年度述职报告怎么写出亮点",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d142",
+      "utterance": "报销流程卡在哪一步了",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d143",
+      "utterance": "帮我写一份请假申请",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d144",
+      "utterance": "部门会议纪要整理一下",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d145",
+      "utterance": "周报要写这周做了什么，帮我起个头",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "d146",
+      "utterance": "最近有什么好看的悬疑剧推荐",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "real-ish"
+    },
+    {
+      "id": "d147",
+      "utterance": "这档综艺值不值得追",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "real-ish"
+    },
+    {
+      "id": "d148",
+      "utterance": "小说看到一半弃了，有类似推荐吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "real-ish"
+    },
+    {
+      "id": "d149",
+      "utterance": "这个游戏新手怎么快速升级",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "real-ish"
+    },
+    {
+      "id": "d150",
+      "utterance": "演唱会门票怎么抢",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "real-ish"
+    }
+  ]
+}

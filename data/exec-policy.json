@@ -1,0 +1,20 @@
+{
+  "run": {
+    "enabled": false,
+    "requireConsent": true,
+    "allowNetwork": false,
+    "workdir": ".dsh-research/run",
+    "timeoutMs": 120000,
+    "maxOutputBytes": 1048576
+  },
+  "runtimes": {
+    "r": null,
+    "python": null
+  },
+  "allowedPackages": {
+    "r": ["base", "stats", "survival", "lme4", "pROC", "metafor", "ggplot2", "tableone", "rms", "survminer"],
+    "python": ["pandas", "numpy", "scipy", "statsmodels", "matplotlib", "sklearn", "lifelines", "seaborn"]
+  },
+  "denyPathPatterns": ["patient", "患者", "病历", "phi", "idcard", "身份证"],
+  "notes": "run.enabled=false 时 research_run 必须拒绝并给出开启指引"
+}

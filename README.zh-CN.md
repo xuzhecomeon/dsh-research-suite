@@ -2,7 +2,7 @@
 
 **一句话定位**：面向临床科研人员的 DeepSeek Harness（DSH）插件——论文写作、润色、绘图、统计、科研思路、审稿、PPT、文献、格式全流程，装进 DSH 后**自动接管**科研任务，没有界面、不需要手动挑技能。
 
-- 包名：`dsh-research-suite`　版本：`3.1.0`　许可证：MIT　实测 DSH：`0.2.1-rc.5`、`0.2.2-rc.1`
+- 包名：`dsh-research-suite`　版本：`3.2.0`　许可证：MIT　实测 DSH：`0.2.1-rc.5`、`0.2.2-rc.1`
 - 运行环境：Node `^22.19.0 || >=24.0.0`，DSH `>=0.2.0-0 <0.3.0`
 - **本插件自包含：450 个源技能全文 + 技能自带的 references/scripts/templates 资产随包分发，运行时不读取任何外部技能目录。**
 
@@ -25,7 +25,7 @@ v2 的答案是**能力卡（capability）**：
 
 1. **策略段注入**（`lib/prompt.js` + `lib/index.js`）：插件向 DSH 系统提示注入一段名为 `research-suite/policy`、`order: 650` 的策略（"团队策略之后、工具说明之前"），文本由 `buildPolicy(core)` 每次组装系统提示时现算。策略规定：识别到科研诉求 → **先调 `research_playbook`** → 按能力卡协议执行 → 需要细节再深读 → 交付前 `research_gate` 自检。
 2. **11 个技能**（`skills/`）：1 个入口技能 + 10 个域融合 SOP（writing / polish / figures / stats / ideation / review / slides / literature / format / data），注册时**当场内联 `content` 字符串**（不能传 `load()` 之类惰性钩子，否则 DSH 加载期校验不过、技能全丢——这是 v1 的原始故障）。
-3. **12 个工具（7 个查询 + 5 个执行与核验）**：给模型查询能力卡、检索 450 个源技能、读原文与自带资产、读规范、做机械自检的接口。
+3. **15 个工具（7 个查询 + 8 个执行/核验/生成/记忆）**：给模型查询能力卡、检索 450 个源技能、读原文与自带资产、读规范、做机械自检的接口。
 
 `research_playbook` 没命中时（任务超出覆盖范围），策略回退到 `research_catalog` 在 450 个源技能里检索再直读原文——**不拒答**。
 
@@ -55,7 +55,7 @@ v2 的答案是**能力卡（capability）**：
 
 另有 9 份规范文档在 `references/`：中华医学会格式、中文语言风格与好句语料库、Elsevier 英文语言标准、论文类型风格档案、标书硬性规则与 AI 痕迹、IMA 知识库清单、IMA 知识库蒸馏任务书、科研技能索引、科研技能自动调用工作流。
 
-## 12 个工具
+## 15 个工具
 
 | 工具 | 作用 | 调用方式 |
 |---|---|---|
@@ -71,21 +71,24 @@ v2 的答案是**能力卡（capability）**：
 | `research_output_check` | **交付物核验**：PNG 实测 DPI（<300 提醒）、PDF 页数与文本层、DOCX/XLSX 结构、CSV 行数、MD 字数 | 传 `files` |
 | `research_doi_check` | **文献真实性**：按 DOI 向 Crossref 核验是否存在，返回标题/期刊/年份；网络失败如实降级，不编造 | 传 `dois`（数组或逗号串） |
 | `research_ref_audit` | **引用对账**：正文 `[n]` 跳号/重复、与文献表条目数不符、条目缺 DOI、年份可疑、DOI 重复 | 传 `text` 或 `file` |
+| `research_project` | **项目记忆**：读写工作区 `.dsh-research/project.json`，记住目标期刊、术语表、已定稿段落、已定决策，跨会话不丢 | 传 `action`（get/set/diff/list） |
+| `research_docx` | **产出与审计 docx**：按中文期刊体例生成 .docx（宋体小四、1.5 倍行距、首行缩进、三线表、参考文献悬挂缩进、引用编号上标），或反向审计既有 docx 的排版硬指标 | 传 `action`（build/audit） |
+| `research_litsearch` | **真检索**：直接查 PubMed（esearch+esummary，返回 PMID/期刊/年份/作者/DOI），或把 DOI 与作者/卷/期/页逐字段比对 | 传 `action`（pubmed/compare-doi） |
 
 ## 安装
 
 完整发布与排障看 [docs/PUBLISH.md](docs/PUBLISH.md)，这里只列最短路径。
 
-**A. 从 npm 装（最省事，已发布 [dsh-research-suite@3.1.0](https://www.npmjs.com/package/dsh-research-suite)）**
+**A. 从 npm 装（最省事，已发布 [dsh-research-suite@3.2.0](https://www.npmjs.com/package/dsh-research-suite)）**
 
 ```
-plugin_manager(action="install_bundle", target="dsh-research-suite@3.1.0")
+plugin_manager(action="install_bundle", target="dsh-research-suite@3.2.0")
 ```
 
 等价 CLI：
 
 ```powershell
-dsh.cmd plugin --profile desktop add dsh-research-suite@3.1.0
+dsh.cmd plugin --profile desktop add dsh-research-suite@3.2.0
 ```
 
 **B. 从本地目录装（改源码调试时用）**
@@ -102,7 +105,7 @@ dsh.cmd plugin --profile desktop add github:xuzhecomeon/dsh-research-suite
 
 装完**必须完全退出 DSH Desktop 再启动**（不是关窗口，是退出进程）——loader 只在启动时读补丁层 `cordis.patch.yml`。
 
-验收：让模型调 `research_suite_status`，返回版本、10 域能力卡数量、450 索引完整性、资产收录统计、`references/` 齐备性、包根路径。12 个工具都在、技能计数正确，才算装好。
+验收：让模型调 `research_suite_status`，返回版本、10 域能力卡数量、450 索引完整性、资产收录统计、`references/` 齐备性、包根路径。15 个工具都在、技能计数正确，才算装好。
 
 ## 配置项
 
@@ -110,7 +113,7 @@ dsh.cmd plugin --profile desktop add github:xuzhecomeon/dsh-research-suite
 
 | 键 | 默认 | 作用 |
 |---|---|---|
-| `autoTakeover` | `true` | 是否注入「科研任务自动接管」策略段。设 `false` 后插件退化为"装了 12 个工具 + 11 个技能"，不再自动接管 |
+| `autoTakeover` | `true` | 是否注入「科研任务自动接管」策略段。设 `false` 后插件退化为"装了 15 个工具 + 11 个技能"，不再自动接管 |
 | `sectionOrder` | `650` | 策略段在系统提示里的排序值。默认落在"团队策略之后、工具说明之前"；需要与其它插件抢位置时改它（合法区间 100–5000，非整数或越界会被配置校验拒绝） |
 | `verbose` | `false` | `true` 时把注册/注入失败（技能注册失败、tools 服务缺失、systemPrompt 缺失）写成 warn 日志，排查期必开 |
 
@@ -166,7 +169,7 @@ dsh-research-suite/
 ├── lib/                    # 运行时（只依赖 node 内置模块）
 │   ├── index.js            #   入口：validateConfig、技能注册、systemPrompt 注入、工具注册
 │   ├── core.js             #   能力内核：目录加载、能力匹配、资产读取、路径安全读取、文本机械检查
-│   ├── tools.js            #   12 个工具
+│   ├── tools.js            #   15 个工具
 │   └── prompt.js           #   「科研任务自动接管」段文本（buildPolicy）
 ├── data/
 │   ├── capabilities/*.json # 10 个域的能力卡（机器可读契约）
@@ -218,10 +221,27 @@ npm run pack:check                # npm pack --dry-run（看真实发布清单�
 
 ## 安全与边界
 
-- **不联网**：运行时只依赖 node 内置模块，不请求任何远程服务。
-- **不读外部技能目录**：450 篇原文与 954 个自带资产随包分发，不碰用户机器的其它技能库。
-- **不写用户文件**：12 个工具都是只读查询、展开与机械自检。
-- **入口不 import `@deepseek-ai/*`**：profile 的 `node_modules` 里解析不到这类包，入口一旦 import 就会整个加载失败（现象是"装了但一个技能都没有"）。这条由 `scripts/verify-package.mjs` 强制拦截。
+**执行默认关闭。** 本插件里有真正执行代码的能力（`research_run`），正因为如此它自带一层安全策略：模型生成的脚本按「不可信输入」处理，而不是按「用户自己写的、一定安全」处理。
+
+执行链路是两段式：**预览 → 显式确认（哈希一致）→ 三道闸（开关 / 哈希 / 静态策略）→ 执行**。
+
+- `data/exec-policy.json` 出厂 `run.enabled: false`。此时 `research_run` 只返回预览（脚本前 60 行 + `previewHash` + 策略摘要 + 预计拦截项），**不写文件、不起子进程**。
+- 开启执行后，脚本以**你的用户权限**运行在 `<当前工作目录>/.dsh-research/run/<runId>/` 内。静态扫描负责：包白名单（R / Python 各有清单）、拒绝常见联网与子进程 API、写入只允许该目录内相对路径、拒绝 PHI 路径关键词、永久拒绝安装类命令。**这是护栏，不是沙箱**——真正的隔离要靠容器、受限用户或虚拟机。
+- `research_doi_check` 确实会联网：只把 DOI 发到 `https://api.crossref.org`，不发送稿件或本地文件内容；其余工具不发网络请求。
+- 本插件自包含：450 篇源技能原文与 954 个自带资产随包分发，运行时不读取任何外部技能目录。
+- 入口不 import `@deepseek-ai/*`：profile 的 `node_modules` 里解析不到这类包，入口一旦 import 就会整个加载失败（现象是"装了但一个技能都没有"）。这条由 `scripts/verify-package.mjs` 强制拦截。
+
+| 工具 | 读文件 | 写文件 | 联网 | 子进程 | 作用半径 |
+| --- | --- | --- | --- | --- | --- |
+| `research_playbook` / `research_capability` | 是（能力卡） | 否 | 否 | 否 | 进程内只读 |
+| `research_catalog` / `research_kb_read` / `research_standard` | 是（索引、技能原文与资产、规范） | 否 | 否 | 否 | 进程内只读，路径约束在包内 |
+| `research_gate` / `research_ref_audit` | 否（只分析传入文本） | 否 | 否 | 否 | 进程内纯文本检查 |
+| `research_data_check` / `research_output_check` | 是（调用方指定的数据/交付文件） | 否 | 否 | 否 | 进程内只读 |
+| `research_suite_status` | 是（索引、统计、策略） | 否 | 否 | 仅 `where` / `which` 探测解释器 | 进程内 + PATH 探测 |
+| `research_doi_check` | 否 | 否 | **是**（Crossref，仅 DOI） | 否 | 外发 DOI 字符串 |
+| `research_run` | **是**（解释器以当前用户权限可读的一切） | **是**（执行目录内；越界写被策略拒绝） | 默认 **否** | **是**（Rscript / python） | 执行目录 + 当前用户权限能触达的范围 |
+
+开启执行的最小步骤、完整策略字段、三层隔离建议与已知绕过边界，见 [docs/SECURITY.md](docs/SECURITY.md)。
 
 ## 能力边界（诚实版）
 
@@ -230,7 +250,7 @@ npm run pack:check                # npm pack --dry-run（看真实发布清单�
 **能做的**
 
 1. **任务识别有闸门**：50 条真人原话的 golden set 上，接管判定 50/50、不该接管的 5 条全部拒绝、能力卡 top3 100%；`node scripts/eval-match.mjs --strict` 可复跑（CI 里也跑）。
-2. **真执行**：`research_run` 会在临时目录里真跑 R（Rscript）或 Python（本机解释器）并回传 stdout/stderr；不是让模型「假装跑过」。
+2. **真执行（默认关闭）**：`research_run` 会在策略约束下真跑 R（Rscript）或 Python（本机解释器）并回传 stdout/stderr；执行开关默认关，开启要先预览、再带哈希确认，见「安全与边界」。不是让模型「假装跑过」。
 3. **数据机械核验**：`research_data_check` 能查缺失率、常量列、ID 重复、不可能值、EPV<10。
 4. **交付物核验**：`research_output_check` 读 PNG 真实 DPI（不达标会提醒）、PDF 页数与文本层、DOCX/XLSX 结构。
 5. **文献真实性**：`research_doi_check` 向 Crossref 核验 DOI 是否存在；`research_ref_audit` 对账正文 `[n]` 与文献表。

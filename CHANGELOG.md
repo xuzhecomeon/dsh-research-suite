@@ -1,3 +1,28 @@
+## [3.2.0] - 2026-11-08
+
+按外部评审路线图（`dsh-research-suite_v3.1.0_评审与整改路线图.md`，DEF-01～DEF-20）整改。
+
+### 识别层：从「正则线索表 + 分数闸门」换成全文检索 + 三出口
+- 能力卡全文 BM25（字段权重 label 3 / triggers 2.5 / summary 1.5 / protocol 1 / decide 1 / outputs 1；K1=1.2、B=0.75），查询侧做同义归一（22 组），并把分数按 `100·adj/(adj+5·√qLen)` 长度归一化。
+- 三出口 `takeover` / `ask` / `reject`：接近但不明确就问一句，明显无关直接拒绝；`research_playbook` 输出置信度、领先倍率、命中词与候选。
+- 动词亲和 12 条（核查 18 / 统计解释 16 / 机制图 14 / 润色 12 / 清洗 10 / 检索 10 / 设计 10 / 论证 10 / 统计 6 / 生成 4 …），修掉「300dpi 够不够」落不到 audit、「清洗数据」落不到 clean 这类错路由。
+- 负例从 19 类扩到 31 类（营销文案/旅游出行/临床问诊/投资理财/家庭事务/职场行政/教育辅导…）；执行类诉求（「这段 R 代码跑一下」）直接返回 `runIntent`，指向 `research_run` 而不是硬套能力卡。
+- **评估**：`data/golden/dev.json` 150 条（调参）、`data/golden/test.json` 150 条（冻结，sha256 校验）、`scripts/verify-eval.mjs` 防污染。当前快照：dev 接管判定 93.3% / 误接管 0% / 召回 89.9% / 卡 top1 74.8% / top3 87.9%；**冻结 test 86.7% / 误接管 17.1% / 召回 91.2% / top1 66.2% / top3 79.4%** —— 泛化缺口与全部失败条目见 `docs/EVAL.md`，不隐瞒、不用 test 调参。
+
+### 安全层：从「黑名单 + cwd/临时目录」换成默认关闭 + 白名单 + 沙箱目录
+- `data/exec-policy.json` 出厂 `run.enabled=false`、`allowNetwork=false`、`requireConsent=true`、`timeoutMs=120000`、`maxOutputBytes=1MB`，R/Python 包白名单，PHI 路径关键词拦截。
+- `research_run` 改两段式：先返回脚本预览 + `previewHash`（sha256）+ 策略摘要 + 预计拦截项，**不执行**；用户确认后带 `confirm:true` 与同一 hash 才真跑，执行目录强制 `<cwd>/.dsh-research/run/<runId>`。
+- 删掉所有硬编码解释器路径与个人身份注释，运行时探测改为 策略 → 环境变量（`R_HOME`/`PYTHON`/`CONDA_PREFIX`）→ 自扫 PATH；找不到就返回 `runtime_missing` + 排查指引，不猜路径。
+- 新增 `docs/SECURITY.md`（威胁模型、15 工具能力矩阵、三层隔离、PHI 做法、已知限制）；两份 README 的「安全与边界」按实现重写，删掉与实现相反的「不联网/只读」表述。
+
+### 新增能力（工具 7 → 15）
+- `research_project`：工作区 `.dsh-research/project.json` 项目记忆（get/set/diff/list，原子写、坏档留 `.bak` 且拒写）。
+- `research_docx`：`build` 生成中文期刊体例 .docx（宋体小四、1.5 倍行距、首行缩进 2 字符、三线表、参考文献悬挂缩进、引用编号仅编号上标）；`audit` 七项反向核验。
+- `research_litsearch`：`pubmed` 走 E-utilities 真检索（350ms 限速、`[pt]` 限定、`year`/`epubYear` 都给）；`compare-doi` 把 DOI 与作者/卷/期/页逐字段比对（中文期刊查不到报 `unverifiable`，不诬报不存在）。
+
+### 文档
+- 新增 `docs/EVAL.md`（三集划分、防污染、指标定义、失败条目附录）、`docs/SECURITY.md`；README 增「能力边界（诚实版）」；`docs/ARCHITECTURE.md` 增「执行与核验层」。
+
 # 更新日志
 
 本文件格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。

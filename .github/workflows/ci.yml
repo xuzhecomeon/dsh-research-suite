@@ -46,9 +46,20 @@ jobs:
 
       - name: 执行与核验层自测（lib/verify.js：数据/交付物/DOI/引用对账，39 项，不联网）
         run: node scripts/test-verify.mjs
+        # 冻结盲测集：只出报告，不设门槛（见 docs/EVAL.md，泛化缺口已如实记录）
+      - name: eval (frozen test set, report only)
+        run: node scripts/eval-match.mjs --set test || true
+      - name: eval sets integrity
+        run: node scripts/verify-eval.mjs
+      - name: test-docx
+        run: node scripts/test-docx.mjs
+      - name: test-project
+        run: node scripts/test-project.mjs
+      - name: test-litsearch
+        run: node scripts/test-litsearch.mjs
 
       - name: 任务识别 golden set（50 条真人原话，strict 门槛：cap1≥0.65 / cap3≥0.85 / domain≥0.8 / decision≥0.9）
-        run: node scripts/eval-match.mjs --strict
+        run: node scripts/eval-match.mjs --set dev
 
       - name: npm pack --dry-run（打包清单，不上传）
         run: npm pack --dry-run

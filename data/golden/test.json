@@ -1,0 +1,1639 @@
+{
+  "version": 1,
+  "domain": "test",
+  "note": "v3.2.0 盲测集（150 条，负例 82 条）。生成后冻结：sha256 记录在 data/golden/.freeze.json，任何字符改动都会让 scripts/verify-eval.mjs 失败。调参只许用 dev.json。",
+  "cases": [
+    {
+      "id": "t001",
+      "utterance": "讨论里我把局限写成了套话，想改成能站住的表述",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.discussion",
+        "alts": [
+          "writing.zh-imrad",
+          "polish.deai"
+        ]
+      },
+      "category": "写作",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t002",
+      "utterance": "学位论文的绪论章要写研究背景，框架怎么搭",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.thesis",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "写作",
+      "source": "constructed"
+    },
+    {
+      "id": "t003",
+      "utterance": "想投一篇范围综述，主题是老年衰弱，板块怎么分",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.review",
+        "alts": [
+          "literature.synthesis"
+        ]
+      },
+      "category": "写作",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t004",
+      "utterance": "英文稿的时态和冠词老出错，逐句校准一下",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.en",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "constructed"
+    },
+    {
+      "id": "t005",
+      "utterance": "结构化摘要的四个部分写不齐，帮我补齐",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.abstract",
+        "alts": [
+          "writing.zh-imrad"
+        ]
+      },
+      "category": "写作",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t006",
+      "utterance": "前言的最后一段要把研究缺口说透，我不知道怎么写",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.evidence",
+        "alts": [
+          "ideation.novelty",
+          "writing.zh-imrad"
+        ]
+      },
+      "category": "写作",
+      "source": "constructed"
+    },
+    {
+      "id": "t007",
+      "utterance": "一例妊娠期急性脂肪肝，想按病例报告投稿",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.case-report",
+        "alts": [
+          "writing.zh-imrad"
+        ]
+      },
+      "category": "写作",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t008",
+      "utterance": "全篇五章的逻辑顺序想重新排，怎么做",
+      "expect": {
+        "domain": "writing",
+        "cap": "writing.blueprint",
+        "alts": [
+          "writing.thesis"
+        ]
+      },
+      "category": "写作",
+      "source": "constructed"
+    },
+    {
+      "id": "t009",
+      "utterance": "这篇中文稿子读着像模板拼的，帮我把那股腔调去掉",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.deai",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t010",
+      "utterance": "想模仿目标期刊的行文习惯，但不想抄句子",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.voice",
+        "alts": [
+          "writing.journal-profile"
+        ]
+      },
+      "category": "润色",
+      "source": "constructed"
+    },
+    {
+      "id": "t011",
+      "utterance": "英文段落被说太啰嗦，能不能压掉三分之一字数",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.en",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t012",
+      "utterance": "两段内容高度相似，答辩时被问是不是凑字数",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.rewrite",
+        "alts": [
+          "polish.audit"
+        ]
+      },
+      "category": "润色",
+      "source": "constructed"
+    },
+    {
+      "id": "t013",
+      "utterance": "老师改过的稿子想再核一遍事实有没有被改",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.audit",
+        "alts": [
+          "polish.deai"
+        ]
+      },
+      "category": "润色",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t014",
+      "utterance": "四组不同处理，每组八个样本，比较指标差异",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.multigroup",
+        "alts": [
+          "stats.twogroup"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "t015",
+      "utterance": "想建个模型算个体风险，再画校准曲线",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.prediction",
+        "alts": [
+          "figures.statplot",
+          "stats.regression"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t016",
+      "utterance": "两位医生读同一批片子，一致性怎么算",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.corr",
+        "alts": [
+          "stats.diagnostic"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "t017",
+      "utterance": "变量缺失得零散，多重插补还是完整病例",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.missing",
+        "alts": [
+          "stats.clean"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t018",
+      "utterance": "真实世界数据里两组基线不平，怎么匹配",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.psm",
+        "alts": [
+          "stats.regression"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "t019",
+      "utterance": "十几篇队列研究，想把 HR 合起来",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.meta",
+        "alts": [
+          "literature.evidence-matrix"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t020",
+      "utterance": "两样本 MR 的三个核心假设怎么检验",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.mr",
+        "alts": [
+          "data.gwas-eqtl"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "t021",
+      "utterance": "随访五年，想算累积发生率和组间差异",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.survival",
+        "alts": [
+          "stats.prediction"
+        ]
+      },
+      "category": "统计",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t022",
+      "utterance": "多因素回归里哪些变量该进模型",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.regression",
+        "alts": [
+          "stats.baseline",
+          "stats.reportaudit"
+        ]
+      },
+      "category": "统计",
+      "source": "constructed"
+    },
+    {
+      "id": "t023",
+      "utterance": "机制图要能一眼看出药物作用在哪个环节",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.mechanism",
+        "alts": [
+          "figures.vector"
+        ]
+      },
+      "category": "绘图",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t024",
+      "utterance": "把三张图排成横版主图，标注 a b c",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.panel",
+        "alts": [
+          "figures.style"
+        ]
+      },
+      "category": "绘图",
+      "source": "constructed"
+    },
+    {
+      "id": "t025",
+      "utterance": "实验流程想画成示意图，要能改线条颜色",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.flow",
+        "alts": [
+          "figures.vector"
+        ]
+      },
+      "category": "绘图",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t026",
+      "utterance": "箱线图想按分组上色，图例放右侧",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.statplot",
+        "alts": [
+          "figures.style"
+        ]
+      },
+      "category": "绘图",
+      "source": "constructed"
+    },
+    {
+      "id": "t027",
+      "utterance": "病理照片里带住院号，要处理掉",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.imaging",
+        "alts": [
+          "data.provenance"
+        ]
+      },
+      "category": "绘图",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t028",
+      "utterance": "投稿要求线宽不小于一磅，帮我查一下",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.audit",
+        "alts": [
+          "format.figtable"
+        ]
+      },
+      "category": "绘图",
+      "source": "constructed"
+    },
+    {
+      "id": "t029",
+      "utterance": "要写检索式，四个概念怎么拆成主题词",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.search-plan",
+        "alts": [
+          "literature.federated-search"
+        ]
+      },
+      "category": "文献",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t030",
+      "utterance": "两个学生分别筛，分歧怎么处理",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.screen-prisma",
+        "alts": [
+          "literature.search-plan"
+        ]
+      },
+      "category": "文献",
+      "source": "constructed"
+    },
+    {
+      "id": "t031",
+      "utterance": "帮我逐段拆这篇系统评价的方法部分",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.close-read",
+        "alts": [
+          "literature.critique"
+        ]
+      },
+      "category": "文献",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t032",
+      "utterance": "偏倚风险表怎么填，工具选哪个",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.critique",
+        "alts": [
+          "literature.close-read"
+        ]
+      },
+      "category": "文献",
+      "source": "constructed"
+    },
+    {
+      "id": "t033",
+      "utterance": "把十篇文献的结论做成矩阵表",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.evidence-matrix",
+        "alts": [
+          "literature.synthesis"
+        ]
+      },
+      "category": "文献",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t034",
+      "utterance": "引文里有一篇撤稿了，怎么发现",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.fact-check",
+        "alts": [
+          "literature.citation-chase"
+        ]
+      },
+      "category": "文献",
+      "source": "constructed"
+    },
+    {
+      "id": "t035",
+      "utterance": "参考文献的期刊缩写要统一成 ISO 格式",
+      "expect": {
+        "domain": "format",
+        "cap": "format.ref-style",
+        "alts": [
+          "format.intext-cite"
+        ]
+      },
+      "category": "格式",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t036",
+      "utterance": "文内引用的顺序号要按出现顺序重排",
+      "expect": {
+        "domain": "format",
+        "cap": "format.intext-cite",
+        "alts": [
+          "format.ref-style"
+        ]
+      },
+      "category": "格式",
+      "source": "constructed"
+    },
+    {
+      "id": "t037",
+      "utterance": "投稿系统要求上传单独图件，怎么打包",
+      "expect": {
+        "domain": "format",
+        "cap": "format.submission-package",
+        "alts": [
+          "format.final-delivery"
+        ]
+      },
+      "category": "格式",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t038",
+      "utterance": "整篇要改成双栏排版，图表位置会乱",
+      "expect": {
+        "domain": "format",
+        "cap": "format.typeset",
+        "alts": [
+          "format.final-delivery"
+        ]
+      },
+      "category": "格式",
+      "source": "constructed"
+    },
+    {
+      "id": "t039",
+      "utterance": "编辑部给了作者须知，帮我逐条对一遍",
+      "expect": {
+        "domain": "format",
+        "cap": "format.journal-fit",
+        "alts": [
+          "format.doc-audit"
+        ]
+      },
+      "category": "格式",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t040",
+      "utterance": "投前想按主编关注点过一遍，看有没有硬伤",
+      "expect": {
+        "domain": "review",
+        "cap": "review.presubmit",
+        "alts": [
+          "review.referee"
+        ]
+      },
+      "category": "审稿",
+      "source": "constructed"
+    },
+    {
+      "id": "t041",
+      "utterance": "换审稿人身份，写一份挑刺的预演意见",
+      "expect": {
+        "domain": "review",
+        "cap": "review.referee",
+        "alts": [
+          "review.presubmit"
+        ]
+      },
+      "category": "审稿",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t042",
+      "utterance": "编辑邀我审稿，推荐意见怎么定档",
+      "expect": {
+        "domain": "review",
+        "cap": "review.report",
+        "alts": [
+          "review.selfcheck"
+        ]
+      },
+      "category": "审稿",
+      "source": "constructed"
+    },
+    {
+      "id": "t043",
+      "utterance": "正文和补充材料里的样本量不一致，核一下",
+      "expect": {
+        "domain": "review",
+        "cap": "review.audit",
+        "alts": [
+          "stats.reportaudit"
+        ]
+      },
+      "category": "审稿",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t044",
+      "utterance": "小修只提了三条，但其中一条要重做分析",
+      "expect": {
+        "domain": "review",
+        "cap": "review.revise",
+        "alts": [
+          "review.rebuttal"
+        ]
+      },
+      "category": "审稿",
+      "source": "constructed"
+    },
+    {
+      "id": "t045",
+      "utterance": "逐条回复的口气怎么把握才不激怒对方",
+      "expect": {
+        "domain": "review",
+        "cap": "review.rebuttal",
+        "alts": [
+          "review.revise"
+        ]
+      },
+      "category": "审稿",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t046",
+      "utterance": "审稿人互相矛盾，一个要补一个要删",
+      "expect": {
+        "domain": "review",
+        "cap": "review.revise",
+        "alts": [
+          "review.rebuttal",
+          "review.selfcheck"
+        ]
+      },
+      "category": "审稿",
+      "source": "constructed"
+    },
+    {
+      "id": "t047",
+      "utterance": "科室没有方向，想找几个可以做的点",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.topic",
+        "alts": [
+          "ideation.feasibility"
+        ]
+      },
+      "category": "选题",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t048",
+      "utterance": "这个方向近三年有没有人发过类似文章",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.novelty",
+        "alts": [
+          "literature.search-plan"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed"
+    },
+    {
+      "id": "t049",
+      "utterance": "把大问题拆成能做的三四个具体问题",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.question",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "选题",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t050",
+      "utterance": "单中心还是多中心，样本来源怎么定",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.design",
+        "alts": [
+          "ideation.feasibility",
+          "stats.power"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed"
+    },
+    {
+      "id": "t051",
+      "utterance": "申请书里的创新点怎么写才不空",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.grant",
+        "alts": [
+          "ideation.feasibility"
+        ]
+      },
+      "category": "选题",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t052",
+      "utterance": "知情同意书要写哪些要素",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.ethics",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed"
+    },
+    {
+      "id": "t053",
+      "utterance": "这个课题设备不够，能改成什么方案",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.feasibility",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "选题",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t054",
+      "utterance": "回顾性研究要不要补伦理审批",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.ethics",
+        "alts": [
+          "ideation.design"
+        ]
+      },
+      "category": "选题",
+      "source": "constructed"
+    },
+    {
+      "id": "t055",
+      "utterance": "周会要讲自己的结果，幻灯怎么组织",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.journal-club",
+        "alts": [
+          "slides.conference-defense"
+        ]
+      },
+      "category": "幻灯",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t056",
+      "utterance": "会议给八分钟，二十页肯定讲不完",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.conference-defense",
+        "alts": [
+          "slides.speaker-notes"
+        ]
+      },
+      "category": "幻灯",
+      "source": "constructed"
+    },
+    {
+      "id": "t057",
+      "utterance": "把论文里的生存曲线挪到幻灯里，字号要放大",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.figure-refit",
+        "alts": [
+          "figures.statplot"
+        ]
+      },
+      "category": "幻灯",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t058",
+      "utterance": "幻灯和讲稿的字数对不上，怎么核",
+      "expect": {
+        "domain": "slides",
+        "cap": "slides.consistency",
+        "alts": [
+          "slides.speaker-notes"
+        ]
+      },
+      "category": "幻灯",
+      "source": "constructed"
+    },
+    {
+      "id": "t059",
+      "utterance": "GEO 数据集要配临床表型，怎么找",
+      "expect": {
+        "domain": "data",
+        "cap": "data.omics-download",
+        "alts": [
+          "data.expression-reuse"
+        ]
+      },
+      "category": "数据",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t060",
+      "utterance": "同一基因在不同库里名字不一样，怎么统一",
+      "expect": {
+        "domain": "data",
+        "cap": "data.gene-idmap",
+        "alts": [
+          "data.variant-annot"
+        ]
+      },
+      "category": "数据",
+      "source": "constructed"
+    },
+    {
+      "id": "t061",
+      "utterance": "要做药物靶点的结合数据，从哪查",
+      "expect": {
+        "domain": "data",
+        "cap": "data.chem-target",
+        "alts": [
+          "data.pathway-ppi"
+        ]
+      },
+      "category": "数据",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t062",
+      "utterance": "代谢物名称要注释成 HMDB 编号",
+      "expect": {
+        "domain": "data",
+        "cap": "data.metab-omics",
+        "alts": [
+          "data.gene-idmap"
+        ]
+      },
+      "category": "数据",
+      "source": "constructed"
+    },
+    {
+      "id": "t063",
+      "utterance": "下载的数据要能追溯到原始版本",
+      "expect": {
+        "domain": "data",
+        "cap": "data.provenance",
+        "alts": [
+          "data.omics-download"
+        ]
+      },
+      "category": "数据",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t064",
+      "utterance": "先做表一再按基线差异选匹配方法",
+      "expect": {
+        "domain": "stats",
+        "cap": "stats.baseline",
+        "alts": [
+          "stats.psm",
+          "stats.clean"
+        ]
+      },
+      "category": "多域混合",
+      "source": "constructed"
+    },
+    {
+      "id": "t065",
+      "utterance": "审稿要补个森林图，顺便核下合并数字",
+      "expect": {
+        "domain": "figures",
+        "cap": "figures.statplot",
+        "alts": [
+          "stats.meta",
+          "review.audit"
+        ]
+      },
+      "category": "多域混合",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t066",
+      "utterance": "把综述骨架改成组会汇报用的幻灯",
+      "expect": {
+        "domain": "literature",
+        "cap": "literature.synthesis",
+        "alts": [
+          "slides.journal-club"
+        ]
+      },
+      "category": "多域混合",
+      "source": "constructed"
+    },
+    {
+      "id": "t067",
+      "utterance": "方向已经批了，路线想画成流程图放进本子",
+      "expect": {
+        "domain": "ideation",
+        "cap": "ideation.design",
+        "alts": [
+          "figures.flow",
+          "ideation.grant"
+        ]
+      },
+      "category": "多域混合",
+      "source": "paraphrase"
+    },
+    {
+      "id": "t068",
+      "utterance": "英文稿先润色再按刊约重排参考文献",
+      "expect": {
+        "domain": "polish",
+        "cap": "polish.en",
+        "alts": [
+          "format.ref-style",
+          "format.typeset"
+        ]
+      },
+      "category": "多域混合",
+      "source": "constructed"
+    },
+    {
+      "id": "t069",
+      "utterance": "孩子初三物理电路图看不懂，怎么讲",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "t070",
+      "utterance": "帮我把这段英语课文翻译成中文",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "t071",
+      "utterance": "小学生写作文没素材，怎么引导",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "t072",
+      "utterance": "高中数学函数求导的题目讲讲",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "t073",
+      "utterance": "孩子钢琴考级曲目怎么练",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "t074",
+      "utterance": "侄子考研数学复习计划怎么排",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "t075",
+      "utterance": "帮孩子改改演讲稿，学校比赛用",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "t076",
+      "utterance": "幼儿园手工作业怎么做",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "教育辅导",
+      "source": "real-ish"
+    },
+    {
+      "id": "t077",
+      "utterance": "帮我写个开业活动的宣传语",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "t078",
+      "utterance": "小红书笔记怎么写更容易被收藏",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "t079",
+      "utterance": "产品说明书改得口语一点",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "t080",
+      "utterance": "直播带货脚本帮我列个框架",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "t081",
+      "utterance": "公司年会的策划方案怎么写",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "t082",
+      "utterance": "客户投诉回复函怎么写显得专业",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "t083",
+      "utterance": "招商手册的文案帮我润一下",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "t084",
+      "utterance": "给新产品取个容易记住的名字",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "商务文案",
+      "source": "real-ish"
+    },
+    {
+      "id": "t085",
+      "utterance": "想给老人换个护工，怎么挑",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t086",
+      "utterance": "家里两个孩子总吵架怎么办",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t087",
+      "utterance": "装修队报价太乱，怎么砍价",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t088",
+      "utterance": "全家过年回谁家，怎么安排",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t089",
+      "utterance": "想把阳台改成书房，大概多少钱",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t090",
+      "utterance": "宠物狗最近不吃东西怎么办",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t091",
+      "utterance": "亲戚借钱不还，怎么开口要",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t092",
+      "utterance": "婚房布置有什么建议",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "家庭事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t093",
+      "utterance": "咳嗽两周了要不要拍胸片",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "t094",
+      "utterance": "孕妇能不能吃这个感冒药",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "t095",
+      "utterance": "血糖空腹七点二算糖尿病吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "t096",
+      "utterance": "腰椎间盘突出一定要手术吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "t097",
+      "utterance": "小孩打疫苗后发烧正常吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "t098",
+      "utterance": "这个中药方子能不能长期吃",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "t099",
+      "utterance": "化疗期间能吃海鲜吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "t100",
+      "utterance": "头晕是颈椎病引起的吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "临床问诊",
+      "source": "real-ish"
+    },
+    {
+      "id": "t101",
+      "utterance": "给老公写一段结婚纪念日的话",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "t102",
+      "utterance": "道歉短信怎么写才诚恳",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "t103",
+      "utterance": "孩子成人礼上家长致辞",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "t104",
+      "utterance": "异地恋怎么维持，帮我想想说法",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "t105",
+      "utterance": "给老师写一封感谢信",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "t106",
+      "utterance": "朋友圈悼念爷爷的文案",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "t107",
+      "utterance": "追女生的开场白帮我想几句",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "t108",
+      "utterance": "闺蜜生日小作文",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "情感写作",
+      "source": "real-ish"
+    },
+    {
+      "id": "t109",
+      "utterance": "表格里 vlookup 匹配不上怎么办",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "t110",
+      "utterance": "手机上照片怎么批量传到电脑",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "t111",
+      "utterance": "网站打不开提示证书错误",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "t112",
+      "utterance": "git 冲突怎么解决",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "t113",
+      "utterance": "打印机连不上无线网",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "t114",
+      "utterance": "微信聊天记录怎么迁移到新手机",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "t115",
+      "utterance": "想给视频加字幕，用什么软件",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "t116",
+      "utterance": "电脑内存不够了加条子要注意什么",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "通用软件",
+      "source": "real-ish"
+    },
+    {
+      "id": "t117",
+      "utterance": "明天出门要不要带伞",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t118",
+      "utterance": "家里水管漏水找谁修",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t119",
+      "utterance": "办护照要带什么材料",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t120",
+      "utterance": "附近哪里能修自行车",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t121",
+      "utterance": "快递柜超时收费怎么退",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t122",
+      "utterance": "一周菜谱帮我配一下",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t123",
+      "utterance": "高铁票改签怎么收费",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t124",
+      "utterance": "小区停车位租金大概多少",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "生活事务",
+      "source": "real-ish"
+    },
+    {
+      "id": "t125",
+      "utterance": "定投跌了要不要停",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "real-ish"
+    },
+    {
+      "id": "t126",
+      "utterance": "年终奖怎么分配比较稳",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "real-ish"
+    },
+    {
+      "id": "t127",
+      "utterance": "黄金现在适合买吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "real-ish"
+    },
+    {
+      "id": "t128",
+      "utterance": "信用卡分期利息高不高",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "real-ish"
+    },
+    {
+      "id": "t129",
+      "utterance": "孩子教育金怎么攒",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "constructed"
+    },
+    {
+      "id": "t130",
+      "utterance": "二手房现在能买吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "constructed"
+    },
+    {
+      "id": "t131",
+      "utterance": "保险退保亏多少",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "constructed"
+    },
+    {
+      "id": "t132",
+      "utterance": "存款利率哪家高",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "投资理财",
+      "source": "constructed"
+    },
+    {
+      "id": "t133",
+      "utterance": "年终总结的框架怎么列",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "constructed"
+    },
+    {
+      "id": "t134",
+      "utterance": "部门团建方案帮我写",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "constructed"
+    },
+    {
+      "id": "t135",
+      "utterance": "请假三天要哪些手续",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "constructed"
+    },
+    {
+      "id": "t136",
+      "utterance": "出差报销单怎么填",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "constructed"
+    },
+    {
+      "id": "t137",
+      "utterance": "会议通知怎么写",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "constructed"
+    },
+    {
+      "id": "t138",
+      "utterance": "绩效考核自评怎么写",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "constructed"
+    },
+    {
+      "id": "t139",
+      "utterance": "文件归档怎么分类",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "constructed"
+    },
+    {
+      "id": "t140",
+      "utterance": "招标文件的格式要求",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "行政事务",
+      "source": "constructed"
+    },
+    {
+      "id": "t141",
+      "utterance": "有什么下饭的综艺",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "constructed"
+    },
+    {
+      "id": "t142",
+      "utterance": "悬疑小说推荐几本",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "constructed"
+    },
+    {
+      "id": "t143",
+      "utterance": "这季新番值得看吗",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "constructed"
+    },
+    {
+      "id": "t144",
+      "utterance": "老电影重温推荐",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "constructed"
+    },
+    {
+      "id": "t145",
+      "utterance": "密室逃脱主题怎么选",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "娱乐追剧",
+      "source": "constructed"
+    },
+    {
+      "id": "t146",
+      "utterance": "简历怎么改得更突出",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "求职面试",
+      "source": "constructed"
+    },
+    {
+      "id": "t147",
+      "utterance": "面试自我介绍怎么说",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "求职面试",
+      "source": "constructed"
+    },
+    {
+      "id": "t148",
+      "utterance": "跳槽要不要降薪",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "求职面试",
+      "source": "constructed"
+    },
+    {
+      "id": "t149",
+      "utterance": "应届生怎么谈薪",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "求职面试",
+      "source": "constructed"
+    },
+    {
+      "id": "t150",
+      "utterance": "面试被问到缺点怎么答",
+      "expect": {
+        "noTakeover": true
+      },
+      "category": "求职面试",
+      "source": "constructed"
+    }
+  ]
+}

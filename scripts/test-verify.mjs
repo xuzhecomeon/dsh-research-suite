@@ -11,10 +11,9 @@
 // 通过标准：末尾打印 verify: N passed, 0 failed 且 exit 0。
 
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import zlib from 'node:zlib';
-import { createVerify } from '../lib/verify.js';
+import { createVerify, detectRuntimes } from '../lib/verify.js';
 
 const FIXTURES = path.join(
   'D:',
@@ -307,80 +306,300 @@ const F = (name) => path.join(FIXTURES, name);
 async function main() {
   writeFixtures();
 
+  // 解释器路径不写进仓库：走 policy → 环境变量 → PATH 的探测顺序；探不到就跳过「真执行」用例
+  // （预览 / 策略 / 安全拦截用例不依赖解释器，始终运行）。
+  function findRscript() {
+    const roots = [process.env.ProgramFiles, 'C:/Program Files'].filter(Boolean);
+    for (const root of roots) {
+      const rDir = path.join(root, 'R');
+      if (!fs.existsSync(rDir)) continue;
+      for (const entry of fs.readdirSync(rDir)) {
+        const exe = path.join(rDir, entry, 'bin', 'Rscript.exe');
+        if (fs.existsSync(exe)) return exe;
+      }
+    }
+    return null;
+  }
+  const rPath = findRscript();
+  const detected = detectRuntimes();
+  const pyPath = detected.python && detected.python.ok ? detected.python.command : null;
+  const runtimes = { r: rPath, python: pyPath };
+
   const verify = createVerify({}, {});
-  const verifyNoRuntime = createVerify({}, { runtimes: { r: [path.join(FIXTURES, 'no-such-Rscript.exe')] } });
-  // runScript 的 workdir 必须落在 process.cwd() 或系统临时目录内；测试从包根启动，
-  // fixtures 不在 cwd 下，所以执行目录放临时区（既符合安全闸，也不在仓库里留垃圾）。
-  const runDir = path.join(os.tmpdir(), 'dsh-verify-v31-run');
-  fs.rmSync(runDir, { recursive: true, force: true });
-  fs.mkdirSync(runDir, { recursive: true });
+  const verifyEnabled = createVerify({}, { policy: { run: { enabled: true }, runtimes } });
+  const verifyOpenNetwork = createVerify({}, { policy: { run: { enabled: true, allowNetwork: true }, runtimes } });
+  const verifyNoRuntime = createVerify({}, {
+    policy: {
+      run: { enabled: true },
+      pathProbe: false,
+      runtimes: { r: path.join(FIXTURES, 'no-such-Rscript.exe') },
+    },
+  });
+  // v3.2 起执行半径固定为 <cwd>/.dsh-research/run/<runId>，测试从包根启动，所以执行目录在包根下
+  const runRoot = path.join(process.cwd(), '.dsh-research');
+  // 上次运行若在断言中途崩溃，清理代码不会执行：先删掉残留，避免「预览不创建目录」被历史产物污染
+  fs.rmSync(runRoot, { recursive: true, force: true });
 
   console.log(`fixtures: ${FIXTURES}`);
   console.log(`version: ${verify.version}`);
   eq(verify.version, '3.1.0', 'version');
 
-  // ---------------- runScript ----------------
+  // ---------------- runScript：预览 / 确认两段式 ----------------
   console.log('\n[runScript]');
 
-  const rOk = await verify.runScript({ kind: 'r', workdir: runDir, code: 'cat("hello-from-r\\n")\nwriteLines("done", "out.txt")' });
-  await checkAsync('R 脚本能跑起来并报告 stdout', () => {
-    assert(rOk.ok === true, `期望 ok=true，实际 ${JSON.stringify(rOk).slice(0, 300)}`);
-    eq(rOk.exitCode, 0, 'exitCode');
-    eq(rOk.kind, 'r', 'kind');
-    assert(String(rOk.stdout).includes('hello-from-r'), `stdout 未包含标记：${rOk.stdout}`);
-    assert(/\.R$/.test(String(rOk.script)), `脚本扩展名应为 .R：${rOk.script}`);
-    assert(Array.isArray(rOk.files), 'files 必须是数组');
+  const defaultPreview = await verify.runScript({ kind: 'r', code: 'cat("hello-from-r\\n")\nwriteLines("done", "out.txt")' });
+  check('默认策略下只返回预览、不执行', () => {
+    eq(defaultPreview.preview, true, 'preview');
+    eq(defaultPreview.ok, false, 'ok');
+    eq(defaultPreview.blocked, false, 'blocked');
+    eq(defaultPreview.reason, 'exec_disabled', 'reason');
+    assert(/^[0-9a-f]{64}$/.test(String(defaultPreview.previewHash)), `previewHash 应是 sha256：${defaultPreview.previewHash}`);
+    assert(String(defaultPreview.script.excerpt).includes('writeLines'), 'excerpt 应包含脚本内容');
+    eq(defaultPreview.script.truncated, false, 'truncated');
+    eq(defaultPreview.violations.length, 0, '安全脚本不应有 violations');
+    eq(defaultPreview.policy.enabled, false, 'policy.enabled');
   });
-  check('R 脚本执行后列出新增文件', () => {
-    assert(rOk.files.some((f) => f.path === 'out.txt'), `files 里没有 out.txt：${JSON.stringify(rOk.files)}`);
-    assert(rOk.files.every((f) => typeof f.bytes === 'number' && typeof f.mtime === 'string'), 'files 元素须含 bytes/mtime');
-  });
-  check('runScript 返回 command/durationMs', () => {
-    assert(typeof rOk.command === 'string' && rOk.command.length > 0, 'command 为空');
-    assert(Number.isFinite(rOk.durationMs) && rOk.durationMs >= 0, 'durationMs 非法');
+  check('预览不创建执行目录', () => {
+    assert(!fs.existsSync(runRoot), `预览不应创建 ${runRoot}`);
   });
 
-  const pyOk = await verify.runScript({ kind: 'python', workdir: runDir, code: 'print("hello-from-py")' });
-  await checkAsync('Python 脚本能跑起来', () => {
-    assert(pyOk.ok === true, `期望 ok=true，实际 ${JSON.stringify(pyOk).slice(0, 300)}`);
-    assert(String(pyOk.stdout).includes('hello-from-py'), `stdout 未包含标记：${pyOk.stdout}`);
-    assert(/\.py$/.test(String(pyOk.script)), `脚本扩展名应为 .py：${pyOk.script}`);
+  const defaultConfirm = await verify.runScript({
+    kind: 'r',
+    code: 'cat("hello-from-r\\n")\nwriteLines("done", "out.txt")',
+    confirm: true,
+    previewHash: defaultPreview.previewHash,
+  });
+  check('默认策略下带确认也被拒（exec_disabled，含开启指引）', () => {
+    eq(defaultConfirm.ok, false, 'ok');
+    eq(defaultConfirm.blocked, true, 'blocked');
+    eq(defaultConfirm.reason, 'exec_disabled', 'reason');
+    assert(String(defaultConfirm.hint).includes('run.enabled'), `hint 应给出开启位置：${defaultConfirm.hint}`);
   });
 
-  const blocked = await verify.runScript({ kind: 'r', workdir: runDir, code: 'install.packages("ggplot2")' });
-  await checkAsync('安装包的代码被安全闸拦下', () => {
-    eq(blocked.ok, false, 'ok');
-    eq(blocked.blocked, true, 'blocked');
-    eq(blocked.reason, 'dangerous_code', 'reason');
-    assert(String(blocked.hint).includes('install.packages'), `hint 未说明命中规则：${blocked.hint}`);
+  const enabledPreview = await verifyEnabled.runScript({
+    kind: 'r',
+    code: 'cat("hello-from-r\\n")\nwriteLines("done", "out.txt")',
+  });
+  check('开启执行后预览带策略摘要且仍不执行', () => {
+    eq(enabledPreview.preview, true, 'preview');
+    eq(enabledPreview.blocked, false, 'blocked');
+    eq(enabledPreview.policy.enabled, true, 'policy.enabled');
+    eq(enabledPreview.policy.allowNetwork, false, 'policy.allowNetwork');
+    eq(enabledPreview.policy.workdir, '.dsh-research/run', 'policy.workdir');
+    eq(enabledPreview.policy.timeoutMs, 120000, 'policy.timeoutMs');
+    eq(enabledPreview.policy.maxOutputBytes, 1048576, 'policy.maxOutputBytes');
   });
 
-  const outside = await verify.runScript({ kind: 'r', workdir: 'C:\\Windows', code: 'cat("x")' });
-  await checkAsync('workdir 越界被拦下', () => {
-    eq(outside.ok, false, 'ok');
-    eq(outside.blocked, true, 'blocked');
-    eq(outside.reason, 'workdir_outside', 'reason');
+  const mismatch = await verifyEnabled.runScript({
+    kind: 'r',
+    code: 'cat("hello-from-r\\n")',
+    confirm: true,
+    previewHash: 'deadbeef',
+  });
+  check('预览后哈希不一致被拒（preview_mismatch）', () => {
+    eq(mismatch.ok, false, 'ok');
+    eq(mismatch.blocked, true, 'blocked');
+    eq(mismatch.reason, 'preview_mismatch', 'reason');
   });
 
-  const missingRuntime = await verifyNoRuntime.runScript({ kind: 'r', workdir: runDir, code: 'cat("x")' });
-  await checkAsync('解释器缺失时返回 runtime_missing 而不是抛异常', () => {
-    eq(missingRuntime.ok, false, 'ok');
-    eq(missingRuntime.error, 'runtime_missing', 'error');
-    assert(Array.isArray(missingRuntime.tried) && missingRuntime.tried.length >= 1, 'tried 必须列出探测过的路径');
-    assert(String(missingRuntime.tried[0]).includes('no-such-Rscript.exe'), `tried 内容不对：${JSON.stringify(missingRuntime.tried)}`);
+  if (rPath) {
+    const rOk = await verifyEnabled.runScript({
+      kind: 'r',
+      code: 'cat("hello-from-r\\n")\nwriteLines("done", "out.txt")',
+      confirm: true,
+      previewHash: enabledPreview.previewHash,
+    });
+    await checkAsync('R 脚本确认后真的执行并报告 stdout/产物', () => {
+      assert(rOk.ok === true, `期望 ok=true，实际 ${JSON.stringify(rOk).slice(0, 300)}`);
+      eq(rOk.exitCode, 0, 'exitCode');
+      eq(rOk.kind, 'r', 'kind');
+      assert(String(rOk.stdout).includes('hello-from-r'), `stdout 未包含标记：${rOk.stdout}`);
+      assert(/\.R$/.test(String(rOk.script)), `脚本扩展名应为 .R：${rOk.script}`);
+      assert(String(rOk.workdir).startsWith(runRoot), `workdir 必须落在 ${runRoot} 下：${rOk.workdir}`);
+      eq(rOk.previewHash, enabledPreview.previewHash, 'previewHash');
+      assert(Array.isArray(rOk.files), 'files 必须是数组');
+    });
+    check('R 脚本执行后列出新增文件', () => {
+      assert(rOk.files.some((f) => f.path === 'out.txt'), `files 里没有 out.txt：${JSON.stringify(rOk.files)}`);
+      assert(rOk.files.every((f) => typeof f.bytes === 'number' && typeof f.mtime === 'string'), 'files 元素须含 bytes/mtime');
+    });
+    check('runScript 返回 command/durationMs', () => {
+      assert(typeof rOk.command === 'string' && rOk.command.length > 0, 'command 为空');
+      assert(Number.isFinite(rOk.durationMs) && rOk.durationMs >= 0, 'durationMs 非法');
+    });
+  } else {
+    console.log('  skip R 真执行用例：未探测到 Rscript（可在 data/exec-policy.json 的 runtimes.r 里配置）');
+  }
+
+  const pyPreview = await verifyEnabled.runScript({ kind: 'python', code: 'print("hello-from-py")' });
+  if (pyPath) {
+    const pyOk = await verifyEnabled.runScript({
+      kind: 'python',
+      code: 'print("hello-from-py")',
+      confirm: true,
+      previewHash: pyPreview.previewHash,
+    });
+    await checkAsync('Python 脚本确认后能跑起来', () => {
+      assert(pyOk.ok === true, `期望 ok=true，实际 ${JSON.stringify(pyOk).slice(0, 300)}`);
+      assert(String(pyOk.stdout).includes('hello-from-py'), `stdout 未包含标记：${pyOk.stdout}`);
+      assert(/\.py$/.test(String(pyOk.script)), `脚本扩展名应为 .py：${pyOk.script}`);
+    });
+  } else {
+    console.log('  skip Python 真执行用例：未探测到 python（可在 data/exec-policy.json 的 runtimes.python 里配置）');
+  }
+
+  const installPreview = await verifyEnabled.runScript({ kind: 'r', code: 'install.packages("ggplot2")' });
+  check('安装包的代码在预览阶段即报 violations', () => {
+    eq(installPreview.ok, false, 'ok');
+    eq(installPreview.blocked, true, 'blocked');
+    eq(installPreview.reason, 'policy_violation', 'reason');
+    assert(installPreview.violations.some((v) => v.kind === 'permanent_deny'), '应命中 permanent_deny');
+  });
+  const installConfirm = await verifyEnabled.runScript({
+    kind: 'r',
+    code: 'install.packages("ggplot2")',
+    confirm: true,
+    previewHash: installPreview.previewHash,
+  });
+  await checkAsync('安装类代码即使确认也不执行', () => {
+    eq(installConfirm.ok, false, 'ok');
+    eq(installConfirm.blocked, true, 'blocked');
+    eq(installConfirm.reason, 'policy_violation', 'reason');
   });
 
-  const timedOut = await verify.runScript({ kind: 'r', workdir: runDir, code: 'Sys.sleep(3)', timeoutMs: 1000 });
-  await checkAsync('超时被标记 timedOut 且不挂死', () => {
-    eq(timedOut.ok, false, 'ok');
-    eq(timedOut.timedOut, true, 'timedOut');
-    assert(Number(timedOut.durationMs) < 5000, `耗时过长：${timedOut.durationMs}ms`);
+  const absoluteWorkdir = await verifyEnabled.runScript({ kind: 'r', code: 'cat("x")', workdir: 'C:\\Windows' });
+  check('workdir 传绝对路径被拦（workdir_invalid）', () => {
+    eq(absoluteWorkdir.blocked, true, 'blocked');
+    assert(absoluteWorkdir.violations.some((v) => v.kind === 'workdir_invalid'), '应命中 workdir_invalid');
+  });
+  const dotdotWorkdir = await verifyEnabled.runScript({ kind: 'r', code: 'cat("x")', workdir: '../outside' });
+  check('workdir 含 .. 被拦（workdir_invalid）', () => {
+    eq(dotdotWorkdir.blocked, true, 'blocked');
+    assert(dotdotWorkdir.violations.some((v) => v.kind === 'workdir_invalid'), '应命中 workdir_invalid');
   });
 
-  const badKind = await verify.runScript({ kind: 'julia', workdir: runDir, code: 'x' });
-  await checkAsync('未知 kind 返回 bad_kind', () => {
+  const noRuntimePreview = await verifyNoRuntime.runScript({ kind: 'r', code: 'cat("x")' });
+  const noRuntime = await verifyNoRuntime.runScript({
+    kind: 'r',
+    code: 'cat("x")',
+    confirm: true,
+    previewHash: noRuntimePreview.previewHash,
+  });
+  await checkAsync('解释器缺失返回 runtime_missing（tried + 三条 hint），不抛异常', () => {
+    eq(noRuntime.ok, false, 'ok');
+    eq(noRuntime.reason, 'runtime_missing', 'reason');
+    assert(Array.isArray(noRuntime.tried) && noRuntime.tried.length >= 1, 'tried 必须列出探测过的路径');
+    assert(String(noRuntime.tried[0]).includes('no-such-Rscript.exe'), `tried 内容不对：${JSON.stringify(noRuntime.tried)}`);
+    assert(Array.isArray(noRuntime.hints) && noRuntime.hints.length === 3, 'hints 必须是三条可执行建议');
+  });
+
+  if (rPath) {
+    const timeoutPreview = await verifyEnabled.runScript({ kind: 'r', code: 'Sys.sleep(3)', timeoutMs: 1000 });
+    const timedOut = await verifyEnabled.runScript({
+      kind: 'r',
+      code: 'Sys.sleep(3)',
+      timeoutMs: 1000,
+      confirm: true,
+      previewHash: timeoutPreview.previewHash,
+    });
+    await checkAsync('超时被标记 timedOut 且不挂死', () => {
+      eq(timedOut.ok, false, 'ok');
+      eq(timedOut.timedOut, true, 'timedOut');
+      assert(Number(timedOut.durationMs) < 5000, `耗时过长：${timedOut.durationMs}ms`);
+    });
+  } else {
+    console.log('  skip 超时用例：未探测到 Rscript');
+  }
+
+  const badKind = await verify.runScript({ kind: 'julia', code: 'x' });
+  check('未知 kind 返回 bad_kind', () => {
     eq(badKind.ok, false, 'ok');
-    eq(badKind.error, 'bad_kind', 'error');
+    eq(badKind.reason, 'bad_kind', 'reason');
+  });
+  const emptyCode = await verify.runScript({ kind: 'r', code: '   ' });
+  check('空 code 返回 empty_code', () => {
+    eq(emptyCode.ok, false, 'ok');
+    eq(emptyCode.reason, 'empty_code', 'reason');
+  });
+
+  // ---------------- 安全绕过用例（评审 DEF-02/03 的回归测试） ----------------
+  console.log('\n[security]');
+
+  async function securityCase(c) {
+    const prev = await verifyEnabled.runScript({ kind: c.kind, code: c.code });
+    assert(prev.preview === true, '应返回预览');
+    assert(prev.blocked === true, `预期被拦截，实际 blocked=${prev.blocked} violations=${JSON.stringify(prev.violations)}`);
+    const kinds = prev.violations.map((v) => v.kind);
+    for (const expect of c.expect) assert(kinds.includes(expect), `缺少 ${expect}，实际 ${kinds.join(',')}`);
+    const res = await verifyEnabled.runScript({ kind: c.kind, code: c.code, confirm: true, previewHash: prev.previewHash });
+    assert(res.blocked === true, `确认阶段应仍被拒：${JSON.stringify(res).slice(0, 200)}`);
+    eq(res.reason, 'policy_violation', 'reason');
+    assert(!res.script, '被策略拒绝时不应生成脚本文件');
+  }
+
+  const securityCases = [
+    { name: 'R system() 外联（curl）', kind: 'r', code: 'system("curl http://example.com/a > out.txt")', expect: ['network'] },
+    { name: 'R system2() 起子进程', kind: 'r', code: 'system2("bash", c("-c", "id"))', expect: ['network'] },
+    { name: 'R download.file() 下载', kind: 'r', code: 'download.file("http://example.com/x.csv", "x.csv")', expect: ['network'] },
+    { name: 'R url() 打开网络连接', kind: 'r', code: 'con <- url("http://example.com/data")', expect: ['network'] },
+    { name: 'R 白名单外的包（dplyr）', kind: 'r', code: 'library(dplyr)', expect: ['package_not_allowed'] },
+    { name: 'R pkg:: 形式的白名单外包', kind: 'r', code: 'readr::read_csv("x.csv")', expect: ['package_not_allowed'] },
+    { name: 'Python os.system 外联', kind: 'python', code: 'import os\nos.system("curl http://example.com")', expect: ['network', 'package_not_allowed'] },
+    { name: 'Python requests 外联', kind: 'python', code: 'import requests\nrequests.get("http://example.com")', expect: ['network', 'package_not_allowed'] },
+    { name: 'Python subprocess 起子进程', kind: 'python', code: 'import subprocess\nsubprocess.run(["id"])', expect: ['network', 'package_not_allowed'] },
+    { name: 'Python urllib 外联', kind: 'python', code: 'from urllib.request import urlopen\nurlopen("http://example.com")', expect: ['network', 'package_not_allowed'] },
+    { name: 'Python socket 直连', kind: 'python', code: 'import socket\nsocket.socket()', expect: ['network', 'package_not_allowed'] },
+    { name: '写 ~/.ssh/authorized_keys', kind: 'r', code: 'writeLines("ssh-rsa AAAA", "~/.ssh/authorized_keys")', expect: ['write_path_outside'] },
+    { name: '写绝对路径 .Rprofile', kind: 'r', code: 'saveRDS(1, "C:/Users/someone/.Rprofile")', expect: ['write_path_outside'] },
+    { name: '用 .. 越界写', kind: 'r', code: 'write.csv(df, "../escape.csv")', expect: ['write_path_outside'] },
+    { name: 'Python 绝对路径写文件', kind: 'python', code: 'open("C:/Windows/evil.txt", "w").write("x")', expect: ['write_path_outside'] },
+    { name: 'Pip 安装（永久拒绝）', kind: 'python', code: 'import os\nos.system("pip install requests")', expect: ['permanent_deny'] },
+    { name: 'PHI 路径关键词（患者）', kind: 'r', code: 'write.csv(df, "patients-out.csv")', expect: ['phi_pattern'] },
+    { name: 'PHI 路径关键词（身份证）', kind: 'r', code: 'x <- read.csv("身份证号.csv")', expect: ['phi_pattern'] },
+    { name: 'R 动态拼接 install.packages 也被拦', kind: 'r', code: 'pkgs <- "ggplot2"\ninstall.packages(pkgs)', expect: ['permanent_deny'] },
+  ];
+
+  for (const c of securityCases) {
+    // eslint-disable-next-line no-await-in-loop
+    await checkAsync(c.name, () => securityCase(c));
+  }
+
+  const allowedPreview = await verifyEnabled.runScript({ kind: 'r', code: 'library(stats)\ncat(mean(c(1, 2, 3)), "\\n")' });
+  check('白名单内包 + 相对路径写不误报', () => {
+    eq(allowedPreview.blocked, false, 'blocked');
+    eq(allowedPreview.violations.length, 0, `不应有 violations：${JSON.stringify(allowedPreview.violations)}`);
+  });
+  const writeRelative = await verifyEnabled.runScript({ kind: 'r', code: 'write.csv(data.frame(a = 1), "out/table.csv")' });
+  check('相对路径写文件不误报', () => {
+    eq(writeRelative.blocked, false, 'blocked');
+    eq(writeRelative.violations.length, 0, `不应有 violations：${JSON.stringify(writeRelative.violations)}`);
+  });
+
+  const openNetworkPreview = await verifyOpenNetwork.runScript({ kind: 'r', code: 'system("echo hi")' });
+  check('allowNetwork:true 时网络类调用不再拦（策略可配）', () => {
+    eq(openNetworkPreview.blocked, false, 'blocked');
+    eq(openNetworkPreview.violations.length, 0, `allowNetwork 打开后不应有 violations：${JSON.stringify(openNetworkPreview.violations)}`);
+  });
+
+  check('detectRuntimes() 导出的探测结果结构正确', () => {
+    const detected = detectRuntimes();
+    for (const kind of ['r', 'python']) {
+      const rt = detected[kind];
+      assert(rt && typeof rt === 'object', `${kind} 结果缺失`);
+      assert(typeof rt.ok === 'boolean', `${kind}.ok 必须是布尔`);
+      if (rt.ok) assert(typeof rt.command === 'string' && rt.command.length > 0, `${kind}.command 缺失`);
+      else assert(Array.isArray(rt.hints) && rt.hints.length === 3, `${kind}.hints 必须是三条`);
+    }
+    const viaFactory = verify.detectRuntimes();
+    assert(viaFactory && typeof viaFactory.r.ok === 'boolean', '工厂上的 detectRuntimes 应可用');
+  });
+  check('策略可读取且默认关闭', () => {
+    const policy = verify.policy();
+    eq(policy.run.enabled, false, 'policy.run.enabled');
+    eq(policy.run.allowNetwork, false, 'policy.run.allowNetwork');
+    eq(policy.runtimes.r, null, 'policy.runtimes.r');
+    assert(Array.isArray(policy.allowedPackages.r) && policy.allowedPackages.r.includes('stats'), 'allowedPackages.r 应含 stats');
+    assert(Array.isArray(policy.denyPathPatterns) && policy.denyPathPatterns.includes('患者'), 'denyPathPatterns 应含 患者');
   });
 
   // ---------------- checkData ----------------
@@ -646,6 +865,13 @@ async function main() {
   });
 
   // ---------------- 汇总 ----------------
+  // 执行用例会在包根写 .dsh-research/run/<runId>/：测试结束清掉，别把测试产物留在仓库里。
+  // Windows 上被超时用例杀掉的解释器可能还短暂持有句柄（rm 报 EPERM），所以带重试且不因此判失败。
+  try {
+    fs.rmSync(runRoot, { recursive: true, force: true, maxRetries: 10, retryDelay: 300 });
+  } catch (err) {
+    console.log(`  warn 清理 ${runRoot} 失败：${err.code || err.message}（下次运行会先清）`);
+  }
   console.log(`\nverify: ${passed} passed, ${failed} failed`);
   if (failed > 0) {
     console.log('失败用例：');

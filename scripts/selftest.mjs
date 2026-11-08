@@ -5,7 +5,7 @@
  * 不安装、不启动宿主：用假的 ctx 调用 apply()，验证
  *   1) 入口契约（name / inject / apply / Config）
  *   2) 9 份融合技能是否以「内联 content 字符串」注册（DSH runtime provider 的硬要求）
- *   3) 12 个工具是否符合 ToolDefinition 形态，并逐个真实执行一次
+ *   3) 15 个工具是否符合 ToolDefinition 形态，并逐个真实执行一次
  *   4) 系统提示策略段是否注入且含关键铁律
  *   5) 能力卡 / 门禁 / 知识库是否可读
  *
@@ -126,7 +126,7 @@ async function main() {
   check('导出 name', mod.name === 'dsh-research-suite', `实际 ${mod.name}`);
   check('导出 inject 含 skills', Array.isArray(mod.inject) && mod.inject.includes('skills'), JSON.stringify(mod.inject));
   // 0.2.2-rc.1 实测：tools 服务在 apply 时可能未就绪，必须写进 inject 让 cordis 等它，
-  // 否则 7 个研究工具会静默丢失（技能和策略段却都正常）。
+  // 否则 全部研究工具会静默丢失（技能和策略段却都正常）。
   check('导出 inject 含 tools（0.2.2 工具丢失防线）', Array.isArray(mod.inject) && mod.inject.includes('tools'), JSON.stringify(mod.inject));
   check('导出 apply 函数', typeof mod.apply === 'function');
 
@@ -187,7 +187,7 @@ async function main() {
   const badBase = record.skills.filter((s) => s.resourceBase?.kind !== 'directory' || typeof s.resourceBase?.path !== 'string');
   check('技能 resourceBase 为目录型', badBase.length === 0, badBase.map((s) => s.name).join(','));
 
-  check('工具注册数 = 12', record.tools.length === 12, `注册 ${record.tools.length}`);
+  check('工具注册数 = 15', record.tools.length === 15, `注册 ${record.tools.length}`);
   check('策略段注册数 = 1', record.sections.length === 1, `注册 ${record.sections.length}`);
   check('注册了 ctx.effect 清理钩子', record.effects.length >= 1);
 
@@ -214,7 +214,7 @@ async function main() {
       bad(`延迟注入回调（${deps.join(',')}）未抛错`, err.message);
     }
   }
-  check('延迟注入后工具数 = 12', late.record.tools.length === 12, `注册 ${late.record.tools.length}`);
+  check('延迟注入后工具数 = 15', late.record.tools.length === 15, `注册 ${late.record.tools.length}`);
   check('延迟注入后策略段数 = 1', late.record.sections.length === 1, `注册 ${late.record.sections.length}`);
 
   // ---------- 3) 工具形态 ----------
@@ -232,7 +232,7 @@ async function main() {
     if (tool.output?.schema?.type !== 'string') bad(`工具 ${tool.name} output.schema 不是 string`);
     if (typeof tool.execute !== 'function') bad(`工具 ${tool.name} execute 不是函数`);
   }
-  ok(`7 个工具形态检查完成（${[...seen].join('、')}）`);
+  ok(`15 个工具形态检查完成（${[...seen].join('、')}）`);
 
   const expectTools = [
   'research_playbook',
@@ -247,9 +247,12 @@ async function main() {
   'research_output_check',
   'research_doi_check',
   'research_ref_audit',
+  'research_project',
+  'research_docx',
+  'research_litsearch',
 ];
   const missingTools = expectTools.filter((n) => !seen.has(n));
-  check('7 个约定工具全部存在', missingTools.length === 0, missingTools.join(','));
+  check('15 个约定工具全部存在', missingTools.length === 0, missingTools.join(','));
 
   // render 契约
   const sampleTool = record.tools[0];
@@ -313,7 +316,7 @@ async function main() {
     check('策略段不含 v1 遗留说法（research_route / 任务原型 Ax）', !/research_route|任务原型/.test(promptText));
     // 装载自检行：0.2.2-rc.1 工具丢失事故的可视化防线（模型每轮都能看到工具到底注册上没有）
     check('策略段含装载自检行', /装载自检：技能 \d+ 份｜工具 \d+ 个/.test(promptText));
-    check('自检行报告工具已就绪', /工具 12 个（`research_\*` 全部就绪）/.test(promptText));
+    check('自检行报告工具已就绪', /工具 1[5-9] 个（`research_\*` 全部就绪）/.test(promptText));
     if (typeof record.sections[0].order !== 'number') bad('策略段 order 不是数字');
     else ok('策略段 order', String(record.sections[0].order));
   }

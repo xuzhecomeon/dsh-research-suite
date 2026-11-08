@@ -2,36 +2,75 @@
   "domain": "slides",
   "label": "科研幻灯与汇报",
   "skill": "research-slides",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "summary": "把研究材料变成能讲、能看、能过评审的可编辑 .pptx：组会文献汇报、会议与答辩、母版与视觉统一、论文图重出图、备注台词与配速、脚本化批量出片、网页型演示的取舍、三方一致性对账。本域只交 .pptx 与配套讲稿，不交 .md 大纲与单页海报（转 figures 域），不做数据重新分析（转 stats 域），不改论文正文（转 writing 域）。全域共用一组硬阈值：中文微软雅黑、英文 Arial；页面标题 28pt、正文 16pt、卡片与表格 12pt、图注 11pt、来源注 10pt；关键数据纯红 #FF0000 加粗且全篇 ≤5 处；备注按 200～210 字/分钟配速；嵌图 ≥300 DPI 且禁红绿对比。",
   "capabilities": [
     {
       "id": "slides.journal-club",
       "label": "组会与文献汇报幻灯（中文讲给别人听）",
       "summary": "接一篇论文的 PDF 或读后笔记，交一份 17～20 页、按「主文献引入→背景知识→前沿扩展」讲给同门听的中文 .pptx，以及一张术语与数字对账表。",
-      "triggers": ["组会汇报", "文献汇报PPT", "讲一篇论文", "journal club", "读书报告幻灯", "开题报告PPT"],
-      "inputs": ["论文 PDF 或已整理的读后笔记", "听众构成与汇报时长", "实验室母版 .pptx（可选）", "导师偏好与期刊要求（可选）"],
+      "triggers": [
+        "组会汇报",
+        "文献汇报PPT",
+        "讲一篇论文",
+        "journal club",
+        "读书报告幻灯",
+        "开题报告PPT"
+      ],
+      "inputs": [
+        "论文 PDF 或已整理的读后笔记",
+        "听众构成与汇报时长",
+        "实验室母版 .pptx（可选）",
+        "导师偏好与期刊要求（可选）"
+      ],
       "members": [
         {
           "skill": "论文汇报PPT制作",
           "verdict": "主用",
-          "best_at": ["17～20 页三段式页序，卡片四组色与 16pt 正文逐条给全", "母版可续用：保留原封面与结尾页，只替换内容", "Step 0 先问时长、听众、母版，避免做完再返工"],
-          "limits": ["页序按社科质性论文设计，理工科图证链要另调段落权重", "只有脚本出片路径，改数据需重跑，无增量更新接口"],
-          "take": ["三段式页序落进第 4 步骨架", "母版封面与结尾页原样保留的收口动作进第 6 步"]
+          "best_at": [
+            "17～20 页三段式页序，卡片四组色与 16pt 正文逐条给全",
+            "母版可续用：保留原封面与结尾页，只替换内容",
+            "Step 0 先问时长、听众、母版，避免做完再返工"
+          ],
+          "limits": [
+            "页序按社科质性论文设计，理工科图证链要另调段落权重",
+            "只有脚本出片路径，改数据需重跑，无增量更新接口"
+          ],
+          "take": [
+            "三段式页序落进第 4 步骨架",
+            "母版封面与结尾页原样保留的收口动作进第 6 步"
+          ]
         },
         {
           "skill": "nature-paper2ppt",
           "verdict": "补强",
-          "best_at": ["按 paper_type 六类选叙事弧，先声明类型便于廉价纠正", "Terminology Ledger 锁跨页术语、基因名与数据集名"],
-          "limits": ["只给叙事骨架，不给字号、栅格与卡片色值", "无母版继承细节，结尾页处理要自己补"],
-          "take": ["第 2 步先判类型再定逻辑链", "术语账本作为第 6 步对账表的一列"]
+          "best_at": [
+            "按 paper_type 六类选叙事弧，先声明类型便于廉价纠正",
+            "Terminology Ledger 锁跨页术语、基因名与数据集名"
+          ],
+          "limits": [
+            "只给叙事骨架，不给字号、栅格与卡片色值",
+            "无母版继承细节，结尾页处理要自己补"
+          ],
+          "take": [
+            "第 2 步先判类型再定逻辑链",
+            "术语账本作为第 6 步对账表的一列"
+          ]
         },
         {
           "skill": "ppt-implement",
           "verdict": "补强",
-          "best_at": ["素材分五层检索，六维度 material.md 落盘", "章节规划走金字塔原理并做 MECE 校验"],
-          "limits": ["页序面向通用题材，不是论文证据链", "页图靠图像生成，学术数据图不能用"],
-          "take": ["五层检索只补背景与前沿两段，不碰结果数据"]
+          "best_at": [
+            "素材分五层检索，六维度 material.md 落盘",
+            "章节规划走金字塔原理并做 MECE 校验"
+          ],
+          "limits": [
+            "页序面向通用题材，不是论文证据链",
+            "页图靠图像生成，学术数据图不能用"
+          ],
+          "take": [
+            "五层检索只补背景与前沿两段，不碰结果数据"
+          ]
         }
       ],
       "protocol": [
@@ -99,43 +138,97 @@
         "单页正文 ≤120 字，逐页脚本统计超限页数＝0",
         "术语与数字对账表覆盖率 100%，来源注与图注逐页在位"
       ],
-      "outputs": ["组会汇报 .pptx（17～20 页，含母版与版式说明）", "术语与数字对账表（md 两列）"],
-      "kb": ["论文汇报PPT制作", "nature-paper2ppt", "ppt-implement"]
+      "outputs": [
+        "组会汇报 .pptx（17～20 页，含母版与版式说明）",
+        "术语与数字对账表（md 两列）"
+      ],
+      "kb": [
+        "论文汇报PPT制作",
+        "nature-paper2ppt",
+        "ppt-implement"
+      ]
     },
     {
       "id": "slides.conference-defense",
       "label": "会议报告与学位答辩（逻辑链＋结论前置）",
       "summary": "接已成型的研究材料与 talk 类型时长，交一份页数受时长约束、每页标题即结论、附逐页时间轴讲稿的会议 oral／spotlight／学位答辩 .pptx。",
-      "triggers": ["学术会议报告", "oral 汇报", "学位答辩PPT", "预答辩", "课题组 seminar", "conference talk"],
-      "inputs": ["已成型材料（论文、结果图、实验记录）", "talk 类型与分钟数", "会议或学校模板（可选）", "是否需要备份页"],
+      "triggers": [
+        "学术会议报告",
+        "oral 汇报",
+        "学位答辩PPT",
+        "预答辩",
+        "课题组 seminar",
+        "conference talk"
+      ],
+      "inputs": [
+        "已成型材料（论文、结果图、实验记录）",
+        "talk 类型与分钟数",
+        "会议或学校模板（可选）",
+        "是否需要备份页"
+      ],
       "members": [
         {
           "skill": "aris-paper-slides",
           "verdict": "主用",
-          "best_at": ["venue 配色表含 NeurIPS／ICML／ICLR／CVPR 四套", "页数区间表：oral 15～22 页、spotlight 8～12 页"],
-          "limits": ["Beamer 编译链，需 latexmk 与 CJK 引擎", "不继承学校母版，版式与院系规范可能冲突"],
-          "take": ["venue 配色与页数区间进第 1 步", "逐页时间轴讲稿格式进第 5 步"]
+          "best_at": [
+            "venue 配色表含 NeurIPS／ICML／ICLR／CVPR 四套",
+            "页数区间表：oral 15～22 页、spotlight 8～12 页"
+          ],
+          "limits": [
+            "Beamer 编译链，需 latexmk 与 CJK 引擎",
+            "不继承学校母版，版式与院系规范可能冲突"
+          ],
+          "take": [
+            "venue 配色与页数区间进第 1 步",
+            "逐页时间轴讲稿格式进第 5 步"
+          ]
         },
         {
           "skill": "latex-defense-zh",
           "verdict": "补强",
-          "best_at": ["章前目录页高亮当前章，答辩导航不断线", "21 个质量门码覆盖溢出、数字溯源与强调色上限"],
-          "limits": ["只吃 XeLaTeX 学位论文仓，无仓不可用", "Beamer 出 PDF，要 .pptx 得再转一次"],
-          "take": ["章前目录与数字溯源门进第 4 步", "溢出修复顺序：删字→拆页→换版式→缩图"]
+          "best_at": [
+            "章前目录页高亮当前章，答辩导航不断线",
+            "21 个质量门码覆盖溢出、数字溯源与强调色上限"
+          ],
+          "limits": [
+            "只吃 XeLaTeX 学位论文仓，无仓不可用",
+            "Beamer 出 PDF，要 .pptx 得再转一次"
+          ],
+          "take": [
+            "章前目录与数字溯源门进第 4 步",
+            "溢出修复顺序：删字→拆页→换版式→缩图"
+          ]
         },
         {
           "skill": "arf-explorable-pptx",
           "verdict": "补强",
-          "best_at": ["按分钟定帧数：12 分钟 8～10 帧、45 分钟 25～35 帧", "check_deck.py --minutes 机械核对页数是否超配"],
-          "limits": ["需 PowerPoint 与 Python 构建链", "一帧一概念节奏，与信息密集的评审习惯冲突"],
-          "take": ["分钟→帧数表用作页数复核", "溢出只许拆页，不许缩字号"]
+          "best_at": [
+            "按分钟定帧数：12 分钟 8～10 帧、45 分钟 25～35 帧",
+            "check_deck.py --minutes 机械核对页数是否超配"
+          ],
+          "limits": [
+            "需 PowerPoint 与 Python 构建链",
+            "一帧一概念节奏，与信息密集的评审习惯冲突"
+          ],
+          "take": [
+            "分钟→帧数表用作页数复核",
+            "溢出只许拆页，不许缩字号"
+          ]
         },
         {
           "skill": "scientific-slides",
           "verdict": "兜底",
-          "best_at": ["时长预算固定：结果 40～50%、方法 15～20%", "排练检查点 3-4／7-8／12-13 分钟"],
-          "limits": ["只给设计清单与规则，不给现成模板", "无中文母版与院系规范支持"],
-          "take": ["时长预算与排练检查点进第 6 步"]
+          "best_at": [
+            "时长预算固定：结果 40～50%、方法 15～20%",
+            "排练检查点 3-4／7-8／12-13 分钟"
+          ],
+          "limits": [
+            "只给设计清单与规则，不给现成模板",
+            "无中文母版与院系规范支持"
+          ],
+          "take": [
+            "时长预算与排练检查点进第 6 步"
+          ]
         }
       ],
       "protocol": [
@@ -203,50 +296,111 @@
         "排练实测时长在目标 ±10% 以内",
         "备份页页码独立（A1…），不计入正片页数"
       ],
-      "outputs": ["会议或答辩 .pptx（附页数区间核对记录）", "逐页时间轴讲稿 md", "备份页清单与 5 问预答"],
-      "kb": ["aris-paper-slides", "latex-defense-zh", "arf-explorable-pptx", "scientific-slides"]
+      "outputs": [
+        "会议或答辩 .pptx（附页数区间核对记录）",
+        "逐页时间轴讲稿 md",
+        "备份页清单与 5 问预答"
+      ],
+      "kb": [
+        "aris-paper-slides",
+        "latex-defense-zh",
+        "arf-explorable-pptx",
+        "scientific-slides"
+      ]
     },
     {
       "id": "slides.deck-system",
       "label": "母版、版式与视觉统一",
       "summary": "接一份内容已定但各页排版不一的幻灯，交一份字号、色板、栅格、页脚四层统一的 .pptx，附一页版式说明写清每类页型用哪个版式。",
-      "triggers": ["统一PPT风格", "套母版", "字号不统一", "配色太乱", "版式对齐", "实验室模板"],
-      "inputs": ["待统一的 .pptx 或页面清单", "学校或实验室母版 .pptx（可选）", "品牌或期刊配色约束（可选）"],
+      "triggers": [
+        "统一PPT风格",
+        "套母版",
+        "字号不统一",
+        "配色太乱",
+        "版式对齐",
+        "实验室模板"
+      ],
+      "inputs": [
+        "待统一的 .pptx 或页面清单",
+        "学校或实验室母版 .pptx（可选）",
+        "品牌或期刊配色约束（可选）"
+      ],
       "members": [
         {
           "skill": "workbuddy-pptx",
           "verdict": "主用",
-          "best_at": ["academic 场景给七槽位色板与 px 字号阶梯", "design-principle：60px 内边距、24／32px 两档间距"],
-          "limits": ["upsert-dsl 依赖本地 editor_sdk 服务，离线不可用", "画布按 1280×720px 设计，需换算成英寸"],
-          "take": ["间距两档制与 85% 填充率进第 5 步", "七槽位色板问法进第 1 步"]
+          "best_at": [
+            "academic 场景给七槽位色板与 px 字号阶梯",
+            "design-principle：60px 内边距、24／32px 两档间距"
+          ],
+          "limits": [
+            "upsert-dsl 依赖本地 editor_sdk 服务，离线不可用",
+            "画布按 1280×720px 设计，需换算成英寸"
+          ],
+          "take": [
+            "间距两档制与 85% 填充率进第 5 步",
+            "七槽位色板问法进第 1 步"
+          ]
         },
         {
           "skill": "elegant-ppt-builder",
           "verdict": "补强",
-          "best_at": ["Pillow 预渲染渐变与柔光背景，不是平涂色块", "卡片＝圆角白卡＋顶部强调条＋图标圆盘"],
-          "limits": ["三套主题偏商业风，无学术母版", "纯 python-pptx 布局，无布局 lint"],
-          "take": ["卡片组件规格进母版组件库"]
+          "best_at": [
+            "Pillow 预渲染渐变与柔光背景，不是平涂色块",
+            "卡片＝圆角白卡＋顶部强调条＋图标圆盘"
+          ],
+          "limits": [
+            "三套主题偏商业风，无学术母版",
+            "纯 python-pptx 布局，无布局 lint"
+          ],
+          "take": [
+            "卡片组件规格进母版组件库"
+          ]
         },
         {
           "skill": "pptx",
           "verdict": "补强",
-          "best_at": ["三禁清单：标题下横线、居中正文、默认 Office 蓝", "markitdown 抽文本加转图目检的闭环"],
-          "limits": ["不提供现成母版文件", "pptxgenjs 走 JS 链，与 python 链混用易乱"],
-          "take": ["三禁与转图目检进第 6 步与质量闸"]
+          "best_at": [
+            "三禁清单：标题下横线、居中正文、默认 Office 蓝",
+            "markitdown 抽文本加转图目检的闭环"
+          ],
+          "limits": [
+            "不提供现成母版文件",
+            "pptxgenjs 走 JS 链，与 python 链混用易乱"
+          ],
+          "take": [
+            "三禁与转图目检进第 6 步与质量闸"
+          ]
         },
         {
           "skill": "论文汇报PPT制作",
           "verdict": "补强",
-          "best_at": ["五档字号 28/16/12/11/10 的原始出处", "四组浅底深字卡片色值可直接抄"],
-          "limits": ["标题色只给学术蓝一种", "无栅格与间距规则，只有字号与色值"],
-          "take": ["字号五档与四组卡片色进第 3～4 步"]
+          "best_at": [
+            "五档字号 28/16/12/11/10 的原始出处",
+            "四组浅底深字卡片色值可直接抄"
+          ],
+          "limits": [
+            "标题色只给学术蓝一种",
+            "无栅格与间距规则，只有字号与色值"
+          ],
+          "take": [
+            "字号五档与四组卡片色进第 3～4 步"
+          ]
         },
         {
           "skill": "ppt-design-skill",
           "verdict": "兜底",
-          "best_at": ["Theme Lock 把色板字体栅格锁成版本号", "PPTX→PDF→PNG 双门审图口径可借用"],
-          "limits": ["依赖 pptx-designer 库与 PowerShell 渲染", "brief 契约较重，改三页不划算"],
-          "take": ["双门审图口径进第 6 步"]
+          "best_at": [
+            "Theme Lock 把色板字体栅格锁成版本号",
+            "PPTX→PDF→PNG 双门审图口径可借用"
+          ],
+          "limits": [
+            "依赖 pptx-designer 库与 PowerShell 渲染",
+            "brief 契约较重，改三页不划算"
+          ],
+          "take": [
+            "双门审图口径进第 6 步"
+          ]
         }
       ],
       "protocol": [
@@ -314,43 +468,96 @@
         "版心四边距 ≥0.5 英寸；标题下横线、居中正文、默认蓝三禁项命中数＝0",
         "同页字体＋字号＋字重组合 ≤4 种；并列卡顶底差 ≤8px"
       ],
-      "outputs": ["统一后的 .pptx", "一页版式说明（页型→版式、母版改动清单）", "字号色板对照表"],
-      "kb": ["workbuddy-pptx", "elegant-ppt-builder", "pptx", "ppt-design-skill"]
+      "outputs": [
+        "统一后的 .pptx",
+        "一页版式说明（页型→版式、母版改动清单）",
+        "字号色板对照表"
+      ],
+      "kb": [
+        "workbuddy-pptx",
+        "elegant-ppt-builder",
+        "pptx",
+        "ppt-design-skill"
+      ]
     },
     {
       "id": "slides.figure-refit",
       "label": "论文图与表改成幻灯图",
       "summary": "接论文 PDF 里的原始图与表，交一组按幻灯版心重出、图内字号 ≥18pt、一页只讲一句结论的图页与表页，附 DPI 与图号清单。",
-      "triggers": ["论文图放进去看不清", "图字号太小", "重新出图", "表格怎么放", "图太多拆页", "多面板图拆开"],
-      "inputs": ["论文 PDF 或原始图文件", "目标版心尺寸与页数", "原始数据或作图脚本（可选）"],
+      "triggers": [
+        "论文图放进去看不清",
+        "图字号太小",
+        "重新出图",
+        "表格怎么放",
+        "图太多拆页",
+        "多面板图拆开"
+      ],
+      "inputs": [
+        "论文 PDF 或原始图文件",
+        "目标版心尺寸与页数",
+        "原始数据或作图脚本（可选）"
+      ],
       "members": [
         {
           "skill": "scientific-slides",
           "verdict": "主用",
-          "best_at": ["图内字号 ≥18pt 与单页 panel ≤2 的原始判据", "直标替图例、渐进披露、红绿对比禁令"],
-          "limits": ["只给设计与验收规则，不提供出图脚本", "对矢量图的按区域裁剪没有给出方案"],
-          "take": ["18pt 与 panel ≤2 进第 4 步判据", "直标替图例写进图页规范"]
+          "best_at": [
+            "图内字号 ≥18pt 与单页 panel ≤2 的原始判据",
+            "直标替图例、渐进披露、红绿对比禁令"
+          ],
+          "limits": [
+            "只给设计与验收规则，不提供出图脚本",
+            "对矢量图的按区域裁剪没有给出方案"
+          ],
+          "take": [
+            "18pt 与 panel ≤2 进第 4 步判据",
+            "直标替图例写进图页规范"
+          ]
         },
         {
           "skill": "paper-slide-deck",
           "verdict": "补强",
-          "best_at": ["detect-figures 从 PDF 自动检测图区与图注边界", "extract-figure 用 PyMuPDF 按 bbox 抠图并过滤小图"],
-          "limits": ["出图走 Gemini 生成，需 API key 与网络", "整页图像化，文字不可编辑"],
-          "take": ["图区检测与 bbox 抠图进第 3 步"]
+          "best_at": [
+            "detect-figures 从 PDF 自动检测图区与图注边界",
+            "extract-figure 用 PyMuPDF 按 bbox 抠图并过滤小图"
+          ],
+          "limits": [
+            "出图走 Gemini 生成，需 API key 与网络",
+            "整页图像化，文字不可编辑"
+          ],
+          "take": [
+            "图区检测与 bbox 抠图进第 3 步"
+          ]
         },
         {
           "skill": "pptx",
           "verdict": "补强",
-          "best_at": ["每页必须有一个视觉元素的硬要求", "转 PDF 后按 150 DPI 目检重叠与溢出"],
-          "limits": ["不给出图参数，也不判断图内容是否够表达", "不提供 DPI 反算方法"],
-          "take": ["转图目检清单进第 7 步"]
+          "best_at": [
+            "每页必须有一个视觉元素的硬要求",
+            "转 PDF 后按 150 DPI 目检重叠与溢出"
+          ],
+          "limits": [
+            "不给出图参数，也不判断图内容是否够表达",
+            "不提供 DPI 反算方法"
+          ],
+          "take": [
+            "转图目检清单进第 7 步"
+          ]
         },
         {
           "skill": "nature-image2ppt",
           "verdict": "兜底",
-          "best_at": ["图片与扫描件可重建为对象级可编辑 pptx", "page_jobs.json 记页面状态，支持中断续跑"],
-          "limits": ["只接受图片源，不解析论文文本与表格", "文字识别需 OCR token，缺 token 退化为几何排布"],
-          "take": ["仅当原始图完全拿不到时启用重建"]
+          "best_at": [
+            "图片与扫描件可重建为对象级可编辑 pptx",
+            "page_jobs.json 记页面状态，支持中断续跑"
+          ],
+          "limits": [
+            "只接受图片源，不解析论文文本与表格",
+            "文字识别需 OCR token，缺 token 退化为几何排布"
+          ],
+          "take": [
+            "仅当原始图完全拿不到时启用重建"
+          ]
         }
       ],
       "protocol": [
@@ -424,50 +631,111 @@
         "每图有 11pt 灰图注与 10pt 灰来源注，缺一即补",
         "转图目检记录存在，溢出与重叠项清零"
       ],
-      "outputs": ["重出的图（文件名含 DPI 与源图号）", "表页（≤5 行关键行、12pt）", "图注与来源注清单"],
-      "kb": ["scientific-slides", "paper-slide-deck", "pptx", "nature-image2ppt"]
+      "outputs": [
+        "重出的图（文件名含 DPI 与源图号）",
+        "表页（≤5 行关键行、12pt）",
+        "图注与来源注清单"
+      ],
+      "kb": [
+        "scientific-slides",
+        "paper-slide-deck",
+        "pptx",
+        "nature-image2ppt"
+      ]
     },
     {
       "id": "slides.speaker-notes",
       "label": "演讲备注与讲稿（口播节奏）",
       "summary": "接已定稿的 .pptx 与总时长，交一份备注栏写满台词、按 200～210 字/分钟配速、每页有时长与过渡句的 .pptx，加一份逐页时间轴讲稿。",
-      "triggers": ["写讲稿", "备注栏", "每页讲多久", "口播节奏", "演讲者视图", "讲稿字数"],
-      "inputs": [".pptx 定稿文件", "总时长与听众", "逐字稿或提纲（可选）", "预判问题清单（可选）"],
+      "triggers": [
+        "写讲稿",
+        "备注栏",
+        "每页讲多久",
+        "口播节奏",
+        "演讲者视图",
+        "讲稿字数"
+      ],
+      "inputs": [
+        ".pptx 定稿文件",
+        "总时长与听众",
+        "逐字稿或提纲（可选）",
+        "预判问题清单（可选）"
+      ],
       "members": [
         {
           "skill": "slidep-pptx-notes",
           "verdict": "主用",
-          "best_at": ["诊断 notes={} 只写进 cNvPr descr 的假备注", "给出 notesSlides 四件套注入与读回验收"],
-          "limits": ["只处理 slidep 生成的 pptx 结构", "不判断台词内容是否可用，只保备注落位"],
-          "take": ["注入四件套与 html.unescape 坑进第 4 步"]
+          "best_at": [
+            "诊断 notes={} 只写进 cNvPr descr 的假备注",
+            "给出 notesSlides 四件套注入与读回验收"
+          ],
+          "limits": [
+            "只处理 slidep 生成的 pptx 结构",
+            "不判断台词内容是否可用，只保备注落位"
+          ],
+          "take": [
+            "注入四件套与 html.unescape 坑进第 4 步"
+          ]
         },
         {
           "skill": "aris-paper-slides",
           "verdict": "补强",
-          "best_at": ["备注写成两三句完整话加时长提示与过渡句", "TALK_SCRIPT 逐页标 [0:15-1:30] 时间区间"],
-          "limits": ["英文模板，中文语料要重写句式", "不核数字真伪，也不给配速阈值"],
-          "take": ["三行备注格式与时间轴讲稿进第 2～3 步"]
+          "best_at": [
+            "备注写成两三句完整话加时长提示与过渡句",
+            "TALK_SCRIPT 逐页标 [0:15-1:30] 时间区间"
+          ],
+          "limits": [
+            "英文模板，中文语料要重写句式",
+            "不核数字真伪，也不给配速阈值"
+          ],
+          "take": [
+            "三行备注格式与时间轴讲稿进第 2～3 步"
+          ]
         },
         {
           "skill": "arf-explorable-pptx",
           "verdict": "补强",
-          "best_at": ["备注写讲者动作而非复述页面要点", "提醒在讲者视图里实测备注是否可见"],
-          "limits": ["构建链固定，改动需重跑构建脚本", "一帧一概念节奏与密集汇报不合"],
-          "take": ["备注写动作的口径进第 2 步"]
+          "best_at": [
+            "备注写讲者动作而非复述页面要点",
+            "提醒在讲者视图里实测备注是否可见"
+          ],
+          "limits": [
+            "构建链固定，改动需重跑构建脚本",
+            "一帧一概念节奏与密集汇报不合"
+          ],
+          "take": [
+            "备注写动作的口径进第 2 步"
+          ]
         },
         {
           "skill": "html-ppt",
           "verdict": "补强",
-          "best_at": ["presenter mode 备注每页 150～300 字的口径", "备注与页面分离，天然可做字数交叉校验"],
-          "limits": ["只产 HTML，备注进不了 pptx 部件", "无时长与过渡句字段"],
-          "take": ["150～300 字/页作字数交叉校验区间"]
+          "best_at": [
+            "presenter mode 备注每页 150～300 字的口径",
+            "备注与页面分离，天然可做字数交叉校验"
+          ],
+          "limits": [
+            "只产 HTML，备注进不了 pptx 部件",
+            "无时长与过渡句字段"
+          ],
+          "take": [
+            "150～300 字/页作字数交叉校验区间"
+          ]
         },
         {
           "skill": "pptx",
           "verdict": "兜底",
-          "best_at": ["python-pptx 读回 notes 文本与字数", "unpack/pack 可救损坏的备注部件"],
-          "limits": ["不生成台词，只做读写与验收", "不判断备注内容与页序是否匹配"],
-          "take": ["读回验收脚本进第 5 步"]
+          "best_at": [
+            "python-pptx 读回 notes 文本与字数",
+            "unpack/pack 可救损坏的备注部件"
+          ],
+          "limits": [
+            "不生成台词，只做读写与验收",
+            "不判断备注内容与页序是否匹配"
+          ],
+          "take": [
+            "读回验收脚本进第 5 步"
+          ]
         }
       ],
       "protocol": [
@@ -535,50 +803,111 @@
         "python-pptx 读回 has_notes_slide 为真占 100% 页",
         "读回文本无转义残留：&quot;、&amp;、&lt; 命中数＝0"
       ],
-      "outputs": ["注好备注的 .pptx", "逐页时间轴讲稿 md", "备注字数与配速核对表"],
-      "kb": ["slidep-pptx-notes", "aris-paper-slides", "html-ppt", "pptx"]
+      "outputs": [
+        "注好备注的 .pptx",
+        "逐页时间轴讲稿 md",
+        "备注字数与配速核对表"
+      ],
+      "kb": [
+        "slidep-pptx-notes",
+        "aris-paper-slides",
+        "html-ppt",
+        "pptx"
+      ]
     },
     {
       "id": "slides.auto-build",
       "label": "脚本化批量出片（真交 .pptx）",
       "summary": "接结构化内容（JSON、数据表或 md 设计单），交一份脚本可复跑、页数受控、字号与备注可机械核对的可编辑 .pptx，加复跑说明。",
-      "triggers": ["批量出片", "自动生成PPT", "脚本做PPT", "每月更新幻灯", "可复现出片", "JSON 转 PPT"],
-      "inputs": ["结构化内容（JSON 或 md 设计单）", "页型与配色要求", "母版 .pptx（可选）", "数据表与图文件"],
+      "triggers": [
+        "批量出片",
+        "自动生成PPT",
+        "脚本做PPT",
+        "每月更新幻灯",
+        "可复现出片",
+        "JSON 转 PPT"
+      ],
+      "inputs": [
+        "结构化内容（JSON 或 md 设计单）",
+        "页型与配色要求",
+        "母版 .pptx（可选）",
+        "数据表与图文件"
+      ],
       "members": [
         {
           "skill": "pptx-generator",
           "verdict": "主用",
-          "best_at": ["JSON 顶层五键驱动 11 种页型与 5 套配色", "仅依赖 python-pptx，逐页跳过坏页并报告"],
-          "limits": ["五套配色里没有学术蓝白风格", "不支持继承自定义母版，页脚样式固定"],
-          "take": ["JSON 五键与 11 页型规范进第 1 步"]
+          "best_at": [
+            "JSON 顶层五键驱动 11 种页型与 5 套配色",
+            "仅依赖 python-pptx，逐页跳过坏页并报告"
+          ],
+          "limits": [
+            "五套配色里没有学术蓝白风格",
+            "不支持继承自定义母版，页脚样式固定"
+          ],
+          "take": [
+            "JSON 五键与 11 页型规范进第 1 步"
+          ]
         },
         {
           "skill": "ppt-implement",
           "verdict": "补强",
-          "best_at": ["html2pptx 把 DOM 转原生形状与文本框", "677 个模板按 cover/toc/content 分类索引"],
-          "limits": ["需 dev server 与 Chromium 截图，环境重", "页图走图像生成，学术数据图不可用"],
-          "take": ["网页模板分支与导出命令进第 2 步"]
+          "best_at": [
+            "html2pptx 把 DOM 转原生形状与文本框",
+            "677 个模板按 cover/toc/content 分类索引"
+          ],
+          "limits": [
+            "需 dev server 与 Chromium 截图，环境重",
+            "页图走图像生成，学术数据图不可用"
+          ],
+          "take": [
+            "网页模板分支与导出命令进第 2 步"
+          ]
         },
         {
           "skill": "elegant-ppt-builder",
           "verdict": "补强",
-          "best_at": ["页面方法正交，批量拼页代码量最小", "渐变背景预渲染成 PNG，跨机风格稳定"],
-          "limits": ["无 JSON 数据驱动，内容要写进 Python", "仅三套主题，改色需改代码"],
-          "take": ["渐变背景与卡片组件进视觉分支"]
+          "best_at": [
+            "页面方法正交，批量拼页代码量最小",
+            "渐变背景预渲染成 PNG，跨机风格稳定"
+          ],
+          "limits": [
+            "无 JSON 数据驱动，内容要写进 Python",
+            "仅三套主题，改色需改代码"
+          ],
+          "take": [
+            "渐变背景与卡片组件进视觉分支"
+          ]
         },
         {
           "skill": "ppt-design-skill",
           "verdict": "补强",
-          "best_at": ["build script 记 seed 与包版本可复现", "brief 契约用 MUST/SHOULD 逐条验收"],
-          "limits": ["依赖 pptx-designer 库与 PowerShell 渲染", "流程重，改三页不划算"],
-          "take": ["MUST/SHOULD 契约与 seed 记录进第 5 步"]
+          "best_at": [
+            "build script 记 seed 与包版本可复现",
+            "brief 契约用 MUST/SHOULD 逐条验收"
+          ],
+          "limits": [
+            "依赖 pptx-designer 库与 PowerShell 渲染",
+            "流程重，改三页不划算"
+          ],
+          "take": [
+            "MUST/SHOULD 契约与 seed 记录进第 5 步"
+          ]
         },
         {
           "skill": "ppt-master",
           "verdict": "兜底",
-          "best_at": ["六路由串行且 design_spec 先于生成", "失败修源件而非静默降级"],
-          "limits": ["12916 文件 75MB，加载与检索都重", "门多，自动化流水线里需人工确认"],
-          "take": ["设计单先行与修源件纪律进第 1 步"]
+          "best_at": [
+            "六路由串行且 design_spec 先于生成",
+            "失败修源件而非静默降级"
+          ],
+          "limits": [
+            "12916 文件 75MB，加载与检索都重",
+            "门多，自动化流水线里需人工确认"
+          ],
+          "take": [
+            "设计单先行与修源件纪律进第 1 步"
+          ]
         }
       ],
       "protocol": [
@@ -646,43 +975,96 @@
         "同数据复跑两次，差异仅时间戳",
         "qa_report.md 落盘，未过项写明原因与页码"
       ],
-      "outputs": [".pptx（页脚含版本号与页码）", "生成脚本与 JSON 数据（可复跑）", "qa_report.md 与复跑说明"],
-      "kb": ["pptx-generator", "ppt-implement", "ppt-design-skill", "ppt-master"]
+      "outputs": [
+        ".pptx（页脚含版本号与页码）",
+        "生成脚本与 JSON 数据（可复跑）",
+        "qa_report.md 与复跑说明"
+      ],
+      "kb": [
+        "pptx-generator",
+        "ppt-implement",
+        "ppt-design-skill",
+        "ppt-master"
+      ]
     },
     {
       "id": "slides.web-deck",
       "label": "网页型演示与图像页 deck（先问清格式）",
       "summary": "接需要网页放映或视觉定制的诉求，先确认交付格式，再交 HTML 演示（附 PNG 或可编辑 pptx），并在交付说明里写清哪些内容不可逐元素编辑。",
-      "triggers": ["网页版PPT", "HTML 演示", "浏览器放映", "图像风格幻灯", "翻页网页", "视觉定制 deck"],
-      "inputs": ["内容大纲或 md 设计单", "放映环境（浏览器或投影）", "是否必须可编辑（关键确认）", "主题偏好或母版"],
+      "triggers": [
+        "网页版PPT",
+        "HTML 演示",
+        "浏览器放映",
+        "图像风格幻灯",
+        "翻页网页",
+        "视觉定制 deck"
+      ],
+      "inputs": [
+        "内容大纲或 md 设计单",
+        "放映环境（浏览器或投影）",
+        "是否必须可编辑（关键确认）",
+        "主题偏好或母版"
+      ],
       "members": [
         {
           "skill": "html-ppt",
           "verdict": "主用",
-          "best_at": ["36 套主题含 academic-paper，36 种版式", "presenter mode 备注 150～300 字/页与 PNG 渲染"],
-          "limits": ["产物只有 HTML 与 PNG，无 pptx 导出", "需本地静态服务或直接开浏览器"],
-          "take": ["主题与版式清单进第 2 步，备注口径进 C5"]
+          "best_at": [
+            "36 套主题含 academic-paper，36 种版式",
+            "presenter mode 备注 150～300 字/页与 PNG 渲染"
+          ],
+          "limits": [
+            "产物只有 HTML 与 PNG，无 pptx 导出",
+            "需本地静态服务或直接开浏览器"
+          ],
+          "take": [
+            "主题与版式清单进第 2 步，备注口径进 C5"
+          ]
         },
         {
           "skill": "dashi-ppt",
           "verdict": "补强",
-          "best_at": ["HTML 可导出可编辑 pptx，有 API 与命令行两条路", "每页生成 3 个模板方案加 1 个定制方案"],
-          "limits": ["12 套主题里没有学术风，需改主题变量", "需 Node 20+ 与 npm 环境"],
-          "take": ["网页转可编辑 pptx 的导出路径进第 4 步"]
+          "best_at": [
+            "HTML 可导出可编辑 pptx，有 API 与命令行两条路",
+            "每页生成 3 个模板方案加 1 个定制方案"
+          ],
+          "limits": [
+            "12 套主题里没有学术风，需改主题变量",
+            "需 Node 20+ 与 npm 环境"
+          ],
+          "take": [
+            "网页转可编辑 pptx 的导出路径进第 4 步"
+          ]
         },
         {
           "skill": "paper-slide-deck",
           "verdict": "补强",
-          "best_at": ["26 种版式提示覆盖对比、流程与矩阵", "按关键词自动选 academic-paper 风格"],
-          "limits": ["整页图像化，文字与图不可编辑", "需 Gemini API key 与网络"],
-          "take": ["版式提示词库进第 2 步"]
+          "best_at": [
+            "26 种版式提示覆盖对比、流程与矩阵",
+            "按关键词自动选 academic-paper 风格"
+          ],
+          "limits": [
+            "整页图像化，文字与图不可编辑",
+            "需 Gemini API key 与网络"
+          ],
+          "take": [
+            "版式提示词库进第 2 步"
+          ]
         },
         {
           "skill": "frontend-slides",
           "verdict": "补强",
-          "best_at": ["转场与动画丰富，适合公开演讲与科普", "可把已有 pptx 反向转成网页讲解版"],
-          "limits": ["动画吃时间预算，评审场合易分心", "只产 HTML，交付格式受限"],
-          "take": ["pptx 反向转网页的分支进第 1 步"]
+          "best_at": [
+            "转场与动画丰富，适合公开演讲与科普",
+            "可把已有 pptx 反向转成网页讲解版"
+          ],
+          "limits": [
+            "动画吃时间预算，评审场合易分心",
+            "只产 HTML，交付格式受限"
+          ],
+          "take": [
+            "pptx 反向转网页的分支进第 1 步"
+          ]
         }
       ],
       "protocol": [
@@ -750,43 +1132,95 @@
         "备注或讲稿齐备；导出后 python-pptx 读回页数一致",
         "交付说明写明打开方式与不可编辑部分"
       ],
-      "outputs": [".pptx（导出分支）或 HTML + PNG", "交付边界说明（格式、依赖、不可编辑部分）"],
-      "kb": ["html-ppt", "dashi-ppt", "paper-slide-deck", "frontend-slides"]
+      "outputs": [
+        ".pptx（导出分支）或 HTML + PNG",
+        "交付边界说明（格式、依赖、不可编辑部分）"
+      ],
+      "kb": [
+        "html-ppt",
+        "dashi-ppt",
+        "paper-slide-deck",
+        "frontend-slides"
+      ]
     },
     {
       "id": "slides.consistency",
       "label": "幻灯、讲稿与摘要三方对账",
       "summary": "接同一研究的幻灯、讲稿与摘要（或投稿稿），交一份五类要素对账表、改后的 .pptx 与讲稿，以及标出 STALE 的差异清单。",
-      "triggers": ["幻灯和讲稿对不上", "数字不一致", "版本号不同步", "术语前后不一", "摘要和PPT矛盾", "改稿后对账"],
-      "inputs": ["幻灯 .pptx 与讲稿 md", "论文或摘要原稿", "统计数字表（可选）", "版本与日期记录（可选）"],
+      "triggers": [
+        "幻灯和讲稿对不上",
+        "数字不一致",
+        "版本号不同步",
+        "术语前后不一",
+        "摘要和PPT矛盾",
+        "改稿后对账"
+      ],
+      "inputs": [
+        "幻灯 .pptx 与讲稿 md",
+        "论文或摘要原稿",
+        "统计数字表（可选）",
+        "版本与日期记录（可选）"
+      ],
       "members": [
         {
           "skill": "pptx",
           "verdict": "主用",
-          "best_at": ["markitdown 抽全文可逐页比对文字", "unpack/pack 就地改 XML 并保住原格式"],
-          "limits": ["只做读写与比对，不判断哪个数字才对", "不解析图表中的数值"],
-          "take": ["抽全文与就地改 XML 进第 2、4 步"]
+          "best_at": [
+            "markitdown 抽全文可逐页比对文字",
+            "unpack/pack 就地改 XML 并保住原格式"
+          ],
+          "limits": [
+            "只做读写与比对，不判断哪个数字才对",
+            "不解析图表中的数值"
+          ],
+          "take": [
+            "抽全文与就地改 XML 进第 2、4 步"
+          ]
         },
         {
           "skill": "nature-paper2ppt",
           "verdict": "补强",
-          "best_at": ["Terminology Ledger 锁术语、基因名与数据集名", "audit_pptx_quality 输出 qa_report 记高危项"],
-          "limits": ["只认论文源，不认讲稿与摘要", "占位符与图表参数不查"],
-          "take": ["术语账本作对账表一列"]
+          "best_at": [
+            "Terminology Ledger 锁术语、基因名与数据集名",
+            "audit_pptx_quality 输出 qa_report 记高危项"
+          ],
+          "limits": [
+            "只认论文源，不认讲稿与摘要",
+            "占位符与图表参数不查"
+          ],
+          "take": [
+            "术语账本作对账表一列"
+          ]
         },
         {
           "skill": "aris-paper-slides",
           "verdict": "补强",
-          "best_at": ["TALK_SCRIPT 时间轴与页序一一绑定", "末尾附 5 问 Q&A 便于核对说法一致"],
-          "limits": ["英文模板，中文稿要重写", "不核数字真伪与版本号"],
-          "take": ["讲稿时间轴绑定进第 2 步"]
+          "best_at": [
+            "TALK_SCRIPT 时间轴与页序一一绑定",
+            "末尾附 5 问 Q&A 便于核对说法一致"
+          ],
+          "limits": [
+            "英文模板，中文稿要重写",
+            "不核数字真伪与版本号"
+          ],
+          "take": [
+            "讲稿时间轴绑定进第 2 步"
+          ]
         },
         {
           "skill": "论文汇报PPT制作",
           "verdict": "兜底",
-          "best_at": ["页脚日期、版本与母版封面三处联动", "封面改动要连带讲稿与摘要的表述"],
-          "limits": ["只覆盖组会场景，不管会议与答辩", "无独立对账表模板"],
-          "take": ["页脚三处联动检查进第 4 步"]
+          "best_at": [
+            "页脚日期、版本与母版封面三处联动",
+            "封面改动要连带讲稿与摘要的表述"
+          ],
+          "limits": [
+            "只覆盖组会场景，不管会议与答辩",
+            "无独立对账表模板"
+          ],
+          "take": [
+            "页脚三处联动检查进第 4 步"
+          ]
         }
       ],
       "protocol": [
@@ -854,8 +1288,16 @@
         "关键数字在幻灯、讲稿、摘要三处一致",
         "对账表落盘（md 或 csv），与改后文件同一目录"
       ],
-      "outputs": ["对账表（md 或 csv）", "改后的 .pptx 与讲稿", "STALE 差异清单"],
-      "kb": ["pptx", "nature-paper2ppt", "aris-paper-slides"]
+      "outputs": [
+        "对账表（md 或 csv）",
+        "改后的 .pptx 与讲稿",
+        "STALE 差异清单"
+      ],
+      "kb": [
+        "pptx",
+        "nature-paper2ppt",
+        "aris-paper-slides"
+      ]
     }
   ]
 }

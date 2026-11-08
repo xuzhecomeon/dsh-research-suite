@@ -2,43 +2,96 @@
   "domain": "data",
   "label": "科研数据获取、注释与取数留痕",
   "skill": "research-data",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "summary": "把「我需要一批数据」变成「拿到手、能对上、能复现」：基因与标识符对齐、变异与临床意义注释、GWAS 与汇总统计取数、组学数据集下载整理、公共表达与靶点证据复用、通路互作网络、蛋白结构与结构域、小分子与靶点亲和、代谢物与代谢组研究数据，以及贯穿全部来源的取数留痕与合规闸门。本域只做取数、注释、对齐与留痕，不做统计建模、不做富集检验本身、不写论文段落；分析交给 stats 与 figures，写作用 writing。凡需付费账号、需人工登录、需把个体级数据上传第三方平台的通道一律不进协议正文，只在账本里登记为弃用或域外。",
   "capabilities": [
     {
       "id": "data.gene-idmap",
       "label": "基因主记录检索与跨库标识符对齐",
       "summary": "把一串基因符号或一份基因清单变成可查询、可进入下游富集的注释表：正式符号、别名、Gene ID、染色体定位、RefSeq、GO 注释来自 NCBI Gene，蛋白层记录与 ID mapping 由 UniProt 补齐，基因组坐标与转录本由 Ensembl 补齐，物种内映射可借 R 侧 bitr 一次完成。交付一张带来源与取数日期的 ID 对照表加未命中与歧义清单。",
-      "triggers": ["基因符号校验", "批量基因注释", "SYMBOL 转 ENTREZID", "基因别名对不上", "基因 ID 对照表", "基因清单去重", "Gene ID 反查符号"],
-      "inputs": ["基因符号或 ID 清单（txt／csv）", "物种与基因组版本（如 human GRCh38）", "需要哪些字段（RefSeq／GO／定位／蛋白记录）"],
+      "triggers": [
+        "基因符号校验",
+        "批量基因注释",
+        "SYMBOL 转 ENTREZID",
+        "基因别名对不上",
+        "基因 ID 对照表",
+        "基因清单去重",
+        "Gene ID 反查符号"
+      ],
+      "inputs": [
+        "基因符号或 ID 清单（txt／csv）",
+        "物种与基因组版本（如 human GRCh38）",
+        "需要哪些字段（RefSeq／GO／定位／蛋白记录）"
+      ],
       "members": [
         {
           "skill": "gene-database",
           "verdict": "主用",
-          "best_at": ["按符号、GO 与染色体定位检索", "ESearch 取号再 ESummary 取详情", "限速与 400／429／404 处理写明"],
-          "limits": ["只到基因层，不给转录本定量", "符号检索不指定物种必然歧义"],
-          "take": ["无 key 3 次／秒、有 key 10 次／秒", "先取 Gene ID 再取详情省请求", "结果本地缓存避免重复调用"]
+          "best_at": [
+            "按符号、GO 与染色体定位检索",
+            "ESearch 取号再 ESummary 取详情",
+            "限速与 400／429／404 处理写明"
+          ],
+          "limits": [
+            "只到基因层，不给转录本定量",
+            "符号检索不指定物种必然歧义"
+          ],
+          "take": [
+            "无 key 3 次／秒、有 key 10 次／秒",
+            "先取 Gene ID 再取详情省请求",
+            "结果本地缓存避免重复调用"
+          ]
         },
         {
           "skill": "uniprot-database",
           "verdict": "补强",
-          "best_at": ["蛋白层主记录与 GO 注释", "ID mapping 批量跨库换号", "查询语法支持长度与分类学过滤"],
-          "limits": ["转录与调控层信息不如基因库全", "大批量须自行加请求延迟"],
-          "take": ["accession 精确查优先于名称查", "reviewed:true 只取人工审校条目", "FASTA 与映射表分开存"]
+          "best_at": [
+            "蛋白层主记录与 GO 注释",
+            "ID mapping 批量跨库换号",
+            "查询语法支持长度与分类学过滤"
+          ],
+          "limits": [
+            "转录与调控层信息不如基因库全",
+            "大批量须自行加请求延迟"
+          ],
+          "take": [
+            "accession 精确查优先于名称查",
+            "reviewed:true 只取人工审校条目",
+            "FASTA 与映射表分开存"
+          ]
         },
         {
           "skill": "ensembl-database",
           "verdict": "补强",
-          "best_at": ["基因组坐标与转录本结构", "GRCh37 与 GRCh38 双端点", "VEP 预测变异后果"],
-          "limits": ["REST 有限速，批量要分批", "ID 带版本后缀，跨版本会变"],
-          "take": ["按 assembly 选主端点或 grch37 端点", "版本后缀不得随手截掉"]
+          "best_at": [
+            "基因组坐标与转录本结构",
+            "GRCh37 与 GRCh38 双端点",
+            "VEP 预测变异后果"
+          ],
+          "limits": [
+            "REST 有限速，批量要分批",
+            "ID 带版本后缀，跨版本会变"
+          ],
+          "take": [
+            "按 assembly 选主端点或 grch37 端点",
+            "版本后缀不得随手截掉"
+          ]
         },
         {
           "skill": "r-pharmacology-singlecell-mr",
           "verdict": "兜底",
-          "best_at": ["bitr 一行完成 SYMBOL 与 ENTREZID 互换", "点明 enrichKEGG 只吃 ENTREZID"],
-          "limits": ["依赖 org.Hs.eg.db 的版本快照", "bitr 只覆盖人源基因映射"],
-          "take": ["进富集前先 as.data.frame()", "映射结果保留原始符号列备查"]
+          "best_at": [
+            "bitr 一行完成 SYMBOL 与 ENTREZID 互换",
+            "点明 enrichKEGG 只吃 ENTREZID"
+          ],
+          "limits": [
+            "依赖 org.Hs.eg.db 的版本快照",
+            "bitr 只覆盖人源基因映射"
+          ],
+          "take": [
+            "进富集前先 as.data.frame()",
+            "映射结果保留原始符号列备查"
+          ]
         }
       ],
       "protocol": [
@@ -106,43 +159,104 @@
         "DG1 列类型核对：Gene ID 与坐标不得当连续变量参与运算",
         "未命中与歧义条目必须单列交付，不得静默丢弃"
       ],
-      "outputs": ["id-map.csv（原符号→正式符号→多库 ID→坐标）", "未命中与歧义清单", "取数日志（端点／日期／版本／命中数）"],
-      "kb": ["gene-database", "uniprot-database", "ensembl-database"]
+      "outputs": [
+        "id-map.csv（原符号→正式符号→多库 ID→坐标）",
+        "未命中与歧义清单",
+        "取数日志（端点／日期／版本／命中数）"
+      ],
+      "kb": [
+        "gene-database",
+        "uniprot-database",
+        "ensembl-database"
+      ]
     },
     {
       "id": "data.variant-annot",
       "label": "变异注释与临床意义判读",
       "summary": "把一份变异清单（rsID、chr-pos-ref-alt 或 HGVS）注释成可解释的表：临床分级与审核星级来自 ClinVar，群体频率与约束指标来自 gnomAD，药物基因组学证据与 CPIC 指南来自 ClinPGx，调控区变异对转录因子结合的影响可借 JASPAR 矩阵扫描。交付分级表、冲突清单与不可判读（VUS）清单，任何一条都不写成「致病」或「良性」之外的三态结论。",
-      "triggers": ["变异注释", "临床意义判读", "VUS 怎么处理", "gnomAD 频率", "药物基因组", "CPIC 指南", "变异分级冲突"],
-      "inputs": ["变异清单（rsID／VCF／HGVS）", "基因组版本（GRCh37 或 GRCh38）", "关注基因或药物（可选）"],
+      "triggers": [
+        "变异注释",
+        "临床意义判读",
+        "VUS 怎么处理",
+        "gnomAD 频率",
+        "药物基因组",
+        "CPIC 指南",
+        "变异分级冲突"
+      ],
+      "inputs": [
+        "变异清单（rsID／VCF／HGVS）",
+        "基因组版本（GRCh37 或 GRCh38）",
+        "关注基因或药物（可选）"
+      ],
       "members": [
         {
           "skill": "clinvar-database",
           "verdict": "主用",
-          "best_at": ["ACMG 五级分级与审核星级", "E-utilities 与 FTP 两条通路", "冲突解释与星级取舍讲得细"],
-          "limits": ["VCF 不含超 10kb 与复杂结构变异", "分级随证据更新会变"],
-          "take": ["分级必须与星级同时报", "批量注释用 bcftools 加 ClinVar VCF", "按 GRCh37／38 选目录"]
+          "best_at": [
+            "ACMG 五级分级与审核星级",
+            "E-utilities 与 FTP 两条通路",
+            "冲突解释与星级取舍讲得细"
+          ],
+          "limits": [
+            "VCF 不含超 10kb 与复杂结构变异",
+            "分级随证据更新会变"
+          ],
+          "take": [
+            "分级必须与星级同时报",
+            "批量注释用 bcftools 加 ClinVar VCF",
+            "按 GRCh37／38 选目录"
+          ]
         },
         {
           "skill": "gnomad-database",
           "verdict": "补强",
-          "best_at": ["群体等位基因频率按族群分层", "pLI 与 LOEUF 约束指标", "GraphQL 按基因或坐标取变异"],
-          "limits": ["频率缺失不等于不致病", "接口为 GraphQL，查询需拼结构"],
-          "take": ["频率极低只作支持证据", "约束指标按基因不按位点"]
+          "best_at": [
+            "群体等位基因频率按族群分层",
+            "pLI 与 LOEUF 约束指标",
+            "GraphQL 按基因或坐标取变异"
+          ],
+          "limits": [
+            "频率缺失不等于不致病",
+            "接口为 GraphQL，查询需拼结构"
+          ],
+          "take": [
+            "频率极低只作支持证据",
+            "约束指标按基因不按位点"
+          ]
         },
         {
           "skill": "clinpgx-database",
           "verdict": "补强",
-          "best_at": ["基因-药物对与 CPIC 指南", "等位基因功能与表型转换", "开放访问无需认证"],
-          "limits": ["以已有证据的位点为主", "表型术语需用 PharmDOG 转换"],
-          "take": ["超量返回 429，需退避", "许可为 CC BY-SA 4.0"]
+          "best_at": [
+            "基因-药物对与 CPIC 指南",
+            "等位基因功能与表型转换",
+            "开放访问无需认证"
+          ],
+          "limits": [
+            "以已有证据的位点为主",
+            "表型术语需用 PharmDOG 转换"
+          ],
+          "take": [
+            "超量返回 429，需退避",
+            "许可为 CC BY-SA 4.0"
+          ]
         },
         {
           "skill": "jaspar-database",
           "verdict": "兜底",
-          "best_at": ["转录因子结合矩阵与扫描", "双链扫描定位结合位点", "评估变异对结合的破坏"],
-          "limits": ["只给预测打分，不给体内证据", "非编码区结论需实验验证"],
-          "take": ["先按 TF 名或家族取矩阵", "结合位点评分与阈值一并报"]
+          "best_at": [
+            "转录因子结合矩阵与扫描",
+            "双链扫描定位结合位点",
+            "评估变异对结合的破坏"
+          ],
+          "limits": [
+            "只给预测打分，不给体内证据",
+            "非编码区结论需实验验证"
+          ],
+          "take": [
+            "先按 TF 名或家族取矩阵",
+            "结合位点评分与阈值一并报"
+          ]
         }
       ],
       "protocol": [
@@ -210,36 +324,88 @@
         "变异坐标与 assembly 必须与项目参考基因组一致，混版本整表退回",
         "冲突条目必须保留冲突双方的分级与星级，不得只留其一"
       ],
-      "outputs": ["variant-annotation.csv（变异／分级／星级／频率／证据来源）", "冲突与不可判读清单", "注释文件与版本记录（ClinVar 下载日期、gnomAD 数据集版本）"],
-      "kb": ["clinvar-database", "gnomad-database", "clinpgx-database"]
+      "outputs": [
+        "variant-annotation.csv（变异／分级／星级／频率／证据来源）",
+        "冲突与不可判读清单",
+        "注释文件与版本记录（ClinVar 下载日期、gnomAD 数据集版本）"
+      ],
+      "kb": [
+        "clinvar-database",
+        "gnomad-database",
+        "clinpgx-database"
+      ]
     },
     {
       "id": "data.gwas-eqtl",
       "label": "GWAS 汇总统计取数与工具变量准备",
       "summary": "从 GWAS Catalog 拿到研究编号、表型与关联结果，从汇总统计接口或 FTP 拿全量效应值，再在本地用 PLINK 与参考面板做 LD 独立化，产出一份可交给孟德尔随机化或共定位分析的工具变量表。关键约定是凭据不入脚本、表型与编号可追溯、效应等位基因方向逐行核对。",
-      "triggers": ["GWAS 汇总统计", "工具变量筛选", "LD clump", "eQTL 取数", "孟德尔随机化数据", "GCST 编号", "等位基因方向"],
-      "inputs": ["表型或性状描述（含 EFO 编号更佳）", "汇总统计文件的来源与访问口径", "目标人群与 LD 参考面板"],
+      "triggers": [
+        "GWAS 汇总统计",
+        "工具变量筛选",
+        "LD clump",
+        "eQTL 取数",
+        "孟德尔随机化数据",
+        "GCST 编号",
+        "等位基因方向"
+      ],
+      "inputs": [
+        "表型或性状描述（含 EFO 编号更佳）",
+        "汇总统计文件的来源与访问口径",
+        "目标人群与 LD 参考面板"
+      ],
       "members": [
         {
           "skill": "gwas-database",
           "verdict": "主用",
-          "best_at": ["研究编号、表型与关联三层 REST", "汇总统计独立接口与 FTP 目录", "更新节律、引用与局限专节"],
-          "limits": ["汇总统计覆盖不全，缺研究常见", "REST 分页不适合拉全量"],
-          "take": ["先查 study 再取关联", "全量走 FTP 按批次目录", "记 GCST 与发布批次"]
+          "best_at": [
+            "研究编号、表型与关联三层 REST",
+            "汇总统计独立接口与 FTP 目录",
+            "更新节律、引用与局限专节"
+          ],
+          "limits": [
+            "汇总统计覆盖不全，缺研究常见",
+            "REST 分页不适合拉全量"
+          ],
+          "take": [
+            "先查 study 再取关联",
+            "全量走 FTP 按批次目录",
+            "记 GCST 与发布批次"
+          ]
         },
         {
           "skill": "r-pharmacology-singlecell-mr",
           "verdict": "补强",
-          "best_at": ["本地 PLINK 加参考面板做 clump", "凭据放 Renviron 不入脚本", "chr:pos 转 rsID 与 EAF 计算"],
-          "limits": ["以 R 生态为主，非 R 项目要移植", "阈值放宽需自证理由"],
-          "take": ["ld_clump 给 r2 与 bfile", "EAF 按效应等位基因校正", "p 放宽到 1e-5 要写明"]
+          "best_at": [
+            "本地 PLINK 加参考面板做 clump",
+            "凭据放 Renviron 不入脚本",
+            "chr:pos 转 rsID 与 EAF 计算"
+          ],
+          "limits": [
+            "以 R 生态为主，非 R 项目要移植",
+            "阈值放宽需自证理由"
+          ],
+          "take": [
+            "ld_clump 给 r2 与 bfile",
+            "EAF 按效应等位基因校正",
+            "p 放宽到 1e-5 要写明"
+          ]
         },
         {
           "skill": "gnomad-database",
           "verdict": "兜底",
-          "best_at": ["核对等位基因频率的量级", "按族群看频率差异", "约束指标辅助判读基因"],
-          "limits": ["频率与汇总统计的口径可能不同", "不承担统计检验与显著性判断"],
-          "take": ["频率差异过大回查方向", "群体标签要与研究对齐"]
+          "best_at": [
+            "核对等位基因频率的量级",
+            "按族群看频率差异",
+            "约束指标辅助判读基因"
+          ],
+          "limits": [
+            "频率与汇总统计的口径可能不同",
+            "不承担统计检验与显著性判断"
+          ],
+          "take": [
+            "频率差异过大回查方向",
+            "群体标签要与研究对齐"
+          ]
         }
       ],
       "protocol": [
@@ -301,29 +467,69 @@
         "下载文件必须记批次、日期与校验值，混批次数据视为无效",
         "个体级基因型与表型数据只在本地处理，不上传第三方平台"
       ],
-      "outputs": ["instrument-variables.csv（变异／等位基因／效应／p／族群）", "汇总统计文件与校验记录", "取数与 clump 参数日志"],
-      "kb": ["gwas-database", "r-pharmacology-singlecell-mr"]
+      "outputs": [
+        "instrument-variables.csv（变异／等位基因／效应／p／族群）",
+        "汇总统计文件与校验记录",
+        "取数与 clump 参数日志"
+      ],
+      "kb": [
+        "gwas-database",
+        "r-pharmacology-singlecell-mr"
+      ]
     },
     {
       "id": "data.omics-download",
       "label": "组学数据集检索、下载与样本表整理",
       "summary": "从 GEO 与 ENA 把一份公共组学数据集完整拿到本地：先用检索语法定位 Series，再取 Series 矩阵或补充文件，需要原始测序数据时转 ENA 取直链，最后把样本元数据（characteristics 与 source 字段）拆成规整的样本表，并与表达矩阵的列一一对齐。交付数据目录、样本表、元数据快照与下载清单。",
-      "triggers": ["下载 GSE", "GEO 数据整理", "样本表怎么做", "补充文件下载", "原始测序数据下载", "数据集可复现", "表达矩阵对齐"],
-      "inputs": ["数据集编号（GSE／GSM／PRJNA）或检索意图", "需要处理后的矩阵还是原始测序数据", "分组与临床字段需求"],
+      "triggers": [
+        "下载 GSE",
+        "GEO 数据整理",
+        "样本表怎么做",
+        "补充文件下载",
+        "原始测序数据下载",
+        "数据集可复现",
+        "表达矩阵对齐"
+      ],
+      "inputs": [
+        "数据集编号（GSE／GSM／PRJNA）或检索意图",
+        "需要处理后的矩阵还是原始测序数据",
+        "分组与临床字段需求"
+      ],
       "members": [
         {
           "skill": "geo-database",
           "verdict": "主用",
-          "best_at": ["GSE／GSM／GPL／GDS 层级讲清", "GEOparse 取矩阵与补充文件", "检索语法与元数据键给全"],
-          "limits": ["元数据自由文本需自行拆列", "原始数据不在此库直下"],
-          "take": ["get_GEO 指 destdir 本地缓存", "pivot_samples 取 VALUE 矩阵", "补件下载前先列清单"]
+          "best_at": [
+            "GSE／GSM／GPL／GDS 层级讲清",
+            "GEOparse 取矩阵与补充文件",
+            "检索语法与元数据键给全"
+          ],
+          "limits": [
+            "元数据自由文本需自行拆列",
+            "原始数据不在此库直下"
+          ],
+          "take": [
+            "get_GEO 指 destdir 本地缓存",
+            "pivot_samples 取 VALUE 矩阵",
+            "补件下载前先列清单"
+          ]
         },
         {
           "skill": "ena-database",
           "verdict": "补强",
-          "best_at": ["原始读段与运行记录的检索", "按项目号取样本与实验关系", "直链接口便于批量与续传"],
-          "limits": ["不含处理后的表达矩阵", "样本注释比 GEO 简略"],
-          "take": ["按 run 与 sample 号定位文件", "大文件用支持续传的工具"]
+          "best_at": [
+            "原始读段与运行记录的检索",
+            "按项目号取样本与实验关系",
+            "直链接口便于批量与续传"
+          ],
+          "limits": [
+            "不含处理后的表达矩阵",
+            "样本注释比 GEO 简略"
+          ],
+          "take": [
+            "按 run 与 sample 号定位文件",
+            "大文件用支持续传的工具"
+          ]
         }
       ],
       "protocol": [
@@ -391,43 +597,107 @@
         "每个数据集必须留元数据快照与下载清单，缺清单视为不可复现",
         "DG1 列类型核对：探针号、样本号、临床字段不得混作数值列"
       ],
-      "outputs": ["数据目录（矩阵／补充文件／原始数据的本地副本）", "sample-sheet.csv（样本表，与矩阵列对齐）", "下载清单与处理日志", "数据集元数据快照"],
-      "kb": ["geo-database", "ena-database"]
+      "outputs": [
+        "数据目录（矩阵／补充文件／原始数据的本地副本）",
+        "sample-sheet.csv（样本表，与矩阵列对齐）",
+        "下载清单与处理日志",
+        "数据集元数据快照"
+      ],
+      "kb": [
+        "geo-database",
+        "ena-database"
+      ]
     },
     {
       "id": "data.expression-reuse",
       "label": "公共表达与靶点证据复用",
       "summary": "不新做实验，用公共资源回答「这个基因在什么组织表达、在肿瘤里怎么变、敲掉会不会影响细胞存活、有没有遗传学证据支持它作为靶点」：组织表达取自 GTEx，肿瘤表达与临床生存取自 cBioPortal 的打包数据，细胞系依赖性与选择性取自 DepMap，靶点与疾病的证据分层取自 Open Targets。交付一张带版本与数据来源的证据表，并写明每条证据能支持到哪一层结论。",
-      "triggers": ["GTEx 组织表达", "TCGA 表达与生存", "DepMap 依赖性", "靶点可成药性", "公共数据复用", "不补实验找证据", "细胞系筛选"],
-      "inputs": ["基因清单（符号或 Ensembl ID）", "组织或癌种范围", "需要哪类证据（表达／生存／依赖／遗传关联）"],
+      "triggers": [
+        "GTEx 组织表达",
+        "TCGA 表达与生存",
+        "DepMap 依赖性",
+        "靶点可成药性",
+        "公共数据复用",
+        "不补实验找证据",
+        "细胞系筛选"
+      ],
+      "inputs": [
+        "基因清单（符号或 Ensembl ID）",
+        "组织或癌种范围",
+        "需要哪类证据（表达／生存／依赖／遗传关联）"
+      ],
       "members": [
         {
           "skill": "gtex-database",
           "verdict": "主用",
-          "best_at": ["组织层中位表达与分布", "GENCODE ID 精确对齐", "接口返回组织与单位字段齐全"],
-          "limits": ["只有组织层，无个体临床", "样本以死后捐献组织为主"],
-          "take": ["必须用带版本号的 GENCODE ID", "中位表达与单位一起报", "版本参数写进日志"]
+          "best_at": [
+            "组织层中位表达与分布",
+            "GENCODE ID 精确对齐",
+            "接口返回组织与单位字段齐全"
+          ],
+          "limits": [
+            "只有组织层，无个体临床",
+            "样本以死后捐献组织为主"
+          ],
+          "take": [
+            "必须用带版本号的 GENCODE ID",
+            "中位表达与单位一起报",
+            "版本参数写进日志"
+          ]
         },
         {
           "skill": "cbioportal-database",
           "verdict": "补强",
-          "best_at": ["TCGA 与 GENIE 队列的表达与突变", "临床与生存字段成体系", "打包数据可离线复现"],
-          "limits": ["队列处理版本多，易混批", "生存分析口径需自行声明"],
-          "take": ["优先下 datahub 打包文件", "生存分析写明随访与删失", "记研究 ID 与版本"]
+          "best_at": [
+            "TCGA 与 GENIE 队列的表达与突变",
+            "临床与生存字段成体系",
+            "打包数据可离线复现"
+          ],
+          "limits": [
+            "队列处理版本多，易混批",
+            "生存分析口径需自行声明"
+          ],
+          "take": [
+            "优先下 datahub 打包文件",
+            "生存分析写明随访与删失",
+            "记研究 ID 与版本"
+          ]
         },
         {
           "skill": "depmap",
           "verdict": "补强",
-          "best_at": ["全基因组 CRISPR 依赖性打分", "按细胞系谱系看选择性", "数据集版本命名清晰"],
-          "limits": ["体外依赖不等于体内有效", "细胞系覆盖有谱系偏倚"],
-          "take": ["默认 CRISPRGeneEffect 口径", "版本如 24Q4 要写全", "按谱系分层看依赖"]
+          "best_at": [
+            "全基因组 CRISPR 依赖性打分",
+            "按细胞系谱系看选择性",
+            "数据集版本命名清晰"
+          ],
+          "limits": [
+            "体外依赖不等于体内有效",
+            "细胞系覆盖有谱系偏倚"
+          ],
+          "take": [
+            "默认 CRISPRGeneEffect 口径",
+            "版本如 24Q4 要写全",
+            "按谱系分层看依赖"
+          ]
         },
         {
           "skill": "opentargets-database",
           "verdict": "补强",
-          "best_at": ["靶点与疾病的证据分层汇总", "实体检索一次拿到靶点与疾病 ID", "证据来源与打分口径公开"],
-          "limits": ["汇总打分不替代单项证据核查", "版本更新影响排序"],
-          "take": ["先 search_entities 拿 ENSG 与 EFO", "证据按来源分层看", "引用时标注库版本与日期"]
+          "best_at": [
+            "靶点与疾病的证据分层汇总",
+            "实体检索一次拿到靶点与疾病 ID",
+            "证据来源与打分口径公开"
+          ],
+          "limits": [
+            "汇总打分不替代单项证据核查",
+            "版本更新影响排序"
+          ],
+          "take": [
+            "先 search_entities 拿 ENSG 与 EFO",
+            "证据按来源分层看",
+            "引用时标注库版本与日期"
+          ]
         }
       ],
       "protocol": [
@@ -495,36 +765,90 @@
         "生存分析必须声明随访起算点与删失口径，未声明不得写生存差异结论",
         "体外证据（细胞系依赖性）不得表述为体内疗效或临床获益"
       ],
-      "outputs": ["evidence-table.csv（基因×证据类型×来源版本）", "表达与依赖性取数日志", "证据层级说明（每类证据能支持到哪一层）"],
-      "kb": ["gtex-database", "cbioportal-database", "depmap", "opentargets-database"]
+      "outputs": [
+        "evidence-table.csv（基因×证据类型×来源版本）",
+        "表达与依赖性取数日志",
+        "证据层级说明（每类证据能支持到哪一层）"
+      ],
+      "kb": [
+        "gtex-database",
+        "cbioportal-database",
+        "depmap",
+        "opentargets-database"
+      ]
     },
     {
       "id": "data.pathway-ppi",
       "label": "通路集合与蛋白互作网络取数",
       "summary": "为富集分析与网络图准备「集合」与「边」：通路集合取自 KEGG 与 Reactome，蛋白互作边取自 STRING，标识符统一到 ENTREZID 或 UniProt 后再交出。本卡只管取集合、定阈值、写版本，不跑富集检验本身（交给 stats 域），也不画网络图（交给 figures 域）。交付通路集合表、互作边表与一份阈值与版本说明。",
-      "triggers": ["KEGG 通路集合", "Reactome 通路", "STRING 互作网络", "富集分析输入", "PPI 网络数据", "通路层级关系", "互作阈值怎么定"],
-      "inputs": ["基因清单（统一标识后）", "物种（如 hsa）", "通路库与互作库的版本与许可要求"],
+      "triggers": [
+        "KEGG 通路集合",
+        "Reactome 通路",
+        "STRING 互作网络",
+        "富集分析输入",
+        "PPI 网络数据",
+        "通路层级关系",
+        "互作阈值怎么定"
+      ],
+      "inputs": [
+        "基因清单（统一标识后）",
+        "物种（如 hsa）",
+        "通路库与互作库的版本与许可要求"
+      ],
       "members": [
         {
           "skill": "string-database",
           "verdict": "主用",
-          "best_at": ["标识符映射与网络取数脚本齐全", "综合分与证据通道可分别设阈值", "版本化 URL 保证结果可复现"],
-          "limits": ["限速明确要每次间隔一秒", "综合分含义需自行解读"],
-          "take": ["先 map_ids 再取网络", "required_score 与网络类型写明", "结果里带库版本号与抓取日期"]
+          "best_at": [
+            "标识符映射与网络取数脚本齐全",
+            "综合分与证据通道可分别设阈值",
+            "版本化 URL 保证结果可复现"
+          ],
+          "limits": [
+            "限速明确要每次间隔一秒",
+            "综合分含义需自行解读"
+          ],
+          "take": [
+            "先 map_ids 再取网络",
+            "required_score 与网络类型写明",
+            "结果里带库版本号与抓取日期"
+          ]
         },
         {
           "skill": "reactome-database",
           "verdict": "补强",
-          "best_at": ["通路层级与父子关系完整", "ContentService 可直接取版本", "反应级细节适合机制叙述"],
-          "limits": ["Python 封装已停更，宜直调 REST", "以人源通路为主，跨物种需映射"],
-          "take": ["先取 database/version", "通路集合按层级裁剪", "直调 REST 不依赖旧封装"]
+          "best_at": [
+            "通路层级与父子关系完整",
+            "ContentService 可直接取版本",
+            "反应级细节适合机制叙述"
+          ],
+          "limits": [
+            "Python 封装已停更，宜直调 REST",
+            "以人源通路为主，跨物种需映射"
+          ],
+          "take": [
+            "先取 database/version",
+            "通路集合按层级裁剪",
+            "直调 REST 不依赖旧封装"
+          ]
         },
         {
           "skill": "kegg-database",
           "verdict": "补强",
-          "best_at": ["通路图与基因对应关系直观", "conv 可换多种标识符", "单次可取多条通路条目"],
-          "limits": ["仅限学术用途，商用需另议", "无正式限速但禁连发"],
-          "take": ["一次最多十个条目", "编号体系按物种前缀写全", "商用场景换库或换许可"]
+          "best_at": [
+            "通路图与基因对应关系直观",
+            "conv 可换多种标识符",
+            "单次可取多条通路条目"
+          ],
+          "limits": [
+            "仅限学术用途，商用需另议",
+            "无正式限速但禁连发"
+          ],
+          "take": [
+            "一次最多十个条目",
+            "编号体系按物种前缀写全",
+            "商用场景换库或换许可"
+          ]
         }
       ],
       "protocol": [
@@ -592,36 +916,89 @@
         "KEGG 数据仅用于学术用途，商用项目必须在取数阶段改换来源",
         "本卡不产出显著性结论，富集检验交 stats 域，网络图交 figures 域"
       ],
-      "outputs": ["pathway-members.csv（通路-基因长表）", "ppi-edges.csv（节点对／综合分／证据通道）", "阈值与版本说明"],
-      "kb": ["string-database", "reactome-database", "kegg-database"]
+      "outputs": [
+        "pathway-members.csv（通路-基因长表）",
+        "ppi-edges.csv（节点对／综合分／证据通道）",
+        "阈值与版本说明"
+      ],
+      "kb": [
+        "string-database",
+        "reactome-database",
+        "kegg-database"
+      ]
     },
     {
       "id": "data.protein-structure",
       "label": "蛋白结构获取与结构域注释",
       "summary": "按序列或 UniProt accession 拿到能用的结构数据：有实验结构时从 PDB 检索并下载，只有序列时用 AlphaFold 的预测模型与置信度文件，功能位点与家族归属由 InterPro 条目补齐。交付结构文件、结构域表与一份置信度判读说明，预测与实验证据严格分栏。",
-      "triggers": ["下载 PDB 结构", "AlphaFold 预测结构", "结构域注释", "pLDDT 怎么读", "蛋白家族归属", "结构文件格式", "结合位点位置"],
-      "inputs": ["蛋白序列或 UniProt accession", "需要的结构类型（实验／预测／两者）", "关注的结构域或位点"],
+      "triggers": [
+        "下载 PDB 结构",
+        "AlphaFold 预测结构",
+        "结构域注释",
+        "pLDDT 怎么读",
+        "蛋白家族归属",
+        "结构文件格式",
+        "结合位点位置"
+      ],
+      "inputs": [
+        "蛋白序列或 UniProt accession",
+        "需要的结构类型（实验／预测／两者）",
+        "关注的结构域或位点"
+      ],
       "members": [
         {
           "skill": "pdb-database",
           "verdict": "主用",
-          "best_at": ["文本与属性双查询接口", "按物种与实验方法筛结构", "结构文件与元数据可取"],
-          "limits": ["旧接口已弃用，需用新包", "无实验结构的蛋白查不到"],
-          "take": ["属性查询按物种精确匹配", "结果先看分辨率与方法", "下载记录 PDB 编号"]
+          "best_at": [
+            "文本与属性双查询接口",
+            "按物种与实验方法筛结构",
+            "结构文件与元数据可取"
+          ],
+          "limits": [
+            "旧接口已弃用，需用新包",
+            "无实验结构的蛋白查不到"
+          ],
+          "take": [
+            "属性查询按物种精确匹配",
+            "结果先看分辨率与方法",
+            "下载记录 PDB 编号"
+          ]
         },
         {
           "skill": "alphafold-database",
           "verdict": "补强",
-          "best_at": ["按 accession 取预测与置信度", "模型文件版本固定可复现", "pLDDT 与 PAE 直接可读"],
-          "limits": ["预测构象不等于实验构象", "无序区置信度低不可解释"],
-          "take": ["文件带 entryId 与版本号", "先看 pLDDT 再谈位点", "PAE 判域间相对位置"]
+          "best_at": [
+            "按 accession 取预测与置信度",
+            "模型文件版本固定可复现",
+            "pLDDT 与 PAE 直接可读"
+          ],
+          "limits": [
+            "预测构象不等于实验构象",
+            "无序区置信度低不可解释"
+          ],
+          "take": [
+            "文件带 entryId 与版本号",
+            "先看 pLDDT 再谈位点",
+            "PAE 判域间相对位置"
+          ]
         },
         {
           "skill": "interpro-database",
           "verdict": "补强",
-          "best_at": ["结构域、家族与位点条目", "条目可映射到 GO 术语", "支持批量与按分类学检索"],
-          "limits": ["注释来自序列特征，非结构解析", "条目粒度与功能不一定对应"],
-          "take": ["按 accession 取条目再筛类型", "条目编号与类型一起报", "批量请求加短延迟"]
+          "best_at": [
+            "结构域、家族与位点条目",
+            "条目可映射到 GO 术语",
+            "支持批量与按分类学检索"
+          ],
+          "limits": [
+            "注释来自序列特征，非结构解析",
+            "条目粒度与功能不一定对应"
+          ],
+          "take": [
+            "按 accession 取条目再筛类型",
+            "条目编号与类型一起报",
+            "批量请求加短延迟"
+          ]
         }
       ],
       "protocol": [
@@ -689,43 +1066,107 @@
         "构建体覆盖区间须与 accession 序列对齐后写明，不得默认等同全长",
         "个体级序列与结构数据只在本地处理，不上传第三方建模服务"
       ],
-      "outputs": ["structure/ 目录（结构文件与置信度文件）", "domain-table.csv（InterPro 条目／类型／区间／GO）", "置信度与来源说明"],
-      "kb": ["pdb-database", "alphafold-database", "interpro-database"]
+      "outputs": [
+        "structure/ 目录（结构文件与置信度文件）",
+        "domain-table.csv（InterPro 条目／类型／区间／GO）",
+        "置信度与来源说明"
+      ],
+      "kb": [
+        "pdb-database",
+        "alphafold-database",
+        "interpro-database"
+      ]
     },
     {
       "id": "data.chem-target",
       "label": "小分子、靶点与结合亲和力取数",
       "summary": "从化合物到靶点走通一条可核对的路：分子标识与理化性质取自 PubChem，生物活性与药物信息取自 ChEMBL，按靶点取实测亲和力走 BindingDB，需要可对接的三维结构或可购样品走 ZINC。交付化合物主表、活性表与跨库标识对照，亲和类型与单位逐列标注，不把 Ki 与 IC50 混在一列做比较。",
-      "triggers": ["化合物信息查询", "靶点活性数据", "Ki 与 IC50 区别", "可购化合物筛选", "对接库准备", "药物重定位", "SMILES 转换"],
-      "inputs": ["化合物名称／CID／SMILES 或靶点 accession", "关注的活性类型与阈值", "是否需要三维结构与可购性"],
+      "triggers": [
+        "化合物信息查询",
+        "靶点活性数据",
+        "Ki 与 IC50 区别",
+        "可购化合物筛选",
+        "对接库准备",
+        "药物重定位",
+        "SMILES 转换"
+      ],
+      "inputs": [
+        "化合物名称／CID／SMILES 或靶点 accession",
+        "关注的活性类型与阈值",
+        "是否需要三维结构与可购性"
+      ],
       "members": [
         {
           "skill": "pubchem-database",
           "verdict": "主用",
-          "best_at": ["名称、CID 与 SMILES 三向检索", "理化性质与结构图直接可取", "生物活性与注释数据汇总"],
-          "limits": ["活性数据聚合自多源，口径不一", "同物异名与盐型需自行合并"],
-          "take": ["先定 CID 再取性质", "相似与子结构检索分开用", "图与数据分两次请求"]
+          "best_at": [
+            "名称、CID 与 SMILES 三向检索",
+            "理化性质与结构图直接可取",
+            "生物活性与注释数据汇总"
+          ],
+          "limits": [
+            "活性数据聚合自多源，口径不一",
+            "同物异名与盐型需自行合并"
+          ],
+          "take": [
+            "先定 CID 再取性质",
+            "相似与子结构检索分开用",
+            "图与数据分两次请求"
+          ]
         },
         {
           "skill": "chembl-database",
           "verdict": "补强",
-          "best_at": ["活性记录带靶点与测定条件", "药物与适应症信息成体系", "字段过滤语法支持批量筛"],
-          "limits": ["活性值来自文献汇总，质量参差", "不同来源的测定条件不统一"],
-          "take": ["按字段过滤再取全量", "活性看标准类型与单位", "结果带 ChEMBL 编号"]
+          "best_at": [
+            "活性记录带靶点与测定条件",
+            "药物与适应症信息成体系",
+            "字段过滤语法支持批量筛"
+          ],
+          "limits": [
+            "活性值来自文献汇总，质量参差",
+            "不同来源的测定条件不统一"
+          ],
+          "take": [
+            "按字段过滤再取全量",
+            "活性看标准类型与单位",
+            "结果带 ChEMBL 编号"
+          ]
         },
         {
           "skill": "bindingdb-database",
           "verdict": "补强",
-          "best_at": ["按 UniProt 靶点取实测亲和力", "亲和类型与截断值可参数化", "大规模查询支持整包下载"],
-          "limits": ["接口按靶点查，反向查分子较弱", "数据覆盖偏激酶与已研究靶点"],
-          "take": ["指定 affinity_type 与单位", "大查询改整包下载", "许可为 CC BY 3.0"]
+          "best_at": [
+            "按 UniProt 靶点取实测亲和力",
+            "亲和类型与截断值可参数化",
+            "大规模查询支持整包下载"
+          ],
+          "limits": [
+            "接口按靶点查，反向查分子较弱",
+            "数据覆盖偏激酶与已研究靶点"
+          ],
+          "take": [
+            "指定 affinity_type 与单位",
+            "大查询改整包下载",
+            "许可为 CC BY 3.0"
+          ]
         },
         {
           "skill": "zinc-database",
           "verdict": "兜底",
-          "best_at": ["按编号或 SMILES 取可购化合物", "tranche 字段标明可购层级", "三维就绪结构用于对接"],
-          "limits": ["只覆盖可购与按需合成库", "旧版本已停更需认版本"],
-          "take": ["用当前版本的接口", "输出字段含 smiles 与 tranche", "批量取用文本接口"]
+          "best_at": [
+            "按编号或 SMILES 取可购化合物",
+            "tranche 字段标明可购层级",
+            "三维就绪结构用于对接"
+          ],
+          "limits": [
+            "只覆盖可购与按需合成库",
+            "旧版本已停更需认版本"
+          ],
+          "take": [
+            "用当前版本的接口",
+            "输出字段含 smiles 与 tranche",
+            "批量取用文本接口"
+          ]
         }
       ],
       "protocol": [
@@ -793,29 +1234,72 @@
         "各库许可须写明（BindingDB 为 CC BY 3.0），商用项目须另核许可",
         "本卡不输出构效结论与剂量建议，只交付可核对的取数结果"
       ],
-      "outputs": ["compound-table.csv（CID／InChIKey／SMILES／性质）", "activity-table.csv（靶点／亲和类型／值／单位／来源）", "跨库标识对照表"],
-      "kb": ["pubchem-database", "chembl-database", "bindingdb-database", "zinc-database"]
+      "outputs": [
+        "compound-table.csv（CID／InChIKey／SMILES／性质）",
+        "activity-table.csv（靶点／亲和类型／值／单位／来源）",
+        "跨库标识对照表"
+      ],
+      "kb": [
+        "pubchem-database",
+        "chembl-database",
+        "bindingdb-database",
+        "zinc-database"
+      ]
     },
     {
       "id": "data.metab-omics",
       "label": "代谢物注释与代谢组研究数据复用",
       "summary": "把代谢组结果里的峰或命名落到化学身份上：理化性质、谱图与通路归属取自 HMDB，研究级数据与跨研究命名标准化走 Metabolomics Workbench 的 RefMet。交付代谢物注释表、研究元数据快照与命名对齐表，浓度单位与样本类型逐列标注，商用许可单独说明。",
-      "triggers": ["代谢物鉴定", "HMDB 注释", "代谢组公共数据", "RefMet 标准化", "谱图比对", "代谢物名称统一", "代谢组研究复用"],
-      "inputs": ["代谢物名称／HMDB 编号／mz 与保留时间（可选）", "样本类型与浓度单位", "是否需要跨研究合并"],
+      "triggers": [
+        "代谢物鉴定",
+        "HMDB 注释",
+        "代谢组公共数据",
+        "RefMet 标准化",
+        "谱图比对",
+        "代谢物名称统一",
+        "代谢组研究复用"
+      ],
+      "inputs": [
+        "代谢物名称／HMDB 编号／mz 与保留时间（可选）",
+        "样本类型与浓度单位",
+        "是否需要跨研究合并"
+      ],
       "members": [
         {
           "skill": "hmdb-database",
           "verdict": "主用",
-          "best_at": ["理化性质与谱图数据齐全", "代谢物与通路疾病关联成体系", "数据集可整包下载"],
-          "limits": ["商用需授权，学术免费非商业", "覆盖以人源体液代谢物为主"],
-          "take": ["先定 HMDB 编号再取属性", "谱图与性质分开取", "版本 v5 口径要写"]
+          "best_at": [
+            "理化性质与谱图数据齐全",
+            "代谢物与通路疾病关联成体系",
+            "数据集可整包下载"
+          ],
+          "limits": [
+            "商用需授权，学术免费非商业",
+            "覆盖以人源体液代谢物为主"
+          ],
+          "take": [
+            "先定 HMDB 编号再取属性",
+            "谱图与性质分开取",
+            "版本 v5 口径要写"
+          ]
         },
         {
           "skill": "metabolomics-workbench-database",
           "verdict": "补强",
-          "best_at": ["研究级数据按编号直接取", "RefMet 提供命名标准化", "REST 接口路径规则清晰"],
-          "limits": ["研究质量参差需逐项判断", "元数据字段不齐是常态"],
-          "take": ["按 study_id 取摘要再取数据", "跨研究合并先用 RefMet 名", "记研究编号与版本"]
+          "best_at": [
+            "研究级数据按编号直接取",
+            "RefMet 提供命名标准化",
+            "REST 接口路径规则清晰"
+          ],
+          "limits": [
+            "研究质量参差需逐项判断",
+            "元数据字段不齐是常态"
+          ],
+          "take": [
+            "按 study_id 取摘要再取数据",
+            "跨研究合并先用 RefMet 名",
+            "记研究编号与版本"
+          ]
         }
       ],
       "protocol": [
@@ -883,43 +1367,106 @@
         "跨研究合并必须附命名映射表，未映射条目单列保留",
         "个体级代谢组数据只在本地处理，不上传第三方平台"
       ],
-      "outputs": ["metabolite-annotation.csv（编号／性质／通路／谱图条件）", "study-metadata.md（研究编号、平台、样本数、公开状态）", "name-mapping.csv（原名与标准名双向对照）"],
-      "kb": ["hmdb-database", "metabolomics-workbench-database"]
+      "outputs": [
+        "metabolite-annotation.csv（编号／性质／通路／谱图条件）",
+        "study-metadata.md（研究编号、平台、样本数、公开状态）",
+        "name-mapping.csv（原名与标准名双向对照）"
+      ],
+      "kb": [
+        "hmdb-database",
+        "metabolomics-workbench-database"
+      ]
     },
     {
       "id": "data.provenance",
       "label": "取数留痕、版本固定与隐私合规闸门",
       "summary": "贯穿全部数据来源的一条硬规矩：任何进入分析的数据集都要留下「从哪来、什么时候取、哪个版本、用什么参数、谁在本地处理过」。本卡给出留痕的最小字段集、快照与缓存策略、版本固定手段，以及涉及个体级数据时不许上传的闸门。没有留痕的数据一律不进入下游分析。",
-      "triggers": ["数据可复现", "取数记录怎么写", "数据库版本", "数据合规", "能不能上传", "审稿人要原始数据", "数据集快照"],
-      "inputs": ["本批次取用的数据来源清单", "数据是否含个体级或患者级信息", "目标投稿期刊或项目的数据可用性要求"],
+      "triggers": [
+        "数据可复现",
+        "取数记录怎么写",
+        "数据库版本",
+        "数据合规",
+        "能不能上传",
+        "审稿人要原始数据",
+        "数据集快照"
+      ],
+      "inputs": [
+        "本批次取用的数据来源清单",
+        "数据是否含个体级或患者级信息",
+        "目标投稿期刊或项目的数据可用性要求"
+      ],
       "members": [
         {
           "skill": "geo-database",
           "verdict": "主用",
-          "best_at": ["destdir 本地缓存让同一数据集可复跑", "GSE 元数据快照可完整留存", "补充文件与样本级链接可追溯"],
-          "limits": ["不提供库级版本号字段", "数据集体积大需先估磁盘"],
-          "take": ["缓存目录按数据集编号命名", "元数据与矩阵分目录存", "补件清单先列后下"]
+          "best_at": [
+            "destdir 本地缓存让同一数据集可复跑",
+            "GSE 元数据快照可完整留存",
+            "补充文件与样本级链接可追溯"
+          ],
+          "limits": [
+            "不提供库级版本号字段",
+            "数据集体积大需先估磁盘"
+          ],
+          "take": [
+            "缓存目录按数据集编号命名",
+            "元数据与矩阵分目录存",
+            "补件清单先列后下"
+          ]
         },
         {
           "skill": "gwas-database",
           "verdict": "补强",
-          "best_at": ["更新节律与版本口径有专节", "汇总统计按批次目录归档", "引用与许可要求写明"],
-          "limits": ["REST 分页不适合全量", "批次之间的样本量可能变化"],
-          "take": ["记 GCST 与发布批次", "下载文件校验行列与校验值", "引用按库方要求写"]
+          "best_at": [
+            "更新节律与版本口径有专节",
+            "汇总统计按批次目录归档",
+            "引用与许可要求写明"
+          ],
+          "limits": [
+            "REST 分页不适合全量",
+            "批次之间的样本量可能变化"
+          ],
+          "take": [
+            "记 GCST 与发布批次",
+            "下载文件校验行列与校验值",
+            "引用按库方要求写"
+          ]
         },
         {
           "skill": "string-database",
           "verdict": "补强",
-          "best_at": ["版本接口直接给出库版本", "版本化 URL 让结果可重放", "限速要求明确可执行"],
-          "limits": ["版本升级会改变网络边集", "综合分算法跨版本未必可比"],
-          "take": ["结果里带版本号与抓取日期", "每次调用间隔一秒", "跨版本比较要说明"]
+          "best_at": [
+            "版本接口直接给出库版本",
+            "版本化 URL 让结果可重放",
+            "限速要求明确可执行"
+          ],
+          "limits": [
+            "版本升级会改变网络边集",
+            "综合分算法跨版本未必可比"
+          ],
+          "take": [
+            "结果里带版本号与抓取日期",
+            "每次调用间隔一秒",
+            "跨版本比较要说明"
+          ]
         },
         {
           "skill": "clinvar-database",
           "verdict": "兜底",
-          "best_at": ["月度全量与周度增补节律固定", "多种格式按目录组织清晰", "审核星级可判证据可信度"],
-          "limits": ["文件不带显式 release 号", "分级随证据更新会变"],
-          "take": ["记录下载日期与文件大小", "按 assembly 选目录", "分级与星级一起留档"]
+          "best_at": [
+            "月度全量与周度增补节律固定",
+            "多种格式按目录组织清晰",
+            "审核星级可判证据可信度"
+          ],
+          "limits": [
+            "文件不带显式 release 号",
+            "分级随证据更新会变"
+          ],
+          "take": [
+            "记录下载日期与文件大小",
+            "按 assembly 选目录",
+            "分级与星级一起留档"
+          ]
         }
       ],
       "protocol": [
@@ -987,8 +1534,17 @@
         "原始文件与派生产物分目录存放，派生产物须可由原始文件加脚本重建",
         "许可与再使用条件必须写进交付说明，禁止再分发的数据不得随稿件提交"
       ],
-      "outputs": ["provenance.md（来源／版本／日期／参数／许可）", "file-manifest.csv（路径／大小／校验值／样本数）", "数据可用性声明草稿"],
-      "kb": ["geo-database", "gwas-database", "string-database", "clinvar-database"]
+      "outputs": [
+        "provenance.md（来源／版本／日期／参数／许可）",
+        "file-manifest.csv（路径／大小／校验值／样本数）",
+        "数据可用性声明草稿"
+      ],
+      "kb": [
+        "geo-database",
+        "gwas-database",
+        "string-database",
+        "clinvar-database"
+      ]
     }
   ]
 }
