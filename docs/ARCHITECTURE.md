@@ -14,7 +14,7 @@
 
 **没有 UI 页面，没有命令面板，没有侧边栏。** 自动触发的唯一机制是系统提示段：DSH 每次组系统提示时把它拼进去，模型据此判定「这是科研任务，先接管」，而不是等用户去点某个技能。
 
-能力域共 **10 个**：writing、polish、figures、stats、ideation、review、slides、literature、format、data。另有一个 **toolbox** 域——它是 233 个工具类技能的索引桶，只进 `research_catalog` 检索与 `research_kb_read` 原文读取，**没有能力卡**（工具不是「一件用户要办的事」）。
+能力域共 **10 个**：writing、polish、figures、stats、ideation、review、slides、literature、format、data。另有一个 **toolbox** 域——它是 100 个工具类技能的索引桶，只进 `research_catalog` 检索与 `research_kb_read` 原文读取，**没有能力卡**（工具不是「一件用户要办的事」）。
 
 ## 二、模块图
 
@@ -31,16 +31,16 @@ lib/index.js               入口与装配
         │
         ▼
 lib/core.js                能力内核（不依赖 ctx，可单测）
-  ├─ 目录加载    knowledge/catalog.json（592 条）、data/capabilities/*.json、data/gates.json、data/ledger/*.json、references/
+  ├─ 目录加载    knowledge/catalog.json（450 条）、data/capabilities/*.json、data/gates.json、data/ledger/*.json、references/
   ├─ 能力匹配    用户原话 → 打分 → 最匹配的 1～3 张能力卡
   ├─ 资产读取    技能自带的 references/scripts/templates（readAsset / listAssets）
   ├─ 路径安全读取 研究原文 / 规范文件，越界路径拒绝
   └─ 文本机械检查 中文标点、引用上标、AI 套话、绝对化措辞
-lib/tools.js               7 个工具：入参校验 + 调用 core + 统一返回格式
+lib/tools.js               12 个工具：入参校验 + 调用 core + 统一返回格式
 lib/prompt.js              「科研任务自动接管」段文本（静态策略 + 运行时域清单）
 ```
 
-`lib/` 之外全是**数据**，代码只读不写：`data/`（能力卡、门禁、判定账本）、`knowledge/`（592 篇技能原文 + 技能自带资产 + 目录）、`references/`（9 份规范）、`skills/`（11 个域 SOP）。
+`lib/` 之外全是**数据**，代码只读不写：`data/`（能力卡、门禁、判定账本）、`knowledge/`（450 篇技能原文 + 技能自带资产 + 目录）、`references/`（9 份规范）、`skills/`（11 个域 SOP）。
 
 ## 三、七个关注点的职责边界
 
@@ -49,11 +49,11 @@ lib/prompt.js              「科研任务自动接管」段文本（静态策�
 | 关注点 | 落点 | 输入 | 输出 | 明确不做什么 |
 |---|---|---|---|---|
 | config | `lib/index.js` | DSH 传入的插件 config | 校验过的配置对象（`autoTakeover` / `sectionOrder` / `verbose`） | 不导出 `Config`（见 §5.3）；不读包外路径 |
-| catalog | `lib/core.js` | `knowledge/catalog.json`（592 条） | 按域/关键词检索的条目（name/domain/source/file/assets） | 不改写 catalog；不扫 `knowledge/skills/` 做二次索引 |
+| catalog | `lib/core.js` | `knowledge/catalog.json`（450 条） | 按域/关键词检索的条目（name/domain/source/file/assets） | 不改写 catalog；不扫 `knowledge/skills/` 做二次索引 |
 | capabilities | `lib/core.js` | `data/capabilities/*.json`（10 个域） | 能力卡（成员对比、protocol、decide、gates、outputs、kb） | 不替模型选技能；不把成员技能当可执行体 |
 | playbooks | `lib/core.js` | 用户原话（task）+ 能力卡 triggers | 命中排序后的 1～3 张卡 + 协议摘要 | 不产出「推荐技能名清单」当终点（那是 v1 的路由器思路） |
 | tools | `lib/tools.js` | 模型给的参数 | 稳定的文本/JSON 返回 | 不写用户文件；不执行外部程序（R/Python 由模型按协议在会话里跑） |
-| prompt | `lib/prompt.js` | 域清单、工具清单、接管规则 | 一段中文策略文本 | 不写具体论文内容；不携带 592 篇原文（只带域级摘要） |
+| prompt | `lib/prompt.js` | 域清单、工具清单、接管规则 | 一段中文策略文本 | 不写具体论文内容；不携带 450 篇原文（只带域级摘要） |
 | skills | `lib/index.js`（注册装配）＋ `skills/*.md`（内容） | `skills/` 下的 md | DSH 技能目录里的 11 个条目 | 注册时**不传加载钩子**，只传 content 字符串 |
 
 ## 四、数据流：从一句诉求到交付物
@@ -77,7 +77,7 @@ lib/prompt.js              「科研任务自动接管」段文本（静态策�
   │   research_kb_read(name)             → knowledge/skills/<域>/<slug>.md 原文
   │   research_kb_read(name, asset=...)  → 该技能自带的 references/scripts/templates
   │   research_standard(file)            → references/ 下的格式、语体、统计报告规范
-  │   research_catalog(keyword)          → 592 个原始技能里还有没有别的可用
+  │   research_catalog(keyword)          → 450 个原始技能里还有没有别的可用
   ▼
   ⑤ 模型执行协议，产出交付物（.docx / 图 / 表 / 回复信 …）
   ▼
@@ -86,7 +86,7 @@ lib/prompt.js              「科研任务自动接管」段文本（静态策�
       命中 → 修 → 再交；不通过不交付
 ```
 
-**兜底分支**：`research_playbook` 没有达到阈值的命中时（例如用户提的是本插件不覆盖的任务），模型改用 `research_catalog` 在 592 个原始技能里检索，再 `research_kb_read` 直读原文——能力卡是加速层，不是唯一通路。这条分支保证了「插件没覆盖的科研任务也不会被拒答」。
+**兜底分支**：`research_playbook` 没有达到阈值的命中时（例如用户提的是本插件不覆盖的任务），模型改用 `research_catalog` 在 450 个原始技能里检索，再 `research_kb_read` 直读原文——能力卡是加速层，不是唯一通路。这条分支保证了「插件没覆盖的科研任务也不会被拒答」。
 
 ## 五、自动接管的实现（最容易写错的四处）
 
@@ -119,7 +119,7 @@ if (systemPrompt && typeof systemPrompt.section === 'function') {
 
 - **`order: 650`** 的位置语义是「团队策略之后、工具说明之前」：前半段（身份与协作规则）先立，后半段（工具清单）后到，本段落在中间起「任务分发」作用。
 - **`text` 是函数不是字符串**：DSH 每次组装系统提示都会重新求值，所以能力卡落盘多少、配置改成什么，下一轮对话就反映出来，不需要重启。
-- **`buildPolicy(core)` 动态生成**：把 10 个域的能力卡数量、7 个工具名、接管顺序（`research_playbook` → 能力卡协议 → 深读 → `research_gate` 自检）拼进文本。域没落盘时自动省略该域，不会写出「有 10 个域」但实际只有 1 个卡的假话。
+- **`buildPolicy(core)` 动态生成**：把 10 个域的能力卡数量、12 个工具名、接管顺序（`research_playbook` → 能力卡协议 → 深读 → `research_gate` 自检）拼进文本。域没落盘时自动省略该域，不会写出「有 10 个域」但实际只有 1 个卡的假话。
 - **配置项**（`lib/index.js` 内的 `DEFAULTS` + `validateConfig()`，默认值 `{ autoTakeover: true, sectionOrder: 650, verbose: false }`）：
   - `autoTakeover: false` → 整段不注入，退化成「装了个工具包」，工具和技能仍可用，只是不再自动接管；
   - `sectionOrder` → 覆盖上表的 650，用于和其它插件的策略段抢位置；
@@ -208,9 +208,9 @@ if (!installTools(tools, 'apply 同步阶段未拿到服务') && typeof ctx.inje
 
 ## 六、v3 知识层与判定账本
 
-v3 的核心变化是**知识层从「719 篇原文 + 域标签」升级为「592 条逐条判定过的源技能 + 自带资产」**。为了让「择优录取」这件主观判断可审计，多了一个账本层。
+v3 的核心变化是**知识层从「719 篇原文 + 域标签」升级为「450 条逐条判定过的源技能 + 自带资产」**。为了让「择优录取」这件主观判断可审计，多了一个账本层。
 
-### 6.1 catalog：592 条源技能索引
+### 6.1 catalog：450 条源技能索引
 
 `knowledge/catalog.json` 是顶层数组，每条一个源技能：
 
@@ -237,13 +237,13 @@ v3 的核心变化是**知识层从「719 篇原文 + 域标签」升级为「59
 - **只收白名单扩展名**（`.md .py .r .sh .mjs .js .json .csv .txt .yml .yaml .tex .bib .ipynb .html .css .Rmd .qmd` 等文本/代码类），二进制、模型权重、数据转储一律不收；
 - **单文件 ≤ 256 KB**，超过的跳过（多为数据转储/日志）；
 - **用户级技能整包 ≤ 260 KB 才完整收录**，**插件内置技能 ≤ 5 MB**；超预算的整包丢弃，记 `included: false` + `wouldBe`（当前 46 个源技能因此未收录资产；另有 95 个本来就没有资产）；
-- 当前实测：**451 个技能带资产、共 3924 个文件、约 29 MB**，目录/文件数/字节与 catalog 逐条一致（`scripts/verify-package.mjs` 会校验这一点）。
+- 当前实测：**186 个技能带资产、共 954 个文件、约 6.8 MB**，目录/文件数/字节与 catalog 逐条一致（`scripts/verify-package.mjs` 会校验这一点）。
 
 模型侧通过 `research_kb_read(name, asset='scripts/plot.py')` 读单个资产；不给 `asset` 时列出该技能带了哪些资产。
 
 ### 6.3 判定账本：`data/ledger/<domain>.json`
 
-592 个源技能**每一个**都必须在账本里有一条判定，四类语义：
+450 个源技能**每一个**都必须在账本里有一条判定，四类语义：
 
 | verdict | 语义 | 对能力卡的要求 |
 |---|---|---|
@@ -258,7 +258,7 @@ v3 的核心变化是**知识层从「719 篇原文 + 域标签」升级为「59
 
 `scripts/verify-ledger.mjs <domain|all>`（CI 必跑）：
 
-1. **覆盖度**：源清单默认取包内 `knowledge/catalog.json`（该域 `dir` 集合，共 592 条），账本必须一条不多一条不少；缺一条即 ERROR 并列出前 6 个。`--src=<本地分析目录>` 只是本地核对构建输入的可选覆盖，**CI 不传**（保证可在 GitHub Actions 上跑）。
+1. **覆盖度**：源清单默认取包内 `knowledge/catalog.json`（该域 `dir` 集合，共 450 条），账本必须一条不多一条不少；缺一条即 ERROR 并列出前 6 个。`--src=<本地分析目录>` 只是本地核对构建输入的可选覆盖，**CI 不传**（保证可在 GitHub Actions 上跑）。
 2. **判定合法性**：`verdict` ∈ 四类；`why` 非空且 ≥4 字；非 `fused` 却写了 `cards` 只警告。
 3. **fused 可核**：`cards` 里每张卡必须真实存在于 `data/capabilities/<domain>.json`，且该卡 `members[].skill` 含该技能 `name`——防止「账本说融进去了，卡里却没有」。
 
@@ -267,11 +267,11 @@ v3 的核心变化是**知识层从「719 篇原文 + 域标签」升级为「59
 | 路径 | 内容 | 谁写 | 运行时怎么用 |
 |---|---|---|---|
 | `data/capabilities/<domain>.json` | 10 个域的能力卡（机器可读契约） | 内容作者，受 `docs/CAPABILITY-SPEC.md` 约束 | `research_playbook` / `research_capability` 加载 |
-| `data/ledger/<domain>.json` | 592 条源技能的判定账本（可审计证据） | 内容作者 | 不参与运行时；`verify-ledger.mjs` 与审计用 |
+| `data/ledger/<domain>.json` | 450 条源技能的判定账本（可审计证据） | 内容作者 | 不参与运行时；`verify-ledger.mjs` 与审计用 |
 | `data/gates.json` | 门禁、自检、互斥、禁用、硬规则 | 主控维护 | `research_gate` 的 `section` 参数 |
-| `knowledge/catalog.json` | 592 条技能索引（name/dir/slug/domain/source/file/assets） | 构建期生成 | `research_catalog`、能力卡的技能名对账、账本源清单 |
-| `knowledge/skills/<域>/<slug>.md` | 592 篇原始技能全文 | 随包分发 | `research_kb_read` 深读 |
-| `knowledge/skills/<域>/<slug>__assets/` | 技能自带 references/scripts/templates（3924 个文件） | 随包分发 | `research_kb_read(name, asset=...)` |
+| `knowledge/catalog.json` | 450 条技能索引（name/dir/slug/domain/source/file/assets） | 构建期生成 | `research_catalog`、能力卡的技能名对账、账本源清单 |
+| `knowledge/skills/<域>/<slug>.md` | 450 篇原始技能全文 | 随包分发 | `research_kb_read` 深读 |
+| `knowledge/skills/<域>/<slug>__assets/` | 技能自带 references/scripts/templates（954 个文件） | 随包分发 | `research_kb_read(name, asset=...)` |
 | `knowledge/INDEX.md`、`knowledge/FUSION.md` | 总索引与融合说明 | 随包分发 | `research_kb_read` 可读 |
 | `references/01–09` | 格式、语体、统计、图件、标书、知识库等规范 | 随包分发 | `research_standard` |
 | `skills/*.md` | 11 个域 SOP（1 入口 + 10 域） | 内容作者 | 装进 DSH 技能目录，模型按需读 |
@@ -292,9 +292,27 @@ v3 的核心变化是**知识层从「719 篇原文 + 域标签」升级为「59
 - **不做技能路由器**：不返回「推荐技能名」作为终点。能力卡里成员技能名只出现在「账本」（谁的长处被搬进哪一步）里。
 - **不做 UI**：不注册页面、侧栏、命令面板；settings 面板里也刻意没有配置项（§5.3）。
 - **不联网**：运行时只依赖 node 内置模块；不请求任何远程服务。
-- **不读外部技能目录**：592 篇原文与 3924 个资产随包分发，不读用户机器的 `skills-library` 或别的插件目录。
-- **不写用户文件**：7 个工具当前都是只读查询/展开/深读/自检；若后续引入写盘工具，需同步回改本文与 `docs/PUBLISH.md` 的安全说明。
+- **不读外部技能目录**：450 篇原文与 954 个资产随包分发，不读用户机器的 `skills-library` 或别的插件目录。
+- **不写用户文件**：12 个工具当前都是只读查询/展开/深读/自检；若后续引入写盘工具，需同步回改本文与 `docs/PUBLISH.md` 的安全说明。
 
 ---
 
 相关文档：内容契约见 `docs/CAPABILITY-SPEC.md`，发布与排障见 `docs/PUBLISH.md`，对外介绍见 `README.md`。
+
+## 七、执行与核验层（v3.1 新增）
+
+`lib/verify.js`（981 行，纯 Node、零第三方依赖、不 import 任何 `@deepseek-ai/*`）由 `createVerify(core, options)` 工厂返回五个 async 方法，`lib/tools.js` 只是把它们包成 ToolDefinition：
+
+| 方法 | 底层动作 | 失败时怎么返回 |
+|---|---|---|
+| `runScript({kind:'r'|'python', code, workdir, timeoutMs})` | `spawnSync` 调 `Rscript.exe` 或本机 `python.exe`，写脚本到 workdir，清 `LC_ALL/LANG/LANGUAGE` | `runtime_missing` / `spawn_blocked`（宿主沙箱 EPERM）/ `dangerous_code` / `workdir_outside` / `bad_kind`，**从不抛异常** |
+| `checkData({file, outcome, predictors})` | 自实现 CSV/TSV 解析 + 六道闸门的机械项 | 读不到文件返回 `error`，不猜数据 |
+| `checkOutputs({files})` | PNG IHDR+pHYs 读实测 DPI；PDF 页数/文本层；DOCX/XLSX 最小 zip 结构 | 逐文件报 `ok/level/message` |
+| `checkDois({dois})` | Crossref `api.crossref.org/works/<doi>`，5 秒超时 | `network` / `not_found` / `http_<code>` 降级返回 |
+| `auditRefs({text})` | 先切掉文献表，再统计正文 `[n]` 与文献条目对账 | 跳号/重复/缺 DOI/年份可疑 |
+
+设计要点：
+
+1. **工具层不伪造执行**：`research_run` 的返回值里有 `command`、`exitCode`、`stdout`、`stderr`、`files`，模型无法把「没跑」说成「跑了」。
+2. **不做破坏性动作**：脚本内容命中 `install`/`rm` 类模式直接拒绝；workdir 必须在 cwd 或系统临时目录内。
+3. **网络失败必须诚实**：DOI 核验失败时返回 `ok:false, error:'network'`，绝不编造「核验通过」。

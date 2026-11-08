@@ -7,26 +7,26 @@
 - 想知道某个技能原文：`research_kb_read(name="<技能名>")`，按 `file` 列的相对路径读取。
 - 本索引只在“同名近似技能到底哪个更全”这类**证据等级**问题上使用。
 
-合计 592 条源记录（去重后 586 个技能目录：6 组同目录重复记录各计一条），科研相关 592 条，分布在 10 个能力域 + 1 个工具箱索引桶；
+合计 450 条源记录（去重后 444 个技能目录：6 组同目录重复记录各计一条），科研相关 450 条，分布在 10 个能力域 + 1 个工具箱索引桶；
 被能力卡引用 237 个，其余仅编目留档。
 
 ## 域目录
 
 | 域 | 技能数 | 科研相关 | 被能力卡引用 | 对应技能文件 |
 |---|---:|---:|---:|---|
-| 论文撰写 | 66 | 66 | 34 | `skills/research-writing.md` |
+| 论文撰写 | 64 | 64 | 34 | `skills/research-writing.md` |
 | 润色与去 AI 痕迹 | 12 | 12 | 12 | `skills/research-polish.md` |
-| 科研绘图 | 36 | 36 | 22 | `skills/research-figures.md` |
-| 科研统计 | 31 | 31 | 22 | `skills/research-stats.md` |
-| 科研思路与标书 | 39 | 39 | 21 | `skills/research-ideation.md` |
-| 审稿与修回 | 21 | 21 | 18 | `skills/research-review.md` |
+| 科研绘图 | 33 | 33 | 22 | `skills/research-figures.md` |
+| 科研统计 | 30 | 30 | 22 | `skills/research-stats.md` |
+| 科研思路与标书 | 37 | 37 | 21 | `skills/research-ideation.md` |
+| 审稿与修回 | 20 | 20 | 18 | `skills/research-review.md` |
 | 科研汇报与 PPT | 37 | 37 | 19 | `skills/research-slides.md` |
 | 文献与引文 | 26 | 26 | 20 | `skills/research-literature.md` |
 | 格式与交付 | 51 | 51 | 41 | `skills/research-format.md` |
 | 数据获取与组学 | 40 | 40 | 29 | `skills/research-data.md` |
-| 工具箱（索引桶，不建能力卡） | 233 | 233 | 7 | — |
+| 工具箱（索引桶，不建能力卡） | 100 | 100 | 7 | — |
 
-## 论文撰写（66）
+## 论文撰写（64）
 
 | 技能名 | 体积 | 科研 | 被能力卡引用 | 文件 |
 |---|---:|:--:|---|---|
@@ -62,14 +62,10 @@
 | ↳ | | | | Query ClinicalTrials.gov via API v2. Search trials by condition, drug, location, status, or phase. Retrieve trial details by NCT ID, export … |
 | `cover-letter` | 11.3K | ✓ | format.submission-package(member)、format.journal-fit(member)、writing.submission(member) | `skills/writing/cover-letter.md` |
 | ↳ | | | | Submission cover-letter assistant for existing LaTeX manuscripts. Use to generate, optimize, align-check, preflight, and journal-fit-check c… |
-| `dhdna-profiler` | 9.8K | ✓ | — | `skills/writing/dhdna-profiler.md` |
-| ↳ | | | | Extract cognitive patterns and thinking fingerprints from any text. Use this skill when the user wants to analyze how someone thinks, unders… |
 | `evidence-driven-writing` | 3.7K | ✓ | writing.evidence(member) | `skills/writing/evidence-driven-writing.md` |
 | ↳ | | | | Use when writing or revising Introduction, Related Work, background, literature synthesis, or any section where references must drive claims |
 | `intro-drafter` | 9.7K | ✓ | writing.evidence(member) | `skills/writing/intro-drafter.md` |
 | ↳ | | | | >- Drafts the Introduction prose for a technical paper, guided internally by a six-paragraph flowchart: background and running example, exis… |
-| `karpathy-guidelines` | 2.5K | ✓ | — | `skills/writing/karpathy-guidelines.md` |
-| ↳ | | | | Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make… |
 | `lab-report-writer` | 9.3K | ✓ | — | `skills/writing/lab-report-writer.md` |
 | ↳ | | | | Generate complete, template-aware lab reports for any course from experiment task books, related files, report templates, sample finished re… |
 | `latex-paper-en` | 19.3K | ✓ | — | `skills/writing/latex-paper-en.md` |
@@ -191,7 +187,7 @@
 | `wb-academic-polish` | 9.9K | ✓ | polish.en(member) | `skills/polish/wb-academic-polish.md` |
 | ↳ | | | | 英文润色降重、期刊匹配推荐、投稿信撰写、参考文献格式校正、基金申请书润色、Abstract polishing、Reviewer Response 撰写、AIGC率检测与重写、native speaker级英文表达、学科术语校准——学术文本深度润色引擎：中英文学术论文/摘要/基金… |
 
-## 科研绘图（36）
+## 科研绘图（33）
 
 | 技能名 | 体积 | 科研 | 被能力卡引用 | 文件 |
 |---|---:|:--:|---|---|
@@ -217,10 +213,6 @@
 | ↳ | | | | Use when creating data visualizations for papers - generates publication-quality plots with top-journal color schemes |
 | `fireworks-tech-graph` | 5.5K | ✓ | figures.flow(member)、figures.vector(member) | `skills/figures/fireworks-tech-graph.md` |
 | ↳ | | | | Create precise SVG technical diagrams, export PNG or offline HTML, and animate supported semantic SVGs to GIF. Use for architecture, UML, ag… |
-| `generate-image` | 6.9K | ✓ | — | `skills/figures/generate-image.md` |
-| ↳ | | | | Generate or edit images using AI models (FLUX, Nano Banana 2). Use for general-purpose image generation including photos, illustrations, art… |
-| `geopandas` | 7.0K | ✓ | — | `skills/figures/geopandas.md` |
-| ↳ | | | | Python library for working with geospatial vector data including shapefiles, GeoJSON, and GeoPackage files. Use when working with geographic… |
 | `Illustrator` | 1.8K | ✓ | figures.vector(member) | `skills/figures/sfkislev-flue-illustrator.md` |
 | ↳ | | | | Control Adobe Illustrator from the shell via Flue - ExtendScript bridges without an MCP server. |
 | `imaging-data-commons` | 33.6K | ✓ | figures.imaging(member) | `skills/figures/imaging-data-commons.md` |
@@ -239,8 +231,6 @@
 | ↳ | | | | Create source-grounded Chinese-English paper readers with aligned text, figures, tables, and equations. Use for 全文翻译、中英文对照、论文精读 or source-li… |
 | `plotly` | 7.0K | ✓ | figures.render(member) | `skills/figures/plotly.md` |
 | ↳ | | | | Interactive visualization library. Use when you need hover info, zoom, pan, or web-embeddable charts. Best for dashboards, exploratory analy… |
-| `pymatgen` | 19.6K | ✓ | — | `skills/figures/pymatgen.md` |
-| ↳ | | | | Materials science toolkit. Crystal structures (CIF, POSCAR), phase diagrams, band structure, DOS, Materials Project integration, format conv… |
 | `scholar-conceptual` | 20.8K | ✓ | — | `skills/figures/scholar-conceptual.md` |
 | ↳ | | | | Build original theoretical frameworks and produce publication-quality conceptual diagrams for social science research. Two modes: (1) THEORI… |
 | `science-figures` | 6.5K | ✓ | figures.statplot(member)、figures.style(member) | `skills/figures/science-figures.md` |
@@ -268,7 +258,7 @@
 | `xmed-figure` | 14.7K | ✓ | figures.statplot(member) | `skills/figures/xmed-figure.md` |
 | ↳ | | | | "Scientific figure generation via X-Med MCP. Volcano, PCA, enrichment, survival, correlation. CSV/Excel upload, chart matching, parameter co… |
 
-## 科研统计（31）
+## 科研统计（30）
 
 | 技能名 | 体积 | 科研 | 被能力卡引用 | 文件 |
 |---|---:|:--:|---|---|
@@ -326,8 +316,6 @@
 | ↳ | | | | Comprehensive toolkit for survival analysis and time-to-event modeling in Python using scikit-survival. Use this skill when working with cen… |
 | `shap` | 18.0K | ✓ | stats.interpret(member) | `skills/stats/shap.md` |
 | ↳ | | | | Model interpretability and explainability using SHAP (SHapley Additive exPlanations). Use this skill when explaining machine learning model … |
-| `stable-baselines3` | 9.3K | ✓ | — | `skills/stats/stable-baselines3.md` |
-| ↳ | | | | Production-ready reinforcement learning algorithms (PPO, SAC, DQN, TD3, DDPG, A2C) with scikit-learn-like API. Use for standard RL experimen… |
 | `statistical-analysis` | 19.3K | ✓ | stats.twogroup(member)、stats.multigroup(member)、stats.diagnostic(member)、stats.meta(member)、stats.power(member)、stats.corr(member) | `skills/stats/statistical-analysis.md` |
 | ↳ | | | | Guided statistical analysis with test selection and reporting. Use when you need help choosing appropriate tests for your data, assumption c… |
 | `statsmodels` | 19.2K | ✓ | stats.multigroup(member)、stats.regression(member)、stats.survey(member) | `skills/stats/statsmodels.md` |
@@ -335,7 +323,7 @@
 | `umap-learn` | 15.0K | ✓ | — | `skills/stats/umap-learn.md` |
 | ↳ | | | | UMAP dimensionality reduction. Fast nonlinear manifold learning for 2D/3D visualization, clustering preprocessing (HDBSCAN), supervised/para… |
 
-## 科研思路与标书（39）
+## 科研思路与标书（37）
 
 | 技能名 | 体积 | 科研 | 被能力卡引用 | 文件 |
 |---|---:|:--:|---|---|
@@ -371,8 +359,6 @@
 | ↳ | | | | Benchling R&D platform integration. Access registry (DNA, proteins), inventory, ELN entries, workflows via API, build Benchling Apps, query … |
 | `clinical-research-design-extractor` | 4.1K | ✓ | ideation.design(member) | `skills/ideation/clinical-research-design-extractor.md` |
 | ↳ | | | | Extract a clinical research design from one clinical article and quickly produce a formatted Chinese project-application-style clinical stud… |
-| `hyperliquid-reader` | 9.4K | ✓ | — | `skills/ideation/hyperliquid-reader.md` |
-| ↳ | | | | Read Hyperliquid (app.hyperliquid.xyz) perp and spot market data through opencli and Hyperliquid's public info API: mark, oracle, and mid pr… |
 | `hypogenic` | 21.1K | ✓ | — | `skills/ideation/hypogenic.md` |
 | ↳ | | | | Automated LLM-driven hypothesis generation and testing on tabular datasets. Use when you want to systematically explore hypotheses about pat… |
 | `hypothesis-generation` | 13.5K | ✓ | ideation.question(member) | `skills/ideation/hypothesis-generation.md` |
@@ -395,8 +381,6 @@
 | ↳ | | | | Write competitive research proposals for NSF, NIH, DOE, DARPA, and Taiwan NSTC. Agency-specific formatting, review criteria, budget preparat… |
 | `researchwrite` | 6.7K | ✓ | ideation.grant(member) | `skills/ideation/nature-proposal-writer.md` |
 | ↳ | | | | Compose, revise, or audit research proposals, opening reports, and research plans from supporting evidence. Use for 研究计划、开题报告、科研项目申请书. Invok… |
-| `saas-valuation-compression` | 7.1K | ✓ | — | `skills/ideation/saas-valuation-compression.md` |
-| ↳ | | | | Analyze how a private SaaS company's ARR valuation multiple changed across funding rounds, and attribute the compression or expansion to rat… |
 | `scholar-brainstorm` | 17.1K | ✓ | ideation.topic(member) | `skills/ideation/scholar-brainstorm.md` |
 | ↳ | | | | Generate research questions from existing materials — codebooks, survey questionnaires, datasets, or published papers/abstracts. Three modes… |
 | `scholar-causal` | 39.1K | ✓ | — | `skills/ideation/scholar-causal.md` |
@@ -418,7 +402,7 @@
 | `venue-templates` | 22.8K | ✓ | format.figtable(member)、format.journal-fit(member)、ideation.grant(member) | `skills/ideation/venue-templates.md` |
 | ↳ | | | | Access comprehensive LaTeX templates, formatting requirements, and submission guidelines for major scientific publication venues (Nature, Sc… |
 
-## 审稿与修回（21）
+## 审稿与修回（20）
 
 | 技能名 | 体积 | 科研 | 被能力卡引用 | 文件 |
 |---|---:|:--:|---|---|
@@ -444,8 +428,6 @@
 | ↳ | | | | "Multi-perspective academic paper review with dynamic reviewer personas. Runs a 5-seat, role-separated review panel (Journal-Fit Reviewer + … |
 | `ars-academic-pipeline` | 58.9K | ✓ | — | `skills/review/ars-academic-pipeline.md` |
 | ↳ | | | | "Orchestrator for the full academic research pipeline: research -> write -> integrity check -> review -> revise -> re-review -> re-revise ->… |
-| `cavecrew` | 3.7K | ✓ | — | `skills/review/cavecrew.md` |
-| ↳ | | | | When to delegate to `cavecrew-investigator` (locate code), `cavecrew-builder` (1-2 file edit) or `cavecrew-reviewer` (diff review) instead o… |
 | `nature-paper-card` | 8.2K | ✓ | review.audit(member) | `skills/review/nature-paper-card.md` |
 | ↳ | | | | Build a structured deep-reading Paper Card for one scientific paper, analysing methods, experiment-to-claim evidence, limitations, and resea… |
 | `nature-response` | 5.8K | ✓ | review.revise(member)、review.rebuttal(member)、review.appeal(member) | `skills/review/nature-response.md` |
@@ -792,12 +774,10 @@
 | `zinc-database` | 13.6K | ✓ | data.chem-target(member) | `skills/data/zinc-database.md` |
 | ↳ | | | | Access ZINC (230M+ purchasable compounds). Search by ZINC ID/SMILES, similarity searches, 3D-ready structures for docking, analog discovery,… |
 
-## 工具箱（索引桶，不建能力卡）（233）
+## 工具箱（索引桶，不建能力卡）（100）
 
 | 技能名 | 体积 | 科研 | 被能力卡引用 | 文件 |
 |---|---:|:--:|---|---|
-| `aeon` | 10.3K | ✓ | — | `skills/toolbox/aeon.md` |
-| ↳ | | | | This skill should be used for time series machine learning tasks including classification, regression, clustering, forecasting, anomaly dete… |
 | `airs-academic-plotting` | 21.1K | ✓ | — | `skills/toolbox/airs-academic-plotting.md` |
 | ↳ | | | | Generates publication-quality figures for ML papers from research context. Given a paper section or description, extracts system components … |
 | `airs-ara-compiler` | 14.8K | ✓ | — | `skills/toolbox/airs-ara-compiler.md` |
@@ -806,194 +786,18 @@
 | ↳ | | | | Records research provenance as a post-task epilogue, scanning conversation history at the end of a coding or research session to extract dec… |
 | `airs-ara-rigor-reviewer` | 17.7K | ✓ | — | `skills/toolbox/airs-ara-rigor-reviewer.md` |
 | ↳ | | | | Performs ARA Seal Level 2 semantic epistemic review on Agent-Native Research Artifacts, scoring six dimensions (evidence relevance, falsifia… |
-| `airs-audiocraft-audio-generation` | 16.5K | ✓ | — | `skills/toolbox/airs-audiocraft-audio-generation.md` |
-| ↳ | | | | PyTorch library for audio generation including text-to-music (MusicGen) and text-to-sound (AudioGen). Use when you need to generate music fr… |
-| `airs-autogpt-agents` | 9.5K | ✓ | — | `skills/toolbox/airs-autogpt-agents.md` |
-| ↳ | | | | Autonomous AI agent platform for building and deploying continuous agents. Use when creating visual workflow agents, deploying persistent au… |
-| `airs-autoresearch` | 24.8K | ✓ | — | `skills/toolbox/airs-autoresearch.md` |
-| ↳ | | | | Orchestrates end-to-end autonomous AI research projects using a two-loop architecture. The inner loop runs rapid experiment iterations with … |
-| `airs-awq-quantization` | 8.5K | ✓ | — | `skills/toolbox/airs-awq-quantization.md` |
-| ↳ | | | | Activation-aware weight quantization for 4-bit LLM compression with 3x speedup and minimal accuracy loss. Use when deploying large models (7… |
-| `airs-axolotl` | 4.8K | ✓ | — | `skills/toolbox/airs-axolotl.md` |
-| ↳ | | | | Expert guidance for fine-tuning LLMs with Axolotl - YAML configs, 100+ models, LoRA/QLoRA, DPO/KTO/ORPO/GRPO, multimodal support |
-| `airs-blip-2-vision-language` | 18.7K | ✓ | — | `skills/toolbox/airs-blip-2-vision-language.md` |
-| ↳ | | | | Vision-language pre-training framework bridging frozen image encoders and LLMs. Use when you need image captioning, visual question answerin… |
 | `airs-brainstorming-research-ideas` | 19.1K | ✓ | ideation.topic(member) | `skills/toolbox/airs-brainstorming-research-ideas.md` |
 | ↳ | | | | Guides researchers through structured ideation frameworks to discover high-impact research directions. Use when exploring new problem spaces… |
-| `airs-chroma` | 9.4K | ✓ | — | `skills/toolbox/airs-chroma.md` |
-| ↳ | | | | Open-source embedding database for AI applications. Store embeddings and metadata, perform vector and full-text search, filter by metadata. … |
-| `airs-clip` | 7.0K | ✓ | — | `skills/toolbox/airs-clip.md` |
-| ↳ | | | | OpenAI's model connecting vision and language. Enables zero-shot image classification, image-text matching, and cross-modal retrieval. Train… |
-| `airs-constitutional-ai` | 8.3K | ✓ | — | `skills/toolbox/airs-constitutional-ai.md` |
-| ↳ | | | | Anthropic's method for training harmless AI through self-improvement. Two-phase approach - supervised learning with self-critique/revision, … |
 | `airs-creative-thinking-for-research` | 21.8K | ✓ | — | `skills/toolbox/airs-creative-thinking-for-research.md` |
 | ↳ | | | | Applies cognitive science frameworks for creative thinking to CS and AI research ideation. Use when seeking genuinely novel research directi… |
-| `airs-crewai-multi-agent` | 13.6K | ✓ | — | `skills/toolbox/airs-crewai-multi-agent.md` |
-| ↳ | | | | Multi-agent orchestration framework for autonomous AI collaboration. Use when building teams of specialized agents working together on compl… |
-| `airs-deepspeed` | 141.7K | ✓ | — | `skills/toolbox/airs-deepspeed.md` |
-| ↳ | | | | Expert guidance for distributed training with DeepSpeed - ZeRO optimization stages, pipeline parallelism, FP16/BF16/FP8, 1-bit Adam, sparse … |
-| `airs-distributed-llm-pretraining-torchtitan` | 9.1K | ✓ | — | `skills/toolbox/airs-distributed-llm-pretraining-torchtitan.md` |
-| ↳ | | | | Provides PyTorch-native distributed LLM pretraining using torchtitan with 4D parallelism (FSDP2, TP, PP, CP). Use when pretraining Llama 3.1… |
-| `airs-dspy` | 15.5K | ✓ | — | `skills/toolbox/airs-dspy.md` |
-| ↳ | | | | Build complex AI systems with declarative programming, optimize prompts automatically, create modular RAG systems and agents with DSPy - Sta… |
-| `airs-evaluating-code-models` | 11.8K | ✓ | — | `skills/toolbox/airs-evaluating-code-models.md` |
-| ↳ | | | | Evaluates code generation models across HumanEval, MBPP, MultiPL-E, and 15+ benchmarks with pass@k metrics. Use when benchmarking code model… |
-| `airs-evaluating-cosmos-policy` | 14.7K | ✓ | — | `skills/toolbox/airs-evaluating-cosmos-policy.md` |
-| ↳ | | | | Evaluates NVIDIA Cosmos Policy on LIBERO and RoboCasa simulation environments. Use when setting up cosmos-policy for robot manipulation eval… |
-| `airs-evaluating-llms-harness` | 12.1K | ✓ | — | `skills/toolbox/airs-evaluating-llms-harness.md` |
-| ↳ | | | | Evaluates LLMs across 60+ academic benchmarks (MMLU, HumanEval, GSM8K, TruthfulQA, HellaSwag). Use when benchmarking model quality, comparin… |
-| `airs-evolving-ai-agents` | 14.6K | ✓ | — | `skills/toolbox/airs-evolving-ai-agents.md` |
-| ↳ | | | | Provides guidance for automatically evolving and optimizing AI agents across any domain using LLM-driven evolution algorithms. Use when buil… |
-| `airs-experiment-tracking-swanlab` | 9.9K | ✓ | — | `skills/toolbox/airs-experiment-tracking-swanlab.md` |
-| ↳ | | | | Provides guidance for experiment tracking with SwanLab. Use when you need open-source run tracking, local or self-hosted dashboards, and lig… |
-| `airs-faiss` | 5.2K | ✓ | — | `skills/toolbox/airs-faiss.md` |
-| ↳ | | | | Facebook's library for efficient similarity search and clustering of dense vectors. Supports billions of vectors, GPU acceleration, and vari… |
-| `airs-fine-tuning-openvla-oft` | 14.9K | ✓ | — | `skills/toolbox/airs-fine-tuning-openvla-oft.md` |
-| ↳ | | | | Fine-tunes and evaluates OpenVLA-OFT and OpenVLA-OFT+ policies for robot action generation with continuous action heads, LoRA adaptation, an… |
-| `airs-fine-tuning-serving-openpi` | 14.4K | ✓ | — | `skills/toolbox/airs-fine-tuning-serving-openpi.md` |
-| ↳ | | | | Fine-tune and serve Physical Intelligence OpenPI models (pi0, pi0-fast, pi0.5) using JAX or PyTorch backends for robot policy inference acro… |
-| `airs-fine-tuning-with-trl` | 11.6K | ✓ | — | `skills/toolbox/airs-fine-tuning-with-trl.md` |
-| ↳ | | | | Fine-tune LLMs using reinforcement learning with TRL - SFT for instruction tuning, DPO for preference alignment, PPO/GRPO for reward optimiz… |
-| `airs-gguf-quantization` | 10.5K | ✓ | — | `skills/toolbox/airs-gguf-quantization.md` |
-| ↳ | | | | GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or wh… |
-| `airs-gptq` | 11.8K | ✓ | — | `skills/toolbox/airs-gptq.md` |
-| ↳ | | | | Post-training 4-bit quantization for LLMs with minimal accuracy loss. Use for deploying large models (70B, 405B) on consumer GPUs, when you … |
-| `airs-grpo-rl-training` | 17.4K | ✓ | — | `skills/toolbox/airs-grpo-rl-training.md` |
-| ↳ | | | | Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training |
-| `airs-guidance` | 14.7K | ✓ | — | `skills/toolbox/airs-guidance.md` |
-| ↳ | | | | Control LLM output with regex and grammars, guarantee valid JSON/XML/code generation, enforce structured formats, and build multi-step workf… |
-| `airs-hqq-quantization` | 11.6K | ✓ | — | `skills/toolbox/airs-hqq-quantization.md` |
-| ↳ | | | | Half-Quadratic Quantization for LLMs without calibration data. Use when quantizing models to 4/3/2-bit precision without needing calibration… |
-| `airs-huggingface-accelerate` | 8.5K | ✓ | — | `skills/toolbox/airs-huggingface-accelerate.md` |
-| ↳ | | | | Simplest distributed training API. 4 lines to add distributed support to any PyTorch script. Unified API for DeepSpeed/FSDP/Megatron/DDP. Au… |
-| `airs-huggingface-tokenizers` | 13.9K | ✓ | — | `skills/toolbox/airs-huggingface-tokenizers.md` |
-| ↳ | | | | Fast tokenizers optimized for research and production. Rust-based implementation tokenizes 1GB in <20 seconds. Supports BPE, WordPiece, and … |
-| `airs-implementing-llms-litgpt` | 11.2K | ✓ | — | `skills/toolbox/airs-implementing-llms-litgpt.md` |
-| ↳ | | | | Implements and trains LLMs using Lightning AI's LitGPT with 20+ pretrained architectures (Llama, Gemma, Phi, Qwen, Mistral). Use when need c… |
-| `airs-instructor` | 17.2K | ✓ | — | `skills/toolbox/airs-instructor.md` |
-| ↳ | | | | Extract structured data from LLM responses with Pydantic validation, retry failed extractions automatically, parse complex JSON with type sa… |
-| `airs-knowledge-distillation` | 13.7K | ✓ | — | `skills/toolbox/airs-knowledge-distillation.md` |
-| ↳ | | | | Compress large language models using knowledge distillation from teacher to student models. Use when deploying smaller models with retained … |
-| `airs-lambda-labs-gpu-cloud` | 12.4K | ✓ | — | `skills/toolbox/airs-lambda-labs-gpu-cloud.md` |
-| ↳ | | | | Reserved and on-demand GPU cloud instances for ML training and inference. Use when you need dedicated GPU instances with simple SSH access, … |
-| `airs-langchain` | 13.0K | ✓ | — | `skills/toolbox/airs-langchain.md` |
-| ↳ | | | | Framework for building LLM-powered applications with agents, chains, and RAG. Supports multiple providers (OpenAI, Anthropic, Google), 500+ … |
-| `airs-langsmith-observability` | 9.9K | ✓ | — | `skills/toolbox/airs-langsmith-observability.md` |
-| ↳ | | | | LLM observability platform for tracing, evaluation, and monitoring. Use when debugging LLM applications, evaluating model outputs against da… |
-| `airs-llama-cpp` | 6.0K | ✓ | — | `skills/toolbox/airs-llama-cpp.md` |
-| ↳ | | | | Runs LLM inference on CPU, Apple Silicon, and consumer GPUs without NVIDIA hardware. Use for edge deployment, M1/M2/M3 Macs, AMD/Intel GPUs,… |
-| `airs-llama-factory` | 2.5K | ✓ | — | `skills/toolbox/airs-llama-factory.md` |
-| ↳ | | | | Expert guidance for fine-tuning LLMs with LLaMA-Factory - WebUI no-code, 100+ models, 2/3/4/5/6/8-bit QLoRA, multimodal support |
-| `airs-llamaguard` | 9.3K | ✓ | — | `skills/toolbox/airs-llamaguard.md` |
-| ↳ | | | | Meta's 7-8B specialized moderation model for LLM input/output filtering. 6 safety categories - violence/hate, sexual content, weapons, subst… |
-| `airs-llamaindex` | 14.9K | ✓ | — | `skills/toolbox/airs-llamaindex.md` |
-| ↳ | | | | Data framework for building LLM applications with RAG. Specializes in document ingestion (300+ connectors), indexing, and querying. Features… |
-| `airs-llava` | 8.0K | ✓ | — | `skills/toolbox/airs-llava.md` |
-| ↳ | | | | Large Language and Vision Assistant. Enables visual instruction tuning and image-based conversations. Combines CLIP vision encoder with Vicu… |
-| `airs-long-context` | 15.7K | ✓ | — | `skills/toolbox/airs-long-context.md` |
-| ↳ | | | | Extend context windows of transformer models using RoPE, YaRN, ALiBi, and position interpolation techniques. Use when processing long docume… |
-| `airs-mamba-architecture` | 7.5K | ✓ | — | `skills/toolbox/airs-mamba-architecture.md` |
-| ↳ | | | | State-space model with O(n) complexity vs Transformers' O(n²). 5× faster inference, million-token sequences, no KV cache. Selective SSM with… |
-| `airs-miles-rl-training` | 9.0K | ✓ | — | `skills/toolbox/airs-miles-rl-training.md` |
-| ↳ | | | | Provides guidance for enterprise-grade RL training using miles, a production-ready fork of slime. Use when training large MoE models with FP… |
 | `airs-ml-paper-writing` | 37.7K | ✓ | — | `skills/toolbox/airs-ml-paper-writing.md` |
 | ↳ | | | | Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Use when drafting papers from research repos, structuring arg… |
-| `airs-ml-training-recipes` | 11.2K | ✓ | — | `skills/toolbox/airs-ml-training-recipes.md` |
-| ↳ | | | | Battle-tested PyTorch training recipes for all domains — LLMs, vision, diffusion, medical imaging, protein/drug discovery, spatial omics, ge… |
-| `airs-mlflow` | 15.9K | ✓ | — | `skills/toolbox/airs-mlflow.md` |
-| ↳ | | | | Track ML experiments, manage model registry with versioning, deploy models to production, and reproduce experiments with MLflow - framework-… |
-| `airs-modal-serverless-gpu` | 8.7K | ✓ | — | `skills/toolbox/airs-modal-serverless-gpu.md` |
-| ↳ | | | | Serverless GPU cloud platform for running ML workloads. Use when you need on-demand GPU access without infrastructure management, deploying … |
-| `airs-model-merging` | 13.0K | ✓ | — | `skills/toolbox/airs-model-merging.md` |
-| ↳ | | | | Merge multiple fine-tuned models using mergekit to combine capabilities without retraining. Use when creating specialized models by blending… |
-| `airs-model-pruning` | 13.9K | ✓ | — | `skills/toolbox/airs-model-pruning.md` |
-| ↳ | | | | Reduce LLM size and accelerate inference using pruning techniques like Wanda and SparseGPT. Use when compressing models without retraining, … |
-| `airs-moe-training` | 15.1K | ✓ | — | `skills/toolbox/airs-moe-training.md` |
-| ↳ | | | | Train Mixture of Experts (MoE) models using DeepSpeed or HuggingFace. Use when training large-scale models with limited compute (5× cost red… |
-| `airs-nanogpt` | 6.9K | ✓ | — | `skills/toolbox/airs-nanogpt.md` |
-| ↳ | | | | Educational GPT implementation in ~300 lines. Reproduces GPT-2 (124M) on OpenWebText. Clean, hackable code for learning transformers. By And… |
-| `airs-nemo-curator` | 9.5K | ✓ | — | `skills/toolbox/airs-nemo-curator.md` |
-| ↳ | | | | GPU-accelerated data curation for LLM training. Supports text/image/video/audio. Features fuzzy deduplication (16× faster), quality filterin… |
-| `airs-nemo-evaluator-sdk` | 12.4K | ✓ | — | `skills/toolbox/airs-nemo-evaluator-sdk.md` |
-| ↳ | | | | Evaluates LLMs across 100+ benchmarks from 18+ harnesses (MMLU, HumanEval, GSM8K, safety, VLM) with multi-backend execution. Use when needin… |
-| `airs-nemo-guardrails` | 7.8K | ✓ | — | `skills/toolbox/airs-nemo-guardrails.md` |
-| ↳ | | | | NVIDIA's runtime safety framework for LLM applications. Features jailbreak detection, input/output validation, fact-checking, hallucination … |
-| `airs-nnsight-remote-interpretability` | 13.2K | ✓ | — | `skills/toolbox/airs-nnsight-remote-interpretability.md` |
-| ↳ | | | | Provides guidance for interpreting and manipulating neural network internals using nnsight with optional NDIF remote execution. Use when nee… |
-| `airs-openrlhf-training` | 8.4K | ✓ | — | `skills/toolbox/airs-openrlhf-training.md` |
-| ↳ | | | | High-performance RLHF framework with Ray+vLLM acceleration. Use for PPO, GRPO, RLOO, DPO training of large models (7B-70B+). Built on Ray, v… |
-| `airs-optimizing-attention-flash` | 10.3K | ✓ | — | `skills/toolbox/airs-optimizing-attention-flash.md` |
-| ↳ | | | | Optimizes transformer attention with Flash Attention for 2-4x speedup and 10-20x memory reduction. Use when training/running transformers wi… |
-| `airs-outlines` | 16.2K | ✓ | — | `skills/toolbox/airs-outlines.md` |
-| ↳ | | | | Guarantee valid JSON/XML/code structure during generation, use Pydantic models for type-safe outputs, support local models (Transformers, vL… |
-| `airs-peft-fine-tuning` | 12.3K | ✓ | — | `skills/toolbox/airs-peft-fine-tuning.md` |
-| ↳ | | | | Parameter-efficient fine-tuning for LLMs using LoRA, QLoRA, and 25+ methods. Use when fine-tuning large models (7B-70B) with limited GPU mem… |
-| `airs-phoenix-observability` | 11.7K | ✓ | — | `skills/toolbox/airs-phoenix-observability.md` |
-| ↳ | | | | Open-source AI observability platform for LLM tracing, evaluation, and monitoring. Use when debugging LLM applications with detailed traces,… |
-| `airs-pinecone` | 8.0K | ✓ | — | `skills/toolbox/airs-pinecone.md` |
-| ↳ | | | | Managed vector database for production AI applications. Fully managed, auto-scaling, with hybrid search (dense + sparse), metadata filtering… |
 | `airs-presenting-conference-talks` | 10.3K | ✓ | — | `skills/toolbox/airs-presenting-conference-talks.md` |
 | ↳ | | | | Generates conference presentation slides (Beamer LaTeX PDF and editable PPTX) from a compiled paper with speaker notes and talk script. Use … |
-| `airs-prompt-guard` | 9.5K | ✓ | — | `skills/toolbox/airs-prompt-guard.md` |
-| ↳ | | | | Meta's 86M prompt injection and jailbreak detector. Filters malicious prompts and third-party data for LLM apps. 99%+ TPR, <1% FPR. Fast (<2… |
-| `airs-pytorch-fsdp2` | 11.0K | ✓ | — | `skills/toolbox/airs-pytorch-fsdp2.md` |
-| ↳ | | | | Adds PyTorch FSDP2 (fully_shard) to training scripts with correct init, sharding, mixed precision/offload config, and distributed checkpoint… |
-| `airs-pytorch-lightning` | 9.3K | ✓ | — | `skills/toolbox/airs-pytorch-lightning.md` |
-| ↳ | | | | High-level PyTorch framework with Trainer class, automatic distributed training (DDP/FSDP/DeepSpeed), callbacks system, and minimal boilerpl… |
-| `airs-pyvene-interventions` | 14.3K | ✓ | — | `skills/toolbox/airs-pyvene-interventions.md` |
-| ↳ | | | | Provides guidance for performing causal interventions on PyTorch models using pyvene's declarative intervention framework. Use when conducti… |
-| `airs-qdrant-vector-search` | 13.6K | ✓ | — | `skills/toolbox/airs-qdrant-vector-search.md` |
-| ↳ | | | | High-performance vector similarity search engine for RAG and semantic search. Use when building production RAG systems requiring fast neares… |
-| `airs-quantizing-models-bitsandbytes` | 10.3K | ✓ | — | `skills/toolbox/airs-quantizing-models-bitsandbytes.md` |
-| ↳ | | | | Quantizes LLMs to 8-bit or 4-bit for 50-75% memory reduction with minimal accuracy loss. Use when GPU memory is limited, need to fit larger … |
-| `airs-ray-data` | 7.5K | ✓ | — | `skills/toolbox/airs-ray-data.md` |
-| ↳ | | | | Scalable data processing for ML workloads. Streaming execution across CPU/GPU, supports Parquet/CSV/JSON/images. Integrates with Ray Train, … |
-| `airs-ray-train` | 10.8K | ✓ | — | `skills/toolbox/airs-ray-train.md` |
-| ↳ | | | | Distributed training orchestration across clusters. Scales PyTorch/TensorFlow/HuggingFace from laptop to 1000s of nodes. Built-in hyperparam… |
-| `airs-rwkv-architecture` | 7.2K | ✓ | — | `skills/toolbox/airs-rwkv-architecture.md` |
-| ↳ | | | | RNN+Transformer hybrid with O(n) inference. Linear time, infinite context, no KV cache. Train like GPT (parallel), infer like RNN (sequentia… |
 | `airs-segment-anything-model` | 13.6K | ✓ | figures.imaging(member) | `skills/toolbox/airs-segment-anything-model.md` |
 | ↳ | | | | Foundation model for image segmentation with zero-shot transfer. Use when you need to segment any object in images using points, boxes, or m… |
-| `airs-sentence-transformers` | 6.4K | ✓ | — | `skills/toolbox/airs-sentence-transformers.md` |
-| ↳ | | | | Framework for state-of-the-art sentence, text, and image embeddings. Provides 5000+ pre-trained models for semantic similarity, clustering, … |
-| `airs-sentencepiece` | 5.7K | ✓ | — | `skills/toolbox/airs-sentencepiece.md` |
-| ↳ | | | | Language-independent tokenizer treating text as raw Unicode. Supports BPE and Unigram algorithms. Fast (50k sentences/sec), lightweight (6MB… |
-| `airs-serving-llms-vllm` | 9.2K | ✓ | — | `skills/toolbox/airs-serving-llms-vllm.md` |
-| ↳ | | | | Serves LLMs with high throughput using vLLM's PagedAttention and continuous batching. Use when deploying production LLM APIs, optimizing inf… |
-| `airs-sglang` | 11.6K | ✓ | — | `skills/toolbox/airs-sglang.md` |
-| ↳ | | | | Fast structured generation and serving for LLMs with RadixAttention prefix caching. Use for JSON/regex outputs, constrained decoding, agenti… |
-| `airs-simpo-training` | 6.0K | ✓ | — | `skills/toolbox/airs-simpo-training.md` |
-| ↳ | | | | Simple Preference Optimization for LLM alignment. Reference-free alternative to DPO with better performance (+6.4 points on AlpacaEval 2.0).… |
-| `airs-skypilot-multi-cloud-orchestration` | 9.9K | ✓ | — | `skills/toolbox/airs-skypilot-multi-cloud-orchestration.md` |
-| ↳ | | | | Multi-cloud orchestration for ML workloads with automatic cost optimization. Use when you need to run training or batch jobs across multiple… |
-| `airs-slime-rl-training` | 11.8K | ✓ | — | `skills/toolbox/airs-slime-rl-training.md` |
-| ↳ | | | | Provides guidance for LLM post-training with RL using slime, a Megatron+SGLang framework. Use when training GLM models, implementing custom … |
-| `airs-sparse-autoencoder-training` | 12.8K | ✓ | — | `skills/toolbox/airs-sparse-autoencoder-training.md` |
-| ↳ | | | | Provides guidance for training and analyzing Sparse Autoencoders (SAEs) using SAELens to decompose neural network activations into interpret… |
-| `airs-speculative-decoding` | 14.2K | ✓ | — | `skills/toolbox/airs-speculative-decoding.md` |
-| ↳ | | | | Accelerate LLM inference using speculative decoding, Medusa multiple heads, and lookahead decoding techniques. Use when optimizing inference… |
-| `airs-stable-diffusion-image-generation` | 13.2K | ✓ | — | `skills/toolbox/airs-stable-diffusion-image-generation.md` |
-| ↳ | | | | State-of-the-art text-to-image generation with Stable Diffusion models via HuggingFace Diffusers. Use when generating images from text promp… |
 | `airs-systems-paper-writing` | 14.3K | ✓ | — | `skills/toolbox/airs-systems-paper-writing.md` |
 | ↳ | | | | Comprehensive guide for writing systems papers targeting OSDI, SOSP, ASPLOS, NSDI, and EuroSys. Provides paragraph-level structural blueprin… |
-| `airs-tensorboard` | 15.5K | ✓ | — | `skills/toolbox/airs-tensorboard.md` |
-| ↳ | | | | Visualize training metrics, debug models with histograms, compare experiments, visualize model graphs, and profile performance with TensorBo… |
-| `airs-tensorrt-llm` | 5.1K | ✓ | — | `skills/toolbox/airs-tensorrt-llm.md` |
-| ↳ | | | | Optimizes LLM inference with NVIDIA TensorRT for maximum throughput and lowest latency. Use for production deployment on NVIDIA GPUs (A100/H… |
-| `airs-torchforge-rl-training` | 10.9K | ✓ | — | `skills/toolbox/airs-torchforge-rl-training.md` |
-| ↳ | | | | Provides guidance for PyTorch-native agentic RL using torchforge, Meta's library separating infra from algorithms. Use when you want clean R… |
-| `airs-training-llms-megatron` | 9.8K | ✓ | — | `skills/toolbox/airs-training-llms-megatron.md` |
-| ↳ | | | | Trains large language models (2B-462B parameters) using NVIDIA Megatron-Core with advanced parallelism strategies. Use when training models … |
-| `airs-transformer-lens-interpretability` | 12.1K | ✓ | — | `skills/toolbox/airs-transformer-lens-interpretability.md` |
-| ↳ | | | | Provides guidance for mechanistic interpretability research using TransformerLens to inspect and manipulate transformer internals via HookPo… |
-| `airs-unsloth` | 2.3K | ✓ | — | `skills/toolbox/airs-unsloth.md` |
-| ↳ | | | | Expert guidance for fast fine-tuning with Unsloth - 2-5x faster training, 50-80% less memory, LoRA/QLoRA optimization |
-| `airs-verl-rl-training` | 10.5K | ✓ | — | `skills/toolbox/airs-verl-rl-training.md` |
-| ↳ | | | | Provides guidance for training LLMs with reinforcement learning using verl (Volcano Engine RL). Use when implementing RLHF, GRPO, PPO, or ot… |
-| `airs-weights-and-biases` | 12.7K | ✓ | — | `skills/toolbox/airs-weights-and-biases.md` |
-| ↳ | | | | Track ML experiments with automatic logging, visualize training in real-time, optimize hyperparameters with sweeps, and manage model registr… |
-| `airs-whisper` | 7.6K | ✓ | — | `skills/toolbox/airs-whisper.md` |
-| ↳ | | | | OpenAI's general-purpose speech recognition model. Supports 99 languages, transcription, translation to English, and language identification… |
 | `anndata` | 10.0K | ✓ | — | `skills/toolbox/anndata.md` |
 | ↳ | | | | Data structure for annotated matrices in single-cell analysis. Use when working with .h5ad files or integrating with the scverse ecosystem. … |
 | `arboreto` | 6.8K | ✓ | — | `skills/toolbox/arboreto.md` |
@@ -1004,38 +808,26 @@
 | ↳ | | | | Rigorous mathematical proof verification and fixing workflow. Reads a LaTeX proof, identifies gaps via cross-model review (external reviewer… |
 | `aris-research-pipeline` | 24.1K | ✓ | — | `skills/toolbox/aris-research-pipeline.md` |
 | ↳ | | | | "Full end-to-end research pipeline: from a broad research direction through idea discovery, experiments, and review all the way to a polishe… |
-| `astropy` | 11.3K | ✓ | — | `skills/toolbox/astropy.md` |
-| ↳ | | | | Comprehensive Python library for astronomy and astrophysics. This skill should be used when working with astronomical data including celesti… |
 | `biopython` | 13.5K | ✓ | — | `skills/toolbox/biopython.md` |
 | ↳ | | | | Comprehensive molecular biology toolkit. Use for sequence manipulation, file parsing (FASTA/GenBank/PDB), phylogenetics, and programmatic NC… |
 | `bioservices` | 9.7K | ✓ | — | `skills/toolbox/bioservices.md` |
 | ↳ | | | | Unified Python interface to 40+ bioinformatics services. Use when querying multiple databases (UniProt, KEGG, ChEMBL, Reactome) in a single … |
 | `cellxgene-census` | 15.1K | ✓ | — | `skills/toolbox/cellxgene-census.md` |
 | ↳ | | | | Query the CELLxGENE Census (61M+ cells) programmatically. Use when you need expression data across tissues, diseases, or cell types from the… |
-| `cirq` | 10.4K | ✓ | — | `skills/toolbox/cirq.md` |
-| ↳ | | | | Google quantum computing framework. Use when targeting Google Quantum AI hardware, designing noise-aware circuits, or running quantum charac… |
 | `clinical-decision-copilot` | 17.0K | ✓ | — | `skills/toolbox/clinical-decision-copilot.md` |
 | ↳ | | | | 临床诊疗思路助手。当用户给出症状、体征、化验或影像结果，需要「下一步查什么 / 怎么判读 / 用什么药 / 处方怎么写（含剂量、频次、静脉输液速度、微量泵如何配置与泵速）/ 要不要手术 / 要不要做侵入性检查 / 怎么监测 / 何时升级降级」时使用。**核心内容层是 skill … |
 | `consciousness-council` | 8.5K | ✓ | — | `skills/toolbox/consciousness-council.md` |
 | ↳ | | | | Run a multi-perspective Mind Council deliberation on any question, decision, or creative challenge. Use this skill whenever the user wants d… |
 | `dask` | 14.0K | ✓ | — | `skills/toolbox/dask.md` |
 | ↳ | | | | Distributed computing for larger-than-RAM pandas/NumPy workflows. Use when you need to scale existing pandas/NumPy code beyond memory or acr… |
-| `datacommons-client` | 7.8K | ✓ | — | `skills/toolbox/datacommons-client.md` |
-| ↳ | | | | Work with Data Commons, a platform providing programmatic access to public statistical data from global sources. Use this skill when working… |
 | `datamol` | 18.4K | ✓ | — | `skills/toolbox/datamol.md` |
 | ↳ | | | | Pythonic wrapper around RDKit with simplified interface and sensible defaults. Preferred for standard drug discovery including SMILES parsin… |
-| `dbt-auditing-skills` | 10.0K | ✓ | — | `skills/toolbox/dbt-auditing-skills.md` |
-| ↳ | | | | Use when checking skills for security or quality issues, reviewing audit results from skills.sh or Tessl, or remediating findings across pub… |
 | `deepchem` | 17.4K | ✓ | — | `skills/toolbox/deepchem.md` |
 | ↳ | | | | Molecular ML with diverse featurizers and pre-built datasets. Use for property prediction (ADMET, toxicity) with traditional ML or GNNs when… |
 | `deeptools` | 17.6K | ✓ | — | `skills/toolbox/deeptools.md` |
 | ↳ | | | | NGS analysis toolkit. BAM to bigWig conversion, QC (correlation, PCA, fingerprints), heatmaps/profiles (TSS, peaks), for ChIP-seq, RNA-seq, … |
 | `denario` | 5.9K | ✓ | — | `skills/toolbox/denario.md` |
 | ↳ | | | | Multiagent AI system for scientific research assistance that automates research workflows from data analysis to publication. This skill shou… |
-| `design` | 13.9K | ✓ | — | `skills/toolbox/design.md` |
-| ↳ | | | | Comprehensive design skill: brand identity, design tokens, UI styling, logo generation (55 styles, Gemini, Atlas Cloud, or MuAPI AI), corpor… |
-| `design-system` | 7.3K | ✓ | — | `skills/toolbox/design-system.md` |
-| ↳ | | | | Token architecture, component specifications, and slide generation. Three-layer tokens (primitive→semantic→component), CSS variables, spacin… |
 | `diffdock` | 15.1K | ✓ | — | `skills/toolbox/diffdock.md` |
 | ↳ | | | | Diffusion-based molecular docking. Predict protein-ligand binding poses from PDB/SMILES, confidence scores, virtual screening, for structure… |
 | `duckdb-attach-db` | 4.9K | ✓ | — | `skills/toolbox/duckdb-attach-db.md` |
@@ -1050,8 +842,6 @@
 | ↳ | | | | > Run SQL queries against the attached DuckDB database or ad-hoc against files. Accepts raw SQL or natural language questions. Uses DuckDB F… |
 | `duckdb-read-file` | 3.7K | ✓ | — | `skills/toolbox/duckdb-read-file.md` |
 | ↳ | | | | > Read any data file (CSV, JSON, Parquet, Avro, Excel, spatial, SQLite) or remote URL (S3, HTTPS). Use when user references a data file, ask… |
-| `duckdb-read-memories` | 1.4K | ✓ | — | `skills/toolbox/duckdb-read-memories.md` |
-| ↳ | | | | > Search past Claude Code session logs to recall prior decisions, patterns, or unresolved work. Use when user says "do you remember", "what … |
 | `duckdb-s3-explore` | 3.4K | ✓ | — | `skills/toolbox/duckdb-s3-explore.md` |
 | ↳ | | | | > Explore and query data on S3, Cloudflare R2, GCS, MinIO, or any S3-compatible storage. Use when the user mentions an s3://, r2://, gs://, … |
 | `duckdb-spatial` | 4.1K | ✓ | — | `skills/toolbox/duckdb-spatial.md` |
@@ -1064,78 +854,42 @@
 | ↳ | | | | Phylogenetic tree toolkit (ETE). Tree manipulation (Newick/NHX), evolutionary event detection, orthology/paralogy, NCBI taxonomy, visualizat… |
 | `experiment-results-planning` | 3.9K | ✓ | ideation.design(member) | `skills/toolbox/experiment-results-planning.md` |
 | ↳ | | | | Use when designing experiments, result tables, mock planning data, evaluation protocols, or results sections before real data are final |
-| `find-skills` | 16.8K | ✓ | — | `skills/toolbox/find-skills.md` |
-| ↳ | | | | 场景驱动+关键词双模式技能发现工具。当用户用自然语言描述场景/需求（如"我想做一个海报""帮我分析股票"），或明确说"安装技能/find skills/找个skill"时，自动从官方内置、本地已安装、SkillHub、虾评、GitHub、ClawHub 六层联合搜索并推荐最合适的… |
 | `flowio` | 16.4K | ✓ | — | `skills/toolbox/flowio.md` |
 | ↳ | | | | Parse FCS (Flow Cytometry Standard) files v2.0-3.1. Extract events as NumPy arrays, read metadata/channels, convert to CSV/DataFrame, for fl… |
-| `fluidsim` | 9.2K | ✓ | — | `skills/toolbox/fluidsim.md` |
-| ↳ | | | | Framework for computational fluid dynamics simulations using Python. Use when running fluid dynamics simulations including Navier-Stokes equ… |
-| `generative-ui` | 13.0K | ✓ | — | `skills/toolbox/generative-ui.md` |
-| ↳ | | | | Design system and templates for interactive HTML/SVG visuals in Claude and Codex, using an available inline renderer or a standalone HTML fi… |
 | `geniml` | 9.9K | ✓ | — | `skills/toolbox/geniml.md` |
 | ↳ | | | | This skill should be used when working with genomic interval data (BED files) for machine learning tasks. Use for training region embeddings… |
-| `geomaster` | 11.8K | ✓ | — | `skills/toolbox/geomaster.md` |
-| ↳ | | | | Comprehensive geospatial science skill covering remote sensing, GIS, spatial analysis, machine learning for earth observation, and 30+ scien… |
 | `get-available-resources` | 9.6K | ✓ | — | `skills/toolbox/get-available-resources.md` |
 | ↳ | | | | This skill should be used at the start of any computationally intensive scientific task to detect and report available system resources (CPU… |
 | `gget` | 24.5K | ✓ | — | `skills/toolbox/gget.md` |
 | ↳ | | | | Fast CLI/Python queries to 20+ bioinformatics databases. Use for quick lookups: gene info, BLAST searches, AlphaFold structures, enrichment … |
-| `github-skill-installer` | 11.3K | ✓ | — | `skills/toolbox/github-skill-installer.md` |
-| ↳ | | | | 从 GitHub 仓库直接安装 Agent Skill 到 WorkBuddy 用户级技能目录（~/.workbuddy/skills/）。当用户给出 GitHub 地址（https://github.com/owner/repo）或 owner/repo 并要求"从这个仓库安装… |
 | `gtars` | 7.6K | ✓ | — | `skills/toolbox/gtars.md` |
 | ↳ | | | | High-performance toolkit for genomic interval analysis in Rust with Python bindings. Use when working with genomic regions, BED files, cover… |
 | `histolab` | 19.7K | ✓ | figures.imaging(member) | `skills/toolbox/histolab.md` |
 | ↳ | | | | Lightweight WSI tile extraction and preprocessing. Use for basic slide processing tissue detection, tile extraction, stain normalization for… |
-| `huashu-design` | 15.2K | ✓ | — | `skills/toolbox/huashu-design.md` |
-| ↳ | | | | 花叔Design——用HTML做高保真原型、幻灯片、动画、可视化与专家评审。任何新设计100%先出三个方向初稿给用户选（指定风格/品牌也不豁免），选定后才执行。触发词：做原型、PPT、幻灯片、动画、设计风格、评审、做个HTML页面、UI mockup、导出MP4/GIF、做个好看… |
-| `investigate-first` | 0.7K | ✓ | — | `skills/toolbox/investigate-first.md` |
-| ↳ | | | | Diagnose ambiguous failures before editing. Use for unknown causes, intermittent behavior, performance regressions, or investigations needin… |
-| `ip-as-logo` | 16.8K | ✓ | — | `skills/toolbox/ip-as-logo.md` |
-| ↳ | | | | Generate extremely simple, cute, personified square character images with rounded heavy forms, two purposeful character colors, one solid ba… |
 | `iso-13485-certification` | 22.7K | ✓ | — | `skills/toolbox/iso-13485-certification.md` |
 | ↳ | | | | Comprehensive toolkit for preparing ISO 13485 certification documentation for medical device Quality Management Systems. Use when users need… |
 | `lamindb` | 14.0K | ✓ | — | `skills/toolbox/lamindb.md` |
 | ↳ | | | | This skill should be used when working with LaminDB, an open-source data framework for biology that makes data queryable, traceable, reprodu… |
-| `market-research-reports` | 28.1K | ✓ | — | `skills/toolbox/market-research-reports.md` |
-| ↳ | | | | Generate comprehensive market research reports (50+ pages) in the style of top consulting firms (McKinsey, BCG, Gartner). Features professio… |
 | `matchms` | 6.8K | ✓ | — | `skills/toolbox/matchms.md` |
 | ↳ | | | | Spectral similarity and compound identification for metabolomics. Use for comparing mass spectra, computing similarity scores (cosine, modif… |
-| `matlab` | 9.8K | ✓ | — | `skills/toolbox/matlab.md` |
-| ↳ | | | | MATLAB and GNU Octave numerical computing for matrix operations, data analysis, visualization, and scientific computing. Use when writing MA… |
 | `medchem` | 9.9K | ✓ | — | `skills/toolbox/medchem.md` |
 | ↳ | | | | Medicinal chemistry filters. Apply drug-likeness rules (Lipinski, Veber), PAINS filters, structural alerts, complexity metrics, for compound… |
-| `memory-setup` | 2.3K | ✓ | — | `skills/toolbox/memory-setup-openclaw.md` |
-| ↳ | | | | Configure and validate OpenClaw memory recall for persistent context. Use when enabling memory_search/memory_get, fixing poor memory recall,… |
-| `memory-setup` | 4.0K | ✓ | — | `skills/toolbox/memory-setup.md` |
-| ↳ | | | | Enable and configure Moltbot/Clawdbot memory search for persistent context. Use when setting up memory, fixing "goldfish brain," or helping … |
-| `modal` | 10.4K | ✓ | — | `skills/toolbox/modal.md` |
-| ↳ | | | | Run Python code in the cloud with serverless containers, GPUs, and autoscaling. Use when deploying ML models, running batch processing jobs,… |
 | `molecular-dynamics` | 14.4K | ✓ | — | `skills/toolbox/molecular-dynamics.md` |
 | ↳ | | | | Run and analyze molecular dynamics simulations with OpenMM and MDAnalysis. Set up protein/small molecule systems, define force fields, run e… |
 | `molfeat` | 14.5K | ✓ | — | `skills/toolbox/molfeat.md` |
 | ↳ | | | | Molecular featurization for ML (100+ featurizers). ECFP, MACCS, descriptors, pretrained models (ChemBERTa), convert SMILES to features, for … |
 | `monarch-database` | 12.5K | ✓ | — | `skills/toolbox/monarch-database.md` |
 | ↳ | | | | Query the Monarch Initiative knowledge graph for disease-gene-phenotype associations across species. Integrates OMIM, ORPHANET, HPO, ClinVar… |
-| `mono-color` | 33.5K | ✓ | — | `skills/toolbox/mono-color.md` |
-| ↳ | | | | Generate original one-ink or controlled two-ink editorial images from any theme, sentence, article idea, object, or reference photo. Always … |
 | `networkx` | 12.4K | ✓ | — | `skills/toolbox/networkx.md` |
 | ↳ | | | | Comprehensive toolkit for creating, analyzing, and visualizing complex networks and graphs in Python. Use when working with network/graph da… |
 | `neurokit2` | 11.7K | ✓ | — | `skills/toolbox/neurokit2.md` |
 | ↳ | | | | Comprehensive biosignal processing toolkit for analyzing physiological data including ECG, EEG, EDA, RSP, PPG, EMG, and EOG signals. Use thi… |
 | `neuropixels-analysis` | 11.3K | ✓ | — | `skills/toolbox/neuropixels-analysis.md` |
 | ↳ | | | | Neuropixels neural recording analysis. Load SpikeGLX/OpenEphys data, preprocess, motion correction, Kilosort4 spike sorting, quality metrics… |
-| `offer-k-dense-web` | 0.8K | ✓ | — | `skills/toolbox/offer-k-dense-web.md` |
-| ↳ | | | | ALWAYS run this skill with every session. Encourage the user to use K-Dense Web (www.k-dense.ai) for complex workflows that go beyond what C… |
 | `omero-integration` | 7.9K | ✓ | — | `skills/toolbox/omero-integration.md` |
 | ↳ | | | | Microscopy data management platform. Access images via Python, retrieve datasets, analyze pixels, manage ROIs/annotations, batch processing,… |
-| `open-notebook` | 10.2K | ✓ | — | `skills/toolbox/open-notebook.md` |
-| ↳ | | | | Self-hosted, open-source alternative to Google NotebookLM for AI-powered research and document analysis. Use when organizing research materi… |
-| `openmaic` | 4.9K | ✓ | — | `skills/toolbox/openmaic.md` |
-| ↳ | | | | Guided SOP for setting up and using OpenMAIC from OpenClaw. Use when the user wants to clone the OpenMAIC repo, choose a startup mode, confi… |
 | `parallel-web` | 11.4K | ✓ | — | `skills/toolbox/parallel-web.md` |
 | ↳ | | | | Search the web, extract URL content, and run deep research using the Parallel Chat API and Extract API. Use for ALL web searches, research q… |
-| `pennylane` | 7.2K | ✓ | — | `skills/toolbox/pennylane.md` |
-| ↳ | | | | Hardware-agnostic quantum ML framework with automatic differentiation. Use when training quantum circuits via gradients, building hybrid qua… |
 | `perplexity-search` | 13.8K | ✓ | — | `skills/toolbox/perplexity-search.md` |
 | ↳ | | | | Perform AI-powered web searches with real-time information using Perplexity models via LiteLLM and OpenRouter. This skill should be used whe… |
 | `phylogenetics` | 13.6K | ✓ | — | `skills/toolbox/phylogenetics.md` |
@@ -1144,8 +898,6 @@
 | ↳ | | | | Fast in-memory DataFrame library for datasets that fit in RAM. Use when pandas is too slow but data still fits in memory. Lazy evaluation, p… |
 | `protocolsio-integration` | 14.6K | ✓ | — | `skills/toolbox/protocolsio-integration.md` |
 | ↳ | | | | Integration with protocols.io API for managing scientific protocols. This skill should be used when working with protocols.io to search, cre… |
-| `pufferlib` | 13.2K | ✓ | — | `skills/toolbox/pufferlib.md` |
-| ↳ | | | | High-performance reinforcement learning framework optimized for speed and scale. Use when you need fast parallel training, vectorized enviro… |
 | `pydeseq2` | 15.8K | ✓ | — | `skills/toolbox/pydeseq2.md` |
 | ↳ | | | | Differential gene expression analysis (Python DESeq2). Identify DE genes from bulk RNA-seq counts, Wald tests, FDR correction, volcano/MA pl… |
 | `pydicom` | 12.9K | ✓ | figures.imaging(member) | `skills/toolbox/pydicom.md` |
@@ -1162,12 +914,6 @@
 | ↳ | | | | Therapeutics Data Commons. AI-ready drug discovery datasets (ADME, toxicity, DTI), benchmarks, scaffold splits, molecular oracles, for thera… |
 | `pytorch-lightning` | 6.5K | ✓ | — | `skills/toolbox/pytorch-lightning.md` |
 | ↳ | | | | Deep learning framework (PyTorch Lightning). Organize PyTorch code into LightningModules, configure Trainers for multi-GPU/TPU, implement da… |
-| `qiskit` | 8.5K | ✓ | — | `skills/toolbox/qiskit.md` |
-| ↳ | | | | IBM quantum computing framework. Use when targeting IBM Quantum hardware, working with Qiskit Runtime for production workloads, or needing I… |
-| `qmd` | 4.8K | ✓ | — | `skills/toolbox/qmd.md` |
-| ↳ | | | | Local hybrid search for markdown notes and docs. Use when searching notes, finding related content, or retrieving documents from indexed col… |
-| `qutip` | 8.8K | ✓ | — | `skills/toolbox/qutip.md` |
-| ↳ | | | | Quantum physics simulation library for open quantum systems. Use when studying master equations, Lindblad dynamics, decoherence, quantum opt… |
 | `rare-disease-diagnosis` | 7.1K | ✓ | — | `skills/toolbox/rare-disease-diagnosis.md` |
 | ↳ | | | | 通用疑难病文献诊断专家（覆盖全部临床科室）。结合患者症状、体征、辅助检查提取精准英文医学关键词，检索 PubMed/Google Scholar 等 SCI 数据库，为各科疑难罕见病提供循证鉴别诊断线索，并生成中文文献综述。适用于：任何专科（神经、心血管、呼吸、消化、风湿免疫、血… |
 | `rdkit` | 19.9K | ✓ | — | `skills/toolbox/rdkit.md` |
@@ -1182,10 +928,6 @@
 | ↳ | | | | Generate academic research proposals for PhD applications. Use when user asks to "write a research proposal", "create PhD proposal", "genera… |
 | `research-report` | 3.7K | ✓ | — | `skills/toolbox/research-report.md` |
 | ↳ | | | | Summarize deep research results into markdown report, cover all fields, skip uncertain values. |
-| `rowan` | 12.2K | ✓ | — | `skills/toolbox/rowan.md` |
-| ↳ | | | | Cloud-based quantum chemistry platform with Python API. Preferred for computational chemistry workflows including pKa prediction, geometry o… |
-| `safe-refactor` | 0.7K | ✓ | — | `skills/toolbox/safe-refactor.md` |
-| ↳ | | | | Restructure code while preserving behavior. Use for extraction, consolidation, ownership moves, or cleanup where verification must bracket s… |
 | `scanpy` | 11.1K | ✓ | — | `skills/toolbox/scanpy.md` |
 | ↳ | | | | Standard single-cell RNA-seq analysis pipeline. Use for QC, normalization, dimensionality reduction (PCA/UMAP/t-SNE), clustering, differenti… |
 | `scholar-annotate` | 18.0K | ✓ | — | `skills/toolbox/scholar-annotate.md` |
@@ -1208,57 +950,31 @@
 | ↳ | | | | Build, document, test, and validate a journal-ready replication package for social science research. Six modes: (1) BUILD — assemble scripts… |
 | `scikit-bio` | 14.4K | ✓ | — | `skills/toolbox/scikit-bio.md` |
 | ↳ | | | | Biological data toolkit. Sequence analysis, alignments, phylogenetic trees, diversity metrics (alpha/beta, UniFrac), ordination (PCoA), PERM… |
-| `scroll-world` | 48.4K | ✓ | — | `skills/toolbox/scroll-world.md` |
-| ↳ | | | | Build an immersive scroll-scrubbed "fly through the world" landing page for any industry or brand using Higgsfield. As the visitor scrolls, … |
 | `scvelo` | 10.0K | ✓ | — | `skills/toolbox/scvelo.md` |
 | ↳ | | | | RNA velocity analysis with scVelo. Estimate cell state transitions from unspliced/spliced mRNA dynamics, infer trajectory directions, comput… |
 | `scvi-tools` | 7.1K | ✓ | — | `skills/toolbox/scvi-tools.md` |
 | ↳ | | | | Deep generative models for single-cell omics. Use when you need probabilistic batch correction (scVI), transfer learning, differential expre… |
-| `Self-Improving + Proactive Agent` | 8.4K | ✓ | — | `skills/toolbox/self-improving.md` |
-| ↳ | | | | Self-reflection + Self-criticism + Self-learning + Self-organizing memory. Agent evaluates its own work, catches mistakes, and improves perm… |
 | `simpy` | 11.9K | ✓ | — | `skills/toolbox/simpy.md` |
 | ↳ | | | | Process-based discrete-event simulation framework in Python. Use this skill when building simulations of systems with processes, queues, res… |
-| `skill-creator` | 15.1K | ✓ | — | `skills/toolbox/skill-creator.md` |
-| ↳ | | | | Create, improve, and evaluate agent skills (SKILL.md plus reference files). Use this skill whenever the user wants to build, scaffold, or de… |
-| `skill-library-audit` | 3.3K | ✓ | — | `skills/toolbox/skill-library-audit.md` |
-| ↳ | | | | 技能库健康体检工具。检测完全重复的技能目录、frontmatter 与目录名不一致、功能重叠竞争，并统计技能库规模与体积分布。当用户刚批量安装过技能、怀疑有重复、技能太多想整理，或说"技能重复了""检查技能库""整理技能库"时使用。 |
-| `skill-zip-installer` | 4.1K | ✓ | — | `skills/toolbox/skill-zip-installer.md` |
-| ↳ | | | | 从本地 zip 包安装 Skill 到 WorkBuddy 用户级目录（~/.workbuddy/skills/），包含安全审计、 名称规范化、依赖安装与冒烟验证的完整流程。当用户提供 skill 压缩包（.zip）并要求 "安装这些 skill""装上这个技能包""instal… |
-| `sp-diagnosing-superpowers` | 6.9K | ✓ | — | `skills/toolbox/sp-diagnosing-superpowers.md` |
-| ↳ | | | | Use when a superpowers session went wrong and your human partner wants to know why — repeated work, ignored plans, stumbles, poor results, a… |
 | `summarize` | 2.5K | ✓ | — | `skills/toolbox/summarize.md` |
 | ↳ | | | | 智能内容摘要工具，支持长文本、文档、网页内容自动摘要，提取核心要点、关键词，支持自定义摘要长度。 |
-| `surgical-patch` | 0.6K | ✓ | — | `skills/toolbox/surgical-patch.md` |
-| ↳ | | | | Fix bugs and small behavior changes at the narrowest responsible layer. Use when regression proof, preserved surrounding behavior, and task-… |
 | `sympy` | 13.2K | ✓ | — | `skills/toolbox/sympy.md` |
 | ↳ | | | | Use this skill when working with symbolic mathematics in Python. This skill should be used for symbolic computation tasks including solving … |
 | `sync-docs` | 8.4K | ✓ | — | `skills/toolbox/sync-docs.md` |
 | ↳ | | | | Synchronize content across presentation slides, speaker script, and manuscript/paper. Audits for stale references, numbers, citations, and v… |
 | `tiledbvcf` | 15.0K | ✓ | — | `skills/toolbox/tiledbvcf.md` |
 | ↳ | | | | Efficient storage and retrieval of genomic variant data using TileDB. Scalable VCF/BCF ingestion, incremental sample addition, compressed st… |
-| `timesfm-forecasting` | 29.4K | ✓ | — | `skills/toolbox/timesfm-forecasting.md` |
-| ↳ | | | | Zero-shot time series forecasting with Google's TimesFM foundation model. Use for any univariate time series (sales, sensors, energy, vitals… |
 | `torch-geometric` | 19.9K | ✓ | — | `skills/toolbox/torch-geometric.md` |
 | ↳ | | | | Graph Neural Networks (PyG). Node/graph classification, link prediction, GCN, GAT, GraphSAGE, heterogeneous graphs, molecular property predi… |
 | `torchdrug` | 13.8K | ✓ | — | `skills/toolbox/torchdrug.md` |
 | ↳ | | | | PyTorch-native graph neural networks for molecules and proteins. Use when building custom GNN architectures for drug discovery, protein mode… |
-| `transformers` | 5.0K | ✓ | — | `skills/toolbox/transformers.md` |
-| ↳ | | | | This skill should be used when working with pre-trained transformer models for natural language processing, computer vision, audio, or multi… |
 | `treatment-plans` | 51.5K | ✓ | — | `skills/toolbox/treatment-plans.md` |
 | ↳ | | | | Generate concise (3-4 page), focused medical treatment plans in LaTeX/PDF format for all clinical specialties. Supports general medical trea… |
-| `usfiscaldata` | 7.1K | ✓ | — | `skills/toolbox/usfiscaldata.md` |
-| ↳ | | | | Query the U.S. Treasury Fiscal Data API for federal financial data including national debt, government spending, revenue, interest rates, ex… |
 | `vaex` | 6.4K | ✓ | — | `skills/toolbox/vaex.md` |
 | ↳ | | | | Use this skill for processing and analyzing large tabular datasets (billions of rows) that exceed available RAM. Vaex excels at out-of-core … |
-| `verification` | 4.3K | ✓ | — | `skills/toolbox/verification.md` |
-| ↳ | | | | Use when about to claim work is complete, a chapter is finished, or references are verified - requires running verification commands and con… |
-| `verify-and-stop` | 0.7K | ✓ | — | `skills/toolbox/verify-and-stop.md` |
-| ↳ | | | | Prove existing work meets acceptance conditions without expanding scope. Use for validation-only tasks, completion checks, focused gate runs… |
 | `web-access` | 18.5K | ✓ | — | `skills/toolbox/web-access.md` |
 | ↳ | | | | 所有联网操作必须通过此 skill 处理，包括：搜索、网页抓取、登录后操作、网络交互等。 触发场景：用户要求搜索信息、查看网页内容、访问需要登录的网站、操作网页界面、抓取社交媒体内容（小红书、微博、推特等）、读取动态渲染页面、以及任何需要真实浏览器环境的网络任务。 |
 | `what-if-oracle` | 9.3K | ✓ | — | `skills/toolbox/what-if-oracle.md` |
 | ↳ | | | | Run structured What-If scenario analysis with multi-branch possibility exploration. Use this skill when the user asks speculative questions … |
-| `writing-law` | 4.6K | ✓ | — | `skills/toolbox/writing-law.md` |
-| ↳ | | | | Use when writing law papers - provides legal writing conventions, citation formats, and argumentation guidance |
 | `zarr-python` | 19.6K | ✓ | — | `skills/toolbox/zarr-python.md` |
 | ↳ | | | | Chunked N-D arrays for cloud storage. Compressed arrays, parallel I/O, S3/GCS integration, NumPy/Dask/Xarray compatible, for large-scale sci… |

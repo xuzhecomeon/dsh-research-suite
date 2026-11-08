@@ -7,7 +7,7 @@
 以下为本仓库作者原创，按 `LICENSE`（MIT）授权，可自由使用、修改、再分发：
 
 - `lib/` 全部运行时代码（`index.js`、`core.js`、`tools.js`、`prompt.js`）
-- `data/capabilities/*.json`（10 域 103 张能力卡）、`data/ledger/*.json`（586 条判定账本）、`data/gates.json`
+- `data/capabilities/*.json`（10 域 103 张能力卡）、`data/ledger/*.json`（444 条判定账本）、`data/gates.json`
 - `skills/*.md`（11 个融合技能：入口 + 10 域）
 - `references/*.md`（9 份内置规范）
 - `scripts/`、`docs/`、`knowledge/FUSION.md`、`knowledge/INDEX.md`
@@ -15,12 +15,12 @@
 
 ## 二、随包打包的技能原文（`knowledge/skills/` 与 `knowledge/catalog.json`）：**不属于 MIT 范围**
 
-`knowledge/skills/<域>/<slug>.md` 下的 **592 条源技能记录（586 个技能目录，另有 451 个技能带随包资产、共 3924 个文件）是从作者本机的技能库逐字复制进来的第三方材料**，仅作为本插件的证据参考层（模型在需要核对判据时用 `research_kb_read` 读原文）。它们各自的许可与使用条件**由各自的原始作者决定**，本仓库作者无权代为授权。
+`knowledge/skills/<域>/<slug>.md` 下的 **450 条源技能记录（444 个技能目录，另有 186 个技能带随包资产、共 954 个文件）是从作者本机的技能库逐字复制进来的第三方材料**，仅作为本插件的证据参考层（模型在需要核对判据时用 `research_kb_read` 读原文）。它们各自的许可与使用条件**由各自的原始作者决定**，本仓库作者无权代为授权。
 
 因此：
 
-1. **MIT 只覆盖第一部分的代码、能力卡与融合技能**，不覆盖这 592 条技能记录及其 `__assets` 资产。
-2. 这 592 条材料来源混杂（个人技能、开源项目附带的 agent skill、社区分享的技能包），**多数没有在文件内声明许可**。没有声明不等于可以任意再分发。
+1. **MIT 只覆盖第一部分的代码、能力卡与融合技能**，不覆盖这 450 条技能记录及其 `__assets` 资产。
+2. 这 450 条材料来源混杂（个人技能、开源项目附带的 agent skill、社区分享的技能包），**多数没有在文件内声明许可**。没有声明不等于可以任意再分发。
 3. **对外分发前，请自行确认**：若你的分发形式属于商业发行、企业内部发行或公开市场发布，应逐个核对 `knowledge/skills/` 下材料的来源与许可，必要时用 `scripts/` 之外的方式裁剪（删除 `knowledge/skills/` 与 `knowledge/catalog.json` 即可，能力卡、融合技能、工具与规范层可独立工作——但 `research_kb_read` 读技能原文、`research_catalog` 检索能力会失效，`scripts/verify-package.mjs` 会报对应 ERROR）。
 4. 若你只是**自用或团队内使用**，保留本文件即可。
 

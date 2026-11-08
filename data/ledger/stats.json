@@ -294,13 +294,6 @@
       "cards": []
     },
     {
-      "dir": "stable-baselines3",
-      "name": "stable-baselines3",
-      "verdict": "out-of-scope",
-      "why": "强化学习训练库，本域无用武之地",
-      "cards": []
-    },
-    {
       "dir": "umap-learn",
       "name": "umap-learn",
       "verdict": "out-of-scope",

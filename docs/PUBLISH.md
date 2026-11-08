@@ -12,7 +12,7 @@
 | DSH `engines` | `>=0.2.0-0 <0.3.0`；`dsh.testedWith` = `0.2.1-rc.5`、`0.2.2-rc.1`（0.2.2-rc.1 是当前桌面版，工具注入时序已适配） |
 | 许可证 | MIT |
 | `files` 白名单 | `lib`、`data`、`skills`、`knowledge`、`references`、`scripts`、`docs`、`cordis.patch.yml`、`icon.svg`、`README.md`、`README.zh-CN.md`、`CHANGELOG.md`、`LICENSE` |
-| 包体（实测口径） | v3 中间态：仓库目录 4577 files / 38.62 MB（能力卡与账本全部交付后以重跑 `verify-package.mjs` 为准）。其中 `knowledge/` 含 592 篇原文 + 451 个技能自带的 3924 个资产文件（约 29 MB）——**这是设计如此，不要优化掉**；v2 的 773 files / 11.24 MB 只含 719 篇原文，无资产 |
+| 包体（实测口径） | v3 中间态：仓库目录 4577 files / 38.62 MB（能力卡与账本全部交付后以重跑 `verify-package.mjs` 为准）。其中 `knowledge/` 含 450 篇原文 + 186 个技能自带的 954 个资产文件（约 6.8 MB）——**这是设计如此，不要优化掉**；v2 的 773 files / 11.24 MB 只含 719 篇原文，无资产 |
 | 入口 | `lib/index.js`（`"type": "module"`，`exports` 只暴露 `.`、`./cordis.patch.yml`、`./package.json`） |
 | bundle patch | `cordis.patch.yml`，由 `package.json` 的 `dsh.bundle.patch` 指向 |
 | 打包脚本 | `npm test`（selftest）、`npm run verify`（verify-package）、`npm run verify:caps`、`npm run pack:check`；账本校验无 npm script，直接 `node scripts/verify-ledger.mjs all` |
@@ -49,7 +49,7 @@ node scripts/selftest.mjs
 - `verify-capabilities.mjs`：10 个域的能力卡是否合 `docs/CAPABILITY-SPEC.md` §3.1，包括技能名是否真在 `knowledge/catalog.json` 里（防编造）、`detail` 是否够 40 字、能力数是否落在域区间内。
 - `verify-ledger.mjs`：`data/ledger/<domain>.json` 是否把该域 `knowledge/catalog.json` 里的每个源技能都判定了（一条不多一条不少）、`verdict` 是否四类之一、`fused` 的每条是否能在 `data/capabilities/<domain>.json` 的 `members[].skill` 里核到。源清单默认读包内 catalog，所以 CI 上可跑。
 - `verify-package.mjs`：`package.json` 必填字段与 `files` 白名单实际存在性、`main` 文件、`cordis.patch.yml` 结构、入口是否 import 了 `@deepseek-ai/*`、`skills/*.md` 的 frontmatter 与编码、所有 `data/`+`knowledge/` 的 JSON 可解析性、catalog 里每个 `file` 是否真实存在、**资产目录与 catalog 的 `assets.files/bytes` 是否逐条一致**、**账本 JSON 结构**、**catalog 里有没有带引号的技能名**、版本一致（`package.json` / `CHANGELOG.md` / 能力卡）、`references/` 编号连续、`docs/` 无空文件、包体统计。
-- `selftest.mjs`：不启动 DSH 的加载期 smoke test——用假 ctx 调 `apply()`，验入口契约、技能是否内联 `content`、7 个工具的形态与真实执行、策略段铁律、数据面完整性。
+- `selftest.mjs`：不启动 DSH 的加载期 smoke test——用假 ctx 调 `apply()`，验入口契约、技能是否内联 `content`、12 个工具的形态与真实执行、策略段铁律、数据面完整性。
 
 **不要**在校验脚本里调 `npm`——包体清单由 CI 单独跑 `npm pack --dry-run`，避免本地 npm 配置污染结果。
 
@@ -113,7 +113,7 @@ npm pack dsh-research-suite@3.0.1                      # 从 registry 拉真包
 tar -xzf dsh-research-suite-3.0.1.tgz -C <空目录>      # 解包后跑四件套，必须全过
 ```
 
-2026-11-07 实测：registry 上的 tarball `12,671,464 B / 4584 files / unpacked 40.7 MB / MIT`；解包后 `selftest 66 项`、`103 capabilities`、`586 entries`、`verify-package 0 errors` 全部通过。
+2026-11-07 实测：registry 上的 tarball `12,671,464 B / 4584 files / unpacked 16.2 MB / MIT`；解包后 `selftest 66 项`、`103 capabilities`、`444 entries`、`verify-package 0 errors` 全部通过。
 
 无 scope 的包默认就是 public。当前 `package.json` **没有** `publishConfig` 字段；如果希望把发布策略显式写进包（也避免以后误加 scope 后行为变化），可以补一段：
 
@@ -197,7 +197,7 @@ Test-Path "$env:DSH_HOME\profiles\desktop\node_modules\dsh-research-suite\packag
 Select-String -Path "$env:DSH_HOME\profiles\desktop\cordis.patch.yml" -Pattern 'dsh-research-suite'
 ```
 
-三条都命中，再去会话里让模型调 `research_suite_status` —— 它返回版本、10 个域的能力卡数量、592 条技能索引与资产收录统计（`knowledge/stats.json`）、references 是否齐全、包根路径。这是最终验收口径。
+三条都命中，再去会话里让模型调 `research_suite_status` —— 它返回版本、10 个域的能力卡数量、450 条技能索引与资产收录统计（`knowledge/stats.json`）、references 是否齐全、包根路径。这是最终验收口径。
 
 `$env:DSH_HOME` 默认是 `~/.dsh`；本机被重定向到 `D:\nodehome\.dsh`，命令里统一用环境变量，不要写死路径。
 
@@ -214,7 +214,7 @@ Select-String -Path "$env:DSH_HOME\profiles\desktop\cordis.patch.yml" -Pattern '
 
 ```powershell
 node scripts/verify-capabilities.mjs all    # 能力卡契约
-node scripts/verify-ledger.mjs all          # 592 条判定账本覆盖与 fused 可核
+node scripts/verify-ledger.mjs all          # 450 条判定账本覆盖与 fused 可核
 node scripts/verify-package.mjs             # 版本一致性必须 0 error
 npm pack --dry-run                          # 看清单与体积（v3 约 38 MB 解包量级）
 git tag v3.0.0
@@ -227,7 +227,7 @@ git push origin v3.0.0                      # 打版本标记 / 生成 Release�
 - 新增能力卡、新增工具、协议不兼容增强 → minor（`3.1.0`）；
 - 能力卡 JSON 结构、工具参数、**知识层契约**（catalog 字段 / 资产目录约定 / 账本 schema）破坏性变更 → major，同时改 `docs/CAPABILITY-SPEC.md` 的版本号。
 
-v2 → v3 就是一次 major：知识层重建（719 → 592）、域从 9 变 10、新增账本与资产层、移除对外 `Config`。这类改动**不要**用 minor 混过去——账本与能力卡成员对不上时 `verify-ledger` 会红。
+v2 → v3 就是一次 major：知识层重建（719 → 450）、域从 9 变 10、新增账本与资产层、移除对外 `Config`。这类改动**不要**用 minor 混过去——账本与能力卡成员对不上时 `verify-ledger` 会红。
 
 插件 `engines.dsh` 在 DSH 进入 0.3.x 之前不会放开；DSH 大版本升级时先改 `engines` + 重装验证，再发版。
 
@@ -255,7 +255,7 @@ npm deprecate dsh-research-suite@3.0.0 "3.0.0 存在 XXX 问题，请升级到 3
 | 2 | 技能注册期抛错，后面的工具也没了 | 注册时传了 `load()` 之类惰性钩子，而不是当场传 `content` 字符串 | 看 DSH 日志：`Get-ChildItem "$env:DSH_HOME\logs" -Recurse -File \| Sort-Object LastWriteTime -Descending \| Select-Object -First 5 FullName`，再 `Select-String -Path <日志文件> -Pattern 'skills.register\|dsh-research-suite'` | 改为注册时内联 `content`；`node scripts/verify-package.mjs` 会扫这类问题 |
 | 3 | 插件装了但加载期报"找不到模块" | 入口静态/动态 import 了 `@deepseek-ai/*` | `node scripts/verify-package.mjs`（它会扫 `lib/**` 与根 `index.js`，报 `file:line`） | 入口只依赖 node 内置模块；`@deepseek-ai/*` 一律不 import |
 | 4 | `install_bundle` 装不上 / 被跳过 | `engines` 不匹配（node 或 DSH 版本超出区间），或包目录里没有可读的 `package.json` | `node -v`；桌面版看 About 的版本；`Get-Content "$env:DSH_HOME\profiles\desktop\node_modules\dsh-research-suite\package.json" -TotalCount 20` | 满足 `node ^22.19.0 \|\| >=24.0.0`、DSH `>=0.2.0-0 <0.3.0`；版本不对就装对应 DSH 或改 `engines` 后重发 |
-| 5 | npm 包体异常小 / 解包后没有 592 篇原文或资产目录 | `files` 白名单漏了 `knowledge`/`references`，或资产目录没被构建进包 | `npm pack --dry-run`（看文件数总量）；`node scripts/verify-package.mjs` 的资产一致性与包体统计行 | 补 `files` 白名单；资产要让 `knowledge/skills/<域>/<slug>__assets/` 真实落盘，catalog 的 `assets.files/bytes` 必须与之一致 |
+| 5 | npm 包体异常小 / 解包后没有 450 篇原文或资产目录 | `files` 白名单漏了 `knowledge`/`references`，或资产目录没被构建进包 | `npm pack --dry-run`（看文件数总量）；`node scripts/verify-package.mjs` 的资产一致性与包体统计行 | 补 `files` 白名单；资产要让 `knowledge/skills/<域>/<slug>__assets/` 真实落盘，catalog 的 `assets.files/bytes` 必须与之一致 |
 | 6 | 工具在、技能不在（或反之） | 注册代码被条件包裹（配置缺省时跳过），或 `skills/*.md` 缺 frontmatter `name` | `node scripts/verify-package.mjs`；会话里调 `research_suite_status` 看技能/工具计数 | 补齐 frontmatter；确认注册不依赖可选配置 |
 | 7 | 改完代码没生效 | 只重启了窗口，没退出进程；或装的是 npm 旧版而不是本地目录 | `(Get-Content "$env:DSH_HOME\profiles\desktop\node_modules\dsh-research-suite\package.json" -Raw \| ConvertFrom-Json).version` | 完全退出 DSH Desktop 再启动；本地验证时 `install_bundle` 传本地绝对目录 |
 | 8 | CI 的 `npm pack --dry-run` 报错但本地正常 | CI 检出的是干净 clone，若本地有未提交文件（如新落盘的 `skills/*.md`）本地会多出来；或 `.npmignore` 覆盖了 `files` | 本地删 `node_modules` 后重跑：`npm pack --dry-run` | 以 `files` 白名单为准，删掉冲突的 `.npmignore` 条目 |
@@ -268,17 +268,17 @@ npm deprecate dsh-research-suite@3.0.0 "3.0.0 存在 XXX 问题，请升级到 3
 
 - [ ] 元信息确认过（`repository` 已指 `xuzhecomeon/dsh-research-suite`；`author` 如要署名已改）
 - [ ] `node scripts/verify-capabilities.mjs all` → exit 0
-- [ ] `node scripts/verify-ledger.mjs all` → exit 0（11 个域、592 条判定齐全，fused 全部可核）
+- [ ] `node scripts/verify-ledger.mjs all` → exit 0（11 个域、450 条判定齐全，fused 全部可核）
 - [ ] `node scripts/verify-package.mjs` → exit 0
 - [ ] `node scripts/selftest.mjs` → exit 0
-- [ ] `npm pack --dry-run` 里 `knowledge/`（592 篇 + `__assets/`）、`references/`、`skills/`、`lib/`、两个 README 都在；解包体积约 38 MB 量级、`scripts/` 含三份校验脚本
+- [ ] `npm pack --dry-run` 里 `knowledge/`（450 篇 + `__assets/`）、`references/`、`skills/`、`lib/`、两个 README 都在；解包体积约 38 MB 量级、`scripts/` 含三份校验脚本
 - [ ] 两份 README 里的能力卡总数已从占位符替换成真实数字（`grep -rn 'CAP_TOTAL' README*.md` 零命中）
 - [ ] 版本四处一致（`package.json` = `3.0.1` / `CHANGELOG.md` 最新 `## 3.0.1` / 能力卡 `version` / git tag `v3.0.1`）
 - [ ] `CHANGELOG.md` 的 `3.0.0` 段已写清本次变更（知识层重建、10 域、账本、资产、Config 移除）
-- [ ] 本地 `install_bundle` 装一遍，重启后 `research_suite_status` 通过，7 个工具都在、11 个技能都在
+- [ ] 本地 `install_bundle` 装一遍，重启后 `research_suite_status` 通过，12 个工具都在、11 个技能都在
 - [ ] 发完 `npm view dsh-research-suite version` 是新版本
 - [ ] 上架社区市场前：GitHub 仓库公开、创建满 1 天、已加 topic `dsh-plugin`、仓库根有 `package.json` + `cordis.patch.yml`（见 §九）
-- [ ] 市场条目：v2 时已提 PR #12199（`data/plugins/xuzhecomeon__dsh-research-suite.yml`），**插件名没变，不重提**；合并后条目描述里的数字如需更新，另开一个改一个文件的 PR（592 技能 / `data/capabilities/*.json` 合计能力卡数 / 11 技能 / 7 工具）
+- [ ] 市场条目：v2 时已提 PR #12199（`data/plugins/xuzhecomeon__dsh-research-suite.yml`），**插件名没变，不重提**；合并后条目描述里的数字如需更新，另开一个改一个文件的 PR（450 技能 / `data/capabilities/*.json` 合计能力卡数 / 11 技能 / 7 工具）
 
 ## 九、上架社区插件市场（awesome-dsh-plugin → dshmarket 与官方 Discover）
 
@@ -294,7 +294,7 @@ npm deprecate dsh-research-suite@3.0.0 "3.0.0 存在 XXX 问题，请升级到 3
 | 4 | 仓库创建满 1 天（CI 自动查） | 建仓时注意 |
 | 5 | 仓库加 topic `dsh-plugin` | 需手动加 |
 | 6 | 真实可跑代码，非占位/纯 README | 满足（`lib/` 4 个模块 + `scripts/` 4 个校验脚本：capabilities / ledger / package / selftest） |
-| 7 | 描述只说功能、不带营销词，且**与代码一致**（写数字就要数得出来） | 条目里可写的可验证数字：592 个源技能 / `data/capabilities/*.json` 的能力卡数 / 11 个注册技能 / 7 个工具 |
+| 7 | 描述只说功能、不带营销词，且**与代码一致**（写数字就要数得出来） | 条目里可写的可验证数字：450 个源技能 / `data/capabilities/*.json` 的能力卡数 / 11 个注册技能 / 12 个工具 |
 | 8 | 一个 PR 最多 3 个条目 | 本次 1 条 |
 | 9 | 可选 `icon:` 必须是 **GitHub 托管的位图**（png/jpg/webp，卡片约 96px 显示），**SVG 会被拒** | 本包 `icon.svg` 不能直接用作条目图标；不写则回退成作者 GitHub 头像 |
 | 10 | 可选：自身仓库根放 `screenshots.json`（1~8 张，相对路径） | 暂无截图 |
@@ -316,13 +316,13 @@ CI 依次查：条目数 ≤3 → 从仓库读 `dsh.bundle` → 仓库年龄 ≥
 
 > 本包的实际投稿记录（2026-11-05）：仓库 `xuzhecomeon/dsh-research-suite` 上线后已按上面五步提过一次 PR —— `awesome-dsh-plugin/awesome-dsh-plugin` **#12199**，改动仅 `data/plugins/xuzhecomeon__dsh-research-suite.yml` 一个文件。提 PR 时仓库创建未满 1 天，故 gate 会在满 1 天后自动重新判定。
 
-最常见的两种被打回：① 只声明 `dsh.client`（不可安装）；② 描述夸大（写了「46 个工具、六个领域」就得真有）。v2 条目里的四个数字当时是「719 篇 / 81 卡 / 10 技能 / 7 工具」，v3 已变为「592 篇源技能 / `data/capabilities/*.json` 合计张能力卡 / 11 个注册技能 / 7 个工具」，都能用 `node scripts/verify-package.mjs` 与 `data/capabilities/*.json` 数出来。**插件名与仓库没变，市场 PR #12199 不重提**；若合并后要改条目描述里的数字，另提一个只改 `data/plugins/xuzhecomeon__dsh-research-suite.yml` 的 PR。
+最常见的两种被打回：① 只声明 `dsh.client`（不可安装）；② 描述夸大（写了「46 个工具、六个领域」就得真有）。v2 条目里的四个数字当时是「719 篇 / 81 卡 / 10 技能 / 7 工具」，v3 已变为「450 篇源技能 / `data/capabilities/*.json` 合计张能力卡 / 11 个注册技能 / 12 个工具」，都能用 `node scripts/verify-package.mjs` 与 `data/capabilities/*.json` 数出来。**插件名与仓库没变，市场 PR #12199 不重提**；若合并后要改条目描述里的数字，另提一个只改 `data/plugins/xuzhecomeon__dsh-research-suite.yml` 的 PR。
 
 ## 十、不经过市场，直接把插件发给别人（四条路）
 
 ### 路线 A：发 tgz（最快，已实测）
 
-- v3 打包：包根执行 `npm pack` → `dsh-research-suite-3.0.0.tgz`（解包约 38 MB 量级，含 592 篇原文 + 3924 个资产文件）；v2 是 `dist/dsh-research-suite-2.0.0.tgz`（4.1 MB，解包 11.8 MB / 771 文件）。
+- v3 打包：包根执行 `npm pack` → `dsh-research-suite-3.0.0.tgz`（解包约 38 MB 量级，含 450 篇原文 + 954 个资产文件）；v2 是 `dist/dsh-research-suite-2.0.0.tgz`（4.1 MB，解包 11.8 MB / 771 文件）。
 - 对方执行：`dsh plugin --profile <profile名> add <tgz 绝对路径>`，然后**完全退出并重启 DSH Desktop（含托盘）**。
 - 实测记录（2026-11-04，v2 tgz）：在全新 profile 上执行上述命令 → **exit 0**，profile 依赖记为 `file:<tgz 路径>`；装出来的目录是**实体拷贝而非符号链接**，771 文件、`skills/` 10 个 md、`knowledge/skills/` 10 个域、`cordis.patch.yml` 齐全 ⇒ tarball 自足，对方无需任何本机技能目录。v3 的 tgz 尚未实测，首次发出前按本清单 §八 走一遍。
 - 注意：对方 DSH 需 ≥0.2.0；装的是拷贝，**升级必须发新 tgz 并改版本号**（同名同版本会被判 `Already up to date` 而跳过）。
@@ -337,7 +337,7 @@ CI 依次查：条目数 ≤3 → 从仓库读 `dsh.bundle` → 仓库年龄 ≥
 
 - 你：按 §三 发布；对方：`dsh plugin --profile <profile名> add dsh-research-suite`。
 - 包名可用性：2026-11-04 实测 `npm view dsh-research-suite version` → `E404`，即 **npm 上这个名字还空着**。
-- 注意：公开 npm 包＝公开再分发。`knowledge/skills/` 下 592 篇源技能与 3924 个自带资产是第三方材料，许可见 `docs/ATTRIBUTION.md`，发之前请自行判断授权风险。
+- 注意：公开 npm 包＝公开再分发。`knowledge/skills/` 下 450 篇源技能与 954 个自带资产是第三方材料，许可见 `docs/ATTRIBUTION.md`，发之前请自行判断授权风险。
 
 ### 路线 D（可选）：让对方加「索引源」
 

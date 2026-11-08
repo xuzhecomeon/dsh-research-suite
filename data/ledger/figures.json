@@ -26,7 +26,11 @@
       "name": "scientific-visualization",
       "verdict": "fused",
       "why": "期刊栏宽字号表与 13 项终检清单是本域硬指标来源，三处同名来源按同一判定处理",
-      "cards": ["figures.panel", "figures.style", "figures.audit"]
+      "cards": [
+        "figures.panel",
+        "figures.style",
+        "figures.audit"
+      ]
     },
     {
       "dir": "xmed-figure",
@@ -39,7 +43,12 @@
       "name": "academic-figures",
       "verdict": "fused",
       "why": "40 种图型加 PRISMA 数字自洽与重叠门禁，是统计图族与流程图的生成主力",
-      "cards": ["figures.statplot", "figures.panel", "figures.flow", "figures.audit"]
+      "cards": [
+        "figures.statplot",
+        "figures.panel",
+        "figures.flow",
+        "figures.audit"
+      ]
     },
     {
       "dir": "ai-figure-studio",
@@ -76,14 +85,21 @@
       "name": "drawio-reconstruction",
       "verdict": "fused",
       "why": "先建可见元素清单再复刻的方法与 check_drawio 校验，是可编辑矢量卡的主线",
-      "cards": ["figures.vector", "figures.schematic"]
+      "cards": [
+        "figures.vector",
+        "figures.schematic"
+      ]
     },
     {
       "dir": "figure-designer",
       "name": "figure-designer",
       "verdict": "fused",
       "why": "文字版布局草图、通用规则审计与问题分级，用于机制图前置与终检排序",
-      "cards": ["figures.mechanism", "figures.audit", "figures.schematic"]
+      "cards": [
+        "figures.mechanism",
+        "figures.audit",
+        "figures.schematic"
+      ]
     },
     {
       "dir": "figures-diagram",
@@ -96,33 +112,29 @@
       "name": "figures-python",
       "verdict": "fused",
       "why": "三套配色常量、栏宽英寸与数据清单表头，是样式文件的直接来源",
-      "cards": ["figures.style", "figures.render"]
+      "cards": [
+        "figures.style",
+        "figures.render"
+      ]
     },
     {
       "dir": "fireworks-tech-graph",
       "name": "fireworks-tech-graph",
       "verdict": "fused",
       "why": "SVG 为唯一真源加语义连线与碰撞校验，补流程图的校验缺口",
-      "cards": ["figures.vector", "figures.flow"]
-    },
-    {
-      "dir": "generate-image",
-      "name": "generate-image",
-      "verdict": "deprecated",
-      "why": "通用文生图，产出位图无数据依据，实验图不可回溯"
-    },
-    {
-      "dir": "geopandas",
-      "name": "geopandas",
-      "verdict": "out-of-scope",
-      "why": "地理空间数据处理，出图仍走 matplotlib，本域不单列地图能力"
+      "cards": [
+        "figures.vector",
+        "figures.flow"
+      ]
     },
     {
       "dir": "imaging-data-commons",
       "name": "imaging-data-commons",
       "verdict": "fused",
       "why": "公共肿瘤影像检索与引用标注，用于影像图追溯公开数据来源",
-      "cards": ["figures.imaging"]
+      "cards": [
+        "figures.imaging"
+      ]
     },
     {
       "dir": "infographics",
@@ -135,21 +147,29 @@
       "name": "markdown-mermaid-writing",
       "verdict": "fused",
       "why": "文本即源的拓扑表达与两阶段出图顺序，是流程图的主线起点",
-      "cards": ["figures.flow"]
+      "cards": [
+        "figures.flow"
+      ]
     },
     {
       "dir": "matplotlib",
       "name": "matplotlib",
       "verdict": "fused",
       "why": "对象式 API 与 rcParams 是出版级底座的唯一可控入口",
-      "cards": ["figures.render", "figures.panel"]
+      "cards": [
+        "figures.render",
+        "figures.panel"
+      ]
     },
     {
       "dir": "nature-figure",
       "name": "nature-figure",
       "verdict": "fused",
       "why": "figure contract、1.5 pt 面板对齐门与碰撞审计三件套，是终检主线",
-      "cards": ["figures.audit", "figures.panel"]
+      "cards": [
+        "figures.audit",
+        "figures.panel"
+      ]
     },
     {
       "dir": "nature-reader",
@@ -162,13 +182,9 @@
       "name": "plotly",
       "verdict": "fused",
       "why": "交互探索期看图省返工，只在探索期当兜底，终稿一律弃用",
-      "cards": ["figures.render"]
-    },
-    {
-      "dir": "pymatgen",
-      "name": "pymatgen",
-      "verdict": "out-of-scope",
-      "why": "材料科学晶体与能带计算，出图仍走 matplotlib，属材料专用工具"
+      "cards": [
+        "figures.render"
+      ]
     },
     {
       "dir": "scholar-conceptual",
@@ -181,14 +197,20 @@
       "name": "science-figures",
       "verdict": "fused",
       "why": "17 种图型与 8 种期刊风格一键切换，用于换刊快速对照",
-      "cards": ["figures.statplot", "figures.style"]
+      "cards": [
+        "figures.statplot",
+        "figures.style"
+      ]
     },
     {
       "dir": "scientific-drawing__skillhub",
       "name": "scientific-drawing",
       "verdict": "fused",
       "why": "技术路线图版式、三套配色与每框十字原则可借，但无脚本无门禁只能兜底",
-      "cards": ["figures.flow", "figures.style"]
+      "cards": [
+        "figures.flow",
+        "figures.style"
+      ]
     },
     {
       "dir": "scientific-schematics",
@@ -201,14 +223,21 @@
       "name": "scientific-visualization",
       "verdict": "fused",
       "why": "与主来源同内容，图版式硬指标一致，按同一判定并入三张卡",
-      "cards": ["figures.panel", "figures.style", "figures.audit"]
+      "cards": [
+        "figures.panel",
+        "figures.style",
+        "figures.audit"
+      ]
     },
     {
       "dir": "seaborn",
       "name": "seaborn",
       "verdict": "fused",
       "why": "统计图与分面快速成稿，供底座精修前出初稿",
-      "cards": ["figures.render", "figures.statplot"]
+      "cards": [
+        "figures.render",
+        "figures.statplot"
+      ]
     },
     {
       "dir": "sfkislev-flue-illustrator",
@@ -221,7 +250,11 @@
       "name": "medical-illustration",
       "verdict": "fused",
       "why": "百余原创矢量组件加三语义箭头，是机制图与元件示意的唯一主线",
-      "cards": ["figures.mechanism", "figures.schematic", "figures.vector"]
+      "cards": [
+        "figures.mechanism",
+        "figures.schematic",
+        "figures.vector"
+      ]
     },
     {
       "dir": "xiantao-plot-api",

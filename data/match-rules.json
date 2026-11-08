@@ -1,0 +1,562 @@
+{
+  "version": 2,
+  "note": "v3.1 识别层规则。目标是「认不准就不接管」，而不是把分数凑大于 0 就出候选。改这里的数字要同时跑 scripts/eval-match.mjs 看准确率。",
+  "floor": 18,
+  "strongFloor": 10,
+  "margin": 2,
+  "stopSegments": [
+    "论文",
+    "数据",
+    "分析",
+    "研究",
+    "结果",
+    "方法",
+    "问题",
+    "报告",
+    "清单",
+    "影响",
+    "不足",
+    "内容",
+    "部分",
+    "时候",
+    "东西",
+    "情况",
+    "要求",
+    "格式",
+    "写作",
+    "文献",
+    "图表",
+    "看一",
+    "帮我",
+    "怎么",
+    "如何",
+    "什么",
+    "哪些",
+    "可以",
+    "需要",
+    "一个",
+    "这个",
+    "那个",
+    "一下",
+    "我们",
+    "你们",
+    "他们",
+    "以及",
+    "并且",
+    "因为",
+    "所以",
+    "但是",
+    "如果",
+    "就是",
+    "还是"
+  ],
+  "stopTokens": [
+    "the",
+    "and",
+    "for",
+    "with",
+    "this",
+    "that",
+    "from",
+    "are",
+    "was",
+    "were",
+    "has",
+    "have",
+    "can",
+    "will",
+    "not",
+    "you",
+    "your",
+    "our",
+    "but",
+    "all",
+    "any",
+    "one",
+    "two",
+    "out",
+    "use"
+  ],
+  "researchCues": [
+    "论文",
+    "稿子",
+    "稿件",
+    "投稿",
+    "期刊",
+    "审稿",
+    "审稿人",
+    "编辑",
+    "标书",
+    "基金",
+    "课题",
+    "统计",
+    "数据",
+    "样本",
+    "患者",
+    "病人",
+    "病例",
+    "队列",
+    "随访",
+    "实验",
+    "动物",
+    "细胞",
+    "文献",
+    "检索",
+    "综述",
+    "引文",
+    "参考文献",
+    "图表",
+    "机制",
+    "通路",
+    "表达",
+    "基因",
+    "伦理",
+    "学位",
+    "答辩",
+    "组会",
+    "汇报",
+    "显著性",
+    "p 值",
+    "P 值",
+    "置信区间",
+    "变量",
+    "回归",
+    "生存",
+    "预后",
+    "诊断",
+    "敏感性",
+    "特异度",
+    "AUC",
+    "HR",
+    "OR"
+  ],
+  "negativePatterns": [
+    {
+      "re": "天气|气温|下雨|购物|买菜|外卖|菜谱|做饭|旅行|旅游|机票|酒店|景点",
+      "why": "生活事务，与科研无关"
+    },
+    {
+      "re": "股票|基金定投|彩票|星座|运势|房价|理财|炒币",
+      "why": "投资理财类，与科研无关"
+    },
+    {
+      "re": "电影|电视剧|综艺|小说|歌词|情书|段子|笑话|游戏攻略|追星",
+      "why": "娱乐文艺类，与科研无关"
+    },
+    {
+      "re": "爬虫|网页自动化|docker|kubernetes|nginx|前端|后端接口|数据库索引优化|模型量化|微调框架",
+      "why": "通用软件工程，不属科研方法论"
+    },
+    {
+      "re": "工作总结|述职报告|会议纪要|请假|报销|周报|月报",
+      "why": "行政事务，与科研产出无关"
+    }
+  ],
+  "cues": [
+    {
+      "re": "不够硬|论证不足|论证不充分|说不圆|站不住|被说|老说|审稿人觉得|说服力",
+      "caps": {
+        "review.presubmit": 16,
+        "review.referee": 13,
+        "review.audit": 8,
+        "polish.audit": 4
+      },
+      "why": "口语里「不够硬/论证不足」实际是审稿视角的质疑，不是润色"
+    },
+    {
+      "re": "有没有影响|有没有关系|影不影响|是不是危险因素|能不能预测",
+      "caps": {
+        "stats.regression": 12,
+        "stats.survival": 12,
+        "stats.twogroup": 6
+      },
+      "why": "口语里「某指标对预后有没有影响」= 回归或生存分析，不是诊断试验"
+    },
+    {
+      "re": "预后|随访|生存|死亡|复发时间",
+      "caps": {
+        "stats.survival": 10,
+        "stats.prediction": 6
+      },
+      "why": "预后类问题默认落生存分析"
+    },
+    {
+      "re": "查重|重复率|降重|去重|similarity",
+      "caps": {
+        "polish.rewrite": 12,
+        "polish.audit": 5
+      },
+      "why": "查重降重是改写，不是通用润色"
+    },
+    {
+      "re": "ai 味|AI味|像机器写的|一眼假|套话多|机器味",
+      "caps": {
+        "polish.deai": 16,
+        "polish.rewrite": 4
+      },
+      "why": "中文去 AI 痕迹有专门协议"
+    },
+    {
+      "re": "会不会被拒|秒拒|desk reject|审稿意见|返修|修回",
+      "caps": {
+        "review.presubmit": 12,
+        "review.revise": 10,
+        "review.referee": 6
+      },
+      "why": "投稿前的担忧落自审/修回"
+    },
+    {
+      "re": "回复信|rebuttal|逐条回复|point-by-point",
+      "caps": {
+        "review.rebuttal": 18
+      },
+      "why": "回复信是独立协议"
+    },
+    {
+      "re": "三线表|表头|题注|图表规范",
+      "caps": {
+        "format.figtable": 12,
+        "writing.figure-table": 10
+      },
+      "why": "表格规范属格式域，但写作域也管题注呼应"
+    },
+    {
+      "re": "参考文献|引文|上标|GB/T|endnote|zotero",
+      "caps": {
+        "format.ref-style": 10,
+        "format.intext-cite": 8,
+        "writing.citation": 6
+      },
+      "why": "文献格式有专门协议"
+    },
+    {
+      "re": "机制图|通路图|信号图",
+      "caps": {
+        "figures.mechanism": 20
+      },
+      "why": "机制图有四要素硬门，不能落到通用绘图"
+    },
+    {
+      "re": "精读|读一下这篇|逐段讲|结构笔记",
+      "caps": {
+        "literature.close-read": 14
+      },
+      "why": "精读与检索是两件事"
+    },
+    {
+      "re": "孟德尔|MR|工具变量|两样本",
+      "caps": {
+        "stats.mr": 18
+      },
+      "why": "MR 有独立假设检验流程"
+    },
+    {
+      "re": "样本量|把握度|效能|power",
+      "caps": {
+        "stats.power": 16
+      },
+      "why": "样本量计算是独立卡"
+    },
+    {
+      "re": "倾向评分|PSM|匹配|真实世界",
+      "caps": {
+        "stats.psm": 16
+      },
+      "why": "PSM 有 Love plot / SMD 硬规则"
+    },
+    {
+      "re": "森林图|漏斗图|亚组分析",
+      "caps": {
+        "figures.statplot": 14,
+        "stats.meta": 6
+      },
+      "why": "森林图是图件任务（数据来自 Meta 分析，但诉求是画图）"
+    },
+    {
+      "re": "不够硬|论证不足|站不住|说服力不够",
+      "caps": {
+        "review.presubmit": 18,
+        "review.referee": 10
+      },
+      "why": "审稿人视角挑论证漏洞"
+    },
+    {
+      "re": "有没有影响|是不是危险因素|影响预后|对预后",
+      "caps": {
+        "stats.survival": 16,
+        "stats.regression": 10
+      },
+      "why": "预后/影响因素问题应走生存分析或回归"
+    },
+    {
+      "re": "基线表|两组病人的基线|基线特征",
+      "caps": {
+        "stats.baseline": 20
+      },
+      "why": "基线表就是 Table 1"
+    },
+    {
+      "re": "生存曲线|km 曲线|KM 曲线",
+      "caps": {
+        "figures.statplot": 16
+      },
+      "why": "生存曲线属于统计图"
+    },
+    {
+      "re": "hr 标签|HR 标签|挡住曲线",
+      "caps": {
+        "figures.statplot": 14
+      },
+      "why": "图注/标签遮挡是出图细节"
+    },
+    {
+      "re": "森林图",
+      "caps": {
+        "figures.statplot": 14,
+        "stats.meta": 6
+      },
+      "why": "森林图是图件任务"
+    },
+    {
+      "re": "roc 曲线|ROC 曲线|校准曲线|决策曲线",
+      "caps": {
+        "figures.statplot": 16
+      },
+      "why": "ROC/校准曲线属于统计图族"
+    },
+    {
+      "re": "三线表|列怎么排|表格怎么排",
+      "caps": {
+        "format.figtable": 18
+      },
+      "why": "三线表属图表规范"
+    },
+    {
+      "re": "图注|正文对不上|图和正文",
+      "caps": {
+        "format.figtable": 14,
+        "figures.style": 6
+      },
+      "why": "图注与正文一致性归格式域"
+    },
+    {
+      "re": "导出成|300dpi|300 dpi|tif|tiff",
+      "caps": {
+        "figures.audit": 22,
+        "figures.render": 6
+      },
+      "why": "导出与分辨率属图件交付"
+    },
+    {
+      "re": "去标识化|去标识|脱敏图片|切片图片",
+      "caps": {
+        "figures.imaging": 18
+      },
+      "why": "医学影像去标识化"
+    },
+    {
+      "re": "查新|有人做过|做过没有",
+      "caps": {
+        "ideation.novelty": 18
+      },
+      "why": "查新属选题域"
+    },
+    {
+      "re": "起一个课题|定个方向|想做个课题|课题方向",
+      "caps": {
+        "ideation.topic": 16
+      },
+      "why": "立题"
+    },
+    {
+      "re": "海报|poster",
+      "caps": {
+        "slides.conference-defense": 16
+      },
+      "why": "会议海报属于幻灯汇报域"
+    },
+    {
+      "re": "申诉信|被拒了|拒稿",
+      "caps": {
+        "review.appeal": 18,
+        "review.revise": 8
+      },
+      "why": "被拒后的申诉/转投"
+    },
+    {
+      "re": "审稿意见回来了|要我补实验|该怎么回复|逐条回复",
+      "caps": {
+        "review.revise": 18,
+        "review.rebuttal": 10
+      },
+      "why": "修回与回复"
+    },
+    {
+      "re": "写一份正式的审稿意见|我自己审稿|审这篇稿",
+      "caps": {
+        "review.report": 18,
+        "review.referee": 10
+      },
+      "why": "撰写审稿意见"
+    },
+    {
+      "re": "秒拒|desk reject|一审就被拒",
+      "caps": {
+        "review.presubmit": 24
+      },
+      "why": "投稿前自审防秒拒"
+    },
+    {
+      "re": "cover letter|投稿信|给编辑的信",
+      "caps": {
+        "writing.submission": 18
+      },
+      "why": "投稿信"
+    },
+    {
+      "re": "摘要|abstract",
+      "caps": {
+        "writing.abstract": 18,
+        "writing.zh-imrad": 4
+      },
+      "why": "摘要写作"
+    },
+    {
+      "re": "讨论部分|讨论写不出|重复结果",
+      "caps": {
+        "writing.discussion": 20
+      },
+      "why": "讨论章节"
+    },
+    {
+      "re": "开题报告|学位论文|毕业论文|毕业论文模板",
+      "caps": {
+        "writing.thesis": 18
+      },
+      "why": "学位论文类"
+    },
+    {
+      "re": "翻成英文|中文稿翻|译成英文|英文稿想润色",
+      "caps": {
+        "polish.en": 22,
+        "polish.deai": 4
+      },
+      "why": "中译英与英文润色"
+    },
+    {
+      "re": "润色|改一改|顺一下|通顺",
+      "caps": {
+        "polish.deai": 8,
+        "polish.en": 8,
+        "polish.rewrite": 6
+      },
+      "why": "润色类首选去AI味与英文润色"
+    },
+    {
+      "re": "降重|查重率|重复率",
+      "caps": {
+        "polish.rewrite": 16
+      },
+      "why": "降重改写"
+    },
+    {
+      "re": "核一下|是不是真的存在|核对文献|文献真伪",
+      "caps": {
+        "literature.fact-check": 16
+      },
+      "why": "引用真伪核验"
+    },
+    {
+      "re": "查文献|检索文献|找几篇文献|近五年.*文献",
+      "caps": {
+        "literature.search-plan": 16
+      },
+      "why": "检索规划"
+    },
+    {
+      "re": "组会|读书报告|文献汇报",
+      "caps": {
+        "slides.journal-club": 22
+      },
+      "why": "组会文献汇报"
+    },
+    {
+      "re": "备注栏|讲稿|台词",
+      "caps": {
+        "slides.speaker-notes": 12,
+        "slides.journal-club": 8
+      },
+      "why": "备注与讲稿"
+    },
+    {
+      "re": "公共数据库|表达数据|直接用公共数据",
+      "caps": {
+        "data.expression-reuse": 20
+      },
+      "why": "公共数据复用"
+    },
+    {
+      "re": "数据下载|下载数据|取数",
+      "caps": {
+        "data.omics-download": 16
+      },
+      "why": "数据获取"
+    },
+    {
+      "re": "参考文献.*格式|按.*格式排|中华医学会.*格式",
+      "caps": {
+        "format.ref-style": 18,
+        "format.intext-cite": 8
+      },
+      "why": "参考文献样式"
+    },
+    {
+      "re": "这段摘要|摘要写得|摘要结构",
+      "caps": {
+        "writing.abstract": 18
+      },
+      "why": "摘要写作"
+    },
+    {
+      "re": "写不出深度|重复结果|讨论怎么写",
+      "caps": {
+        "writing.discussion": 16
+      },
+      "why": "讨论章节"
+    },
+    {
+      "re": "翻一下|翻译成|译一下",
+      "caps": {
+        "polish.en": 18
+      },
+      "why": "中译英"
+    },
+    {
+      "re": "word 里的图|word 的图|导出图",
+      "caps": {
+        "figures.audit": 18
+      },
+      "why": "图件导出"
+    },
+    {
+      "re": "怎么画|画才好看|画得好看",
+      "caps": {
+        "figures.statplot": 12
+      },
+      "why": "画图诉求"
+    }
+  ],
+  "ambiguous": [
+    {
+      "re": "综述",
+      "why": "「综述」同时属 writing.review（写作）与 literature.synthesis（归纳骨架），要看是「帮我写一篇综述」还是「帮我把文献归纳成骨架」",
+      "ask": "要成稿写作（writing.review）还是先做主题归纳（literature.synthesis）？"
+    },
+    {
+      "re": "数据",
+      "why": "「数据」过于泛化，单独出现不足以定位到 data 域",
+      "ask": "是要取数下载（data 域），还是要分析已有数据（stats 域）？"
+    }
+  ],
+  "windowStopChars": "我你帮要想能怎么这那的了呢吧吗啊请就还也都"
+}

@@ -8,14 +8,18 @@
       "name": "research-grants",
       "verdict": "fused",
       "why": "源清单里 research-grants 出现两次（builtin 5 文件与 user 12 文件，dir 同名）。按目录唯一性合并为一条：它提供 NSF／NIH／DOE／DARPA／NSTC 的评审标准对照、预算论证与五类常见错误清单，正是标书卡从「评审表反推写法」所需的外部基准；其强制 AI 配图要求不采用，图件交 figures 域。",
-      "cards": ["ideation.grant"]
+      "cards": [
+        "ideation.grant"
+      ]
     },
     {
       "dir": "arf-review-grant",
       "name": "arf-review-grant",
       "verdict": "fused",
       "why": "六席预审（清晰度／内部一致性／意义与指南契合／设计与可行性／预算团队／对抗式资助建议）是标书定稿前最接近真实评审会的结构，标书卡第六步直接采用；每席输出必改与建议改两张表，可机械核对是否落地。",
-      "cards": ["ideation.grant"]
+      "cards": [
+        "ideation.grant"
+      ]
     },
     {
       "dir": "aris-embodiment-description",
@@ -29,28 +33,36 @@
       "name": "aris-experiment-plan",
       "verdict": "fused",
       "why": "claim 分解、主结果表先行、run order 与五段里程碑是设计卡的主干方法；其对「成功判据与失败解释成对」的要求，正是本域防止「做完实验拼不出结论」的关键约束。",
-      "cards": ["ideation.design"]
+      "cards": [
+        "ideation.design"
+      ]
     },
     {
       "dir": "aris-grant-proposal",
       "name": "aris-grant-proposal",
       "verdict": "fused",
       "why": "覆盖 NSFC（面上／青年／优青／杰青／海外优青／重点）与 NSF／NIH／ERC／KAKENHI 等多套结构，且明确「标书论证未来工作而非已完成结果」「目标之间独立可解」「金额与个人信息一律占位」，与本地域不得编造数字的铁律一致，作标书卡主用。",
-      "cards": ["ideation.grant"]
+      "cards": [
+        "ideation.grant"
+      ]
     },
     {
       "dir": "aris-idea-creator",
       "name": "aris-idea-creator",
       "verdict": "fused",
       "why": "六字段候选产出（假说／最小实验／类型／风险／工作量）与五个结构缺口 lens 直接支撑选题卡的「发散出量」与「缺口补位」两步，且要求淘汰只按机械事实、被杀候选必须留在报告里。",
-      "cards": ["ideation.topic"]
+      "cards": [
+        "ideation.topic"
+      ]
     },
     {
       "dir": "aris-idea-discovery",
       "name": "aris-idea-discovery",
       "verdict": "fused",
       "why": "端到端多阶段流水线与 checkpoint 编排，适合用户明确要求「一路推到底」且愿意等的情况；因轮次多、依赖外部评审通道，选题卡把它放在兜底位，只借其分阶段产物结构。",
-      "cards": ["ideation.topic"]
+      "cards": [
+        "ideation.topic"
+      ]
     },
     {
       "dir": "aris-idea-discovery-robot",
@@ -71,7 +83,9 @@
       "name": "aris-novelty-check",
       "verdict": "fused",
       "why": "抽可核 claim、多式检索、四轴差异、PROCEED／CAUTION／ABANDON 三档裁决与可核查定位句，完整覆盖查新卡；本域额外加硬一条：ABANDON 必须点名具体已发表论文，点不出只能 CAUTION。",
-      "cards": ["ideation.novelty"]
+      "cards": [
+        "ideation.novelty"
+      ]
     },
     {
       "dir": "aris-patent-novelty-check",
@@ -92,7 +106,9 @@
       "name": "aris-prior-art-search",
       "verdict": "fused",
       "why": "专利库检索（Google Patents／Espacenet）、IPC／CPC 分类、重叠风险 HIGH／MEDIUM／LOW 分级与 [VERIFY] 标注纪律，被查新卡借用来做「可核库检索」与「逐条比对」两步；其 FTO 部分只在专利情形下提示，不越权判断。",
-      "cards": ["ideation.novelty"]
+      "cards": [
+        "ideation.novelty"
+      ]
     },
     {
       "dir": "aris-research-refine-pipeline",
@@ -106,7 +122,9 @@
       "name": "basic-research-design-extractor",
       "verdict": "fused",
       "why": "把一篇基础研究论文拆成「实验1.1」式可执行模块，并要求缺失参数写「待定」、分子名可匿名化、预期结果写成筛选判据而非结论，是本域防编造的天然范例；设计卡的生物医学分支以它做兜底。",
-      "cards": ["ideation.design"]
+      "cards": [
+        "ideation.design"
+      ]
     },
     {
       "dir": "benchling-integration",
@@ -120,14 +138,9 @@
       "name": "clinical-research-design-extractor",
       "verdict": "fused",
       "why": "从临床论文抽纳排标准、干预、终点与随访窗口，把范式转成可执行方案，并区分原文做法与本文设计；设计卡借此补齐临床分支，同时保留「缺失参数写待定」的纪律。",
-      "cards": ["ideation.design"]
-    },
-    {
-      "dir": "hyperliquid-reader",
-      "name": "hyperliquid-reader",
-      "verdict": "out-of-scope",
-      "why": "读取加密货币衍生品行情（Hyperliquid）的数据工具，与科研选题、查新、标书、伦理均无关。建议归入 data 域的市场数据类或直接移出科研包。",
-      "cards": []
+      "cards": [
+        "ideation.design"
+      ]
     },
     {
       "dir": "hypogenic",
@@ -141,14 +154,18 @@
       "name": "hypothesis-generation",
       "verdict": "fused",
       "why": "八步流程（理解现象→文献→证据综合→竞争假说→质量评估→实验测试→可检验预测→结构化输出）与假说质量五问是假说卡主干；其「强制 AI 配图」要求不采用，机制图交 figures 域。",
-      "cards": ["ideation.question"]
+      "cards": [
+        "ideation.question"
+      ]
     },
     {
       "dir": "idea-evaluator",
       "name": "idea-evaluator",
       "verdict": "fused",
       "why": "八步评估（首印象与类型→致命缺陷→生命周期与能力→五维打分→范式跃迁探针→可行性→完整性闸门→裁决）正是本域唯一可否决的闸门所需结构；五维只认证据、无证据标未评，被可行性卡直接采用。",
-      "cards": ["ideation.feasibility"]
+      "cards": [
+        "ideation.feasibility"
+      ]
     },
     {
       "dir": "labarchive-integration",
@@ -169,7 +186,9 @@
       "name": "researchwrite",
       "verdict": "fused",
       "why": "中文立项依据的论证式写法、关键科学问题凝练与创新点「相对谁」的表述，补足 aris-grant-proposal 偏英文体系的口径差，在标书卡做补强。",
-      "cards": ["ideation.grant"]
+      "cards": [
+        "ideation.grant"
+      ]
     },
     {
       "dir": "opentrons-integration",
@@ -193,18 +212,13 @@
       "cards": []
     },
     {
-      "dir": "saas-valuation-compression",
-      "name": "saas-valuation-compression",
-      "verdict": "out-of-scope",
-      "why": "SaaS 公司估值与财务压缩分析，属商业投研方法，与科研选题到立项无关。建议移出科研包或归入商业分析类。",
-      "cards": []
-    },
-    {
       "dir": "scholar-brainstorm",
       "name": "scholar-brainstorm",
       "verdict": "fused",
       "why": "从数据与材料反推可实证问题、每条问题点名真实变量、加权打分只排序不否决，补足纯发散框架缺实证锚点的问题；选题卡第三、四步借它的收敛与反推。",
-      "cards": ["ideation.topic"]
+      "cards": [
+        "ideation.topic"
+      ]
     },
     {
       "dir": "scholar-causal",
@@ -218,21 +232,27 @@
       "name": "scholar-data",
       "verdict": "fused",
       "why": "开放数据源目录、数据采集工具与量表选型、IRB 材料与数据管理清单，落在伦理卡的「材料包」与「数据可得性」两处，作为先行查已有数据、再谈采集的兜底。",
-      "cards": ["ideation.ethics"]
+      "cards": [
+        "ideation.ethics"
+      ]
     },
     {
       "dir": "scholar-design",
       "name": "scholar-design",
       "verdict": "fused",
       "why": "设计选择决策树、七类实验设计模块、变量字典与 DAG、预分析计划模板、稳健性清单，是设计卡补强的核心来源；其功效分析部分按边界交 stats 执行，本域只定参数与理由。",
-      "cards": ["ideation.design"]
+      "cards": [
+        "ideation.design"
+      ]
     },
     {
       "dir": "scholar-idea",
       "name": "scholar-idea",
       "verdict": "fused",
       "why": "从文献矛盾点抽可检验问题、界定问题边界与范围条件、把问题写成点名变量的研究问句，补足假说卡在「问题句怎么写」上的缺口。",
-      "cards": ["ideation.question"]
+      "cards": [
+        "ideation.question"
+      ]
     },
     {
       "dir": "scholar-simulate",
@@ -246,14 +266,18 @@
       "name": "scientific-brainstorming",
       "verdict": "fused",
       "why": "对话式发散、想法太安全时鼓励冒险、发散与批评分阶段，补足选题卡在「用户自己没想法」时的引导路径；其流程偏松，故只在发散阶段借力。",
-      "cards": ["ideation.topic"]
+      "cards": [
+        "ideation.topic"
+      ]
     },
     {
       "dir": "tech-paper-template",
       "name": "tech-paper-template",
       "verdict": "fused",
       "why": "贡献类型判定与「结论不超出证据」的自洽性检查，用来防止把新场景写成新方法；可行性卡第一、二步借它做类型定位与贡献强度判断。",
-      "cards": ["ideation.feasibility"]
+      "cards": [
+        "ideation.feasibility"
+      ]
     },
     {
       "dir": "uspto-database",
@@ -267,7 +291,9 @@
       "name": "venue-templates",
       "verdict": "fused",
       "why": "基金与期刊的 LaTeX／Word 模板与页数格式参数，标书卡最后一步的格式核对用它兜底；只给模板不给内容判断，模板版本必须由当年指南覆盖。",
-      "cards": ["ideation.grant"]
+      "cards": [
+        "ideation.grant"
+      ]
     }
   ]
 }

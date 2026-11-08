@@ -1,26 +1,750 @@
 {
- "generatedAt": "2026-11-06T13:32:25.475Z",
+ "generatedAt": "2026-11-08T03:25:40.010Z",
  "byDomain": {
-  "writing": 66,
+  "writing": 64,
   "polish": 12,
-  "figures": 36,
-  "stats": 31,
-  "ideation": 39,
-  "review": 21,
+  "figures": 33,
+  "stats": 30,
+  "ideation": 37,
+  "review": 20,
   "slides": 37,
   "literature": 26,
   "format": 51,
   "data": 40,
-  "toolbox": 233
+  "toolbox": 100
  },
+ "byTier": {
+  "core": 245,
+  "support": 67,
+  "peripheral": 138,
+  "excluded": 142
+ },
+ "byLanguage": {
+  "en": 502,
+  "mixed": 52,
+  "zh": 38
+ },
+ "dropped": [
+  {
+   "dir": "dhdna-profiler",
+   "name": "dhdna-profiler",
+   "domain": "writing"
+  },
+  {
+   "dir": "karpathy-guidelines",
+   "name": "karpathy-guidelines",
+   "domain": "writing"
+  },
+  {
+   "dir": "generate-image",
+   "name": "generate-image",
+   "domain": "figures"
+  },
+  {
+   "dir": "geopandas",
+   "name": "geopandas",
+   "domain": "figures"
+  },
+  {
+   "dir": "pymatgen",
+   "name": "pymatgen",
+   "domain": "figures"
+  },
+  {
+   "dir": "stable-baselines3",
+   "name": "stable-baselines3",
+   "domain": "stats"
+  },
+  {
+   "dir": "hyperliquid-reader",
+   "name": "hyperliquid-reader",
+   "domain": "ideation"
+  },
+  {
+   "dir": "saas-valuation-compression",
+   "name": "saas-valuation-compression",
+   "domain": "ideation"
+  },
+  {
+   "dir": "cavecrew",
+   "name": "cavecrew",
+   "domain": "review"
+  },
+  {
+   "dir": "aeon",
+   "name": "aeon",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-audiocraft-audio-generation",
+   "name": "airs-audiocraft-audio-generation",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-autogpt-agents",
+   "name": "airs-autogpt-agents",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-autoresearch",
+   "name": "airs-autoresearch",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-awq-quantization",
+   "name": "airs-awq-quantization",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-axolotl",
+   "name": "airs-axolotl",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-blip-2-vision-language",
+   "name": "airs-blip-2-vision-language",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-chroma",
+   "name": "airs-chroma",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-clip",
+   "name": "airs-clip",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-constitutional-ai",
+   "name": "airs-constitutional-ai",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-crewai-multi-agent",
+   "name": "airs-crewai-multi-agent",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-deepspeed",
+   "name": "airs-deepspeed",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-distributed-llm-pretraining-torchtitan",
+   "name": "airs-distributed-llm-pretraining-torchtitan",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-dspy",
+   "name": "airs-dspy",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-evaluating-code-models",
+   "name": "airs-evaluating-code-models",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-evaluating-cosmos-policy",
+   "name": "airs-evaluating-cosmos-policy",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-evaluating-llms-harness",
+   "name": "airs-evaluating-llms-harness",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-evolving-ai-agents",
+   "name": "airs-evolving-ai-agents",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-experiment-tracking-swanlab",
+   "name": "airs-experiment-tracking-swanlab",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-faiss",
+   "name": "airs-faiss",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-fine-tuning-openvla-oft",
+   "name": "airs-fine-tuning-openvla-oft",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-fine-tuning-serving-openpi",
+   "name": "airs-fine-tuning-serving-openpi",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-fine-tuning-with-trl",
+   "name": "airs-fine-tuning-with-trl",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-gguf-quantization",
+   "name": "airs-gguf-quantization",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-gptq",
+   "name": "airs-gptq",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-grpo-rl-training",
+   "name": "airs-grpo-rl-training",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-guidance",
+   "name": "airs-guidance",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-hqq-quantization",
+   "name": "airs-hqq-quantization",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-huggingface-accelerate",
+   "name": "airs-huggingface-accelerate",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-huggingface-tokenizers",
+   "name": "airs-huggingface-tokenizers",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-implementing-llms-litgpt",
+   "name": "airs-implementing-llms-litgpt",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-instructor",
+   "name": "airs-instructor",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-knowledge-distillation",
+   "name": "airs-knowledge-distillation",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-lambda-labs-gpu-cloud",
+   "name": "airs-lambda-labs-gpu-cloud",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-langchain",
+   "name": "airs-langchain",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-langsmith-observability",
+   "name": "airs-langsmith-observability",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-llama-cpp",
+   "name": "airs-llama-cpp",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-llama-factory",
+   "name": "airs-llama-factory",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-llamaguard",
+   "name": "airs-llamaguard",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-llamaindex",
+   "name": "airs-llamaindex",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-llava",
+   "name": "airs-llava",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-long-context",
+   "name": "airs-long-context",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-mamba-architecture",
+   "name": "airs-mamba-architecture",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-miles-rl-training",
+   "name": "airs-miles-rl-training",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-ml-training-recipes",
+   "name": "airs-ml-training-recipes",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-mlflow",
+   "name": "airs-mlflow",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-modal-serverless-gpu",
+   "name": "airs-modal-serverless-gpu",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-model-merging",
+   "name": "airs-model-merging",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-model-pruning",
+   "name": "airs-model-pruning",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-moe-training",
+   "name": "airs-moe-training",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-nanogpt",
+   "name": "airs-nanogpt",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-nemo-curator",
+   "name": "airs-nemo-curator",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-nemo-evaluator-sdk",
+   "name": "airs-nemo-evaluator-sdk",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-nemo-guardrails",
+   "name": "airs-nemo-guardrails",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-nnsight-remote-interpretability",
+   "name": "airs-nnsight-remote-interpretability",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-openrlhf-training",
+   "name": "airs-openrlhf-training",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-optimizing-attention-flash",
+   "name": "airs-optimizing-attention-flash",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-outlines",
+   "name": "airs-outlines",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-peft-fine-tuning",
+   "name": "airs-peft-fine-tuning",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-phoenix-observability",
+   "name": "airs-phoenix-observability",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-pinecone",
+   "name": "airs-pinecone",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-prompt-guard",
+   "name": "airs-prompt-guard",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-pytorch-fsdp2",
+   "name": "airs-pytorch-fsdp2",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-pytorch-lightning",
+   "name": "airs-pytorch-lightning",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-pyvene-interventions",
+   "name": "airs-pyvene-interventions",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-qdrant-vector-search",
+   "name": "airs-qdrant-vector-search",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-quantizing-models-bitsandbytes",
+   "name": "airs-quantizing-models-bitsandbytes",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-ray-data",
+   "name": "airs-ray-data",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-ray-train",
+   "name": "airs-ray-train",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-rwkv-architecture",
+   "name": "airs-rwkv-architecture",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-sentence-transformers",
+   "name": "airs-sentence-transformers",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-sentencepiece",
+   "name": "airs-sentencepiece",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-serving-llms-vllm",
+   "name": "airs-serving-llms-vllm",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-sglang",
+   "name": "airs-sglang",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-simpo-training",
+   "name": "airs-simpo-training",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-skypilot-multi-cloud-orchestration",
+   "name": "airs-skypilot-multi-cloud-orchestration",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-slime-rl-training",
+   "name": "airs-slime-rl-training",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-sparse-autoencoder-training",
+   "name": "airs-sparse-autoencoder-training",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-speculative-decoding",
+   "name": "airs-speculative-decoding",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-stable-diffusion-image-generation",
+   "name": "airs-stable-diffusion-image-generation",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-tensorboard",
+   "name": "airs-tensorboard",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-tensorrt-llm",
+   "name": "airs-tensorrt-llm",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-torchforge-rl-training",
+   "name": "airs-torchforge-rl-training",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-training-llms-megatron",
+   "name": "airs-training-llms-megatron",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-transformer-lens-interpretability",
+   "name": "airs-transformer-lens-interpretability",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-unsloth",
+   "name": "airs-unsloth",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-verl-rl-training",
+   "name": "airs-verl-rl-training",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-weights-and-biases",
+   "name": "airs-weights-and-biases",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "airs-whisper",
+   "name": "airs-whisper",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "astropy",
+   "name": "astropy",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "cirq",
+   "name": "cirq",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "datacommons-client",
+   "name": "datacommons-client",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "dbt-auditing-skills",
+   "name": "dbt-auditing-skills",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "design",
+   "name": "design",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "design-system",
+   "name": "design-system",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "duckdb-read-memories",
+   "name": "duckdb-read-memories",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "find-skills__skillhub",
+   "name": "find-skills",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "fluidsim",
+   "name": "fluidsim",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "generative-ui",
+   "name": "generative-ui",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "geomaster",
+   "name": "geomaster",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "github-skill-installer",
+   "name": "github-skill-installer",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "huashu-design",
+   "name": "huashu-design",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "investigate-first",
+   "name": "investigate-first",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "ip-as-logo",
+   "name": "ip-as-logo",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "market-research-reports",
+   "name": "market-research-reports",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "matlab",
+   "name": "matlab",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "memory-setup-openclaw__skillhub",
+   "name": "memory-setup",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "memory-setup__skillhub",
+   "name": "memory-setup",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "modal",
+   "name": "modal",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "mono-color",
+   "name": "mono-color",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "offer-k-dense-web",
+   "name": "offer-k-dense-web",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "open-notebook",
+   "name": "open-notebook",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "openmaic__skillhub",
+   "name": "openmaic",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "pennylane",
+   "name": "pennylane",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "pufferlib",
+   "name": "pufferlib",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "qiskit",
+   "name": "qiskit",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "qmd",
+   "name": "qmd",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "qutip",
+   "name": "qutip",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "rowan",
+   "name": "rowan",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "safe-refactor",
+   "name": "safe-refactor",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "scroll-world",
+   "name": "scroll-world",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "self-improving__skillhub",
+   "name": "Self-Improving + Proactive Agent",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "skill-creator",
+   "name": "skill-creator",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "skill-library-audit",
+   "name": "skill-library-audit",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "skill-zip-installer",
+   "name": "skill-zip-installer",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "sp-diagnosing-superpowers",
+   "name": "sp-diagnosing-superpowers",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "surgical-patch",
+   "name": "surgical-patch",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "timesfm-forecasting",
+   "name": "timesfm-forecasting",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "transformers",
+   "name": "transformers",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "usfiscaldata",
+   "name": "usfiscaldata",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "verification",
+   "name": "verification",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "verify-and-stop",
+   "name": "verify-and-stop",
+   "domain": "toolbox"
+  },
+  {
+   "dir": "writing-law",
+   "name": "writing-law",
+   "domain": "toolbox"
+  }
+ ],
  "skipped": [],
- "skills": 592,
- "researchSkills": 592,
+ "skills": 450,
+ "excludedTotal": 142,
+ "researchSkills": 450,
  "domains": 11,
  "assets": {
-  "files": 3924,
-  "bytes": 29100270,
-  "skillsOmitted": 46
+  "files": 954,
+  "bytes": 6828850,
+  "skillsOmitted": 80
  },
  "nameDuplicates": [
   "scientific-visualization×3",
@@ -28,7 +752,6 @@
   "pdf×2",
   "pdfkit-py×2",
   "research-grants×2",
-  "memory-setup×2",
   "literature-review×2",
   "scientific-writing×2"
  ]

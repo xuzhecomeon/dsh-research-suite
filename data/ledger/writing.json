@@ -180,13 +180,6 @@
       ]
     },
     {
-      "dir": "dhdna-profiler",
-      "name": "dhdna-profiler",
-      "verdict": "out-of-scope",
-      "why": "文本认知画像分析，与论文写作无关",
-      "cards": []
-    },
-    {
       "dir": "evidence-driven-writing",
       "name": "evidence-driven-writing",
       "verdict": "fused",
@@ -203,13 +196,6 @@
       "cards": [
         "writing.evidence"
       ]
-    },
-    {
-      "dir": "karpathy-guidelines",
-      "name": "karpathy-guidelines",
-      "verdict": "out-of-scope",
-      "why": "LLM 编码规范，与论文写作无关",
-      "cards": []
     },
     {
       "dir": "lab-report-writer",

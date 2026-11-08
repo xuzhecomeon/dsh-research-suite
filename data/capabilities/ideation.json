@@ -2,7 +2,7 @@
   "domain": "ideation",
   "label": "选题、查新、假说、研究设计、标书与伦理：把「想做什么」推到「能不能立项」",
   "skill": "research-ideation",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "summary": "本域只有一个终点：拿到「可以开工」的批准状态。路径是选题发散与收敛、可点名的查新、可证伪的竞争假说、与目标一一对应的研究设计、标书链条与评审自检、伦理与预注册。判定链是硬的：feasibility 是唯一可否决的闸门，NO-GO 就不得进入设计与标书；novelty 只出 PROCEED／CAUTION／ABANDON 三档，且点不出具体已发表论文时不许判 ABANDON；查新必须落到可核库（PubMed／Web of Science／CNKI／Google Scholar，专利走 Google Patents／Espacenet）。不做文献精读（交 literature）、不做统计与样本量计算（交 stats）、不做成稿写作（交 writing）。所有具体数字（经费额度、伦理批号、影响因子、样本量）一律占位，需要时提示用户补，绝不编造。",
   "capabilities": [
     {
