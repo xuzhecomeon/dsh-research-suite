@@ -227,7 +227,7 @@ git push origin v3.0.0                      # 打版本标记 / 生成 Release�
 - 新增能力卡、新增工具、协议不兼容增强 → minor（`3.1.0`）；
 - 能力卡 JSON 结构、工具参数、**知识层契约**（catalog 字段 / 资产目录约定 / 账本 schema）破坏性变更 → major，同时改 `docs/CAPABILITY-SPEC.md` 的版本号。
 
-v2 → v3 就是一次 major：知识层重建（719 → 450）、域从 9 变 10、新增账本与资产层、移除对外 `Config`。这类改动**不要**用 minor 混过去——账本与能力卡成员对不上时 `verify-ledger` 会红。
+v2 → v3 就是一次 major：知识层重建（v2 的 719 → v3 的 592，v3.1 再筛到 450）、域从 9 变 10、新增账本与资产层、移除对外 `Config`。这类改动**不要**用 minor 混过去——账本与能力卡成员对不上时 `verify-ledger` 会红。
 
 插件 `engines.dsh` 在 DSH 进入 0.3.x 之前不会放开；DSH 大版本升级时先改 `engines` + 重装验证，再发版。
 
