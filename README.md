@@ -8,7 +8,7 @@ A DeepSeek Harness (DSH) plugin for the full clinical-research workflow — manu
 
 > 中文完整说明见 **[README.zh-CN.md](README.zh-CN.md)**（内容更全，含配置项、目录结构、占位符清单）。
 
-- Package: `dsh-research-suite` · Version: `3.0.1` · License: MIT · DSH tested: `0.2.1-rc.5`, `0.2.2-rc.1`
+- Package: `dsh-research-suite` · Version: `3.1.0` · License: MIT · DSH tested: `0.2.1-rc.5`, `0.2.2-rc.1`
 - Requires Node `^22.19.0 || >=24.0.0`, DSH `>=0.2.0-0 <0.3.0`
 - **Self-contained: all 450 source skill documents plus their bundled `references/scripts/templates` assets ship inside the package; nothing is read from any external skill directory at runtime.**
 
@@ -69,16 +69,16 @@ Every one of the 450 source skills has a recorded verdict in `data/ledger/<domai
 
 ## Install
 
-Published on npm as [dsh-research-suite@3.0.1](https://www.npmjs.com/package/dsh-research-suite).
+Published on npm as [dsh-research-suite@3.1.0](https://www.npmjs.com/package/dsh-research-suite).
 
 ```powershell
 # via plugin_manager (GUI) — recommended
-plugin_manager(action="install_bundle", target="dsh-research-suite@3.0.1")
+plugin_manager(action="install_bundle", target="dsh-research-suite@3.1.0")
 
 # via CLI (Windows)
-dsh.cmd plugin --profile desktop add dsh-research-suite@3.0.1
+dsh.cmd plugin --profile desktop add dsh-research-suite@3.1.0
 # via CLI (POSIX)
-dsh plugin --profile desktop add dsh-research-suite@3.0.1
+dsh plugin --profile desktop add dsh-research-suite@3.1.0
 
 # from a local checkout (plugin development)
 plugin_manager(action="install_bundle", target="<absolute package path>")

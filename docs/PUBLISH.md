@@ -7,7 +7,7 @@
 | 项 | 值 |
 |---|---|
 | 包名 | `dsh-research-suite`（无 scope） |
-| 当前版本 | `3.0.1`（v2.0.0 / v3.0.0 已发 GitHub / 市场 PR 待合并） |
+| 当前版本 | `3.1.0`（v2.0.0 / v3.0.0 / v3.0.1 / v3.1.0 均已发 GitHub 与 npm） |
 | Node `engines` | `^22.19.0 \|\| >=24.0.0` |
 | DSH `engines` | `>=0.2.0-0 <0.3.0`；`dsh.testedWith` = `0.2.1-rc.5`、`0.2.2-rc.1`（0.2.2-rc.1 是当前桌面版，工具注入时序已适配） |
 | 许可证 | MIT |
@@ -97,6 +97,8 @@ description: Temporary package placeholder for staged publishing
 ```
 04:05:07Z  placeholder 0.0.0-stage 出现
 04:11:21Z  3.0.1 上线（6 分 14 秒），dist-tags.latest 自动指向 3.0.1
+
+补充实测（2026-11-08，同一条链路再走一遍）：3.1.0 从 `npm publish` 到 registry 可见耗时约 **3 分 40 秒**（比首发快），`versions` 依次出现 `0.0.0-stage, 3.0.1, 3.1.0`，`dist-tags.latest` 自动指向 3.1.0，`fileCount=1479 / unpackedSize=16,997,081`。⇒ 「processing」提示后不要急着重发，重复发同版本只会拿到 409。
 ```
 
 **③ 上线后把占位版标为废弃**，避免别人 `npm i <包名>` 装到空壳：
@@ -273,7 +275,7 @@ npm deprecate dsh-research-suite@3.0.0 "3.0.0 存在 XXX 问题，请升级到 3
 - [ ] `node scripts/selftest.mjs` → exit 0
 - [ ] `npm pack --dry-run` 里 `knowledge/`（450 篇 + `__assets/`）、`references/`、`skills/`、`lib/`、两个 README 都在；解包体积约 38 MB 量级、`scripts/` 含三份校验脚本
 - [ ] 两份 README 里的能力卡总数已从占位符替换成真实数字（`grep -rn 'CAP_TOTAL' README*.md` 零命中）
-- [ ] 版本四处一致（`package.json` = `3.0.1` / `CHANGELOG.md` 最新 `## 3.0.1` / 能力卡 `version` / git tag `v3.0.1`）
+- [ ] 版本四处一致（`package.json` = `3.1.0` / `CHANGELOG.md` 最新 `## 3.1.0` / 能力卡 `version` / git tag `v3.1.1`）
 - [ ] `CHANGELOG.md` 的 `3.0.0` 段已写清本次变更（知识层重建、10 域、账本、资产、Config 移除）
 - [ ] 本地 `install_bundle` 装一遍，重启后 `research_suite_status` 通过，12 个工具都在、11 个技能都在
 - [ ] 发完 `npm view dsh-research-suite version` 是新版本

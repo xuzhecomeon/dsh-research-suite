@@ -2,7 +2,7 @@
 
 **一句话定位**：面向临床科研人员的 DeepSeek Harness（DSH）插件——论文写作、润色、绘图、统计、科研思路、审稿、PPT、文献、格式全流程，装进 DSH 后**自动接管**科研任务，没有界面、不需要手动挑技能。
 
-- 包名：`dsh-research-suite`　版本：`3.0.1`　许可证：MIT　实测 DSH：`0.2.1-rc.5`、`0.2.2-rc.1`
+- 包名：`dsh-research-suite`　版本：`3.1.0`　许可证：MIT　实测 DSH：`0.2.1-rc.5`、`0.2.2-rc.1`
 - 运行环境：Node `^22.19.0 || >=24.0.0`，DSH `>=0.2.0-0 <0.3.0`
 - **本插件自包含：450 个源技能全文 + 技能自带的 references/scripts/templates 资产随包分发，运行时不读取任何外部技能目录。**
 
@@ -76,16 +76,16 @@ v2 的答案是**能力卡（capability）**：
 
 完整发布与排障看 [docs/PUBLISH.md](docs/PUBLISH.md)，这里只列最短路径。
 
-**A. 从 npm 装（最省事，已发布 [dsh-research-suite@3.0.1](https://www.npmjs.com/package/dsh-research-suite)）**
+**A. 从 npm 装（最省事，已发布 [dsh-research-suite@3.1.0](https://www.npmjs.com/package/dsh-research-suite)）**
 
 ```
-plugin_manager(action="install_bundle", target="dsh-research-suite@3.0.1")
+plugin_manager(action="install_bundle", target="dsh-research-suite@3.1.0")
 ```
 
 等价 CLI：
 
 ```powershell
-dsh.cmd plugin --profile desktop add dsh-research-suite@3.0.1
+dsh.cmd plugin --profile desktop add dsh-research-suite@3.1.0
 ```
 
 **B. 从本地目录装（改源码调试时用）**
