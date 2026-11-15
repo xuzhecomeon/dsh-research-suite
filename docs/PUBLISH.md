@@ -7,7 +7,7 @@
 | 项 | 值 |
 |---|---|
 | 包名 | `dsh-research-suite`（无 scope） |
-| 当前版本 | `3.2.0`（v2.0.0 / v3.0.0 / v3.0.1 / v3.2.0 均已发 GitHub 与 npm） |
+| 当前版本 | `3.2.1`（v2.0.0 / v3.0.0 / v3.0.1 / v3.2.0 / 3.2.1 均已发 GitHub 与 npm） |
 | Node `engines` | `^22.19.0 \|\| >=24.0.0` |
 | DSH `engines` | `>=0.2.0-0 <0.3.0`；`dsh.testedWith` = `0.2.1-rc.5`、`0.2.2-rc.1`（0.2.2-rc.1 是当前桌面版，工具注入时序已适配） |
 | 许可证 | MIT |
@@ -275,7 +275,7 @@ npm deprecate dsh-research-suite@3.0.0 "3.0.0 存在 XXX 问题，请升级到 3
 - [ ] `node scripts/selftest.mjs` → exit 0
 - [ ] `npm pack --dry-run` 里 `knowledge/`（450 篇 + `__assets/`）、`references/`、`skills/`、`lib/`、两个 README 都在；解包体积约 38 MB 量级、`scripts/` 含三份校验脚本
 - [ ] 两份 README 里的能力卡总数已从占位符替换成真实数字（`grep -rn 'CAP_TOTAL' README*.md` 零命中）
-- [ ] 版本四处一致（`package.json` = `3.2.0` / `CHANGELOG.md` 最新 `## 3.2.0` / 能力卡 `version` / git tag `v3.1.1`）
+- [ ] 版本四处一致（`package.json` = `3.2.1` / `CHANGELOG.md` 最新 `## 3.2.1` / 能力卡 `version` / git tag `v3.2.1`）
 - [ ] `CHANGELOG.md` 的 `3.0.0` 段已写清本次变更（知识层重建、10 域、账本、资产、Config 移除）
 - [ ] 本地 `install_bundle` 装一遍，重启后 `research_suite_status` 通过，12 个工具都在、11 个技能都在
 - [ ] 发完 `npm view dsh-research-suite version` 是新版本

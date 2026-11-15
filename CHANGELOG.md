@@ -1,3 +1,17 @@
+## [3.2.1] - 2026-11-15
+
+### 修复
+
+- `research_suite_status` 的标题把版本号写死为 `v2`（v2 时代遗留），改为读取 `core.stats.version`；结尾「9 个域技能文件齐备」改为按 `core.domains.length` 计算，后续加域不再错报。
+- 两份 README、`docs/PUBLISH.md`、能力卡与 `package.json` 的版本号统一到 `3.2.1`，实测 DSH 版本补记 `0.2.2-rc.3`。
+
+### 兼容性（DSH `0.2.2-rc.3` 实测）
+
+- `dsh-skill`：与 `0.2.2-rc.1` 内容完全一致，`ctx.skills.register()` 契约未变。
+- `dsh-tools`：`27415 → 27559 B`，内部 chunk 改名、`checkGuards` 支持结构化拒绝、新增导出 `ToolContextUnavailableError`；`register()` 校验语义未变。
+- `dsh-system-prompt`：`19994 → 19996 B`，新增 `TOOL_PTY_PANEL: 1710`、删除 `TEAM_IDENTITY: 125`；插件使用的 `order: 650` 未受影响。
+- 运行期实测：系统提示注入正常，11 份技能与 15 个工具全部注册；`research_docx`（生成与审计）、`research_litsearch`（PubMed 真检索）、`research_project`、`research_gate` 均可执行。
+
 ## [3.2.0] - 2026-11-08
 
 按外部评审路线图（`dsh-research-suite_v3.1.0_评审与整改路线图.md`，DEF-01～DEF-20）整改。
