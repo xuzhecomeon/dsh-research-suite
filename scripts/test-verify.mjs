@@ -11,18 +11,13 @@
 // 通过标准：末尾打印 verify: N passed, 0 failed 且 exit 0。
 
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { createVerify, detectRuntimes } from '../lib/verify.js';
 
-const FIXTURES = path.join(
-  'D:',
-  'workbuddy',
-  '2026-11-04-20-37-51',
-  '2026-11-05_0000',
-  'analysis',
-  'fixtures-v31',
-);
+// fixtures 落到系统临时目录：不依赖任何作者机器上的绝对路径
+const FIXTURES = path.join(os.tmpdir(), 'dsh-research-suite-fixtures-v33');
 
 // ---------------------------------------------------------------------------
 // 最小 zip 写入器（store 模式）：只为造 docx/xlsx 样本，避免引入 archiver 之类依赖
