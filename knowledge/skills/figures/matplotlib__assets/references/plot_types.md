@@ -1,6 +1,6 @@
 # Matplotlib Plot Types Guide
 
-Comprehensive guide to different plot types in matplotlib with examples and use cases.
+Matplotlib 3.11.2 examples. Fragments assume `import numpy as np`, `import matplotlib.pyplot as plt`, an Axes, and named inputs of matching shape. The bundled template provides executable synthetic examples; these fragments illustrate API patterns rather than a complete analysis.
 
 ## 1. Line Plots
 
@@ -36,6 +36,11 @@ ax.step(x, y, where='mid', linewidth=2, label='Step function')
 ```
 
 ### Error Bars
+
+Calculate the uncertainty upstream. `yerr` is a nonnegative size (scalar, `(N,)`,
+or `(2, N)` with lower then upper sizes), not interval endpoints. For intervals
+`lower <= y <= upper`, use `np.vstack([y - lower, upper - y])`. State SD, SEM, or
+CI level/method, sampling unit, and sample size in the caption.
 ```python
 ax.errorbar(x, y, yerr=error, fmt='o-', linewidth=2,
             capsize=5, capthick=2, label='With uncertainty')
@@ -51,6 +56,10 @@ ax.scatter(x, y, s=50, alpha=0.6)
 ```
 
 ### Sized and Colored Scatter
+
+`s` is marker area in points squared; area encoding needs nonnegative values and
+a size legend. Numeric `c` has one value per point. For one RGB color use
+`color=(r, g, b)` to avoid ambiguity with three numeric observations.
 ```python
 scatter = ax.scatter(x, y, s=sizes*100, c=colors,
                      cmap='viridis', alpha=0.6, edgecolors='black')
@@ -91,8 +100,7 @@ width = 0.35
 
 ax.bar(x - width/2, values1, width, label='Group 1')
 ax.bar(x + width/2, values2, width, label='Group 2')
-ax.set_xticks(x)
-ax.set_xticklabels(categories)
+ax.set_xticks(x, categories)
 ax.legend()
 ```
 
@@ -131,12 +139,16 @@ ax.set_ylabel('Frequency')
 
 ### Multiple Overlapping Histograms
 ```python
-ax.hist(data1, bins=30, alpha=0.5, label='Dataset 1')
-ax.hist(data2, bins=30, alpha=0.5, label='Dataset 2')
+bins = np.histogram_bin_edges(np.concatenate([data1, data2]), bins=30)
+ax.hist(data1, bins=bins, alpha=0.5, label='Dataset 1')
+ax.hist(data2, bins=bins, alpha=0.5, label='Dataset 2')
 ax.legend()
 ```
 
 ### Normalized Histogram (Density)
+
+Density integrates to one (`sum(height * bin_width) == 1`); bar heights need not
+sum to one. A normal-density overlay does not establish goodness of fit.
 ```python
 ax.hist(data, bins=30, density=True, alpha=0.7,
         edgecolor='black', label='Empirical')
@@ -166,27 +178,34 @@ plt.colorbar(h[3], ax=ax, label='Counts')
 **Use cases:** Statistical distributions, outlier detection, comparing distributions
 
 ### Box Plot
+
+Default whiskers reach the most extreme observation within 1.5 IQR of each
+quartile; fliers are observations beyond them, not proven data errors.
 ```python
 ax.boxplot([data1, data2, data3],
-           labels=['Group A', 'Group B', 'Group C'],
+           tick_labels=['Group A', 'Group B', 'Group C'],
            showmeans=True, meanline=True)
 ax.set_ylabel('Values')
 ```
 
 ### Horizontal Box Plot
 ```python
-ax.boxplot([data1, data2, data3], vert=False,
-           labels=['Group A', 'Group B', 'Group C'])
+ax.boxplot([data1, data2, data3],
+           orientation='horizontal',
+           tick_labels=['Group A', 'Group B', 'Group C'])
 ax.set_xlabel('Values')
 ```
 
 ### Violin Plot
+
+Bandwidth controls apparent modes. Count valid samples per group explicitly;
+3.11 ignores masked/nonfinite values. Do not silently compare groups after
+different exclusion rates, and handle empty or singleton groups before plotting.
 ```python
 parts = ax.violinplot([data1, data2, data3],
                       positions=[1, 2, 3],
                       showmeans=True, showmedians=True)
-ax.set_xticks([1, 2, 3])
-ax.set_xticklabels(['Group A', 'Group B', 'Group C'])
+ax.set_xticks([1, 2, 3], ['Group A', 'Group B', 'Group C'])
 ```
 
 ## 6. Heatmaps
@@ -194,8 +213,12 @@ ax.set_xticklabels(['Group A', 'Group B', 'Group C'])
 **Use cases:** Matrix data, correlations, intensity maps
 
 ### Basic Heatmap
+
+Choose `origin`, `extent`, and aspect from array orientation and physical units.
+Use equal aspect for equal physical x/y units; `aspect="auto"` is suitable for
+abstract matrices. Comparable panels require the same norm, limits, and units.
 ```python
-im = ax.imshow(matrix, cmap='coolwarm', aspect='auto')
+im = ax.imshow(matrix, cmap='viridis', aspect='auto', interpolation='nearest')
 plt.colorbar(im, ax=ax, label='Values')
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
@@ -203,14 +226,15 @@ ax.set_ylabel('Y')
 
 ### Heatmap with Annotations
 ```python
-im = ax.imshow(matrix, cmap='coolwarm')
+im = ax.imshow(matrix, cmap='viridis', interpolation='nearest')
 plt.colorbar(im, ax=ax)
 
 # Add text annotations
 for i in range(matrix.shape[0]):
     for j in range(matrix.shape[1]):
         text = ax.text(j, i, f'{matrix[i, j]:.2f}',
-                       ha='center', va='center', color='black')
+                       ha='center', va='center', color='black',
+                       bbox={'facecolor': 'white', 'edgecolor': 'none', 'pad': 0.2})
 ```
 
 ### Correlation Matrix
@@ -220,10 +244,8 @@ im = ax.imshow(corr, cmap='RdBu_r', vmin=-1, vmax=1)
 plt.colorbar(im, ax=ax, label='Correlation')
 
 # Set tick labels
-ax.set_xticks(range(len(corr)))
-ax.set_yticks(range(len(corr)))
-ax.set_xticklabels(corr.columns, rotation=45, ha='right')
-ax.set_yticklabels(corr.columns)
+ax.set_xticks(range(len(corr)), corr.columns, rotation=45, ha='right')
+ax.set_yticks(range(len(corr)), corr.columns)
 ```
 
 ## 7. Contour Plots
@@ -304,8 +326,7 @@ angles_closed = np.concatenate((angles, [angles[0]]))
 ax = plt.subplot(111, projection='polar')
 ax.plot(angles_closed, values_closed, 'o-', linewidth=2)
 ax.fill(angles_closed, values_closed, alpha=0.25)
-ax.set_xticks(angles)
-ax.set_xticklabels(categories)
+ax.set_xticks(angles, categories)
 ```
 
 ## 10. Stream and Quiver Plots
@@ -314,13 +335,18 @@ ax.set_xticklabels(categories)
 
 ### Quiver Plot (Vector Field)
 ```python
-ax.quiver(X, Y, U, V, alpha=0.8)
+ax.quiver(X, Y, U, V, angles='xy', scale_units='xy', scale=1, alpha=0.8)
+# This interprets U/V as data-coordinate displacements. For velocities, document
+# the scale/time conversion and include a quiverkey; do not imply unit length.
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_aspect('equal')
 ```
 
 ### Stream Plot
+
+`X, Y` must describe a strictly increasing, evenly spaced rectangular grid and
+`U, V` must match it. Irregular samples require a justified gridding step.
 ```python
 ax.streamplot(X, Y, U, V, density=1.5, color='k', linewidth=1)
 ax.set_xlabel('X')
@@ -333,6 +359,10 @@ ax.set_aspect('equal')
 **Use cases:** Uncertainty bounds, confidence intervals, areas under curves
 
 ### Fill Between Two Curves
+
+Unlike `errorbar`, `fill_between` receives endpoints. Sort paired x/values together,
+validate finite values, and preserve gaps. The example assumes `std` is calculated
+from the relevant replicates; a band is not automatically a confidence interval.
 ```python
 ax.plot(x, y, 'k-', linewidth=2, label='Mean')
 ax.fill_between(x, y - std, y + std, alpha=0.3,
@@ -355,8 +385,6 @@ ax.legend()
 
 ### 3D Scatter
 ```python
-from mpl_toolkits.mplot3d import Axes3D
-
 fig = plt.figure(figsize=(10, 8))
 ax = fig.add_subplot(111, projection='3d')
 scatter = ax.scatter(x, y, z, c=colors, cmap='viridis',
@@ -368,6 +396,10 @@ ax.set_zlabel('Z')
 ```
 
 ### 3D Surface Plot
+
+`plot_surface` defaults to at most 50 samples in each direction; use suitable
+`rcount`/`ccount` to control downsampling. Do not combine those with `rstride`/
+`cstride`. View angle/occlusion can hide extrema; compare a 2D contour when needed.
 ```python
 fig = plt.figure(figsize=(10, 8))
 ax = fig.add_subplot(111, projection='3d')
@@ -433,8 +465,7 @@ ax.broken_barh([(10, 20), (50, 50), (120, 30)], (20, 9),
 ax.set_ylim(5, 35)
 ax.set_xlim(0, 200)
 ax.set_xlabel('Time')
-ax.set_yticks([15, 25])
-ax.set_yticklabels(['Task 1', 'Task 2'])
+ax.set_yticks([15, 25], ['Task 1', 'Task 2'])
 ```
 
 ## 14. Time Series Plots
@@ -447,7 +478,7 @@ import matplotlib.dates as mdates
 ax.plot(dates, values, linewidth=2)
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 ax.xaxis.set_major_locator(mdates.DayLocator(interval=7))
-plt.xticks(rotation=45)
+ax.tick_params(axis='x', labelrotation=45)
 ax.set_xlabel('Date')
 ax.set_ylabel('Value')
 ```
@@ -474,3 +505,10 @@ ax.axvspan(start_date, end_date, alpha=0.2, color='gray')
 | Correlation matrix | Heatmap | Clustered heatmap |
 | Vector field | Quiver plot, Stream plot | - |
 | Function visualization | Line plot, Contour | 3D surface |
+
+Official references: [Axes API](https://matplotlib.org/stable/api/axes_api.html),
+[errorbar](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.errorbar.html),
+[boxplot](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.boxplot.html),
+[violinplot](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.violinplot.html),
+[quiver](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.quiver.html),
+[surface](https://matplotlib.org/stable/api/_as_gen/mpl_toolkits.mplot3d.axes3d.Axes3D.plot_surface.html).

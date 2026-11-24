@@ -1,7 +1,6 @@
 {
   "domain": "review",
-  "version": "3.0.0",
-  "sourceTotal": 21,
+  "version": "3.3.0",
   "entries": [
     {
       "dir": "academic-pre-review-committee__skillhub",
@@ -14,7 +13,7 @@
     },
     {
       "dir": "arf-review-pap",
-      "name": "arf-review-pap",
+      "name": "review-pap",
       "verdict": "fused",
       "why": "六席预分析计划预审覆盖注册口径、主次结局、多重校正与可执行性，是「审稿人视角」在稿件尚无结果时的正确形态；审稿人视角卡在兜底位接它，避免把计划当成稿来解释。",
       "cards": [
@@ -23,7 +22,7 @@
     },
     {
       "dir": "arf-review-paper",
-      "name": "arf-review-paper",
+      "name": "review-paper",
       "verdict": "fused",
       "why": "八席分工的预投稿审稿报告，分节取证与推荐等级绑定，与主用技能的席位面板互补：主用给结构与裁定，它给更细的分节问题定位。",
       "cards": [
@@ -32,7 +31,7 @@
     },
     {
       "dir": "arf-review-paper-light",
-      "name": "arf-review-paper-light",
+      "name": "review-paper-light",
       "verdict": "fused",
       "why": "两席一分钟快速检查（贡献四档、五类贡献划分、识别策略外生性三问、至多五条必做分析）适合投稿窗口前的最后一检，也适合作为审稿质量自查时判断「我是否要求了超范围分析」的对照尺。",
       "cards": [
@@ -45,6 +44,20 @@
       "name": "aris-auto-review-loop",
       "verdict": "deprecated",
       "why": "自动多轮评审循环依赖外部评审后端（Codex／antigravity／grok／claude-code 等 MCP 通道），纯 DSH 环境没有可用评审通道，且它会在循环里直接改稿、把「分数达标且结论就绪」当停止条件，与本域「审稿不改稿」的边界冲突。相关需求由 paper-audit 的复审计模式与修回卡覆盖。",
+      "cards": []
+    },
+    {
+      "dir": "aris-auto-review-loop-minimax",
+      "name": "aris-auto-review-loop-minimax",
+      "verdict": "index-only",
+      "why": "审稿视角方法，与本域卡重叠；按需直读其检查表",
+      "cards": []
+    },
+    {
+      "dir": "aris-experiment-audit",
+      "name": "aris-experiment-audit",
+      "verdict": "index-only",
+      "why": "审稿视角方法，与本域卡重叠；按需直读其检查表",
       "cards": []
     },
     {
@@ -80,9 +93,24 @@
       "verdict": "fused",
       "why": "覆盖率、来源、承诺三硬门与字数预算加逐项检查，构成回复信卡最不可替代的部分；其原子化改稿计划与问题编号也被修回卡借用来排优先级。",
       "cards": [
+        "review.revise",
         "review.rebuttal",
-        "review.revise"
+        "review.appeal"
       ]
+    },
+    {
+      "dir": "aris-research-review",
+      "name": "aris-research-review",
+      "verdict": "index-only",
+      "why": "审稿视角方法，与本域卡重叠；按需直读其检查表",
+      "cards": []
+    },
+    {
+      "dir": "aris-resubmit-pipeline",
+      "name": "aris-resubmit-pipeline",
+      "verdict": "index-only",
+      "why": "审稿视角方法，与本域卡重叠；按需直读其检查表",
+      "cards": []
     },
     {
       "dir": "ars-academic-paper-reviewer",
@@ -91,6 +119,7 @@
       "why": "七 agent 五席面板、配置卡先确认、对抗席关键质疑必须逐条裁定、以及「角色分离不等于独立评审」的诚实声明，是审稿人视角卡的主干；其修回辅导的追问式提问在修回卡兜底位。",
       "cards": [
         "review.referee",
+        "review.report",
         "review.revise"
       ]
     },
@@ -174,8 +203,8 @@
     {
       "dir": "scholar-ethics",
       "name": "scholar-ethics",
-      "verdict": "out-of-scope",
-      "why": "内容其实是研究伦理与合规工具箱（AI 使用披露、自我抄袭与文本回收、p-hacking 与选择性报告、IRB 与利益冲突），只是被归到了审稿目录。本域的审稿卡不收录它；它已作为 ideation.ethics 的主用技能被收录，建议源目录也把它划到选题与伦理域，或单列「学术诚信与合规」域。",
+      "verdict": "index-only",
+      "why": "被 ideation 域能力卡引用（见该域账本），本域不重复列卡",
       "cards": []
     },
     {

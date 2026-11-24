@@ -1,6 +1,13 @@
 # SymPy Code Generation and Printing
 
+Examples in this reference are ordered session fragments: run earlier imports and
+setup first. Tested with SymPy 1.14.0; exceptions are explicitly marked illustrative.
+
 This document covers SymPy's capabilities for generating executable code in various languages, converting expressions to different output formats, and customizing printing behavior.
+
+`lambdify` generates and executes Python code internally. Use trusted expressions
+and symbol names only. Select a backend explicitly, check all free symbols are
+arguments, and test scalar/array shapes and singularities after conversion.
 
 ## Code Generation
 
@@ -26,6 +33,7 @@ result = f(x_vals, y_vals)
 
 ```python
 from sympy import lambdify, exp, sqrt
+expr = exp(x) + sqrt(x)
 
 # Different backends
 f_numpy = lambdify(x, expr, 'numpy')      # NumPy
@@ -40,7 +48,7 @@ f = lambdify(x, sin(x), modules=[custom_funcs, 'numpy'])
 # Multiple expressions
 exprs = [x**2, x**3, x**4]
 f = lambdify(x, exprs, 'numpy')
-# Returns tuple of results
+# Returns a list of results; list nesting is preserved
 ```
 
 ### Generating C/C++ Code
@@ -102,6 +110,7 @@ code = gen.write([routine], prefix='my_module')
 from sympy.printing.c import C99CodePrinter, C89CodePrinter
 from sympy.printing.fortran import FCodePrinter
 from sympy.printing.cxx import CXX11CodePrinter
+expr = x**2 + y**2  # Scalar expression; matrix code needs explicit assignments
 
 # C code
 c_printer = C99CodePrinter()
@@ -148,7 +157,7 @@ print(s)
 ### LaTeX Output
 
 ```python
-from sympy import latex, symbols, Integral, sin, sqrt
+from sympy import latex, symbols, Integral, sin, sqrt, pi
 
 x, y = symbols('x y')
 expr = Integral(sin(x)**2, (x, 0, pi))
@@ -202,7 +211,10 @@ sstr(expr)  # 'sin(x)**2'
 
 # Reproducible representation
 srepr(expr)  # "Pow(sin(Symbol('x')), Integer(2))"
-# This can be eval()'ed to recreate the expression
+
+# Trusted local round-trip only: sympify on a string can execute code
+from sympy import sympify
+restored = sympify(srepr(expr))
 ```
 
 ### Custom Printing
@@ -226,6 +238,10 @@ print(printer.doprint(x + y))  # "<x> PLUS <y>"
 
 ### autowrap - Compile and Import
 
+Illustrative: compilation was not executed in this review. Install Cython and a C
+compiler for `backend="cython"`; the f2py backend needs NumPy, a Fortran compiler,
+and platform build dependencies. Source emission with `codegen` needs no compiler.
+
 ```python
 from sympy.utilities.autowrap import autowrap
 from sympy import symbols
@@ -242,6 +258,10 @@ result = f(3, 4)  # 25
 ```
 
 ### ufuncify - Create NumPy ufuncs
+
+Illustrative: native compilation was not executed. The default NumPy backend
+requires NumPy headers and a C compiler. Other backends have different array
+contracts; broadcasting here refers to the default NumPy ufunc.
 
 ```python
 from sympy.utilities.autowrap import ufuncify
@@ -300,8 +320,9 @@ new_expr = expr.replace(sin(a), a**2)  # sin(x) -> x**2
 ### Display Math
 
 ```python
-from sympy import init_printing, display
-from IPython.display import display as ipy_display
+from sympy import init_printing, Integral, sin, symbols
+from IPython.display import display
+x = symbols("x")
 
 # Initialize printing for Jupyter
 init_printing(use_latex='mathjax')  # or 'png', 'svg'
@@ -311,13 +332,13 @@ expr = Integral(sin(x)**2, x)
 display(expr)  # Renders as LaTeX in notebook
 
 # Multiple outputs
-ipy_display(expr1, expr2, expr3)
+display(expr, expr.doit(), expr.doit().diff(x))
 ```
 
 ### Interactive Widgets
 
 ```python
-from sympy import symbols, sin
+from sympy import symbols, sin, lambdify
 from IPython.display import display
 from ipywidgets import interact, FloatSlider
 import matplotlib.pyplot as plt
@@ -336,38 +357,53 @@ def plot_expr(a):
 
 ## Converting Between Representations
 
+### Parsing and trust
+
+`parse_expr` and string `sympify` use Python evaluation; `lambdify` uses code
+execution. Neither `local_dict`, selected transformations, `evaluate=False`, nor
+regex character/keyword filtering makes them safe for arbitrary input. Only pass
+trusted local strings/expressions. For untrusted data, use a separately designed
+allowlisted grammar that constructs `Integer`, `Rational`, `Symbol` and approved
+operators without Python evaluation, and enforce size/time limits. SymPy is not a
+sandbox. `srepr` is useful for inspection, not a safe interchange format.
+
 ### String to SymPy
 
 ```python
-from sympy.parsing.sympy_parser import parse_expr
+from sympy.parsing.sympy_parser import parse_expr, standard_transformations
 from sympy import symbols
 
 x, y = symbols('x y')
+local_dict = {'x': x, 'y': y}
 
-# Parse string to expression
-expr = parse_expr('x**2 + 2*x + 1')
-expr = parse_expr('sin(x) + cos(y)')
+# Parse trusted string literals (not raw user input)
+expr = parse_expr('x**2 + 2*x + 1', local_dict=local_dict,
+                  transformations=standard_transformations)
+expr = parse_expr('sin(x) + cos(y)', local_dict=local_dict,
+                  transformations=standard_transformations)
 
-# With transformations
-from sympy.parsing.sympy_parser import (
-    standard_transformations,
-    implicit_multiplication_application
-)
+# Implicit multiplication — trusted input only
+from sympy.parsing.sympy_parser import implicit_multiplication_application
 
 transformations = standard_transformations + (implicit_multiplication_application,)
-expr = parse_expr('2x', transformations=transformations)  # Treats '2x' as 2*x
+expr = parse_expr('2x', local_dict={'x': x}, transformations=transformations)
 ```
 
 ### LaTeX to SymPy
+
+The default ANTLR backend needs `antlr4-python3-runtime==4.11.*`. LaTeX parsing is
+experimental; use `strict=True` to reject incomplete parses with ANTLR, and check
+that the resulting expression matches the intended notation. This parser is not
+a substitute for an input-security boundary.
 
 ```python
 from sympy.parsing.latex import parse_latex
 
 # Parse LaTeX
-expr = parse_latex(r'\frac{x^2}{y}')
+expr = parse_latex(r'\frac{x^2}{y}', strict=True)
 # Returns: x**2/y
 
-expr = parse_latex(r'\int_0^\pi \sin(x) dx')
+expr = parse_latex(r'\int_0^\pi \sin(x) dx', strict=True)
 ```
 
 ### Mathematica to SymPy
@@ -385,8 +421,7 @@ expr = parse_mathematica('Sin[x]^2 + Cos[y]^2')
 ### Export to File
 
 ```python
-from sympy import symbols, sin
-import json
+from sympy import symbols, sin, latex, pycode
 
 x = symbols('x')
 expr = sin(x)**2
@@ -401,12 +436,17 @@ with open('output.txt', 'w') as f:
 
 # Export as Python code
 with open('output.py', 'w') as f:
-    f.write(f"from numpy import sin\n")
-    f.write(f"def f(x):\n")
-    f.write(f"    return {lambdify(x, expr, 'numpy')}\n")
+    f.write("import math\n")
+    f.write("def f(x):\n")
+    f.write(f"    return {pycode(expr)}\n")
+# The string form of a lambdified function is a memory address, not source code.
 ```
 
 ### Pickle SymPy Objects
+
+Load only trusted pickle files; loading pickle can execute code. Store versions
+with persisted artifacts because object compatibility across releases is not
+guaranteed.
 
 ```python
 import pickle
@@ -440,10 +480,12 @@ pi.evalf()  # 3.14159265358979
 # High precision (1000 digits)
 pi.evalf(1000)
 
-# Set global precision with mpmath
-mp.dps = 50  # 50 decimal places
+# SymPy precision is independent of mpmath
 expr = exp(pi * sqrt(163))
-float(expr.evalf())
+result50 = expr.evalf(50)
+# float(result50) would reduce this to ordinary binary floating precision.
+with mp.workdps(50):
+    numerical = lambdify((), expr, "mpmath")()
 
 # For expressions
 result = (sqrt(2) + sqrt(3)).evalf(100)
@@ -517,26 +559,16 @@ with open('document.tex', 'w') as f:
     f.write(latex_doc)
 ```
 
-### Pattern 3: Interactive Computation
+### Pattern 3: Trusted Local Expression
 
 ```python
-from sympy import symbols, simplify, expand
+from sympy import symbols, simplify, expand, latex
 from sympy.parsing.sympy_parser import parse_expr
 
-x, y = symbols('x y')
-
-# Interactive input
-user_input = input("Enter expression: ")
-expr = parse_expr(user_input)
-
-# Process
-simplified = simplify(expr)
-expanded = expand(expr)
-
-# Display
-print(f"Simplified: {simplified}")
-print(f"Expanded: {expanded}")
-print(f"LaTeX: {latex(expr)}")
+x = symbols('x', real=True)
+# This literal is controlled by the application, not supplied by an end user.
+expr = parse_expr('x**2 + 2*x + 1', local_dict={'x': x})
+print(simplify(expr), expand(expr), latex(expr))
 ```
 
 ### Pattern 4: Batch Code Generation
@@ -555,9 +587,10 @@ functions = {
 
 # Generate C code for all
 for name, expr in functions.items():
-    [(c_name, c_code), _] = codegen((name, expr), 'C')
-    with open(f'{name}.c', 'w') as f:
-        f.write(c_code)
+    generated = codegen((name, expr), 'C')
+    for filename, contents in generated:
+        with open(filename, 'w') as f:
+            f.write(contents)  # Keep both source and included header
 ```
 
 ### Pattern 5: Performance Optimization
@@ -573,8 +606,8 @@ expr = sin(x + y)**2 + cos(x + y)**2 + sin(x + y)
 
 # Common subexpression elimination
 replacements, reduced = cse(expr)
-# replacements: [(x0, sin(x + y)), (x1, cos(x + y))]
-# reduced: [x0**2 + x1**2 + x0]
+# Replacement names and count depend on expression canonicalization.
+# Reconstruct by applying replacements in reverse order when validating.
 
 # Generate optimized code
 for var, subexpr in replacements:
@@ -594,6 +627,6 @@ print(f"result = {reduced[0]}")
 
 5. **Compilation:** `autowrap` and `ufuncify` require a C/Fortran compiler and may need configuration on your system.
 
-6. **Parsing:** When parsing user input, validate and sanitize to avoid code injection vulnerabilities.
+6. **Parsing security:** Trusted expressions only for `parse_expr`, string `sympify`, and `lambdify`. Regex filters and `local_dict` do not provide sandboxing. See [SymPy parsing docs](https://docs.sympy.org/latest/modules/parsing.html).
 
 7. **Jupyter:** For best results in Jupyter notebooks, call `init_printing()` at the start of your session.

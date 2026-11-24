@@ -1,6 +1,6 @@
 # deepTools Complete Tool Reference
 
-This document provides a comprehensive reference for all deepTools command-line utilities organized by category.
+Targets the released deepTools 4.0.0 commands. This is a reference for the main CLI tools; run each command/subcommand with `--help` for its complete parser. Examples are templates. See `review.md` for executed tests and limits.
 
 ## BAM and bigWig File Processing Tools
 
@@ -21,7 +21,7 @@ Computes read coverages for genomic regions across multiple BAM files, outputtin
 - `--minMappingQuality`: Quality threshold for read inclusion
 - `--numberOfProcessors, -p`: Parallel processing cores
 - `--extendReads`: Fragment size extension
-- `--ignoreDuplicates`: Remove PCR duplicates
+- `--samFlagExclude 1024`: Exclude already-marked duplicate alignments (0x400)
 - `--outRawCounts`: Export tab-delimited file with coordinate columns and per-sample counts
 
 **Output:** Compressed numpy array (.npz) for plotCorrelation and plotPCA
@@ -45,7 +45,7 @@ Similar to multiBamSummary but operates on bigWig files instead of BAM files. Us
 - **bins**: Genome-wide analysis
 - **BED-file**: Region-specific analysis
 
-**Key Parameters:** Similar to multiBamSummary but accepts bigWig files
+**Key Parameters:** `--bwfiles, -b` for bigWigs; `--BED` for BED-file mode; `--binSize`, `--outRawCounts`, labels and processors. BAM read/flag/extension options do not apply
 
 ---
 
@@ -60,14 +60,14 @@ Converts BAM alignment files into normalized coverage tracks in bigWig or bedGra
 - `--normalizeUsing`: Normalization method
   - **RPKM**: Reads Per Kilobase per Million mapped reads
   - **CPM**: Counts Per Million mapped reads
-  - **BPM**: Bins Per Million mapped reads
+  - **BPM**: Numerically CPM in the released Rust implementation (despite different rolling-doc formula)
   - **RPGC**: Reads per genomic content (requires --effectiveGenomeSize)
   - **None**: No normalization (default)
 - `--effectiveGenomeSize`: Mappable genome size (required for RPGC)
 - `--binSize`: Resolution in base pairs (default: 50)
 - `--extendReads, -e`: Extend reads to fragment length (recommended for ChIP-seq, NOT for RNA-seq)
 - `--centerReads`: Center reads at fragment length for sharper signals
-- `--ignoreDuplicates`: Count identical reads only once
+- `--samFlagExclude 1024`: Exclude already-marked duplicates; no coordinate deduplication
 - `--minMappingQuality`: Filter reads below quality threshold
 - `--minFragmentLength / --maxFragmentLength`: Fragment length filtering
 - `--smoothLength`: Window averaging for noise reduction
@@ -79,8 +79,9 @@ Converts BAM alignment files into normalized coverage tracks in bigWig or bedGra
 
 **Important Notes:**
 - For RNA-seq: Do NOT use --extendReads (would extend over splice junctions)
+- `--filterRNAstrand` assumes common dUTP/NSR/NNSR reverse-stranded libraries; verify library orientation before interpreting forward/reverse tracks
 - For ChIP-seq: Use --extendReads with smaller bin sizes
-- Never apply --ignoreDuplicates after GC bias correction
+- Never apply --samFlagExclude 1024 after GC bias correction
 
 **Common Usage:**
 ```bash
@@ -89,7 +90,7 @@ bamCoverage --bam input.bam --outFileName coverage.bw --normalizeUsing RPKM
 
 # ChIP-seq with extension
 bamCoverage --bam chip.bam --outFileName chip_coverage.bw \
-    --binSize 10 --extendReads 200 --ignoreDuplicates
+    --binSize 10 --extendReads 200 --samFlagExclude 1024
 
 # Strand-specific RNA-seq
 bamCoverage --bam rnaseq.bam --outFileName forward.bw \
@@ -106,18 +107,14 @@ Compares two BAM files by generating bigWig or bedGraph files, normalizing for s
 - **log2** (default): Log2 ratio of samples
 - **ratio**: Direct ratio calculation
 - **subtract**: Difference between files
-- **add**: Sum of samples
-- **mean**: Average across samples
-- **reciprocal_ratio**: Negative inverse for ratios < 0
-- **first/second**: Output scaled signal from single file
+- **add/mean/first/second**: Advertised by the parser but fell through to log2 in 4.0.0; use bamCoverage plus bigwigCompare for these operations
+- **reciprocal_ratio**: Released Rust behavior reverses the documented magnitude; do not rely on this option for signed fold changes
 
-**Normalization Methods:**
-- **readCount** (default): Compensates for sequencing depth
-- **SES**: Selective enrichment statistics
-- **RPKM**: Reads per kilobase per million
-- **CPM**: Counts per million
-- **BPM**: Bins per million
-- **RPGC**: Reads per genomic content (requires --effectiveGenomeSize)
+**Scaling/normalization:**
+- `--scaleFactorsMethod readCount` (default) or `None`; SES is removed in 4.0.0.
+- For `--normalizeUsing RPKM`, `CPM`, or `BPM`, set `--scaleFactorsMethod None`.
+- The released Rust command accepts RPGC with --effectiveGenomeSize; tiny-fixture ratio scaling passed, contradicting the rolling docs note that it exits.
+- Separate bamCoverage tracks followed by bigwigCompare make RPGC normalization easier to inspect. Rust operations round output to two decimals; unequal pseudocounts also affect subtract.
 
 **Key Parameters:**
 - `--bamfile1, -b1`: First BAM file (required)
@@ -125,11 +122,11 @@ Compares two BAM files by generating bigWig or bedGraph files, normalizing for s
 - `--outFileName, -o`: Output filename (required)
 - `--outFileFormat`: bigwig or bedgraph
 - `--operation`: Comparison method (see above)
-- `--scaleFactorsMethod`: Normalization method (see above)
+- `--scaleFactorsMethod`: readCount or None (separate from --normalizeUsing)
 - `--binSize`: Bin width for output (default: 50bp)
 - `--pseudocount`: Avoid division by zero (default: 1)
 - `--extendReads`: Extend reads to fragment length
-- `--ignoreDuplicates`: Count identical reads once
+- `--samFlagExclude 1024`: Exclude already-marked duplicate alignments
 - `--minMappingQuality`: Quality threshold
 - `--numberOfProcessors, -p`: Parallelization
 
@@ -157,6 +154,7 @@ bamCompare -b1 treatment.bam -b2 control.bam -o difference.bw \
 - `--genome, -g`: Reference genome in 2bit format
 - `--fragmentLength, -l`: Fragment length (for single-end)
 - `--biasPlot`: Output diagnostic plot
+- `--GCbiasFrequenciesFile, -freq, -o`: Required output frequency table
 
 **Key Parameters (correctGCBias):**
 - `--bamfile, -b`: Input BAM file
@@ -165,7 +163,7 @@ bamCompare -b1 treatment.bam -b2 control.bam -o difference.bw \
 - `--GCbiasFrequenciesFile`: Frequencies from computeGCBias
 - `--correctedFile, -o`: Output corrected BAM
 
-**Important:** Never use --ignoreDuplicates after GC bias correction
+**Important:** Never use --samFlagExclude 1024 after GC bias correction
 
 ---
 
@@ -177,11 +175,17 @@ Filters BAM files by various quality metrics on-the-fly. Useful for creating fil
 - `--bam, -b`: Input BAM file
 - `--outFile, -o`: Output BAM file
 - `--minMappingQuality`: Minimum mapping quality
-- `--ignoreDuplicates`: Remove duplicates
+- `--samFlagExclude 1024`: Exclude already-marked duplicates
 - `--minFragmentLength / --maxFragmentLength`: Fragment length filters
 - `--samFlagInclude / --samFlagExclude`: SAM flag filtering
 - `--shift`: Shift reads (e.g., for ATACseq Tn5 correction)
-- `--ATACshift`: Automatically shift for ATAC-seq data
+- `--ATACshift`: Automatically shift for ATAC-seq data; equivalent to `--shift 4 -5 5 -4`
+- `--BED`: Write BEDPE output instead of BAM/CRAM
+- `--filterMetrics`: Save counts before/after filtering
+
+**Important Notes:**
+- `--shift` and `--ATACshift` use only properly paired reads.
+- Adjust effective genome size if blacklisted regions are excluded before RPGC normalization.
 
 ---
 
@@ -203,14 +207,19 @@ Calculates scores per genomic region and prepares matrices for plotHeatmap and p
 - `-bs, --binSize`: Bin size for averaging scores
 - `--skipZeros`: Skip regions with all zeros
 - `--minThreshold / --maxThreshold`: Filter by signal intensity
-- `--sortRegions`: ascending, descending, keep, no
+- `--sortRegions`: ascend, descend, keep, no
 - `--sortUsing`: mean, median, max, min, sum, region_length
+- `--sortUsingSamples`: Limit sorting to selected sample columns
 - `-p, --numberOfProcessors`: Parallel processing
 - `--averageTypeBins`: Statistical method (mean, median, min, max, sum, std)
 
 **Output Options:**
 - `--outFileNameMatrix`: Export tab-delimited data
 - `--outFileSortedRegions`: Save filtered/sorted BED file
+
+**Important Notes:**
+- Use `--sortRegions keep` if output order must match the input BED/GTF order.
+- Matrices from deepTools 3.x include labels and are not backward compatible with pre-3.0 plotting tools.
 
 **Common Usage:**
 ```bash
@@ -235,12 +244,12 @@ Quality control tool primarily for ChIP-seq experiments. Assesses whether antibo
 - `--bamfiles, -b`: Indexed BAM files (required)
 - `--plotFile, -plot, -o`: Output image filename (required)
 - `--extendReads, -e`: Extend reads to fragment length
-- `--ignoreDuplicates`: Count identical reads once
+- `--samFlagExclude 1024`: Exclude already-marked duplicate alignments
 - `--minMappingQuality`: Mapping quality filter
 - `--centerReads`: Center reads at fragment length
 - `--minFragmentLength / --maxFragmentLength`: Fragment filters
 - `--outRawCounts`: Save per-bin read counts
-- `--outQualityMetrics`: Output QC metrics (Jensen-Shannon distance)
+- `--outQualityMetrics`: Output QC metrics; pair with --JSDsample control.bam for a control-based Jensen-Shannon distance and CHANCE statistics
 - `--labels`: Custom sample names
 - `--numberOfProcessors, -p`: Parallel processing
 
@@ -253,7 +262,7 @@ Quality control tool primarily for ChIP-seq experiments. Assesses whether antibo
 ```bash
 plotFingerprint -b input.bam chip1.bam chip2.bam \
     --labels Input ChIP1 ChIP2 -o fingerprint.png \
-    --extendReads 200 --ignoreDuplicates
+    --extendReads 200 --samFlagExclude 1024
 ```
 
 ---
@@ -265,7 +274,7 @@ Visualizes average read distribution across the genome. Shows genome coverage an
 **Key Parameters:**
 - `--bamfiles, -b`: BAM files to analyze (required)
 - `--plotFile, -o`: Output plot filename (required)
-- `--ignoreDuplicates`: Remove PCR duplicates
+- `--samFlagExclude 1024`: Exclude already-marked duplicate alignments (0x400)
 - `--minMappingQuality`: Quality threshold
 - `--outRawCounts`: Save underlying data
 - `--labels`: Sample names
@@ -281,7 +290,7 @@ Determines fragment length distribution for paired-end sequencing data. Essentia
 - `--bamfiles, -b`: BAM files (required)
 - `--histogram, -hist`: Output histogram filename (required)
 - `--plotTitle, -T`: Plot title
-- `--maxFragmentLength`: Maximum length to consider (default: 1000)
+- `--maxFragmentLength`: Maximum length to consider (default: 0, displayed histogram limit is twice the mean fragment length)
 - `--logScale`: Use logarithmic Y-axis
 - `--outRawFragmentLengths`: Save raw fragment lengths
 
@@ -292,8 +301,8 @@ Determines fragment length distribution for paired-end sequencing data. Essentia
 Analyzes sample correlations from multiBamSummary or multiBigwigSummary outputs. Shows how similar different samples are.
 
 **Correlation Methods:**
-- **Pearson**: Measures metric differences; sensitive to outliers; appropriate for normally distributed data
-- **Spearman**: Rank-based; less influenced by outliers; better for non-normal distributions
+- **Pearson**: Linear association; sensitive to outliers, without a normality requirement for computing the coefficient
+- **Spearman**: Rank-based monotonic association; inspect ties and the region/zero selection policy
 
 **Visualization Options:**
 - **heatmap**: Color intensity with hierarchical clustering (complete linkage)
@@ -302,7 +311,7 @@ Analyzes sample correlations from multiBamSummary or multiBigwigSummary outputs.
 **Key Parameters:**
 - `--corData, -in`: Input matrix from multiBamSummary/multiBigwigSummary (required)
 - `--corMethod`: pearson or spearman (required)
-- `--whatToShow`: heatmap or scatterplot (required)
+- `--whatToPlot`: heatmap or scatterplot (required)
 - `--plotFile, -o`: Output filename (required)
 - `--skipZeros`: Exclude zero-value regions
 - `--removeOutliers`: Use median absolute deviation (MAD) filtering
@@ -316,11 +325,11 @@ Analyzes sample correlations from multiBamSummary or multiBigwigSummary outputs.
 ```bash
 # Heatmap with Pearson correlation
 plotCorrelation -in readCounts.npz --corMethod pearson \
-    --whatToShow heatmap -o correlation_heatmap.png --plotNumbers
+    --whatToPlot heatmap -o correlation_heatmap.png --plotNumbers
 
 # Scatterplot with Spearman correlation
 plotCorrelation -in readCounts.npz --corMethod spearman \
-    --whatToShow scatterplot -o correlation_scatter.png
+    --whatToPlot scatterplot -o correlation_scatter.png
 ```
 
 ---
@@ -339,7 +348,7 @@ Generates principal component analysis plots from multiBamSummary or multiBigwig
 - `--colors`: Custom symbol colors
 - `--markers`: Symbol shapes
 - `--transpose`: Perform PCA on transposed matrix (rows=samples)
-- `--ntop`: Use top N variable rows (default: 1000)
+- `--ntop`: Use top N variable rows (default: 500; 0 uses all)
 - `--PCs`: Components to plot (default: 1 2)
 - `--log2`: Log2-transform data before analysis
 - `--rowCenter`: Center each row at 0
@@ -373,7 +382,7 @@ Creates genomic region heatmaps from computeMatrix output. Generates publication
 - `--silhouette`: Calculate cluster quality metrics
 
 **Visual Customization:**
-- `--heatmapHeight / --heatmapWidth`: Dimensions (3-100 cm)
+- `--heatmapHeight / --heatmapWidth`: Height 3-100 cm; width 1-100 cm
 - `--whatToShow`: plot, heatmap, colorbar (combinations)
 - `--alpha`: Transparency (0-1)
 - `--colorMap`: 50+ color schemes
@@ -442,7 +451,7 @@ plotProfile -m matrix.gz -o profile.png --plotType se \
 
 ### plotEnrichment
 
-Calculates and visualizes signal enrichment across genomic regions. Measures percentage of alignments overlapping region groups. Useful for FRiP (Fragment in Peaks) scores.
+Calculates and visualizes signal enrichment across genomic regions. Measures percentage of alignments overlapping region groups. This is read/alignment overlap unless a fragment-counting policy is supplied; report the numerator, denominator and paired-mate selection before calling it FRiP.
 
 **Key Parameters:**
 - `--bamfiles, -b`: Indexed BAM files (required)
@@ -457,7 +466,7 @@ Calculates and visualizes signal enrichment across genomic regions. Measures per
 - `--minFragmentLength / --maxFragmentLength`: Fragment filters
 - `--minMappingQuality`: Quality threshold
 - `--samFlagInclude / --samFlagExclude`: SAM flag filters
-- `--ignoreDuplicates`: Remove duplicates
+- `--samFlagExclude 1024`: Exclude already-marked duplicates
 - `--centerReads`: Center reads for sharper signal
 
 **Common Usage:**
@@ -471,6 +480,34 @@ plotEnrichment -b Input.bam H3K4me3.bam \
 ---
 
 ## Miscellaneous Tools
+
+### bigwigAverage
+
+Averages multiple bigWig tracks by partitioning the genome into equal-sized bins, optionally applying scale factors before averaging.
+
+**Key Parameters:**
+- `--bigwigs, -b`: Input bigWig files
+- `--outFileName, -o`: Output file name
+- `--outFileFormat, -of`: bigwig or bedgraph
+- `--scaleFactors`: Colon-separated scale factors, such as `0.7:1`
+- `--skipNonCoveredRegions, --skipNAs`: Skip missing regions instead of treating them as zero
+- `--binSize, -bs`: Bin size for averaging
+- `--region, -r`: Limit processing to a test region
+- `--blackListFileName, -bl`: Exclude blacklisted regions
+- `--numberOfProcessors, -p`: Parallel processing
+
+**Common Usage:**
+```bash
+bigwigAverage -b rep1.bw rep2.bw -o average.bw \
+    --scaleFactors 1:0.9 --binSize 50
+```
+
+The released legacy writer can omit trailing zero-valued runs in this command too;
+there is no `--fixedStep` switch on bigwigAverage. Validate zero/missingness behavior
+for the data. For exactly two tracks, `bigwigCompare --operation mean --fixedStep`
+is an alternative that preserves zero bins.
+
+---
 
 ### computeMatrixOperations
 
@@ -491,7 +528,9 @@ Advanced matrix manipulation tool for combining or subsetting matrices from comp
 computeMatrixOperations cbind -m matrix1.gz matrix2.gz -o combined.gz
 
 # Extract specific samples
-computeMatrixOperations subset -m matrix.gz --samples 0 2 -o subset.gz
+computeMatrixOperations info -m matrix.gz
+# Select the actual sample labels printed above, not zero-based indices.
+computeMatrixOperations subset -m matrix.gz --samples sample1 sample3 -o subset.gz
 ```
 
 ---
@@ -502,14 +541,12 @@ Predicts the impact of various filtering parameters without actually filtering. 
 
 **Key Parameters:**
 - `--bamfiles, -b`: BAM files to analyze
-- `--sampleSize`: Number of reads to sample (default: 100,000)
 - `--binSize`: Bin size for analysis
 - `--distanceBetweenBins`: Spacing between sampled bins
 
 **Filtration Options to Test:**
 - `--minMappingQuality`: Test quality thresholds
-- `--ignoreDuplicates`: Assess duplicate impact
-- `--minFragmentLength / --maxFragmentLength`: Test fragment filters
+- `--samFlagExclude 1024`: Assess marked-duplicate filtering; legacy --ignoreDuplicates estimates coordinate duplicates separately
 
 ---
 
@@ -518,16 +555,61 @@ Predicts the impact of various filtering parameters without actually filtering. 
 Many deepTools commands share these filtering and performance options:
 
 **Read Filtering:**
-- `--ignoreDuplicates`: Remove PCR duplicates
+- `--samFlagExclude 1024`: Exclude marked duplicates after upstream duplicate marking
 - `--minMappingQuality`: Filter by alignment confidence
 - `--samFlagInclude / --samFlagExclude`: SAM format filtering
 - `--minFragmentLength / --maxFragmentLength`: Fragment length bounds
 
 **Performance:**
 - `--numberOfProcessors, -p`: Enable parallel processing
-- `--region`: Process specific genomic regions (chr:start-end)
+- `--region`: Process specific genomic regions (chr:start:end)
 
 **Read Processing:**
 - `--extendReads`: Extend to fragment length
 - `--centerReads`: Center at fragment midpoint
-- `--ignoreDuplicates`: Count unique reads only
+- `--samFlagExclude 1024`: Exclude marked duplicates; not a uniqueness/mappability filter
+
+
+## Version-sensitive details
+
+- `alignmentSieve --ignoreDuplicates` still exists in 4.0.0, but uses marked
+  duplicate flags. `estimateReadFiltering --ignoreDuplicates` still estimates coordinate duplicates;
+  the plotting/QC commands using shared read options no longer accept that flag. The examples consistently use `--samFlagExclude 1024`
+  to specify a single marked-duplicate policy.
+- Rust-backed bamCoverage/bamCompare/multiBamSummary/computeMatrix/alignmentSieve
+  changed blacklist handling; do not assume legacy QC commands share their semantics.
+- In computeMatrix, zero signal is different from missing data. `--skipZeros`
+  changes the region population. `--missingDataAsZero` is an explicit biological
+  assumption and no longer fills beyond-chromosome bins in 4.0.
+- TSS/TES orientation requires strand-aware BED6 or suitable GTF. BED3 has no
+  strand. Keep region order and sample labels when comparing separate matrices.
+- Clustering a heatmap does not persist clusters into the original matrix:
+  retain `--outFileSortedRegions`, or apply consistent clustering/row order to
+  profiles. A sequential colormap suits nonnegative coverage; diverging maps
+  with symmetric limits suit a signed log-ratio matrix, not ordinary RPGC.
+- `bamPEFragmentSize --maxFragmentLength` sets the histogram display limit, not
+  a BAM filtering threshold.
+
+## bigwigCompare
+
+Use `-b1`, `-b2`, `-o`, `--operation`, `--scaleFactors` and `--pseudocount` to
+compare already-normalized tracks. Missing values default to zero unless
+`--skipNonCoveredRegions` is chosen. Do not silently treat missing data as absent
+biological signal. `--skipZeroOverZero` is evaluated before pseudocount addition.
+
+```bash
+bigwigCompare -b1 treatment.bw -b2 control.bw -o ratio.bw \
+    --operation log2 --pseudocount 1 --binSize 50 --fixedStep
+```
+
+Official contracts: [tool index](https://deeptools.readthedocs.io/en/latest/content/list_of_tools.html),
+[4.0.0 source](https://github.com/deeptools/deepTools/tree/4.0.0/deeptools).
+
+**Verified 4.0.0 limitation:** the legacy bigwigCompare writer can drop a final
+zero-valued run (an identical-track log2 comparison produced an empty bigWig).
+Use `--fixedStep` to retain zero bins and inspect output coverage/missingness.
+
+In 4.0.0, alignmentSieve shifting removes stored read sequences. In the synthetic
+check, subsequent RPGC coverage without extension produced nonfinite values.
+The shifted-alignment workflow uses CPM and validates output; these BAMs are not
+sequence-preserving replacements for the original alignments.

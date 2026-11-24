@@ -1,8 +1,8 @@
 ---
-name: arf-pdf-to-markdown
+name: pdf-to-markdown
 description: Split a PDF into chunks and convert it to readable markdown text. Use when the user wants to read, extract, or convert a PDF document.
 user-invocable: true
-argument-hint: [path/to/file.pdf]
+argument-hint: "[path/to/file.pdf]"
 allowed-tools: Read, Bash(mdls *), Bash(pdftotext *), Bash(which *), Write
 ---
 

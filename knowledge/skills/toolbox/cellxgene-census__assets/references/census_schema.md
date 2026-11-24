@@ -2,24 +2,39 @@
 
 ## Overview
 
-The CZ CELLxGENE Census is a versioned collection of single-cell data built on the TileDB-SOMA framework. This reference documents the data structure, available metadata fields, and query syntax.
+The CZ CELLxGENE Census is a versioned collection of single-cell and spatial transcriptomics data built on the TileDB-SOMA framework. This reference documents the data structure, available metadata fields, and query syntax.
+
+Current reference point:
+- Package examples target `cellxgene-census==1.18.0`
+- Current stable LTS Census: `2025-11-08`
+- Census schema version: `2.4.0`
+- CELLxGENE dataset schema version: `7.0.0`
+- SDK tested against this LTS: `cellxgene-census` 1.18.0 / TileDB-SOMA 2.3.0
+- Sources: [official schema](https://github.com/chanzuckerberg/cellxgene-census/blob/main/docs/cellxgene_census_schema.md) and [release notes](https://chanzuckerberg.github.io/cellxgene-census/cellxgene_census_docsite_data_release_info.html), reviewed 2026-09-30.
 
 ## High-Level Structure
 
-The Census is organized as a `SOMACollection` with two main components:
+The Census is organized as a `SOMACollection` with these main components:
 
 ### 1. census_info
 Summary information including:
 - **summary**: Build date, cell counts, dataset statistics
-- **datasets**: All datasets from CELLxGENE Discover with metadata
+- **datasets**: Source datasets included in this release (not all of Discover); fields include `dataset_id`, `dataset_version_id`, `dataset_title`, `collection_id`, `collection_name`, `collection_doi`, `citation`, `dataset_h5ad_path`, and `dataset_total_cell_count`. Disease and tissue live on `obs`, not this table.
+- **organisms**: `organism`, `organism_label`, and `organism_ontology_term_id` mappings
 - **summary_cell_counts**: Cell counts stratified by metadata categories
 
 ### 2. census_data
 Organism-specific `SOMAExperiment` objects:
 - **"homo_sapiens"**: Human single-cell data
 - **"mus_musculus"**: Mouse single-cell data
+- **"callithrix_jacchus"**: Common marmoset single-cell data
+- **"macaca_mulatta"**: Rhesus macaque single-cell data
+- **"pan_troglodytes"**: Chimpanzee single-cell data
 
-## Data Structure Per Organism
+### 3. census_spatial_sequencing
+Spatial organism-specific `SOMAExperiment` objects for supported releases. Spatial and non-spatial data share core metadata requirements, while spatial observations also include spatial columns such as `array_col`, `array_row`, and `in_tissue`.
+
+## Single-Cell Data Structure Per Organism
 
 Each organism experiment contains:
 
@@ -33,9 +48,23 @@ census["census_data"]["homo_sapiens"].obs
 RNA measurement data including:
 - **X**: Data matrices with layers:
   - `raw`: Raw count data
-  - `normalized`: (if available) Normalized counts
+  - `normalized`: Library-size-normalized values; full-gene assays also receive gene-length normalization. This is not log-transformed. Inspect `list(experiment.ms["RNA"].X)` for the selected release. Spatial data provides `raw` only.
 - **var**: Gene metadata
 - **feature_dataset_presence_matrix**: Sparse boolean array showing which genes were measured in each dataset
+
+## Spatial Data Structure Per Organism
+
+Spatial data is stored separately from the single-cell Census data:
+```python
+census["census_spatial_sequencing"]["homo_sapiens"]
+```
+
+Each spatial organism experiment contains:
+- `obs`: Spatial observation metadata, including core Census metadata and spatial fields such as `array_col`, `array_row`, and `in_tissue`
+- `ms["RNA"]`: RNA measurement matrices and feature metadata
+- `spatial[scene_id].obsl["loc"]`: point-cloud positions for each scene, with `x`, `y`, and `soma_joinid`
+
+Use `axis_query(...).to_spatialdata(X_name="raw")` when exporting a spatial slice to `spatialdata`.
 
 ## Cell Metadata Fields (obs)
 
@@ -44,7 +73,7 @@ RNA measurement data including:
 **Identity & Dataset:**
 - `soma_joinid`: Unique integer identifier for joins
 - `dataset_id`: Source dataset identifier
-- `is_primary_data`: Boolean flag (True = unique cell, False = duplicate across datasets)
+- `is_primary_data`: Boolean flag (True = primary representation, False = duplicate across datasets)
 
 **Cell Type:**
 - `cell_type`: Human-readable cell type name
@@ -54,6 +83,7 @@ RNA measurement data including:
 - `tissue`: Specific tissue name
 - `tissue_general`: Broader tissue category (useful for grouping)
 - `tissue_ontology_term_id`: Standardized ontology term
+- `tissue_general_ontology_term_id`: Standardized ontology term for the broader tissue category
 
 **Assay:**
 - `assay`: Sequencing technology used
@@ -64,18 +94,21 @@ RNA measurement data including:
 - `disease_ontology_term_id`: Standardized ontology term
 
 **Donor:**
-- `donor_id`: Unique donor identifier
+- `donor_id`: Source-provided donor identifier; do not assume global uniqueness across studies
 - `sex`: Biological sex (male, female, unknown)
 - `self_reported_ethnicity`: Ethnicity information
 - `development_stage`: Life stage (adult, child, embryonic, etc.)
 - `development_stage_ontology_term_id`: Standardized ontology term
 
 **Organism:**
-- `organism`: Scientific name (Homo sapiens, Mus musculus)
-- `organism_ontology_term_id`: Standardized ontology term
+Select the experiment by its organism key. Organism labels/ontology IDs are in
+`census_info["organisms"]`, not guaranteed `obs` columns.
 
 **Technical:**
 - `suspension_type`: Sample preparation type (cell, nucleus, na)
+- `tissue_type`: `tissue` or `organoid` for included observations
+- `observation_joinid`: Source observation identity
+- `nnz`, `n_measured_vars`, `raw_sum`, `raw_mean_nnz`, `raw_variance_nnz`: Count summaries; the `_nnz` statistics exclude zeros
 
 ## Gene Metadata Fields (var)
 
@@ -87,8 +120,11 @@ census["census_data"]["homo_sapiens"].ms["RNA"].var
 **Available Fields:**
 - `soma_joinid`: Unique integer identifier for joins
 - `feature_id`: Ensembl gene ID (e.g., "ENSG00000161798")
-- `feature_name`: Gene symbol (e.g., "FOXP2")
+- `feature_name`: Gene symbol (e.g., "FOXP2"); duplicates are allowed since schema 2.4.0, so use `feature_id` as the stable feature key
+- `feature_type`: Present in the verified 2025-11-08 build, although omitted from the upstream schema field list; inspect the live schema
 - `feature_length`: Gene length in base pairs
+- `nnz`: Non-zero count summary
+- `n_measured_obs`: Number of measured observations for the feature
 
 ## Value Filter Syntax
 
@@ -131,15 +167,20 @@ value_filter="(cell_type == 'neuron' or cell_type == 'astrocyte') and disease !=
 var_value_filter="feature_name in ['CD4', 'CD8A', 'CD19']"
 ```
 
+### Multi-Value Disease Fields
+
+In current LTS releases, `disease` and `disease_ontology_term_id` may contain multiple values delimited by ` || `. Exact equality filters such as `disease == 'COVID-19'` can miss cells whose disease field contains multiple labels. For comprehensive disease queries, first inspect available values with `get_obs()` or `summary_cell_counts`, then choose filters that match the selected release's encoding.
+
 ## Data Inclusion Criteria
 
 The Census includes all data from CZ CELLxGENE Discover meeting:
 
-1. **Species**: Human (*Homo sapiens*) or mouse (*Mus musculus*)
+1. **Species**: Supported human, mouse, marmoset, rhesus macaque, and chimpanzee data; inspect the selected release's organism table and collections
 2. **Technology**: Approved sequencing technologies for RNA
 3. **Count Type**: Raw counts only (no processed/normalized-only data)
 4. **Metadata**: Standardized following CELLxGENE schema
-5. **Both spatial and non-spatial data**: Includes traditional and spatial transcriptomics
+5. **Sample type**: Tissue and organoid observations; primary cell culture is excluded
+6. **Both spatial and non-spatial data**: Includes qualifying assays, with spatial data stored separately
 
 ## Important Data Characteristics
 
@@ -153,12 +194,14 @@ The Census includes:
 These may need different normalization approaches.
 
 ### Versioning
-Census releases are versioned (e.g., "2023-07-25", "stable"). Always specify version for reproducible analysis:
+Census releases are versioned (e.g., "2025-11-08", "stable", "latest"). Always specify an LTS build date for reproducible analysis:
 ```python
-census = cellxgene_census.open_soma(census_version="2023-07-25")
+census = cellxgene_census.open_soma(census_version="2025-11-08")
 ```
 
-## Dataset Presence Matrix
+`stable` resolves to the current LTS release. `latest` resolves to the newest weekly release, which provides fast access to newly ingested datasets but is retained for a shorter period than LTS releases.
+
+## Feature Dataset Presence Matrix
 
 Access which genes were measured in each dataset:
 ```python
@@ -179,4 +222,4 @@ Core TileDB-SOMA objects used:
 - **Collection**: Container for related objects
 - **Experiment**: Top-level container for measurements
 - **SOMAScene**: Spatial transcriptomics scenes
-- **obs_spatial_presence**: Spatial data availability
+- **obs_spatial_presence**: A DataFrame mapping observations to scenes, not a separate SOMA object type

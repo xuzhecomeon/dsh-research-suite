@@ -1,5 +1,8 @@
 # deepTools Quick Reference
 
+Targets deepTools 4.0.0. Commands are templates requiring matching assemblies and indexed inputs.
+Duplicate filtering below requires upstream duplicate marking.
+
 ## Most Common Commands
 
 ### BAM to bigWig (normalized)
@@ -19,7 +22,7 @@ bamCompare -b1 treatment.bam -b2 control.bam -o ratio.bw \
 ```bash
 multiBamSummary bins --bamfiles *.bam -o counts.npz
 plotCorrelation -in counts.npz --corMethod pearson \
-    --whatToShow heatmap -o correlation.png
+    --whatToPlot heatmap -o correlation.png
 ```
 
 ### Heatmap around TSS
@@ -33,14 +36,18 @@ plotHeatmap -m matrix.gz -o heatmap.png
 ### ChIP enrichment check
 ```bash
 plotFingerprint -b input.bam chip.bam -o fingerprint.png \
-    --extendReads 200 --ignoreDuplicates
+    --extendReads 200 --samFlagExclude 1024
 ```
 
 ## Effective Genome Sizes
 
+These are illustrative values from the 4.0.0 tagged source. Rolling upstream tables differ; derive the value for the actual reference and filtering policy (see `references/effective_genome_sizes.md`).
+
 | Organism | Assembly | Size |
 |----------|----------|------|
 | Human | hg38 | 2913022398 |
+| Human | T2T/CHM13CAT_v2 | 3117292070 |
+| Mouse | mm39 | 2654621783 |
 | Mouse | mm10 | 2652783500 |
 | Fly | dm6 | 142573017 |
 
@@ -48,7 +55,12 @@ plotFingerprint -b input.bam chip.bam -o fingerprint.png \
 
 - **RPGC**: 1× genome coverage (requires --effectiveGenomeSize)
 - **CPM**: Counts per million (for fixed bins)
-- **RPKM**: Reads per kb per million (for genes)
+- **RPKM**: Reads per kb per million (per output bin, not genes)
+
+## Notes
+
+- `--filterRNAstrand` assumes common dUTP-style reverse-stranded RNA-seq libraries.
+- `--ATACshift` uses only properly paired fragments and is equivalent to `--shift 4 -5 5 -4`.
 
 ## Typical Workflow
 

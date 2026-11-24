@@ -1,5 +1,5 @@
 ---
-name: arf-explain-diff
+name: explain-diff
 description: Explain a code change as a standalone offline HTML page with a five-question quiz. Reads the diff and the surrounding code from scratch, states the consequences for the empirical results, and saves the page outside the repository under a dated filename.
 argument-hint: "[optional: git ref or range, default working tree vs HEAD]"
 allowed-tools: Bash, Read, Write, Glob, Grep

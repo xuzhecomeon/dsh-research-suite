@@ -1,6 +1,6 @@
 # Matplotlib Styling Guide
 
-Comprehensive guide for styling and customizing matplotlib visualizations.
+Styling patterns for Matplotlib 3.11.2. Fragments assume NumPy/pyplot imports and named inputs. Style settings control presentation; verify scientific scales and uncertainty independently.
 
 ## Colormaps
 
@@ -50,7 +50,12 @@ Best for categorical/nominal data without inherent ordering.
 
 **Usage:**
 ```python
-colors = plt.cm.tab10(np.linspace(0, 1, n_categories))
+import matplotlib as mpl
+
+# tab10 has only 10 distinct colors; do not interpolate beyond its capacity.
+if n_categories > 10:
+    raise ValueError('Use another encoding or a larger distinguishable palette')
+colors = mpl.colormaps['tab10'].colors[:n_categories]
 for i, category in enumerate(categories):
     ax.plot(x, y[i], color=colors[i], label=category)
 ```
@@ -59,7 +64,7 @@ for i, category in enumerate(categories):
 Best for cyclic data (e.g., phase, angle).
 - `twilight`
 - `twilight_shifted`
-- `hsv`
+- `hsv` (not perceptually uniform; inspect lightness artifacts)
 
 ### Colormap Best Practices
 
@@ -72,10 +77,34 @@ Best for cyclic data (e.g., phase, angle).
    - Qualitative: categories
 5. **Reverse colormaps** - Add `_r` suffix: `viridis_r`, `coolwarm_r`
 
+### Shared Scales and Missing Values
+
+Use one explicit norm for comparable panels, based on a justified common domain.
+A diverging map alone does not center zero when limits are asymmetric.
+
+```python
+from matplotlib.colors import TwoSlopeNorm
+import matplotlib as mpl
+
+norm = TwoSlopeNorm(vmin=-2, vcenter=0, vmax=5)
+cmap = mpl.colormaps['RdBu_r'].with_extremes(bad='lightgray')
+fig, axes = plt.subplots(1, 2, layout='constrained')
+for ax, values in zip(axes, [data1, data2]):
+    im = ax.imshow(np.ma.masked_invalid(values), cmap=cmap, norm=norm,
+                   interpolation='nearest')
+fig.colorbar(im, ax=axes, label='Change (data units)', extend='both')
+```
+
+Document missing-value color, bounds, units, and out-of-range behavior. Norm
+objects already carry limits; do not also pass `vmin`/`vmax`. `LogNorm` requires
+positive data: count/mask zero and negative values explicitly, or use a justified
+`SymLogNorm`. Prefer `with_extremes` over pending-deprecated mutating setters.
+
 ### Creating Custom Colormaps
 
 ```python
 from matplotlib.colors import LinearSegmentedColormap
+import matplotlib as mpl
 
 # From color list
 colors = ['blue', 'white', 'red']
@@ -88,15 +117,19 @@ cmap = LinearSegmentedColormap.from_list('custom', colors)
 
 # Use the custom colormap
 ax.imshow(data, cmap=cmap)
+
+# Optionally register it by name for reuse
+mpl.colormaps.register(cmap, name='custom')
 ```
 
 ### Discrete Colormaps
 
 ```python
 import matplotlib.colors as mcolors
+import matplotlib as mpl
 
 # Create discrete colormap from continuous
-cmap = plt.cm.viridis
+cmap = mpl.colormaps['viridis']
 bounds = np.linspace(0, 10, 11)
 norm = mcolors.BoundaryNorm(bounds, cmap.N)
 im = ax.imshow(data, cmap=cmap, norm=norm)
@@ -149,7 +182,7 @@ figure.facecolor: white
 
 # Font
 font.family: sans-serif
-font.sans-serif: Arial, Helvetica
+font.sans-serif: Arial, Helvetica, DejaVu Sans
 font.size: 12
 
 # Axes
@@ -192,6 +225,10 @@ savefig.dpi: 300
 savefig.bbox: tight
 savefig.facecolor: white
 ```
+
+Style files treat unquoted `#` as a comment: write `axes.facecolor: "#1e1e1e"`
+for hex colors. Save as UTF-8. These files configure plotting, not scientific
+validity; review font availability and final-size readability.
 
 Load and use:
 ```python
@@ -284,8 +321,10 @@ plt.rcParams['savefig.transparent'] = False
 ### Named Color Sets
 
 ```python
+import matplotlib as mpl
+
 # Tableau colors
-tableau_colors = plt.cm.tab10.colors
+tableau_colors = mpl.colormaps['tab10'].colors
 
 # CSS4 colors (subset)
 css_colors = ['steelblue', 'coral', 'teal', 'goldenrod', 'crimson']
@@ -309,9 +348,11 @@ plt.rcParams['axes.prop_cycle'] = cycler(color=colors) + cycler(linestyle=['-', 
 ### Palette Generation
 
 ```python
+import matplotlib as mpl
+
 # Evenly spaced colors from colormap
 n_colors = 5
-colors = plt.cm.viridis(np.linspace(0, 1, n_colors))
+colors = mpl.colormaps['viridis'](np.linspace(0, 1, n_colors))
 
 # Use in plot
 for i, (x, y) in enumerate(data):
@@ -329,7 +370,7 @@ plt.rcParams['font.serif'] = ['Times New Roman', 'DejaVu Serif']
 
 # Or sans-serif
 plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['Arial', 'Helvetica']
+plt.rcParams['font.sans-serif'] = ['Arial', 'Helvetica', 'DejaVu Sans']
 
 # Or monospace
 plt.rcParams['font.family'] = 'monospace'
@@ -435,7 +476,7 @@ ax.legend(loc='center right')
 
 # Precise positioning (bbox_to_anchor)
 ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # Outside plot area
-ax.legend(bbox_to_anchor=(0.5, -0.15), loc='upper center', ncol=3)  # Below plot
+ax.legend(bbox_to_anchor=(0.5, -0.15), loc='upper center', ncols=3)  # Below plot
 ```
 
 ### Legend Styling
@@ -447,7 +488,7 @@ ax.legend(
     framealpha=0.9,         # Frame transparency
     fancybox=True,          # Rounded corners
     shadow=True,            # Shadow effect
-    ncol=2,                 # Number of columns
+    ncols=2,                 # Number of columns
     title='Legend Title',   # Legend title
     title_fontsize=14,      # Title font size
     edgecolor='black',      # Frame edge color
@@ -474,10 +515,13 @@ ax.legend(custom_lines, ['Label 1', 'Label 2', 'Label 3'])
 
 ```python
 # Preferred method (automatic adjustment)
-fig, axes = plt.subplots(2, 2, constrained_layout=True)
+fig, axes = plt.subplots(2, 2, layout='constrained')
 ```
 
 ### Tight Layout
+
+This is an alternative engine; calling `tight_layout()` disables constrained
+layout. Do not run both on the same figure.
 
 ```python
 # Alternative method
@@ -509,7 +553,7 @@ plt.rcParams.update({
 
     # Font
     'font.family': 'sans-serif',
-    'font.sans-serif': ['Arial', 'Helvetica'],
+    'font.sans-serif': ['Arial', 'Helvetica', 'DejaVu Sans'],
     'font.size': 11,
 
     # Axes
@@ -575,7 +619,7 @@ colorblind_friendly = ['viridis', 'plasma', 'cividis']
 cb_colors = ['#0173B2', '#DE8F05', '#029E73', '#CC78BC',
              '#CA9161', '#949494', '#ECE133', '#56B4E9']
 
-# Test with simulation tools or use these validated palettes
+# Test the actual figure with simulations; palette choice alone is not validation.
 ```
 
 ### High Contrast
@@ -587,3 +631,11 @@ plt.rcParams['axes.linewidth'] = 2
 plt.rcParams['xtick.major.width'] = 2
 plt.rcParams['ytick.major.width'] = 2
 ```
+
+Use redundant marker/line styles and readable labels as well as color. A grayscale
+preview alone does not establish accessibility.
+
+Sources: [customization](https://matplotlib.org/stable/users/explain/customizing.html),
+[normalization](https://matplotlib.org/stable/users/explain/colors/colormapnorms.html),
+[choosing colormaps](https://matplotlib.org/stable/users/explain/colors/colormaps.html),
+[layout](https://matplotlib.org/stable/users/explain/axes/constrainedlayout_guide.html).

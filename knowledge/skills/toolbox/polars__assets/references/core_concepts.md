@@ -78,11 +78,13 @@ df.select(pl.all() * 2)
 
 **Pattern matching:**
 ```python
+import polars.selectors as cs
+
 # All columns ending with "_value"
 df.select(pl.col("^.*_value$") * 100)
 
 # All numeric columns
-df.select(pl.col(pl.NUMERIC_DTYPES) + 1)
+df.select(cs.numeric() + 1)
 ```
 
 **Exclude patterns:**
@@ -106,7 +108,10 @@ df.with_columns(age_months=age_expression)
 
 ## Data Types
 
-Polars has a strict type system based on Apache Arrow.
+Polars has typed columns and Arrow interoperability. Schema inference and common-supertype
+coercion occur; strict casts reject invalid or overflowing values unless `strict=False`.
+Inspect `df.schema` or `lf.collect_schema()`; resolving a lazy schema may read metadata
+or sample source data. Use explicit schemas for identifiers and measurement units.
 
 ### Core Data Types
 
@@ -116,7 +121,7 @@ Polars has a strict type system based on Apache Arrow.
 - `Float32`, `Float64` - Floating point numbers
 
 **Text:**
-- `Utf8` / `String` - UTF-8 encoded strings
+- `String` (`Utf8` is an alias) - UTF-8 encoded strings
 - `Categorical` - Categorized strings (low cardinality)
 - `Enum` - Fixed set of string values
 
@@ -148,7 +153,7 @@ Convert between types explicitly:
 df.select(
     pl.col("age").cast(pl.Float64),
     pl.col("date_string").str.strptime(pl.Date, "%Y-%m-%d"),
-    pl.col("id").cast(pl.Utf8)
+    pl.col("id").cast(pl.String)
 )
 ```
 
@@ -176,6 +181,10 @@ df.drop_nulls()  # Drop any row with nulls
 df.drop_nulls(subset=["col1", "col2"])  # Drop rows with nulls in specific columns
 ```
 
+Null is distinct from floating-point NaN and infinity. `fill_null`, `drop_nulls`,
+and `count` only address nulls; use `is_nan`, `is_finite`, and `fill_nan` for floats.
+Do not replace missing measurements with zero without a scientific justification.
+
 ### Categorical Data
 
 Use categorical types for string columns with low cardinality (repeated values):
@@ -189,7 +198,7 @@ df.with_columns(
 # Benefits:
 # - Reduced memory usage
 # - Faster grouping and joining
-# - Maintains order information
+# - Does not encode a scientific or ordinal order; use Enum for declared levels
 ```
 
 ## Lazy vs Eager Evaluation
@@ -223,7 +232,7 @@ Operations build a query plan, optimized before execution:
 import polars as pl
 
 # LazyFrame operations build a query plan
-lf = pl.scan_csv("data.csv")  # Doesn't read yet
+lf = pl.scan_csv("data.csv")  # Builds a plan; schema inference may read source data
 lf2 = lf.filter(pl.col("age") > 25)  # Adds to plan
 lf3 = lf2.select("name", "age")  # Adds to plan
 df = lf3.collect()  # NOW executes optimized plan
@@ -243,7 +252,7 @@ Polars automatically optimizes lazy queries:
 **Predicate Pushdown:**
 Filter operations pushed to data source when possible:
 ```python
-# Only reads rows where age > 25 from CSV
+# Applies the filter during scanning; CSV still has to parse the input
 lf = pl.scan_csv("data.csv")
 result = lf.filter(pl.col("age") > 25).collect()
 ```
@@ -251,7 +260,7 @@ result = lf.filter(pl.col("age") > 25).collect()
 **Projection Pushdown:**
 Only read needed columns from data source:
 ```python
-# Only reads "name" and "age" columns from CSV
+# Projects needed columns; CSV bytes still require scanning
 lf = pl.scan_csv("data.csv")
 result = lf.select("name", "age").collect()
 ```
@@ -271,14 +280,14 @@ Process data larger than memory:
 ```python
 # Enable streaming for very large datasets
 lf = pl.scan_csv("very_large.csv")
-result = lf.filter(pl.col("age") > 25).collect(streaming=True)
+result = lf.filter(pl.col("age") > 25).collect(engine="streaming")
 ```
 
 **Streaming benefits:**
 - Process data larger than RAM
 - Lower peak memory usage
 - Chunk-based processing
-- Automatic memory management
+- A collected result still needs RAM; use `sink_parquet` for direct file output
 
 **Streaming limitations:**
 - Not all operations support streaming
@@ -304,7 +313,7 @@ df = lf.collect()  # Execute and return DataFrame
 Polars uses Apache Arrow columnar memory format:
 
 **Benefits:**
-- Zero-copy data sharing with other Arrow libraries
+- Zero-copy sharing for compatible Arrow types; conversions may copy
 - Efficient columnar operations
 - SIMD vectorization
 - Reduced memory overhead
@@ -313,7 +322,7 @@ Polars uses Apache Arrow columnar memory format:
 **Implications:**
 - Data stored column-wise, not row-wise
 - Column operations very fast
-- Random row access slower than pandas
+- Benchmark row access and conversions for the actual workload
 - Best for analytical workloads
 
 ## Parallelization
@@ -330,20 +339,20 @@ Polars parallelizes operations automatically using Rust's concurrency:
 **What to avoid for parallelization:**
 - Python user-defined functions (UDFs)
 - Lambda functions in `.map_elements()`
-- Sequential `.pipe()` chains
+- Materializing inside `.pipe()` helpers; a helper returning a LazyFrame retains optimization
 
 **Best practice:**
 ```python
 # Good: Stays in expression API (parallelized)
 df.with_columns(
-    pl.col("value") * 10,
-    pl.col("value").log(),
-    pl.col("value").sqrt()
+    (pl.col("value") * 10).alias("scaled"),
+    pl.col("value").log().alias("log_value"),
+    pl.col("value").sqrt().alias("sqrt_value")
 )
 
 # Bad: Uses Python function (sequential)
 df.with_columns(
-    pl.col("value").map_elements(lambda x: x * 10)
+    pl.col("value").map_elements(lambda x: x * 10, return_dtype=pl.Int64)
 )
 ```
 
@@ -351,14 +360,14 @@ df.with_columns(
 
 Polars enforces strict typing:
 
-**No silent conversions:**
+**Use explicit casts when type changes matter:**
 ```python
 # This will error - can't mix types
 # df.with_columns(pl.col("int_col") + "string")
 
 # Must cast explicitly
 df.with_columns(
-    pl.col("int_col").cast(pl.Utf8) + "_suffix"
+    pl.col("int_col").cast(pl.String) + "_suffix"
 )
 ```
 
@@ -371,7 +380,7 @@ df.with_columns(
 **Integer nulls:**
 Unlike pandas, integer columns can have nulls without converting to float:
 ```python
-# In pandas: Int column with null becomes Float
+# Pandas also supports nullable integer and Arrow extension dtypes
 # In polars: Int column with null stays Int (with null values)
 df = pl.DataFrame({"int_col": [1, 2, None, 4]})
 # dtype: Int64 (not Float64)

@@ -14,7 +14,7 @@ Usage:
 import argparse
 import os
 import sys
-import json
+import math
 from pathlib import Path
 from collections import defaultdict
 import re
@@ -33,47 +33,56 @@ def parse_confidence_scores(results_dir):
     results = {}
     results_path = Path(results_dir)
 
-    # Check if this is a single complex or batch results
-    sdf_files = list(results_path.glob("*.sdf"))
-
-    if sdf_files:
-        # Single complex output
-        results['single_complex'] = parse_single_complex(results_path)
-    else:
-        # Batch output - multiple subdirectories
-        for subdir in results_path.iterdir():
-            if subdir.is_dir():
-                complex_results = parse_single_complex(subdir)
-                if complex_results:
-                    results[subdir.name] = complex_results
+    # An unrelated input SDF in a batch root must not hide all nested poses.
+    parsed = parse_single_complex(results_path)
+    for subdir in sorted(results_path.iterdir()):
+        if subdir.is_dir():
+            complex_results = parse_single_complex(subdir)
+            if complex_results:
+                results[subdir.name] = complex_results
+    if parsed:
+        if results:
+            raise ValueError('Mixed single-complex and batch pose layout; select one run directory')
+        results['single_complex'] = parsed
 
     return results
 
 
 def parse_single_complex(complex_dir):
     """Parse results for a single complex."""
-    predictions = []
+    predictions_by_rank = {}
 
     # Look for SDF files with rank information
     for sdf_file in complex_dir.glob("*.sdf"):
         filename = sdf_file.name
 
-        # Extract rank from filename (e.g., "rank_1.sdf" or "index_0_rank_1.sdf")
-        rank_match = re.search(r'rank_(\d+)', filename)
+        # Current DiffDock writes rank1_confidence0.87.sdf; older runs may use rank_1.sdf.
+        rank_match = re.match(r'^rank_?([1-9]\d*)(?:_|\.)', filename)
         if rank_match:
             rank = int(rank_match.group(1))
 
             # Try to extract confidence score from filename or separate file
             confidence = extract_confidence_score(sdf_file, complex_dir)
 
-            predictions.append({
+            prediction = {
                 'rank': rank,
                 'file': sdf_file.name,
                 'path': str(sdf_file),
                 'confidence': confidence
-            })
+            }
+
+            existing = predictions_by_rank.get(rank)
+            if existing and 'confidence' in filename and 'confidence' in existing['file']:
+                raise ValueError(f'Duplicate scored files for rank {rank} in {complex_dir}; use a fresh output directory')
+            if (
+                existing is None
+                or (existing['confidence'] is None and confidence is not None)
+                or ('confidence' in filename and 'confidence' not in existing['file'])
+            ):
+                predictions_by_rank[rank] = prediction
 
     # Sort by rank
+    predictions = list(predictions_by_rank.values())
     predictions.sort(key=lambda x: x['rank'])
 
     return {'predictions': predictions} if predictions else None
@@ -84,47 +93,56 @@ def extract_confidence_score(sdf_file, complex_dir):
     Extract confidence score for a prediction.
 
     Tries multiple methods:
-    1. Read from confidence_scores.txt file
-    2. Parse from SDF file properties
-    3. Extract from filename if present
+    1. Extract from current filename format, e.g. rank1_confidence0.87.sdf
+    2. Read from legacy confidence_scores.txt file
+    3. Parse from SDF file properties
     """
-    # Method 1: confidence_scores.txt
+    # Method 1: Filename
+    conf_match = re.search(r'(?:confidence|conf)_?([-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?)', sdf_file.name)
+    if conf_match:
+        return finite_score(conf_match.group(1))
+
+    # Method 2: legacy confidence_scores.txt
     confidence_file = complex_dir / "confidence_scores.txt"
     if confidence_file.exists():
         try:
             with open(confidence_file) as f:
                 lines = f.readlines()
                 # Extract rank from filename
-                rank_match = re.search(r'rank_(\d+)', sdf_file.name)
+                rank_match = re.search(r'rank_?(\d+)', sdf_file.name)
                 if rank_match:
                     rank = int(rank_match.group(1))
-                    if rank <= len(lines):
-                        return float(lines[rank - 1].strip())
+                    if 1 <= rank <= len(lines):
+                        return finite_score(lines[rank - 1].strip())
         except Exception:
             pass
 
-    # Method 2: Parse from SDF file
+    # Method 3: Parse from SDF file
     try:
         with open(sdf_file) as f:
             content = f.read()
-            # Look for confidence score in SDF properties
-            conf_match = re.search(r'confidence[:\s]+(-?\d+\.?\d*)', content, re.IGNORECASE)
+            # Look for confidence score in SDF properties. An SDF data item is
+            # written as `> <confidence>` followed by the value on the next
+            # line, so the separator class has to admit the closing angle
+            # bracket as well as a colon.
+            conf_match = re.search(r'confidence[>:\s]+([-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?)', content, re.IGNORECASE)
             if conf_match:
-                return float(conf_match.group(1))
+                return finite_score(conf_match.group(1))
     except Exception:
         pass
-
-    # Method 3: Filename (e.g., "rank_1_conf_0.95.sdf")
-    conf_match = re.search(r'conf_(-?\d+\.?\d*)', sdf_file.name)
-    if conf_match:
-        return float(conf_match.group(1))
 
     return None
 
 
+def finite_score(value):
+    """Nonfinite scores carry no interpretable confidence."""
+    score = float(value)
+    return score if math.isfinite(score) else None
+
+
 def classify_confidence(score):
     """Classify confidence score into categories."""
-    if score is None:
+    if score is None or not math.isfinite(score):
         return "Unknown"
     elif score > 0:
         return "High"
@@ -202,7 +220,7 @@ def print_summary(results, top_n=None, min_confidence=None):
         print(f"\n  Confidence distribution:")
         print(f"    High (> 0):          {high:4d} ({100*high/len(confidences):5.1f}%)")
         print(f"    Moderate (-1.5 to 0): {moderate:4d} ({100*moderate/len(confidences):5.1f}%)")
-        print(f"    Low (< -1.5):        {low:4d} ({100*low/len(confidences):5.1f}%)")
+        print(f"    Low (<= -1.5):        {low:4d} ({100*low/len(confidences):5.1f}%)")
 
     print("\n" + "="*80)
 
@@ -230,7 +248,7 @@ def export_to_csv(results, output_path):
                     pred['path']
                 ])
 
-    print(f"✓ Exported results to: {output_path}")
+    print(f"[OK] Exported results to: {output_path}")
 
 
 def get_top_predictions(results, n=10, sort_by='confidence'):
@@ -258,6 +276,7 @@ def print_top_predictions(results, n=10):
 
     print("\n" + "="*80)
     print(f"Top {n} Predictions Across All Complexes")
+    print("Confidence triage only: scores across complexes are not calibrated affinity rankings.")
     print("="*80)
 
     for i, pred in enumerate(top_preds, 1):
@@ -304,13 +323,17 @@ Examples:
     args = parser.parse_args()
 
     # Validate results directory
-    if not os.path.exists(args.results_dir):
+    if not Path(args.results_dir).is_dir():
         print(f"Error: Results directory not found: {args.results_dir}")
         return 1
 
     # Parse results
     print(f"Analyzing results in: {args.results_dir}")
-    results = parse_confidence_scores(args.results_dir)
+    try:
+        results = parse_confidence_scores(args.results_dir)
+    except ValueError as error:
+        print(f"Error: {error}")
+        return 1
 
     if not results:
         print("No DiffDock results found in directory")

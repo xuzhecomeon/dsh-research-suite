@@ -1,24 +1,30 @@
 {
   "domain": "ideation",
-  "version": "3.0.0",
-  "sourceTotal": 39,
+  "version": "3.3.0",
   "entries": [
     {
-      "dir": "research-grants",
-      "name": "research-grants",
+      "dir": "arf-review-grant",
+      "name": "review-grant",
       "verdict": "fused",
-      "why": "源清单里 research-grants 出现两次（builtin 5 文件与 user 12 文件，dir 同名）。按目录唯一性合并为一条：它提供 NSF／NIH／DOE／DARPA／NSTC 的评审标准对照、预算论证与五类常见错误清单，正是标书卡从「评审表反推写法」所需的外部基准；其强制 AI 配图要求不采用，图件交 figures 域。",
+      "why": "六席预审（清晰度／内部一致性／意义与指南契合／设计与可行性／预算团队／对抗式资助建议）是标书定稿前最接近真实评审会的结构，标书卡第六步直接采用；每席输出必改与建议改两张表，可机械核对是否落地。",
       "cards": [
         "ideation.grant"
       ]
     },
     {
-      "dir": "arf-review-grant",
-      "name": "arf-review-grant",
+      "dir": "aris-ablation-planner",
+      "name": "aris-ablation-planner",
+      "verdict": "index-only",
+      "why": "选题或转化方法，未单列为成员；按需直读其流程与模板",
+      "cards": []
+    },
+    {
+      "dir": "aris-claims-drafting",
+      "name": "aris-claims-drafting",
       "verdict": "fused",
-      "why": "六席预审（清晰度／内部一致性／意义与指南契合／设计与可行性／预算团队／对抗式资助建议）是标书定稿前最接近真实评审会的结构，标书卡第六步直接采用；每席输出必改与建议改两张表，可机械核对是否落地。",
+      "why": "并入能力卡 ideation.patent-draft：其做法作为融合协议里的取法来源",
       "cards": [
-        "ideation.grant"
+        "ideation.patent-draft"
       ]
     },
     {
@@ -72,6 +78,24 @@
       "cards": []
     },
     {
+      "dir": "aris-invention-structuring",
+      "name": "aris-invention-structuring",
+      "verdict": "fused",
+      "why": "并入能力卡 ideation.patent-draft：其做法作为融合协议里的取法来源",
+      "cards": [
+        "ideation.patent-draft"
+      ]
+    },
+    {
+      "dir": "aris-jurisdiction-format",
+      "name": "aris-jurisdiction-format",
+      "verdict": "fused",
+      "why": "并入能力卡 ideation.patent-draft：其做法作为融合协议里的取法来源",
+      "cards": [
+        "ideation.patent-draft"
+      ]
+    },
+    {
       "dir": "aris-meta-apply",
       "name": "aris-meta-apply",
       "verdict": "out-of-scope",
@@ -95,11 +119,22 @@
       "cards": []
     },
     {
+      "dir": "aris-patent-pipeline",
+      "name": "aris-patent-pipeline",
+      "verdict": "fused",
+      "why": "并入能力卡 ideation.patent-draft：其做法作为融合协议里的取法来源",
+      "cards": [
+        "ideation.patent-draft"
+      ]
+    },
+    {
       "dir": "aris-patent-review",
       "name": "aris-patent-review",
-      "verdict": "out-of-scope",
-      "why": "专利评审与答复审查意见的流程文书，属知识产权域。本域只到「立项」，不处理申请与审查往来；建议与 aris-embodiment-description 等合并成专利子域。",
-      "cards": []
+      "verdict": "fused",
+      "why": "并入能力卡 ideation.patent-draft：其做法作为融合协议里的取法来源",
+      "cards": [
+        "ideation.patent-draft"
+      ]
     },
     {
       "dir": "aris-prior-art-search",
@@ -111,11 +146,27 @@
       ]
     },
     {
+      "dir": "aris-research-refine",
+      "name": "aris-research-refine",
+      "verdict": "index-only",
+      "why": "选题或转化方法，未单列为成员；按需直读其流程与模板",
+      "cards": []
+    },
+    {
       "dir": "aris-research-refine-pipeline",
       "name": "aris-research-refine-pipeline",
       "verdict": "deprecated",
       "why": "它是 research-refine 与 experiment-plan 的串联编排器，评审槽位默认走 Codex MCP 外部后端，纯 DSH 环境不可用；其「先把论点稳定再规划大实验」的原则已写进设计卡第一步，技能本身不采用。",
       "cards": []
+    },
+    {
+      "dir": "aris-specification-writing",
+      "name": "aris-specification-writing",
+      "verdict": "fused",
+      "why": "并入能力卡 ideation.patent-draft：其做法作为融合协议里的取法来源",
+      "cards": [
+        "ideation.patent-draft"
+      ]
     },
     {
       "dir": "basic-research-design-extractor",
@@ -141,6 +192,13 @@
       "cards": [
         "ideation.design"
       ]
+    },
+    {
+      "dir": "experimental-design",
+      "name": "experimental-design",
+      "verdict": "index-only",
+      "why": "选题或转化方法，未单列为成员；按需直读其流程与模板",
+      "cards": []
     },
     {
       "dir": "hypogenic",
@@ -210,6 +268,15 @@
       "verdict": "deprecated",
       "why": "依赖沁言（Qinyan）外部 API 的选题分析服务，需单独申请密钥并按次计费，纯本地环境不可用；选题分析需求由 airs-brainstorming-research-ideas 与 aris-idea-creator 覆盖，查新由 aris-novelty-check 覆盖。",
       "cards": []
+    },
+    {
+      "dir": "research-grants",
+      "name": "research-grants",
+      "verdict": "fused",
+      "why": "源清单里 research-grants 出现两次（builtin 5 文件与 user 12 文件，dir 同名）。按目录唯一性合并为一条：它提供 NSF／NIH／DOE／DARPA／NSTC 的评审标准对照、预算论证与五类常见错误清单，正是标书卡从「评审表反推写法」所需的外部基准；其强制 AI 配图要求不采用，图件交 figures 域。",
+      "cards": [
+        "ideation.grant"
+      ]
     },
     {
       "dir": "scholar-brainstorm",

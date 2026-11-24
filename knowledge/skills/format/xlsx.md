@@ -9,7 +9,7 @@ description: >-
 description_zh: "创建、编辑、分析 Excel 表格：公式、图表、透视表与格式设置。"
 description_en: "Creates, edits, and analyzes Excel files: formulas, charts, pivot tables, formatting."
 category: document
-version: "1.1.0"
+version: "1.2.0"
 author: "zxh"
 disable-model-invocation: false
 user-invocable: true

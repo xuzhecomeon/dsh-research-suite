@@ -2,7 +2,7 @@
   "domain": "review",
   "label": "自审、模拟审稿、证据核验、修回与回复信：把「投出去」推到「改到中」",
   "skill": "research-review",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "summary": "本域只服务一个终点：让稿件在真实审稿中少挨打、被打中也能改到接受。四件套是硬的——投稿前自审（主编视角预筛）、审稿人视角质疑（三问逐段落地）、证据与数字核验（主张对原始结果文件）、修回与逐条回复（Commit×Coverage 双门）。每一条质疑必须写全「位置＋问题＋依据＋建议」四件套，缺项不计入结论；不许出现「整体创新性不足」这类无法执行的评语。回复信件数必须等于意见条数，承诺项必须标 already_done／approved_for_rebuttal／future_work_only。不做语言润色（交 polish）、不做统计复核本身的重新分析（交 stats，但必须会指出统计缺陷）、不做成稿写作（交 writing）。所有具体数字（影响因子、审稿周期、接收率、审稿人姓名、编辑指令编号）一律来自用户提供的材料，取不到就写占位，绝不编造。",
   "capabilities": [
     {
@@ -43,7 +43,7 @@
           ]
         },
         {
-          "skill": "arf-review-paper-light",
+          "skill": "review-paper-light",
           "verdict": "补强",
           "best_at": [
             "两席快速贡献与识别策略检查",
@@ -114,13 +114,13 @@
       "protocol": [
         {
           "step": "1 定刊定位与投稿类型",
-          "from": "pre-submission-reviewer#Step 1 Scope & Venue Check + arf-review-paper-light#Editor Screen",
+          "from": "pre-submission-reviewer#Step 1 Scope & Venue Check + review-paper-light#Editor Screen",
           "do": "确认目标刊的范围声明、文章类型与字数上限，把稿件的核心主张压成一句话，比对这句话是否落在该刊读者关心的范围内。范围不符直接判红，不再往下挑细节。",
           "detail": "范围不符是直接拒稿的第一大原因，且改稿救不回来。若一句话主张说不清，先回到贡献句重写，不要用更长的摘要掩盖；这一步不超过十分钟，却能省掉整轮投稿周期。"
         },
         {
           "step": "2 主编三筛",
-          "from": "paper-audit#Mode gate + arf-review-paper-light#Contribution Screen",
+          "from": "paper-audit#Mode gate + review-paper-light#Contribution Screen",
           "do": "按「范围契合／贡献可信／有无致命缺陷」三问各写一行判断，各带一段原文依据。三问全过才进入五维自查；任一不过先处理该问。",
           "detail": "贡献可信指贡献类型判得准：新问题、新数据、新方法、新场景、旧问题新答案，五类只许选一到两类，选多了说明自己也没想清。致命缺陷典型是设计无法支撑因果结论、样本量与结论强度不匹配。"
         },
@@ -182,7 +182,7 @@
       ],
       "kb": [
         "pre-submission-reviewer",
-        "arf-review-paper-light",
+        "review-paper-light",
         "nature-reviewer",
         "paper-audit"
       ]
@@ -226,7 +226,7 @@
           ]
         },
         {
-          "skill": "arf-review-paper",
+          "skill": "review-paper",
           "verdict": "补强",
           "best_at": [
             "八席分工的预投稿审稿报告",
@@ -277,7 +277,7 @@
           ]
         },
         {
-          "skill": "arf-review-pap",
+          "skill": "review-pap",
           "verdict": "兜底",
           "best_at": [
             "六席预分析计划预审",
@@ -303,7 +303,7 @@
         },
         {
           "step": "2 分节取证",
-          "from": "arf-review-paper#Section-by-Section Findings",
+          "from": "review-paper#Section-by-Section Findings",
           "do": "摘要、引言、方法、结果、讨论逐节过，每节至少找一条「可被审稿人抓住」的点，写成位置、问题、依据、建议四项，依据必须是原文引句或表内数字。",
           "detail": "取证的密度决定报告的可信度。宁可全篇只写十条扎实的，也不要写三十条「论述不够充分」。若某节确实干净，写「未见问题」并说明查了什么，这比留空更有说服力。"
         },
@@ -365,7 +365,7 @@
       ],
       "kb": [
         "ars-academic-paper-reviewer",
-        "arf-review-paper",
+        "review-paper",
         "aris-kill-argument",
         "scientific-critical-thinking"
       ]
@@ -1254,7 +1254,7 @@
           ]
         },
         {
-          "skill": "arf-review-paper-light",
+          "skill": "review-paper-light",
           "verdict": "兜底",
           "best_at": [
             "五分钟贡献与识别策略复检",
@@ -1286,7 +1286,7 @@
         },
         {
           "step": "3 越界与偏好检查",
-          "from": "peer-review#Comment Boundaries + arf-review-paper-light#Overreach Guard",
+          "from": "peer-review#Comment Boundaries + review-paper-light#Overreach Guard",
           "do": "逐条区分领域标准要求与个人偏好：标准类保留为主要问题，偏好类降为建议并注明非必需；要求补新实验的条目单独列出，说明是否发表必需。",
           "detail": "越界的典型形态是把某学派的做法当成普适标准，或要求作者换一个自己擅长的分析框架。判断方法是问：换成另一位同领域审稿人，这条还成立吗？不成立就该降级。"
         },
@@ -1345,7 +1345,7 @@
         "peer-review",
         "paper-audit",
         "nature-reviewer",
-        "arf-review-paper-light"
+        "review-paper-light"
       ]
     }
   ]

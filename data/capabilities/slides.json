@@ -2,7 +2,7 @@
   "domain": "slides",
   "label": "科研幻灯与汇报",
   "skill": "research-slides",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "summary": "把研究材料变成能讲、能看、能过评审的可编辑 .pptx：组会文献汇报、会议与答辩、母版与视觉统一、论文图重出图、备注台词与配速、脚本化批量出片、网页型演示的取舍、三方一致性对账。本域只交 .pptx 与配套讲稿，不交 .md 大纲与单页海报（转 figures 域），不做数据重新分析（转 stats 域），不改论文正文（转 writing 域）。全域共用一组硬阈值：中文微软雅黑、英文 Arial；页面标题 28pt、正文 16pt、卡片与表格 12pt、图注 11pt、来源注 10pt；关键数据纯红 #FF0000 加粗且全篇 ≤5 处；备注按 200～210 字/分钟配速；嵌图 ≥300 DPI 且禁红绿对比。",
   "capabilities": [
     {
@@ -58,18 +58,20 @@
           ]
         },
         {
-          "skill": "ppt-implement",
+          "skill": "aris-paper-talk",
           "verdict": "补强",
           "best_at": [
-            "素材分五层检索，六维度 material.md 落盘",
-            "章节规划走金字塔原理并做 MECE 校验"
+            "论文到会议报告的端到端流水线",
+            "Beamer 幻灯片与讲稿同步生成",
+            "按 talk 时长压缩内容"
           ],
           "limits": [
-            "页序面向通用题材，不是论文证据链",
-            "页图靠图像生成，学术数据图不能用"
+            "偏 Beamer 与英文会议口径",
+            "中文组会模板需改造"
           ],
           "take": [
-            "五层检索只补背景与前沿两段，不碰结果数据"
+            "先定时长页数再排内容",
+            "讲稿与每页一一对应"
           ]
         }
       ],
@@ -88,7 +90,7 @@
         },
         {
           "step": "补背景用五层检索",
-          "from": "ppt-implement#Phase 1 素材",
+          "from": "aris-paper-talk#Phase 1 素材",
           "do": "按 Foundation／Context／Evidence／Application／Trends 五层各检索 1～2 条权威来源",
           "detail": "五层检索只用来补背景知识与前沿扩展，结果段一律回原文取数，不许用检索来的二手结论；六维度 material.md 里的 Overview 与 Outlook 正好对应三段式的头尾两端。"
         },
@@ -145,7 +147,7 @@
       "kb": [
         "论文汇报PPT制作",
         "nature-paper2ppt",
-        "ppt-implement"
+        "aris-paper-talk"
       ]
     },
     {
@@ -327,19 +329,20 @@
       ],
       "members": [
         {
-          "skill": "workbuddy-pptx",
+          "skill": "pptx",
           "verdict": "主用",
           "best_at": [
-            "academic 场景给七槽位色板与 px 字号阶梯",
-            "design-principle：60px 内边距、24／32px 两档间距"
+            "python-pptx 直接构造可编辑 .pptx",
+            "母版版式占位符与主题色统一设置",
+            "批量替换文字图表图片"
           ],
           "limits": [
-            "upsert-dsl 依赖本地 editor_sdk 服务，离线不可用",
-            "画布按 1280×720px 设计，需换算成英寸"
+            "不产出设计稿，视觉仍靠规则约束",
+            "复杂动画支持有限"
           ],
           "take": [
-            "间距两档制与 85% 填充率进第 5 步",
-            "七槽位色板问法进第 1 步"
+            "先定母版与版式，再批量灌内容",
+            "导出后逐页核对溢出与字号"
           ]
         },
         {
@@ -355,21 +358,6 @@
           ],
           "take": [
             "卡片组件规格进母版组件库"
-          ]
-        },
-        {
-          "skill": "pptx",
-          "verdict": "补强",
-          "best_at": [
-            "三禁清单：标题下横线、居中正文、默认 Office 蓝",
-            "markitdown 抽文本加转图目检的闭环"
-          ],
-          "limits": [
-            "不提供现成母版文件",
-            "pptxgenjs 走 JS 链，与 python 链混用易乱"
-          ],
-          "take": [
-            "三禁与转图目检进第 6 步与质量闸"
           ]
         },
         {
@@ -401,18 +389,35 @@
           "take": [
             "双门审图口径进第 6 步"
           ]
+        },
+        {
+          "skill": "huashu-design",
+          "verdict": "补强",
+          "best_at": [
+            "HTML 高保真原型与幻灯版式",
+            "先出三个方向初稿供选择",
+            "视觉层级与栅格规则明确"
+          ],
+          "limits": [
+            "以 HTML 交付为主，转 pptx 需再加工",
+            "风格选择依赖用户拍板"
+          ],
+          "take": [
+            "先给方向再定稿，避免返工",
+            "把版式规则沉淀成可复用模板"
+          ]
         }
       ],
       "protocol": [
         {
           "step": "对齐母版槽位",
-          "from": "workbuddy-pptx#scenarios/academic 七槽位",
+          "from": "pptx#scenarios/academic 七槽位",
           "do": "一次问齐主色、辅色、强调色、正文色、底色、Logo、字体七个槽位",
           "detail": "拿不到组织规范再走兜底学术宝蓝 #1E4FA8（主色占 15～25%）；七个槽位一次问齐，问到第三次用户就会放弃提供而改用默认值，后面改色成本翻倍。"
         },
         {
           "step": "定画布与栅格",
-          "from": "workbuddy-pptx#design-principle 画布与内边距",
+          "from": "pptx#design-principle 画布与内边距",
           "do": "16:9 取 1280×720px、四边内边距 60px、页脚顶边 y=670",
           "detail": "px 换算英寸：1280px→13.333in、720px→7.5in，60px＝0.625in；内容区 1160×600，页脚 14～16px；封面、目录、章节扉页、封底不加页脚。"
         },
@@ -474,9 +479,8 @@
         "字号色板对照表"
       ],
       "kb": [
-        "workbuddy-pptx",
-        "elegant-ppt-builder",
         "pptx",
+        "elegant-ppt-builder",
         "ppt-design-skill"
       ]
     },
@@ -850,18 +854,20 @@
           ]
         },
         {
-          "skill": "ppt-implement",
+          "skill": "aris-slides-polish",
           "verdict": "补强",
           "best_at": [
-            "html2pptx 把 DOM 转原生形状与文本框",
-            "677 个模板按 cover/toc/content 分类索引"
+            "逐页审稿式打磨学术幻灯",
+            "python-pptx 与 Beamer 定点修复",
+            "溢出、字号、图表清晰度逐项过"
           ],
           "limits": [
-            "需 dev server 与 Chromium 截图，环境重",
-            "页图走图像生成，学术数据图不可用"
+            "需要已有初稿才能打磨",
+            "不做内容层面的重构"
           ],
           "take": [
-            "网页模板分支与导出命令进第 2 步"
+            "逐页给问题与改法，不做笼统评价",
+            "修完复检页数与字号下限"
           ]
         },
         {
@@ -919,8 +925,8 @@
         },
         {
           "step": "选生成引擎",
-          "from": "pptx-generator#JSON 驱动 + ppt-implement#模板分支",
-          "do": "页数 ≤30 且数据稳定走 pptx-generator；要网页模板走 ppt-implement；要渐变视觉走 elegant-ppt-builder",
+          "from": "pptx-generator#JSON 驱动 + aris-paper-talk#模板分支",
+          "do": "页数 ≤30 且数据稳定走 pptx-generator；要网页模板走 aris-paper-talk；要渐变视觉走 elegant-ppt-builder",
           "detail": "选引擎看三个约束：页数规模、是否要母版继承、是否要视觉定制。混用两套引擎会产生两套页脚与页码规则，返工成本比一开始选定更高。"
         },
         {
@@ -957,7 +963,7 @@
         },
         {
           "when": "需要严格视觉定制或网页模板",
-          "use": "ppt-implement 走 HTML 模板再导出原生 pptx",
+          "use": "aris-paper-talk 走 HTML 模板再导出原生 pptx",
           "instead_of": "用 python-pptx 从零手摆坐标",
           "why": "手摆坐标的页在换分辨率或改字号后必然溢出；HTML 模板有版式约束，导出仍可编辑。"
         },
@@ -982,7 +988,7 @@
       ],
       "kb": [
         "pptx-generator",
-        "ppt-implement",
+        "aris-paper-talk",
         "ppt-design-skill",
         "ppt-master"
       ]

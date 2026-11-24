@@ -1,5 +1,11 @@
 # Scanpy Plotting Guide
 
+Reviewed for Scanpy 1.12.4 / AnnData 0.13.4 on 2026-10-01. These snippets are
+illustrative and require the named genes, groups and prior results to exist.
+Use the tested CLI workflow for a runnable starting point. Counts, normalized
+expression and `.raw` have distinct roles; see [upstream-review.md](upstream-review.md).
+
+
 Comprehensive guide for creating publication-quality visualizations with scanpy.
 
 ## General Plotting Principles
@@ -7,8 +13,14 @@ Comprehensive guide for creating publication-quality visualizations with scanpy.
 All scanpy plotting functions follow consistent patterns:
 - Functions in `sc.pl.*` mirror analysis functions in `sc.tl.*`
 - Most accept `color` parameter for gene names or metadata columns
-- Results are saved via `save` parameter
+- Prefer `sc.settings.autosave = True` and `sc.settings.figdir` for saving (the per-plot `save=` parameter is deprecated in scanpy 1.12)
 - Multiple plots can be generated in a single call
+
+```python
+sc.settings.figdir = './figures/'
+sc.settings.autosave = True
+sc.settings.file_format_figs = 'pdf'
+```
 
 ## Essential Quality Control Plots
 
@@ -98,7 +110,7 @@ sc.pl.umap(adata, color='leiden', add_outline=True,
            legend_fontoutline=2, frameon=False,
            save='_clusters.pdf')
 
-# Show cluster proportions
+# Overlay single-cell graph edges (does not measure cluster proportions)
 sc.pl.umap(adata, color='leiden', size=50, edges=True,
            edges_width=0.1, save='_clusters_edges.pdf')
 ```
@@ -106,8 +118,8 @@ sc.pl.umap(adata, color='leiden', size=50, edges=True,
 ### Cluster Comparison
 
 ```python
-# Compare clustering results
-sc.pl.umap(adata, color=['leiden', 'louvain'],
+# Compare clustering resolutions
+sc.pl.umap(adata, color=['leiden_0.3', 'leiden_0.5', 'leiden_0.8'],
            save='_cluster_comparison.pdf')
 
 # Cluster dendrogram
@@ -188,7 +200,7 @@ sc.pl.paga(adata, color='leiden', save='_paga.pdf')
 sc.pl.paga(adata, color=['leiden', 'dpt_pseudotime'],
            save='_paga_pseudotime.pdf')
 
-# PAGA overlaid on UMAP
+# Single-cell neighbor edges on UMAP (not the PAGA graph)
 sc.pl.umap(adata, color='leiden', save='_umap_with_paga.pdf',
            edges=True, edges_color='gray')
 ```
@@ -202,7 +214,7 @@ sc.pl.umap(adata, color='dpt_pseudotime', save='_umap_dpt.pdf')
 # Gene expression along pseudotime
 sc.pl.dpt_timeseries(adata, save='_dpt_timeseries.pdf')
 
-# Heatmap ordered by pseudotime
+# Heatmap grouped by cluster (not ordered by pseudotime)
 sc.pl.heatmap(adata, var_names=genes, groupby='leiden',
               use_raw=False, show_gene_labels=True,
               save='_pseudotime_heatmap.pdf')
@@ -262,7 +274,7 @@ plt.show()
 
 ```python
 # Set publication-quality defaults
-sc.settings.set_figure_params(dpi=300, frameon=False, figsize=(5, 5),
+sc.set_figure_params(dpi=300, frameon=False, figsize=(5, 5),
                                facecolor='white')
 
 # Vector graphics output
@@ -297,14 +309,21 @@ sc.pl.umap(adata, color='leiden', legend_loc=None,
 
 ## Exporting Plots
 
-### Save Individual Plots
+### Save via Settings (recommended)
 
 ```python
-# Automatic saving with save parameter
-sc.pl.umap(adata, color='leiden', save='_leiden.pdf')
-# Saves to: sc.settings.figdir + 'umap_leiden.pdf'
+sc.settings.figdir = './figures/'
+sc.settings.autosave = True
+sc.settings.file_format_figs = 'pdf'
 
-# Manual saving
+sc.pl.umap(adata, color='leiden')  # Saves to figures/umap.pdf
+```
+
+The per-plot `save=` parameter still works but is deprecated in scanpy 1.12.
+
+### Manual Saving
+
+```python
 import matplotlib.pyplot as plt
 fig = sc.pl.umap(adata, color='leiden', show=False, return_fig=True)
 fig.savefig('figures/my_umap.pdf', dpi=300, bbox_inches='tight')
@@ -312,10 +331,15 @@ fig.savefig('figures/my_umap.pdf', dpi=300, bbox_inches='tight')
 
 ### Batch Export
 
+Disable autosave here: repeated calls otherwise overwrite the same filename.
+
 ```python
-# Save multiple versions
-for gene in ['CD3D', 'CD14', 'MS4A1']:
-    sc.pl.umap(adata, color=gene, save=f'_{gene}.pdf')
+sc.settings.autosave = False
+genes = ['CD3D', 'CD14', 'MS4A1']
+for gene in genes:
+    fig = sc.pl.umap(adata, color=gene, show=False, return_fig=True)
+    fig.savefig(f'figures/umap_{gene}.pdf', bbox_inches='tight')
+    plt.close(fig)
 ```
 
 ## Common Customization Parameters
@@ -333,12 +357,12 @@ for gene in ['CD3D', 'CD14', 'MS4A1']:
 - `palette`: Color palette (e.g., 'Set1', 'viridis')
 - `cmap`: Colormap for continuous variables
 - `vmin`, `vmax`: Color scale limits
-- `use_raw`: Use raw counts for gene expression
+- `use_raw`: Read the expression values stored in .raw (not necessarily counts)
 
 ### Saving Parameters
-- `save`: Filename suffix for saving
 - `show`: Whether to display plot
 - `dpi`: Resolution for raster formats
+- Use `sc.settings.autosave` + `sc.settings.figdir` instead of deprecated `save=`
 
 ## Tips for Publication Figures
 

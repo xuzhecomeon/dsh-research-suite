@@ -10,7 +10,7 @@ A DeepSeek Harness (DSH) plugin for the full clinical-research workflow — manu
 
 - Package: `dsh-research-suite` · Version: `3.2.1` · License: MIT · DSH tested: `0.2.1-rc.5`, `0.2.2-rc.1`, `0.2.2-rc.3`
 - Requires Node `^22.19.0 || >=24.0.0`, DSH `>=0.2.0-0 <0.3.0`
-- **Self-contained: all 450 source skill documents plus their bundled `references/scripts/templates` assets ship inside the package; nothing is read from any external skill directory at runtime.**
+- **Self-contained: all 551 source skill documents plus their bundled `references/scripts/templates` assets ship inside the package; nothing is read from any external skill directory at runtime.**
 
 ## Why capability cards instead of a skill router
 
@@ -18,7 +18,7 @@ The hard part of research work is not a lack of skills — it is that three to e
 
 Instead, each **capability card** takes every competing skill in its group, records `best_at` (what it is best at), `limits` (what it explicitly cannot do) and `take` (the concrete rules, thresholds and templates lifted from it), then fuses them into one executable **protocol**. Every protocol step says which skill it comes from and why. The acceptance rule is strict: *after reading one capability card you can finish the job without opening any original skill document.*
 
-The 450 source documents (and the 954 asset files they bring along) remain bundled as a deep-reading layer — for checking details, not for improvising.
+The 551 source documents (and the 2,593 asset files they bring along) remain bundled as a deep-reading layer — for checking details, not for improvising.
 
 ## How auto-takeover works
 
@@ -26,7 +26,7 @@ No UI, no buttons. Three pieces:
 
 1. **A system-prompt section** — `lib/prompt.js` builds a policy named `research-suite/policy` at `order: 650` ("after team policy, before tool docs"); `lib/index.js` registers it through `systemPrompt.section({ name, order, text: () => buildPolicy(core) })`. The policy tells the model: recognise a research task → call `research_playbook` first → follow the capability protocol → deep-read if needed → run `research_gate` before delivering.
 2. **11 skills** (`skills/`): one entry skill plus ten domain SOPs (writing / polish / figures / stats / ideation / review / slides / literature / format / data). Their `content` is inlined **at registration time** — passing a lazy `load()` hook fails DSH's runtime validation and silently drops every skill (the exact failure mode of v1).
-3. **15 tools (7 query + 8 execution/verification/generation/memory)** for capability lookup, searching the 450-document catalog, deep reading (including skill-bundled assets), standards, and mechanical self-checks.
+3. **15 tools (7 query + 8 execution/verification/generation/memory)** for capability lookup, searching the 551-document catalog, deep reading (including skill-bundled assets), standards, and mechanical self-checks.
 
 When `research_playbook` finds no match, the policy falls back to `research_catalog` + `research_kb_read` rather than refusing the task.
 
@@ -35,20 +35,20 @@ When `research_playbook` finds no match, the policy falls back to `research_cata
 | Domain | Source skills | Covers |
 |---|---:|---|
 | `writing` | 64 | paper types and sections (original / review / case report / grant) |
-| `polish` | 12 | register, de-AI-flavour, reduction, proofreading, Word reports |
-| `figures` | 33 | data plots, statistical charts, mechanism diagrams, layout |
-| `stats` | 30 | descriptive, comparison, regression, survival, prediction, PSM, MR, Meta, missing data, sample size |
-| `ideation` | 37 | topic selection, novelty search, hypotheses, grants, ethics |
-| `review` | 20 | self-review, reviewer comments, revision, rebuttal, response letters |
-| `slides` | 37 | conference, lecture, defence, lab meeting, poster |
-| `literature` | 26 | search strings, screening, close reading, evidence tables, recall/precision |
-| `format` | 51 | journal formatting, references, figure/table specs, submission package |
-| `data` | 40 | databases and omics data: GEO / TCGA / dbGaP / genotype and variant databases, omics retrieval and curation |
-| **Total** | **450** | **103** capability cards across the ten domains |
+| `polish` | 16 | register, de-AI-flavour, reduction, proofreading, Word reports |
+| `figures` | 37 | data plots, statistical charts, mechanism diagrams, layout |
+| `stats` | 34 | descriptive, comparison, regression, survival, prediction, PSM, MR, Meta, missing data, sample size |
+| `ideation` | 44 | topic selection, novelty search, hypotheses, grants, ethics |
+| `review` | 24 | self-review, reviewer comments, revision, rebuttal, response letters |
+| `slides` | 34 | conference, lecture, defence, lab meeting, poster |
+| `literature` | 34 | search strings, screening, close reading, evidence tables, recall/precision |
+| `format` | 42 | journal formatting, references, figure/table specs, submission package |
+| `data` | 50 | databases and omics data: GEO / TCGA / dbGaP / genotype and variant databases, omics retrieval and curation |
+| **Total** | **551** | **104** capability cards across the ten domains |
 
-`toolbox` is an additional index-only bucket of 100 utility skills: it feeds `research_catalog` and `research_kb_read`, and deliberately has **no capability cards** — a tool is a means, not a task a user asks for.
+`toolbox` is an additional index-only bucket of 172 utility skills: it feeds `research_catalog` and `research_kb_read`, and deliberately has **no capability cards** — a tool is a means, not a task a user asks for.
 
-Every one of the 450 source skills has a recorded verdict in `data/ledger/<domain>.json` (`fused` — and which cards it feeds / `index-only` / `deprecated` / `out-of-scope`), so the "all studied, best only" claim is auditable: `node scripts/verify-ledger.mjs all` re-checks coverage and that every `fused` skill is actually a member of the card it claims. Beyond the text, **skill-bundled assets ship too**: 186 skills contribute 954 files (~6.8 MB) of `references/`, `scripts/` and `templates/` under `knowledge/skills/<domain>/<slug>__assets/`; `research_kb_read(name, asset='scripts/plot.py')` reads them (omitting `asset` lists what the skill ships with). Nine reference standards live in `references/`.
+Every one of the 551 source skills has a recorded verdict in `data/ledger/<domain>.json` (`fused` — and which cards it feeds / `index-only` / `deprecated` / `out-of-scope`), so the "all studied, best only" claim is auditable: `node scripts/verify-ledger.mjs all` re-checks coverage and that every `fused` skill is actually a member of the card it claims. Beyond the text, **skill-bundled assets ship too**: 314 skills contribute 2,593 files (~22.0 MB) of `references/`, `scripts/` and `templates/` under `knowledge/skills/<domain>/<slug>__assets/`; `research_kb_read(name, asset='scripts/plot.py')` reads them (omitting `asset` lists what the skill ships with). Nine reference standards live in `references/`.
 
 ## Tools
 
@@ -56,11 +56,11 @@ Every one of the 450 source skills has a recorded verdict in `data/ledger/<domai
 |---|---|
 | `research_playbook` | **The only entry point.** Pass the user's own words; returns the 1–3 best-matching capability cards with protocol, gates, deliverables and suggested deep reads |
 | `research_capability` | Expand a full capability card (member comparison, protocol, decisions, gates, outputs, kb) by `id` or by `domain` |
-| `research_catalog` | Search the 450-document catalog by name/description keywords (the 100 `toolbox` skills included), optionally filtered by domain; each hit reports how many bundled assets it carries |
+| `research_catalog` | Search the 551-document catalog by name/description keywords (the 172 `toolbox` skills included), optionally filtered by domain; each hit reports how many bundled assets it carries |
 | `research_kb_read` | Read one skill document or `INDEX.md`/`FUSION.md`; the `asset` parameter reads a skill-bundled file such as `scripts/plot.py` or `references/*.md` (omitting it lists the skill's assets); paging and path-escape rejection included |
 | `research_standard` | List or read the nine reference standards in `references/` |
 | `research_gate` | Gate and mechanical self-check: `section` = `all` / `data` / `selfcheck` / `mutex` / `forbidden` / `hard` / `handoffs`; `text` checks fullwidth punctuation, superscript citation numbers, AI-cliché phrases and absolute wording |
-| `research_suite_status` | Load self-check: version, per-domain capability counts, 450-entry catalog completeness, asset statistics, references, package root |
+| `research_suite_status` | Load self-check: version, per-domain capability counts, 551-entry catalog completeness, asset statistics, references, package root |
 | `research_run` | **actually executes** an R or Python script and returns stdout/stderr plus produced files; **off by default** — first calls return a preview only (see Security below) | `kind` (r/python) + `code`, optional `workdir` / `confirm` / `previewHash` / `timeoutMs` |
 | `research_data_check` | **mechanical half of the six data gates**: rows/cols, missing rate, constant columns, duplicate IDs, impossible values, EPV<10 | `file`, optional `outcome` / `predictors` |
 | `research_output_check` | **deliverable audit**: real PNG DPI, PDF pages and text layer, DOCX/XLSX structure, CSV rows, MD word count | `files` |
@@ -125,11 +125,11 @@ Because there is no exported `Config`, **the DSH settings panel shows no entries
 npm test                          # scripts/selftest.mjs — fake-ctx load smoke test
 npm run verify                    # scripts/verify-package.mjs — static release checks
 npm run verify:caps               # scripts/verify-capabilities.mjs all
-node scripts/verify-ledger.mjs all # ledger coverage (11 domains, 450 skills) + fused check
+node scripts/verify-ledger.mjs all # ledger coverage (11 domains, 551 skills) + fused check
 npm run pack:check                # npm pack --dry-run (~38 MB unpacked in v3; knowledge/ included by design)
 ```
 
-Measured on the current v3 tree (final numbers follow once every domain lands): **1,481 files / 38.62 MB** on disk (`scripts/verify-package.mjs` count, includes `.github/`); the bulk is `knowledge/` — 450 source documents plus 954 bundled asset files.
+Measured on the current v3 tree (final numbers follow once every domain lands): **3,232 files / 33.46 MB** on disk (`scripts/verify-package.mjs` count, includes `.github/`); the bulk is `knowledge/` — 551 source documents plus 2,593 bundled asset files.
 
 ## Security and execution boundary
 
@@ -140,7 +140,7 @@ The flow is two-stage: **preview → explicit confirmation with a matching `prev
 - `data/exec-policy.json` ships with `run.enabled: false`. In that state `research_run` returns a preview only (first 60 lines, sha256 `previewHash`, policy summary, predicted violations) and **never writes a file or spawns a process**.
 - Once enabled, scripts run **with your user privileges** inside `<cwd>/.dsh-research/run/<runId>/`. The static scanner enforces package allowlists (separate lists for R and Python), rejects the common network and subprocess APIs, confines writes to relative paths inside that directory, rejects PHI path keywords, and permanently blocks installers. **This is a guardrail, not a sandbox** — real isolation requires a container, a restricted account, or a VM.
 - `research_doi_check` does make network requests: it sends each DOI to `https://api.crossref.org` and nothing else (no manuscript or local file content). No other tool performs network requests.
-- The plugin is self-contained: 450 source skill documents and 954 bundled assets ship inside the package; at runtime it reads no external skill directory.
+- The plugin is self-contained: 551 source skill documents and 2,593 bundled assets ship inside the package; at runtime it reads no external skill directory.
 - The entry module never imports `@deepseek-ai/*`: those packages do not resolve from the profile's `node_modules`, and a single import would make the whole plugin fail to load (symptom: "installed, but zero skills"). `scripts/verify-package.mjs` enforces this.
 
 | Tool | Reads files | Writes files | Network | Subprocess | Blast radius |
@@ -180,4 +180,4 @@ An external expert review pointed out that this plugin used to describe its abil
 
 MIT — see [LICENSE](LICENSE).
 
-**Scope note**: MIT covers the plugin itself (`lib/`, `data/`, `skills/`, `references/`, `scripts/`, `docs/` and the index files). The 450 skill texts and 954 bundled assets under `knowledge/skills/` are third-party material vendored verbatim from the author's local skill collection; their licenses belong to their original authors and are **not** covered by MIT. Read [docs/ATTRIBUTION.md](docs/ATTRIBUTION.md) before redistributing.
+**Scope note**: MIT covers the plugin itself (`lib/`, `data/`, `skills/`, `references/`, `scripts/`, `docs/` and the index files). The 551 skill texts and 2,593 bundled assets under `knowledge/skills/` are third-party material vendored verbatim from the author's local skill collection; their licenses belong to their original authors and are **not** covered by MIT. Read [docs/ATTRIBUTION.md](docs/ATTRIBUTION.md) before redistributing.

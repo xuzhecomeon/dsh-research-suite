@@ -1,6 +1,8 @@
 # Polars Operations Reference
 
-This reference covers all common Polars operations with comprehensive examples.
+Polars 1.44.2 operation patterns. Fragments assume `import polars as pl` and a
+DataFrame with the named columns; they are illustrative unless instantiated in the
+local recipe tests described in [review.md](review.md).
 
 ## Selection Operations
 
@@ -17,11 +19,13 @@ df.select(pl.col("name"), pl.col("age"))
 
 **Pattern-based selection:**
 ```python
+import polars.selectors as cs
+
 # All columns starting with "sales_"
 df.select(pl.col("^sales_.*$"))
 
 # All numeric columns
-df.select(pl.col(pl.NUMERIC_DTYPES))
+df.select(cs.numeric())
 
 # All columns except specific ones
 df.select(pl.all().exclude("id", "timestamp"))
@@ -53,11 +57,11 @@ df.with_columns(
     pl.col("salary").cast(pl.Float64).alias("salary")
 )
 
-# Multiple operations in parallel
+# Multiple operations in parallel need distinct output names.
 df.with_columns(
-    pl.col("value") * 10,
-    pl.col("value") * 100,
-    pl.col("value") * 1000,
+    (pl.col("value") * 10).alias("value_times_10"),
+    (pl.col("value") * 100).alias("value_times_100"),
+    (pl.col("value") * 1000).alias("value_times_1000"),
 )
 ```
 
@@ -193,6 +197,11 @@ df.group_by("category").agg(
 )
 ```
 
+`count()` excludes nulls, whereas `pl.len()` includes them and `n_unique()` counts
+null as one distinct value. NaN is a float value, not a null. `std`/`var` default to
+`ddof=1`; `quantile` defaults to nearest interpolation. Declare those conventions.
+`first`/`last` follow row order, not chronological extrema: sort first or use min/max.
+
 ### Conditional Aggregations
 
 Filter within aggregations:
@@ -259,7 +268,7 @@ df.with_columns(
     dense_rank=pl.col("score").rank(method="dense").over("team"),
 
     # Row number
-    row_num=pl.col("timestamp").sort().rank(method="ordinal").over("user_id")
+    row_num=pl.col("timestamp").rank(method="ordinal").over("user_id")
 )
 ```
 
@@ -274,12 +283,13 @@ df.with_columns(
 ```
 
 **explode:**
-Faster, groups rows together:
+Produces one scalar mean per group here; use `select` because row count changes:
 ```python
-df.with_columns(
+df.select(
     group_mean=pl.col("value").mean().over("category", mapping_strategy="explode")
 )
 ```
+Do not combine this layout with untouched row columns; alignment would be lost.
 
 **join:**
 Creates list columns:
@@ -294,9 +304,8 @@ df.with_columns(
 **Time-based rolling:**
 ```python
 df.with_columns(
-    rolling_avg=pl.col("value").rolling_mean(
-        window_size="7d",
-        by="date"
+    rolling_avg=pl.col("value").rolling_mean_by(
+        "date", window_size="7d", min_samples=1, closed="right"
     )
 )
 ```
@@ -309,6 +318,11 @@ df.with_columns(
 )
 ```
 
+For multiple subjects, sort by subject and time and apply the rolling expression
+with `.over("subject")`; never mix observations across subjects. A calendar `"7d"`
+window differs from seven observations and can differ from 168 hours across DST.
+Row-based rolling defaults to a full window; use `min_samples` explicitly if needed.
+
 ### Cumulative Operations
 
 ```python
@@ -319,6 +333,9 @@ df.with_columns(
     cumprod=pl.col("value").cum_prod().over("group")
 )
 ```
+
+Cumulative and shift expressions use row order within each group. Sort first, or
+specify `order_by="timestamp"` in `over` when a time order is required.
 
 ### Shift and Lag/Lead
 
@@ -367,7 +384,7 @@ df.sort("value", nulls_last=True)
 **Sort by expression:**
 ```python
 # Sort by computed value
-df.sort(pl.col("first_name").str.len())
+df.sort(pl.col("first_name").str.len_chars())
 
 # Sort by multiple expressions
 df.sort(
@@ -380,23 +397,30 @@ df.sort(
 
 ### When/Then/Otherwise
 
+Polars 1.44 masks unused input rows for elementwise branches and may skip uniform
+branches. Older API docstrings still say every branch always executes; do not rely
+on that older claim. This is not a Python short-circuit guarantee for arbitrary
+expressions: missing columns and out-of-bounds gathers can still fail. Use `pl.lit`
+for string values; bare strings refer to columns. See the 1.44 release notes in
+[review.md](review.md).
+
 ```python
 # Basic conditional
 df.with_columns(
     status=pl.when(pl.col("age") >= 18)
-        .then("adult")
-        .otherwise("minor")
+        .then(pl.lit("adult"))
+        .otherwise(pl.lit("minor"))
 )
 
 # Multiple conditions
 df.with_columns(
     category=pl.when(pl.col("score") >= 90)
-        .then("A")
+        .then(pl.lit("A"))
         .when(pl.col("score") >= 80)
-        .then("B")
+        .then(pl.lit("B"))
         .when(pl.col("score") >= 70)
-        .then("C")
-        .otherwise("F")
+        .then(pl.lit("C"))
+        .otherwise(pl.lit("F"))
 )
 
 # Conditional computation
@@ -440,7 +464,7 @@ df.with_columns(
 
 ```python
 # Contains
-df.filter(pl.col("email").str.contains("@gmail.com"))
+df.filter(pl.col("email").str.contains("@gmail.com", literal=True))
 
 # Starts/ends with
 df.filter(pl.col("name").str.starts_with("A"))
@@ -481,7 +505,7 @@ df.with_columns(
 # Add duration
 df.with_columns(
     next_week=pl.col("date") + pl.duration(weeks=1),
-    next_month=pl.col("date") + pl.duration(months=1)
+    next_month=pl.col("date").dt.offset_by("1mo")
 )
 
 # Difference between dates
@@ -489,6 +513,9 @@ df.with_columns(
     days_diff=(pl.col("end_date") - pl.col("start_date")).dt.total_days()
 )
 ```
+
+`pl.duration` represents fixed elapsed durations and has no `months` parameter.
+Use `dt.offset_by` for calendar offsets; preserve time zones and DST conventions.
 
 ### Date Filtering
 
@@ -512,7 +539,7 @@ df.filter(pl.col("date").dt.month().is_in([6, 7, 8]))  # Summer months
 ```python
 # Create list column
 df.with_columns(
-    items_list=pl.col("item1", "item2", "item3").to_list()
+    items_list=pl.concat_list("item1", "item2", "item3")
 )
 
 # List operations
@@ -525,12 +552,10 @@ df.with_columns(
 )
 
 # Explode lists to rows
-df.explode("items")
+df.explode("items", empty_as_null=True)
 
-# Filter list elements
-df.with_columns(
-    filtered=pl.col("items").list.eval(pl.element() > 10)
-)
+# For element-wise list filtering, use Polars' native list-expression
+# methods with pl.element(); avoid Python callbacks in hot paths.
 ```
 
 ## Struct Operations

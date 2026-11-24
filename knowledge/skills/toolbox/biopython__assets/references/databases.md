@@ -2,7 +2,7 @@
 
 ## Overview
 
-Bio.Entrez provides programmatic access to NCBI's Entrez databases, including PubMed, GenBank, Gene, Protein, Nucleotide, and many others. It handles all the complexity of API calls, rate limiting, and data parsing.
+Bio.Entrez provides programmatic access to NCBI's Entrez databases, including PubMed, GenBank, Gene, Protein, Nucleotide, and many others. It provides request construction, process-local pacing, retries, and XML parsing. Applications must still coordinate shared IP/API-key limits across workers and validate database-specific results.
 
 ## Setup and Configuration
 
@@ -15,24 +15,31 @@ from Bio import Entrez
 
 # Always set your email
 Entrez.email = "your.email@example.com"
+
+# For reusable software, set a stable tool name and register
+# the tool/email pair with NCBI.
+Entrez.tool = "your_tool_name"
 ```
 
 ### API Key (Recommended)
 
-Using an API key increases rate limits from 3 to 10 requests per second:
+Using an API key increases E-utilities rate limits from 3 to 10 requests per second. Register at https://www.ncbi.nlm.nih.gov/account/settings/ and read only `NCBI_API_KEY` from the environment — do not hardcode it and do not load unrelated environment variables:
 
 ```python
-# Get API key from: https://www.ncbi.nlm.nih.gov/account/settings/
-Entrez.api_key = "your_api_key_here"
+import os
+
+# Check NCBI_API_KEY from the environment (or export it before running)
+if api_key := os.environ.get("NCBI_API_KEY"):
+    Entrez.api_key = api_key
 ```
 
 ### Rate Limiting
 
-Biopython automatically respects NCBI rate limits:
+For serial calls in one process, Biopython paces requests at the standard limits:
 - **Without API key**: 3 requests per second
 - **With API key**: 10 requests per second
 
-The module handles this automatically, so you don't need to add delays between requests.
+The module handles ordinary request pacing automatically and retries transient HTTP 5XX failures. For large jobs, use Entrez history (`usehistory="y"` / `WebEnv` / `query_key`) and batch requests rather than making one request per record. NCBI also recommends scheduling large jobs for weekends or between 9:00 PM and 5:00 AM Eastern time.
 
 ## Core Entrez Functions
 
@@ -44,11 +51,13 @@ Get information about available databases and their statistics:
 # List all databases
 handle = Entrez.einfo()
 result = Entrez.read(handle)
+handle.close()
 print(result["DbList"])
 
 # Get information about a specific database
 handle = Entrez.einfo(db="pubmed")
 result = Entrez.read(handle)
+handle.close()
 print(result["DbInfo"]["Description"])
 print(result["DbInfo"]["Count"])  # Number of records
 ```
@@ -126,7 +135,7 @@ Different databases support different return types:
 
 **Nucleotide/Protein:**
 - `rettype="fasta"` - FASTA format
-- `rettype="gb"` or `"genbank"` - GenBank format
+- `rettype="gb"` - GenBank text for nucleotide records (parse with `SeqIO`, `"genbank"`)
 - `rettype="gp"` - GenPept format (proteins)
 
 **PubMed:**
@@ -143,13 +152,17 @@ Find links between records in different databases:
 
 ```python
 # Find protein records linked to a nucleotide record
-handle = Entrez.elink(dbfrom="nucleotide", db="protein", id="EU490707")
+with Entrez.esearch(db="nuccore", term="EU490707[Accession]", retmax=1) as handle:
+    source_ids = Entrez.read(handle)["IdList"]
+if not source_ids:
+    raise ValueError("Sequence accession was not found")
+handle = Entrez.elink(dbfrom="nuccore", db="protein", id=source_ids)
 result = Entrez.read(handle)
 handle.close()
 
 # Extract linked IDs
 for linkset in result[0]["LinkSetDb"]:
-    if linkset["LinkName"] == "nucleotide_protein":
+    if linkset["LinkName"] == "nuccore_protein":
         protein_ids = [link["Id"] for link in linkset["Link"]]
         print(f"Linked protein IDs: {protein_ids}")
 ```
@@ -179,17 +192,16 @@ handle = Entrez.efetch(
 )
 ```
 
-### EGQuery - Global Query
+### Counts Across Selected Databases
 
-Search across all Entrez databases at once:
+`Entrez.egquery` was removed in Biopython 1.87 because its NCBI service stopped
+working. Use explicit, serial ESearch calls for the databases actually needed:
 
 ```python
-handle = Entrez.egquery(term="biopython")
-result = Entrez.read(handle)
-handle.close()
-
-for row in result["eGQueryResult"]:
-    print(f"{row['DbName']}: {row['Count']} results")
+for db in ("pubmed", "nucleotide", "protein"):
+    with Entrez.esearch(db=db, term="biopython", retmax=0) as handle:
+        result = Entrez.read(handle)
+    print(db, int(result["Count"]))
 ```
 
 ### ESpell - Spelling Suggestions
@@ -306,6 +318,10 @@ for record in records:
 
 ### Reading XML Results
 
+Use `Entrez.read` for supported NCBI XML, not JSON or text. Saved XML must be
+opened with `"rb"`; text formats use their own parser. Check for empty ID lists
+before EFetch or indexing `[0]`, and record `QueryTranslation` and retrieval date.
+
 ```python
 # Most results can be parsed with Entrez.read()
 handle = Entrez.efetch(db="pubmed", id="19304878", retmode="xml")
@@ -319,6 +335,10 @@ print(article['ArticleTitle'])
 
 ### Handling Large Result Sets
 
+PubMed ESearch can retrieve only the first 10,000 matches; `retstart` and history
+do not bypass that cap. Partition by dates or other reproducible filters, verify
+each partition count, and deduplicate PMIDs, or use NCBI EDirect/bulk data.
+
 ```python
 # Batch processing for large searches
 search_term = "cancer[Title]"
@@ -327,6 +347,8 @@ result = Entrez.read(handle)
 handle.close()
 
 total_count = int(result["Count"])
+if total_count > 10_000:
+    raise ValueError("Partition this PubMed query into verified <=10,000-result queries")
 batch_size = 500
 
 for start in range(0, total_count, batch_size):
@@ -362,6 +384,8 @@ handle.close()
 webenv = result["WebEnv"]
 query_key = result["QueryKey"]
 count = int(result["Count"])
+if count > 10_000:
+    raise ValueError("Partition the PubMed query before fetching from history")
 
 # Fetch results in batches using history
 batch_size = 100
@@ -372,7 +396,7 @@ for start in range(0, count, batch_size):
         retmax=batch_size,
         rettype="medline",
         retmode="text",
-        webenv=webenv,
+        WebEnv=webenv,
         query_key=query_key
     )
     data = handle.read()
@@ -393,15 +417,16 @@ handle.close()
 ## Best Practices
 
 1. **Always set Entrez.email** - Required by NCBI
-2. **Use API key** for higher rate limits (10 req/s vs 3 req/s)
-3. **Close handles** after reading to free resources
-4. **Batch large requests** - Use retstart and retmax for pagination
-5. **Use WebEnv for large downloads** - Store results on server
-6. **Cache locally** - Download once and save to avoid repeated requests
-7. **Handle errors gracefully** - Network issues and API limits can occur
-8. **Respect NCBI guidelines** - Don't overwhelm the service
-9. **Use appropriate rettype** - Choose format that matches your needs
-10. **Parse XML carefully** - Structure varies by database and record type
+2. **Set Entrez.tool** for reusable software and register the tool/email pair with NCBI
+3. **Use `NCBI_API_KEY` from the environment** for higher rate limits (10 req/s vs 3 req/s); never hardcode keys
+4. **Close handles** after reading to free resources
+5. **Batch large requests** - Use retstart and retmax within the database cap
+6. **Use WebEnv for bounded downloads** - Store results on server; do not log temporary history tokens or API-key-bearing handle URLs
+7. **Cache locally** - Download once and save to avoid repeated requests
+8. **Handle errors gracefully** - Network issues and API limits can occur
+9. **Respect NCBI guidelines** - Don't overwhelm the service
+10. **Use appropriate rettype** - Choose format that matches your needs
+11. **Parse XML carefully** - Structure varies by database and record type
 
 ## Error Handling
 
@@ -472,7 +497,11 @@ record = SeqIO.read(handle, "genbank")
 handle.close()
 
 # Find similar sequences
-handle = Entrez.elink(dbfrom="nucleotide", db="nucleotide", id="EU490707")
+with Entrez.esearch(db="nuccore", term="EU490707[Accession]", retmax=1) as handle:
+    source_ids = Entrez.read(handle)["IdList"]
+if not source_ids:
+    raise ValueError("Sequence accession was not found")
+handle = Entrez.elink(dbfrom="nuccore", db="nuccore", id=source_ids)
 result = Entrez.read(handle)
 handle.close()
 

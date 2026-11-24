@@ -1,608 +1,1210 @@
 {
   "domain": "toolbox",
-  "version": "3.0.0",
-  "sourceTotal": 233,
-  "note": "toolbox 是索引桶：收 233 个与科研写作无直接关系但可能被借用的技能（科学计算库、ML 工程、airs 工具族、通用办公等），不建能力卡，只进账本以便 research_catalog 检索。",
+  "version": "3.3.0",
   "entries": [
+    {
+      "dir": "13c-metabolic-flux",
+      "name": "13c-metabolic-flux",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aeon",
+      "name": "aeon",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
     {
       "dir": "airs-academic-plotting",
       "name": "airs-academic-plotting",
       "verdict": "index-only",
-      "why": "airs 工具族成员，科研绘图·可视化类，仅索引备用"
+      "why": "airs 工具族成员，科研绘图·可视化类，仅索引备用",
+      "cards": []
     },
     {
       "dir": "airs-ara-compiler",
       "name": "airs-ara-compiler",
       "verdict": "index-only",
-      "why": "airs 工具族成员，实验记录·实验平台类，仅索引备用"
+      "why": "airs 工具族成员，实验记录·实验平台类，仅索引备用",
+      "cards": []
     },
     {
       "dir": "airs-ara-research-manager",
       "name": "airs-ara-research-manager",
       "verdict": "index-only",
-      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用"
+      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用",
+      "cards": []
     },
     {
       "dir": "airs-ara-rigor-reviewer",
       "name": "airs-ara-rigor-reviewer",
       "verdict": "index-only",
-      "why": "airs 工具族成员，审稿·投稿·回复审稿人类，仅索引备用"
+      "why": "airs 工具族成员，审稿·投稿·回复审稿人类，仅索引备用",
+      "cards": []
+    },
+    {
+      "dir": "airs-autoresearch",
+      "name": "airs-autoresearch",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "airs-brainstorming-research-ideas",
       "name": "airs-brainstorming-research-ideas",
       "verdict": "index-only",
-      "why": "airs 工具族成员，基金标书·选题·科研思路类，仅索引备用"
+      "why": "被 ideation 域能力卡引用（见该域账本），本域不重复列卡",
+      "cards": []
     },
     {
       "dir": "airs-creative-thinking-for-research",
       "name": "airs-creative-thinking-for-research",
       "verdict": "index-only",
-      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用"
+      "why": "airs 工具族成员，AI研究方法·科学计算（宽口径）类，仅索引备用",
+      "cards": []
+    },
+    {
+      "dir": "airs-experiment-tracking-swanlab",
+      "name": "airs-experiment-tracking-swanlab",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "airs-ml-paper-writing",
       "name": "airs-ml-paper-writing",
       "verdict": "index-only",
-      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用"
+      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用",
+      "cards": []
+    },
+    {
+      "dir": "airs-ml-training-recipes",
+      "name": "airs-ml-training-recipes",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "airs-mlflow",
+      "name": "airs-mlflow",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "airs-presenting-conference-talks",
       "name": "airs-presenting-conference-talks",
       "verdict": "index-only",
-      "why": "airs 工具族成员，PPT·海报·学术汇报类，仅索引备用"
+      "why": "airs 工具族成员，PPT·海报·学术汇报类，仅索引备用",
+      "cards": []
     },
     {
-      "dir": "airs-segment-anything-model",
-      "name": "airs-segment-anything-model",
+      "dir": "airs-pytorch-lightning",
+      "name": "airs-pytorch-lightning",
       "verdict": "index-only",
-      "why": "airs 工具族成员，生物信息·组学·医药数据库类，仅索引备用"
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "airs-systems-paper-writing",
       "name": "airs-systems-paper-writing",
       "verdict": "index-only",
-      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用"
+      "why": "airs 工具族成员，论文撰写·润色·去AI味类，仅索引备用",
+      "cards": []
+    },
+    {
+      "dir": "airs-tensorboard",
+      "name": "airs-tensorboard",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "airs-weights-and-biases",
+      "name": "airs-weights-and-biases",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "analytical-method-validation",
+      "name": "analytical-method-validation",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "anndata",
       "name": "anndata",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "arbor",
+      "name": "arbor",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "arboreto",
       "name": "arboreto",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "arf-audit-analysis",
       "name": "arf-audit-analysis",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "aris-dse-loop",
+      "name": "aris-dse-loop",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-experiment-bridge",
+      "name": "aris-experiment-bridge",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-experiment-queue",
+      "name": "aris-experiment-queue",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-feishu-notify",
+      "name": "aris-feishu-notify",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-interview-cheatsheet",
+      "name": "aris-interview-cheatsheet",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-lean-formalize",
+      "name": "aris-lean-formalize",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-meta-optimize",
+      "name": "aris-meta-optimize",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-monitor-experiment",
+      "name": "aris-monitor-experiment",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "aris-proof-checker",
       "name": "aris-proof-checker",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "aris-qzcli",
+      "name": "aris-qzcli",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-research-implement-feature",
+      "name": "aris-research-implement-feature",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "aris-research-pipeline",
       "name": "aris-research-pipeline",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "aris-research-wiki",
+      "name": "aris-research-wiki",
+      "verdict": "index-only",
+      "why": "被 literature 域能力卡引用（见该域账本），本域不重复列卡",
+      "cards": []
+    },
+    {
+      "dir": "aris-run-experiment",
+      "name": "aris-run-experiment",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-serverless-modal",
+      "name": "aris-serverless-modal",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-system-profile",
+      "name": "aris-system-profile",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-training-check",
+      "name": "aris-training-check",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-vast-gpu",
+      "name": "aris-vast-gpu",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-web-debug-search",
+      "name": "aris-web-debug-search",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "aris-wiki-enrich",
+      "name": "aris-wiki-enrich",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "astropy",
+      "name": "astropy",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "bids",
+      "name": "bids",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "biopython",
       "name": "biopython",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "bioservices",
       "name": "bioservices",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "bulk-rnaseq",
+      "name": "bulk-rnaseq",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "cantera",
+      "name": "cantera",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "cellprofiler",
+      "name": "cellprofiler",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "cellxgene-census",
       "name": "cellxgene-census",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "cirq",
+      "name": "cirq",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "clinical-decision-copilot",
       "name": "clinical-decision-copilot",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "consciousness-council",
       "name": "consciousness-council",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "dask",
       "name": "dask",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "datalad",
+      "name": "datalad",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "datamol",
       "name": "datamol",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "deepchem",
       "name": "deepchem",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "deepspot-m",
+      "name": "deepspot-m",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "deeptools",
       "name": "deeptools",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "denario",
       "name": "denario",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "diffdock",
       "name": "diffdock",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "duckdb-attach-db",
       "name": "duckdb-attach-db",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "duckdb-convert-file",
       "name": "duckdb-convert-file",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "duckdb-duckdb-docs",
       "name": "duckdb-docs",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "duckdb-install-duckdb",
       "name": "duckdb-install-duckdb",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "duckdb-query",
       "name": "duckdb-query",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "duckdb-read-file",
       "name": "duckdb-read-file",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "duckdb-read-memories",
+      "name": "duckdb-read-memories",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "duckdb-s3-explore",
       "name": "duckdb-s3-explore",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "duckdb-spatial",
       "name": "duckdb-spatial",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "environment-setup",
       "name": "environment-setup",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（科研绘图·可视化），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（科研绘图·可视化），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "esm",
       "name": "esm",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "etetoolkit",
       "name": "etetoolkit",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "experiment-results-planning",
       "name": "experiment-results-planning",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "被 ideation 域能力卡引用（见该域账本），本域不重复列卡",
+      "cards": []
     },
     {
       "dir": "flowio",
       "name": "flowio",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "flowkit",
+      "name": "flowkit",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "fluidsim",
+      "name": "fluidsim",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "geniml",
       "name": "geniml",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
-      "dir": "get-available-resources",
-      "name": "get-available-resources",
+      "dir": "geomaster",
+      "name": "geomaster",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "geopandas",
+      "name": "geopandas",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "gget",
       "name": "gget",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "gtars",
       "name": "gtars",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "histolab",
       "name": "histolab",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "被 figures 域能力卡引用（见该域账本），本域不重复列卡",
+      "cards": []
+    },
+    {
+      "dir": "hugging-science",
+      "name": "hugging-science",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "huggingface-trackio",
+      "name": "huggingface-trackio",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "investigate-first",
+      "name": "investigate-first",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "iso-13485-certification",
       "name": "iso-13485-certification",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "lab-hardware-cad",
+      "name": "lab-hardware-cad",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "lamindb",
       "name": "lamindb",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "mageck",
+      "name": "mageck",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "marine-carbonate-chemistry",
+      "name": "marine-carbonate-chemistry",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "matchms",
       "name": "matchms",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "matlab",
+      "name": "matlab",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "medchem",
       "name": "medchem",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "molecular-dynamics",
       "name": "molecular-dynamics",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "molfeat",
       "name": "molfeat",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "monarch-database",
       "name": "monarch-database",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "networkx",
       "name": "networkx",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "neurokit2",
       "name": "neurokit2",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "neuropixels-analysis",
       "name": "neuropixels-analysis",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "nextflow",
+      "name": "nextflow",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "nmrglue",
+      "name": "nmrglue",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "nwb-conversion",
+      "name": "nwb-conversion",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "omero-integration",
       "name": "omero-integration",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "open-notebook",
+      "name": "open-notebook",
+      "verdict": "index-only",
+      "why": "被 literature 域能力卡引用（见该域账本），本域不重复列卡",
+      "cards": []
+    },
+    {
+      "dir": "openpiv",
+      "name": "openpiv",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "optimize-for-gpu",
+      "name": "optimize-for-gpu",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "pacsomatic",
+      "name": "pacsomatic",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "parallel-web",
       "name": "parallel-web",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "pathway-enrichment",
+      "name": "pathway-enrichment",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "pennylane",
+      "name": "pennylane",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "perplexity-search",
       "name": "perplexity-search",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "phylogenetics",
       "name": "phylogenetics",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "polars",
       "name": "polars",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "polars-bio",
+      "name": "polars-bio",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "primer-design",
+      "name": "primer-design",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "protocolsio-integration",
       "name": "protocolsio-integration",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "pybamm",
+      "name": "pybamm",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "pycalphad",
+      "name": "pycalphad",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "pydeseq2",
       "name": "pydeseq2",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "pydicom",
       "name": "pydicom",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+      "why": "被 figures 域能力卡引用（见该域账本），本域不重复列卡",
+      "cards": []
     },
     {
       "dir": "pyhealth",
       "name": "pyhealth",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "pymatgen",
+      "name": "pymatgen",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "pymoo",
       "name": "pymoo",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "pyopenms",
       "name": "pyopenms",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "pysam",
       "name": "pysam",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "pytdc",
       "name": "pytdc",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "pytorch-lightning",
       "name": "pytorch-lightning",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "qiime2-amplicon",
+      "name": "qiime2-amplicon",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "qiskit",
+      "name": "qiskit",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "qutip",
+      "name": "qutip",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "rare-disease-diagnosis__skillhub",
       "name": "rare-disease-diagnosis",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "rdkit",
       "name": "rdkit",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "relion",
+      "name": "relion",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "research",
       "name": "research",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "research-add-fields",
       "name": "research-add-fields",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "research-add-items",
       "name": "research-add-items",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "research-proposal",
       "name": "research-proposal",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+      "why": "被 ideation 域能力卡引用（见该域账本），本域不重复列卡",
+      "cards": []
     },
     {
       "dir": "research-report",
       "name": "research-report",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "rowan",
+      "name": "rowan",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "scanpy",
       "name": "scanpy",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scholar-annotate",
       "name": "scholar-annotate",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scholar-auto-improve",
       "name": "scholar-auto-improve",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（其他科研支持），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scholar-collaborate",
       "name": "scholar-collaborate",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scholar-compute",
       "name": "scholar-compute",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scholar-knowledge",
       "name": "scholar-knowledge",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scholar-open",
       "name": "scholar-open",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+      "why": "被 ideation 域能力卡引用（见该域账本），本域不重复列卡",
+      "cards": []
     },
     {
       "dir": "scholar-qual",
       "name": "scholar-qual",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scholar-rag",
       "name": "scholar-rag",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scholar-replication",
       "name": "scholar-replication",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scikit-bio",
       "name": "scikit-bio",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scvelo",
       "name": "scvelo",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "scvi-tools",
       "name": "scvi-tools",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "simpy",
       "name": "simpy",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "stable-baselines3",
+      "name": "stable-baselines3",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "summarize__skillhub",
       "name": "summarize",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "sympy",
       "name": "sympy",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "sync-docs",
       "name": "sync-docs",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（参考文献·引用管理），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "tamarind",
+      "name": "tamarind",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
+    },
+    {
+      "dir": "tellurium",
+      "name": "tellurium",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "tiledbvcf",
       "name": "tiledbvcf",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "timesfm-forecasting",
+      "name": "timesfm-forecasting",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "torch-geometric",
       "name": "torch-geometric",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "torchdrug",
       "name": "torchdrug",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·通用研究工具），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
       "dir": "treatment-plans",
       "name": "treatment-plans",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（临床辅助·病例·诊疗），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "uncertainty-and-units",
+      "name": "uncertainty-and-units",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "vaex",
       "name": "vaex",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（医学统计·数据分析·预测模型），仅在 research_catalog 按需借用",
+      "cards": []
     },
     {
-      "dir": "web-access",
-      "name": "web-access",
+      "dir": "waypoint-bio",
+      "name": "waypoint-bio",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（科研基础设施·交付载体），仅在 research_catalog 按需借用"
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "what-if-oracle",
       "name": "what-if-oracle",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（生物信息·组学·医药数据库），仅在 research_catalog 按需借用",
+      "cards": []
+    },
+    {
+      "dir": "xuzhe-research",
+      "name": "xuzhe-research",
+      "verdict": "index-only",
+      "why": "科学计算或工程工具，未进入十域能力卡；需要时直读原文与脚本，按参数执行",
+      "cards": []
     },
     {
       "dir": "zarr-python",
       "name": "zarr-python",
       "verdict": "index-only",
-      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用"
+      "why": "与科研写作无直接关系（AI研究方法·科学计算（宽口径）），仅在 research_catalog 按需借用",
+      "cards": []
     }
   ]
 }

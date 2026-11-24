@@ -1,51 +1,13 @@
 {
   "domain": "writing",
-  "version": "3.0.0",
-  "sourceTotal": 66,
-  "note": "源清单 66 条中 literature-review 与 scientific-writing 各出现两次（内置版与用户版同 dir），按 dir 去重后为 64 条；每条的 cards 指该技能实际进入的能力卡 id。",
+  "version": "3.3.0",
   "entries": [
     {
-      "dir": "library",
-      "name": "library",
-      "verdict": "out-of-scope",
-      "why": "文档库管理工具，属 toolbox 域",
+      "dir": "aris-auto-paper-improvement-loop",
+      "name": "aris-auto-paper-improvement-loop",
+      "verdict": "index-only",
+      "why": "写作方法与本域卡重叠，未单列为成员；保留全文供比对语体与结构",
       "cards": []
-    },
-    {
-      "dir": "workbuddy-office-routing",
-      "name": "workbuddy-office-routing",
-      "verdict": "out-of-scope",
-      "why": "Office 文档路由，属 format 域",
-      "cards": []
-    },
-    {
-      "dir": "tdoc-orchestrator",
-      "name": "tdoc-orchestrator",
-      "verdict": "out-of-scope",
-      "why": "文档美化与排版编排，属 format 域",
-      "cards": []
-    },
-    {
-      "dir": "literature-review",
-      "name": "literature-review",
-      "verdict": "fused",
-      "why": "七阶段检索到成文流程与 PRISMA 计数可直接搬进综述卡",
-      "cards": [
-        "writing.review",
-        "writing.citation"
-      ]
-    },
-    {
-      "dir": "scientific-writing",
-      "name": "scientific-writing",
-      "verdict": "fused",
-      "why": "IMRAD 功能划分、时态与报告规范清单进入英文卡、摘要卡、图表卡与讨论卡",
-      "cards": [
-        "writing.en-sci",
-        "writing.abstract",
-        "writing.figure-table",
-        "writing.discussion"
-      ]
     },
     {
       "dir": "aris-deepxiv",
@@ -66,6 +28,13 @@
       "name": "aris-paper-write",
       "verdict": "index-only",
       "why": "LaTeX 逐节生成依赖外部评审代理与运行目录，未取到可复用阈值",
+      "cards": []
+    },
+    {
+      "dir": "aris-paper-writing",
+      "name": "aris-paper-writing",
+      "verdict": "index-only",
+      "why": "写作方法与本域卡重叠，未单列为成员；保留全文供比对语体与结构",
       "cards": []
     },
     {
@@ -94,6 +63,13 @@
       "name": "aris-result-to-claim",
       "verdict": "index-only",
       "why": "结果到主张的判定依赖外部评审代理，证据门已由证据链卡覆盖",
+      "cards": []
+    },
+    {
+      "dir": "aris-writing-systems-papers",
+      "name": "aris-writing-systems-papers",
+      "verdict": "index-only",
+      "why": "写作方法与本域卡重叠，未单列为成员；保留全文供比对语体与结构",
       "cards": []
     },
     {
@@ -228,6 +204,16 @@
       "cards": []
     },
     {
+      "dir": "literature-review",
+      "name": "literature-review",
+      "verdict": "fused",
+      "why": "七阶段检索到成文流程与 PRISMA 计数可直接搬进综述卡",
+      "cards": [
+        "writing.review",
+        "writing.citation"
+      ]
+    },
+    {
       "dir": "medical-review-writer",
       "name": "medical-review-writer",
       "verdict": "fused",
@@ -267,6 +253,13 @@
       "cards": []
     },
     {
+      "dir": "nature-social-science",
+      "name": "nature-social-science",
+      "verdict": "index-only",
+      "why": "写作方法与本域卡重叠，未单列为成员；保留全文供比对语体与结构",
+      "cards": []
+    },
+    {
       "dir": "nature-writing",
       "name": "nature-writing",
       "verdict": "fused",
@@ -287,8 +280,8 @@
     {
       "dir": "paper-checker__skillhub",
       "name": "paper-checker",
-      "verdict": "deprecated",
-      "why": "AI 率检测基于统计启发式且无语料基线，结果不可作判定依据",
+      "verdict": "index-only",
+      "why": "被 polish 域能力卡引用（见该域账本），本域不重复列卡",
       "cards": []
     },
     {
@@ -357,6 +350,13 @@
       "cards": []
     },
     {
+      "dir": "research-paper-writing",
+      "name": "research-paper-writing",
+      "verdict": "index-only",
+      "why": "写作方法与本域卡重叠，未单列为成员；保留全文供比对语体与结构",
+      "cards": []
+    },
+    {
       "dir": "research-writing-assistant",
       "name": "research-writing-assistant",
       "verdict": "index-only",
@@ -397,8 +397,8 @@
     {
       "dir": "scholar-respond",
       "name": "scholar-respond",
-      "verdict": "out-of-scope",
-      "why": "审稿回复与改投策略，属 review 域",
+      "verdict": "index-only",
+      "why": "被 review 域能力卡引用（见该域账本），本域不重复列卡",
       "cards": []
     },
     {
@@ -439,10 +439,22 @@
       "cards": []
     },
     {
+      "dir": "scientific-writing",
+      "name": "scientific-writing",
+      "verdict": "fused",
+      "why": "IMRAD 功能划分、时态与报告规范清单进入英文卡、摘要卡、图表卡与讨论卡",
+      "cards": [
+        "writing.en-sci",
+        "writing.abstract",
+        "writing.figure-table",
+        "writing.discussion"
+      ]
+    },
+    {
       "dir": "sepia",
       "name": "sepia",
-      "verdict": "deprecated",
-      "why": "面向虚构与创意写作去 AI，语体目标与学术论文相反",
+      "verdict": "index-only",
+      "why": "被 polish 域能力卡引用（见该域账本），本域不重复列卡",
       "cards": []
     },
     {
@@ -467,7 +479,7 @@
       "dir": "typst-paper",
       "name": "typst-paper",
       "verdict": "index-only",
-      "why": "Typst 编译与版式归 format 域，写作规则已被英文卡覆盖",
+      "why": "被 format 域能力卡引用（见该域账本），本域不重复列卡",
       "cards": []
     },
     {

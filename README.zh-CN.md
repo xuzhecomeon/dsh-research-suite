@@ -4,7 +4,7 @@
 
 - 包名：`dsh-research-suite`　版本：`3.2.1`　许可证：MIT　实测 DSH：`0.2.1-rc.5`、`0.2.2-rc.1`、`0.2.2-rc.3`
 - 运行环境：Node `^22.19.0 || >=24.0.0`，DSH `>=0.2.0-0 <0.3.0`
-- **本插件自包含：450 个源技能全文 + 技能自带的 references/scripts/templates 资产随包分发，运行时不读取任何外部技能目录。**
+- **本插件自包含：551 个源技能全文 + 技能自带的 references/scripts/templates 资产随包分发，运行时不读取任何外部技能目录。**
 
 ## 它解决什么问题
 
@@ -25,9 +25,9 @@ v2 的答案是**能力卡（capability）**：
 
 1. **策略段注入**（`lib/prompt.js` + `lib/index.js`）：插件向 DSH 系统提示注入一段名为 `research-suite/policy`、`order: 650` 的策略（"团队策略之后、工具说明之前"），文本由 `buildPolicy(core)` 每次组装系统提示时现算。策略规定：识别到科研诉求 → **先调 `research_playbook`** → 按能力卡协议执行 → 需要细节再深读 → 交付前 `research_gate` 自检。
 2. **11 个技能**（`skills/`）：1 个入口技能 + 10 个域融合 SOP（writing / polish / figures / stats / ideation / review / slides / literature / format / data），注册时**当场内联 `content` 字符串**（不能传 `load()` 之类惰性钩子，否则 DSH 加载期校验不过、技能全丢——这是 v1 的原始故障）。
-3. **15 个工具（7 个查询 + 8 个执行/核验/生成/记忆）**：给模型查询能力卡、检索 450 个源技能、读原文与自带资产、读规范、做机械自检的接口。
+3. **15 个工具（7 个查询 + 8 个执行/核验/生成/记忆）**：给模型查询能力卡、检索 551 个源技能、读原文与自带资产、读规范、做机械自检的接口。
 
-`research_playbook` 没命中时（任务超出覆盖范围），策略回退到 `research_catalog` 在 450 个源技能里检索再直读原文——**不拒答**。
+`research_playbook` 没命中时（任务超出覆盖范围），策略回退到 `research_catalog` 在 551 个源技能里检索再直读原文——**不拒答**。
 
 技术细节见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §五、§六。
 
@@ -36,22 +36,22 @@ v2 的答案是**能力卡（capability）**：
 | 域 | 源技能 | 覆盖什么 |
 |---|---:|---|
 | `writing` | 64 | 按论文类型与章节切分（原创/综述/病例报告/标书…） |
-| `polish` | 12 | 语体、去 AI 味、降重、审校、Word 精修报告 |
-| `figures` | 33 | 数据图、统计图、机制图、示意图、组合排版 |
-| `stats` | 30 | 描述、比较、回归、生存、预测模型、PSM、MR、Meta、缺失、样本量 |
-| `ideation` | 37 | 选题、查新、假说、标书、伦理 |
-| `review` | 20 | 自审、审稿意见、修回、rebuttal、回复信 |
-| `slides` | 37 | 汇报型、讲课型、答辩型、组会型、海报 |
-| `literature` | 26 | 检索式、筛选、精读、证据表、查全查准 |
-| `format` | 51 | 投稿格式、参考文献、图表规范、投稿包 |
-| `data` | 40 | 数据库与组学数据：GEO / TCGA / dbGaP / 基因型与变异库检索、组学数据获取与整理 |
-| **合计** | **450** | 10 个能力域共 **103** 张能力卡 |
+| `polish` | 16 | 语体、去 AI 味、降重、审校、Word 精修报告 |
+| `figures` | 37 | 数据图、统计图、机制图、示意图、组合排版 |
+| `stats` | 34 | 描述、比较、回归、生存、预测模型、PSM、MR、Meta、缺失、样本量 |
+| `ideation` | 44 | 选题、查新、假说、标书、伦理 |
+| `review` | 24 | 自审、审稿意见、修回、rebuttal、回复信 |
+| `slides` | 34 | 汇报型、讲课型、答辩型、组会型、海报 |
+| `literature` | 34 | 检索式、筛选、精读、证据表、查全查准 |
+| `format` | 42 | 投稿格式、参考文献、图表规范、投稿包 |
+| `data` | 50 | 数据库与组学数据：GEO / TCGA / dbGaP / 基因型与变异库检索、组学数据获取与整理 |
+| **合计** | **551** | 10 个能力域共 **104** 张能力卡 |
 
-另有 `toolbox` 域（100 个工具类技能的索引桶）：**只进 `research_catalog` 检索与 `research_kb_read` 深读，不产能力卡**——工具是手段，不是"用户要办的一件事"。
+另有 `toolbox` 域（172 个工具类技能的索引桶）：**只进 `research_catalog` 检索与 `research_kb_read` 深读，不产能力卡**——工具是手段，不是"用户要办的一件事"。
 
-450 个源技能**全部逐条判定过**：每一条都在 `data/ledger/<domain>.json` 里留了判定（`fused` 融进哪张卡的哪一步 / `index-only` 仅编目 / `deprecated` 明确不用 / `out-of-scope` 不属于科研），理由可查，`node scripts/verify-ledger.mjs all` 机械核对覆盖度与"融进去了却不在卡里"。
+551 个源技能**全部逐条判定过**：每一条都在 `data/ledger/<domain>.json` 里留了判定（`fused` 融进哪张卡的哪一步 / `index-only` 仅编目 / `deprecated` 明确不用 / `out-of-scope` 不属于科研），理由可查，`node scripts/verify-ledger.mjs all` 机械核对覆盖度与"融进去了却不在卡里"。
 
-除正文外，**技能自带资产随包**：186 个技能带来 954 个文件（约 6.8 MB）的 `references/`、`scripts/`、`templates/`，放在 `knowledge/skills/<域>/<slug>__assets/`。模型可用 `research_kb_read(name, asset='scripts/plot.py')` 直接读这些资产（不给 `asset` 时列出该技能带了哪些资产）。
+除正文外，**技能自带资产随包**：314 个技能带来 2,593 个文件（约 22.0 MB）的 `references/`、`scripts/`、`templates/`，放在 `knowledge/skills/<域>/<slug>__assets/`。模型可用 `research_kb_read(name, asset='scripts/plot.py')` 直接读这些资产（不给 `asset` 时列出该技能带了哪些资产）。
 
 另有 9 份规范文档在 `references/`：中华医学会格式、中文语言风格与好句语料库、Elsevier 英文语言标准、论文类型风格档案、标书硬性规则与 AI 痕迹、IMA 知识库清单、IMA 知识库蒸馏任务书、科研技能索引、科研技能自动调用工作流。
 
@@ -61,11 +61,11 @@ v2 的答案是**能力卡（capability）**：
 |---|---|---|
 | `research_playbook` | **唯一入口**。传用户原话，返回最匹配的 1～3 张能力卡 + 融合协议 + 判据 + 交付物 + 建议深读 | 传 `task`（用户原话） |
 | `research_capability` | 展开完整能力卡：成员对比表（best_at/limits/take）、protocol、decide、gates、outputs、kb | 按能力卡 `id` 或按 `domain` |
-| `research_catalog` | 在 450 个源技能里检索（名称/描述关键词，可加域过滤；`toolbox` 的 100 个工具类技能也在内），每条附带它收了几个资产 | 传关键词，可选加域过滤 |
+| `research_catalog` | 在 551 个源技能里检索（名称/描述关键词，可加域过滤；`toolbox` 的 172 个工具类技能也在内），每条附带它收了几个资产 | 传关键词，可选加域过滤 |
 | `research_kb_read` | 读单个技能原文或 `INDEX.md`/`FUSION.md`；新增 `asset` 参数可读技能自带的 `scripts/plot.py`、`references/*.md` 等资产，不给 `asset` 时列出该技能附带哪些资产；支持分段，越界路径拒绝 | 传技能名，可选 `asset` / `offset` / `limit` |
 | `research_standard` | 读 `references/` 下 9 份规范（列表或全文） | 传文件名；省略则列出 9 份 |
 | `research_gate` | 门禁与机械自检：`section` 取 `all` / `data` / `selfcheck` / `mutex` / `forbidden` / `hard` / `handoffs`；`text` 检查标点、引用上标、AI 套话、绝对化措辞 | 传 `section` 或 `text` |
-| `research_suite_status` | 装载自检：版本、10 域能力卡数量、450 索引完整性、资产收录统计、references 齐备性、包根路径 | 无参数 |
+| `research_suite_status` | 装载自检：版本、10 域能力卡数量、551 索引完整性、资产收录统计、references 齐备性、包根路径 | 无参数 |
 | `research_run` | **真执行**：把 R 或 Python 脚本写进临时目录并真的跑（Rscript / 本机 Python），返回 stdout/stderr 与产出文件清单；禁 install/rm 类破坏性命令，工作目录限 cwd 或临时目录 | 传 `kind`(r/python) + `code`，可选 `workdir` / `timeoutMs` |
 | `research_data_check` | **数据六道闸门的机械部分**：读 CSV/TSV，报行列、缺失率、常量列、ID 重复、不可能值（年龄越界/负数/百分比>100）、EPV<10 | 传 `file`，可选 `outcome` / `predictors` |
 | `research_output_check` | **交付物核验**：PNG 实测 DPI（<300 提醒）、PDF 页数与文本层、DOCX/XLSX 结构、CSV 行数、MD 字数 | 传 `files` |
@@ -105,7 +105,7 @@ dsh.cmd plugin --profile desktop add github:xuzhecomeon/dsh-research-suite
 
 装完**必须完全退出 DSH Desktop 再启动**（不是关窗口，是退出进程）——loader 只在启动时读补丁层 `cordis.patch.yml`。
 
-验收：让模型调 `research_suite_status`，返回版本、10 域能力卡数量、450 索引完整性、资产收录统计、`references/` 齐备性、包根路径。15 个工具都在、技能计数正确，才算装好。
+验收：让模型调 `research_suite_status`，返回版本、10 域能力卡数量、551 索引完整性、资产收录统计、`references/` 齐备性、包根路径。15 个工具都在、技能计数正确，才算装好。
 
 ## 配置项
 
@@ -174,13 +174,13 @@ dsh-research-suite/
 ├── data/
 │   ├── capabilities/*.json # 10 个域的能力卡（机器可读契约）
 │   ├── capabilities/*.notes.md  # 可选：挖掘记录
-│   ├── ledger/*.json       # 450 个源技能的逐条判定账本（fused/index-only/deprecated/out-of-scope）
+│   ├── ledger/*.json       # 551 个源技能的逐条判定账本（fused/index-only/deprecated/out-of-scope）
 │   └── gates.json          # 门禁、自检、互斥、禁用、硬规则、交接
 ├── skills/                 # 11 个技能：1 个入口（research-suite）+ 10 个域 SOP
 │   └── research-<domain>.md
-├── knowledge/              # 450 个源技能：catalog.json + INDEX.md + FUSION.md + stats.json + skills/<域>/*.md
+├── knowledge/              # 551 个源技能：catalog.json + INDEX.md + FUSION.md + stats.json + skills/<域>/*.md
 │   └── skills/<域>/<slug>.md
-│       └── <slug>__assets/ # 技能自带的 references/scripts/templates（186 个技能、954 个文件）
+│       └── <slug>__assets/ # 技能自带的 references/scripts/templates（314 个技能、2,593 个文件）
 ├── references/             # 9 份规范（01–09）
 ├── scripts/
 │   ├── verify-capabilities.mjs   # 能力卡契约校验
@@ -205,13 +205,13 @@ dsh-research-suite/
 npm test                          # node scripts/selftest.mjs（假 ctx 加载期 smoke test）
 npm run verify                    # node scripts/verify-package.mjs（发布静态校验）
 npm run verify:caps               # node scripts/verify-capabilities.mjs all（能力卡契约）
-node scripts/verify-ledger.mjs all  # 判定账本（11 域 450 条覆盖 + fused 可核）
+node scripts/verify-ledger.mjs all  # 判定账本（11 域 551 条覆盖 + fused 可核）
 npm run pack:check                # npm pack --dry-run（看真实发布清单：v3 解包约 38 MB 量级）
 ```
 
 四条校验都必须 exit 0；CI（`.github/workflows/ci.yml`）在 ubuntu-latest + Node 24 上跑同一套（verify-package → verify-capabilities → verify-ledger → selftest），并额外跑 `npm pack --dry-run`。`publish` job 默认**只能手动触发**（`workflow_dispatch`）：仓库还没配 secret `NPM_TOKEN` 时，打 tag 自动发布会以 401 失败并刷红 Actions，所以 tag 不会触发发布。要恢复「打 `v*` tag 即发 npm」，先在仓库 Settings → Secrets 配好 `NPM_TOKEN`，再把 `publish` job 的 `if` 改回 `startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'`（需 `id-token: write`，不写任何明文）。
 
-当前包体（v3 中间态实测，全部域交付后以重跑为准）：**1481 个文件、16.20 MB**（`scripts/verify-package.mjs` 口径，含 `.github/` 等仓库文件），其中 `knowledge/` 的 450 篇原文 + 954 个资产文件占绝大部分——**这是设计如此，不要"优化"掉**。
+当前包体（v3 中间态实测，全部域交付后以重跑为准）：**3232 个文件、33.46 MB**（`scripts/verify-package.mjs` 口径，含 `.github/` 等仓库文件），其中 `knowledge/` 的 551 篇原文 + 2,593 个资产文件占绝大部分——**这是设计如此，不要"优化"掉**。
 
 ## 仓库地址
 
@@ -228,7 +228,7 @@ npm run pack:check                # npm pack --dry-run（看真实发布清单�
 - `data/exec-policy.json` 出厂 `run.enabled: false`。此时 `research_run` 只返回预览（脚本前 60 行 + `previewHash` + 策略摘要 + 预计拦截项），**不写文件、不起子进程**。
 - 开启执行后，脚本以**你的用户权限**运行在 `<当前工作目录>/.dsh-research/run/<runId>/` 内。静态扫描负责：包白名单（R / Python 各有清单）、拒绝常见联网与子进程 API、写入只允许该目录内相对路径、拒绝 PHI 路径关键词、永久拒绝安装类命令。**这是护栏，不是沙箱**——真正的隔离要靠容器、受限用户或虚拟机。
 - `research_doi_check` 确实会联网：只把 DOI 发到 `https://api.crossref.org`，不发送稿件或本地文件内容；其余工具不发网络请求。
-- 本插件自包含：450 篇源技能原文与 954 个自带资产随包分发，运行时不读取任何外部技能目录。
+- 本插件自包含：551 篇源技能原文与 2,593 个自带资产随包分发，运行时不读取任何外部技能目录。
 - 入口不 import `@deepseek-ai/*`：profile 的 `node_modules` 里解析不到这类包，入口一旦 import 就会整个加载失败（现象是"装了但一个技能都没有"）。这条由 `scripts/verify-package.mjs` 强制拦截。
 
 | 工具 | 读文件 | 写文件 | 联网 | 子进程 | 作用半径 |
@@ -268,4 +268,4 @@ npm run pack:check                # npm pack --dry-run（看真实发布清单�
 
 MIT，见 [LICENSE](LICENSE)。
 
-**注意**：MIT 只覆盖插件本体（`lib/`、`data/`、`skills/`、`references/`、`scripts/`、`docs/` 与索引文件）。`knowledge/skills/` 下 450 篇源技能全文与 954 个自带资产是从作者本机技能库逐字打包的第三方材料，各自许可由其原始作者决定，不在 MIT 范围内——对外分发前请先看 [docs/ATTRIBUTION.md](docs/ATTRIBUTION.md)。
+**注意**：MIT 只覆盖插件本体（`lib/`、`data/`、`skills/`、`references/`、`scripts/`、`docs/` 与索引文件）。`knowledge/skills/` 下 551 篇源技能全文与 2,593 个自带资产是从作者本机技能库逐字打包的第三方材料，各自许可由其原始作者决定，不在 MIT 范围内——对外分发前请先看 [docs/ATTRIBUTION.md](docs/ATTRIBUTION.md)。

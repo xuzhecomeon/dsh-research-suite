@@ -1,3 +1,29 @@
+## [3.3.0] - 2026-11-24
+
+知识层按作者 2026-11 重新策展的科研 Skill 合集（551 个技能）整体重建，能力卡与账本同步重接。
+
+### 知识层：551 个技能（原 450 条 / 444 目录）
+- 新增 141 个技能，删除 34 个已不在新合集内的技能；沿用 410 个（其中 130 个技能正文有更新）。新合集共 551 个目录，catalog 551 条，目录数与记录数一致。
+- 新增技能里比重最大的是三类：科学计算与计算管线（astropy、qiskit、pymatgen、cantera、pybamm、nextflow、qiime2、mageck、relion 等 86 个进 `toolbox`）、检索源（paper-lookup、paperclip、paperzilla、aris-openalex、aris-arxiv、exa-search、last30days 等）、专利与实验流水线（aris-patent-pipeline 一族、aris-experiment-queue/monitor/run）。
+- 删除的 34 个是 WorkBuddy／腾讯文档／IMA 一类的专有封装（doc-typeset、workbuddy-pdf、workbuddy-pptx、html-to-doc、html-review、brief-compose、format-extract、ima-skill、ima-mcp、library、life-sciences-literature-search、oa_download、institutional_access、ppt-implement、tencent-*、wos_search、xmed-figure 等），其能力由通用技能承接（liteparse、pdf、pdf-to-markdown、nature-paper2word、docx、paper-lookup、nature-downloader、pyzotero、pptx、aris-paper-talk）。
+- 域分布：writing 64、polish 16、figures 37、stats 34、ideation 44、review 24、slides 34、literature 34、format 42、data 50、toolbox 172。层分布 core 232 / support 120 / peripheral 199；语言 en 424 / mixed 37 / zh 90。
+- 随包资产：314 个技能贡献 2,593 个文件（约 22.0 MB），仍按白名单扩展名 + 单文件 ≤256KB + 用户级技能整包 ≤260KB 的预算收，`catalog.assets` 与磁盘逐条一致。
+
+### 能力卡：103 → 104 张
+- 新增 `ideation.patent-draft`（专利撰写与审查视角自检）：成员 aris-patent-pipeline（主用）、aris-invention-structuring、aris-claims-drafting、aris-specification-writing、aris-patent-review、aris-jurisdiction-format；协议七步从定法域与权项边界走到国别格式编译；门禁 7 条（权项有说明书支撑、术语与引用基础一致、实用新型不含方法权项、检索日志含库名与检索式、无编造申请号与数据、附图编号一一对应、专利新颖性与论文新颖性分开写）。
+- 17 张卡按新技能重接成员：`format.typeset`（4 个成员全被删，改为 nature-paper2word 主用 + docx／latex-output／thesis-format-zh／typst-paper）、`format.pdf-pipeline`（pdf 升主用、liteparse 补强）、`format.doc-audit`（liteparse 顶主用）、`format.final-delivery`、`format.ref-style`、`literature.search-plan`／`federated-search`（paper-lookup 与 openalex-database 接位）、`literature.doi-validate`（reference-verification 顶主用）、`literature.fulltext-acquire`（nature-downloader 升主用）、`literature.close-read`、`literature.critique`、`literature.library`（open-notebook、aris-research-wiki、paperzilla）、`ideation.novelty`、`slides.journal-club`、`slides.deck-system`（pptx 升主用 + huashu-design）、`slides.auto-build`、`figures.statplot`／`imaging`（去掉已删成员）。
+- 11 个 `arf-*` 技能上游改名（arf-review-paper-checks → review-paper-checks、arf-pdf-to-markdown → pdf-to-markdown 等），能力卡的成员、kb、协议与判定文本一并同步。
+
+### 账本
+- 11 个域账本全部重生成：551 条判定，fused 只指向本域能力卡（跨域引用写进 why 说明），`verify-ledger.mjs all` 0 errors。
+
+### 校验
+- `verify-capabilities.mjs all`：104 张卡、0 errors 0 warnings。
+- `verify-ledger.mjs all`：11 域 551 条、0 errors 0 warnings。
+- `verify-package.mjs`：3232 files / 33.47 MB、0 errors（仅剩「入口技能无能力卡」这条预期内 warning）；`selftest.mjs` 66 项通过。
+- `eval-match.mjs --strict` **仍未达标**，如实记录：accuracy 0.8867（门槛 0.92）、falseTakeover 0.1463（门槛 0.03）、top1 0.6618（门槛 0.8）、top3 0.7941（门槛 0.95）。v3.2.1 基线为 0.8667 / 0.1707 / 0.6618 / 0.7941，本次加入 141 个新技能后负例覆盖反而更准一档，但 top1 缺口是 v3 遗留问题，不靠调门槛掩盖。
+- `data/match-rules.json` 补了四类负例线索（年会/策划方案/团建/客户投诉、吵架/亲戚/婆媳/过年），版本随主版本升到 3.3.0。
+
 ## [3.2.1] - 2026-11-15
 
 ### 修复

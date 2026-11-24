@@ -2,7 +2,7 @@
 name: academic-figures
 description: >-
   论文配图一键生成：一条命令从 JSON/CSV/Excel 生成顶刊级学术图表，科研绘图
-  与期刊配图全场景覆盖。40 种图表（森林图/KM 生存曲线（自动风险表）/竞争风险累计发生率/ROC/校准
+  与期刊配图全场景覆盖。41 种图表（森林图/KM 生存曲线（自动风险表）/竞争风险累计发生率/ROC/校准
   曲线/决策曲线 DCA/列线图/RCS 非线性剂量反应/亚组分析森林图/RMST 限制平均生存时间/Galbraith 径向图/火山图/雨云图/山脊图/哑铃图/游泳图（逐例时长+里程碑）/
   肿瘤缓解瀑布图/UpSet 交集/PRISMA 流程图/漏斗/BA 一致性/PCA/热图/箱线/小提琴/
   组合图/Cox 多因素回归森林图等），9 套配色（含色盲安全 Okabe-Ito 与期刊色板），9 种期刊投稿预设，
@@ -24,8 +24,8 @@ when_to_use: >-
 ZCode 技能自动发现只读 frontmatter 白名单键（name/description/when_to_use/
 license/metadata），description 超 1024 字符被静默丢弃（v2.x 失效根因）。
 移出键（信息不丢失）：
-  version: 7.3.0
-  date: 2026-10-31
+  version: 8.0.7
+  date: 2026-11-19
   author: docsor1212
   lang: zh
   metadata: {clawdbot: {emoji: "📊", category: visualization}}
@@ -34,7 +34,7 @@ license/metadata），description 超 1024 字符被静默丢弃（v2.x 失效�
 
 # Academic Figures — 论文配图一键生成工具
 
-> 📊 **40种图表 · 9套配色（含色盲安全+期刊色板） · 零配置中文 · 600dpi出版级输出 · PDF/TIFF/SVG全支持 · 渲染看门狗+中文诊断**
+> 📊 **41种图表 · 9套配色（含色盲安全+期刊色板） · 零配置中文 · 600dpi出版级输出 · PDF/TIFF/SVG全支持 · 渲染看门狗+中文诊断**
 > 纯本地运行 · 数据不出本机 · Python一条命令搞定 · 内置校验+验证门禁
 
 > ⚡ **三条最常用边界**：投稿 PDF 加 `--verify`（仅 PDF 生效）；`--journal` 会锁定图宽（`--width` 被忽略，`--height` 有效）；cluster_heatmap >3000 行自动降采样到 2000 行。
@@ -54,7 +54,7 @@ python3 scripts/gen_figure.py -t bar -d data.json -o fig --pub-ready
 
 | 能力 | 做到什么 | 做不到/边界 | 详见 |
 |------|---------|-------------|------|
-| 图表引擎 | 40 种图型一条命令 600dpi；同输入同字节确定性输出 | 无交互式探索（只出静态文件）；无 3D 图 | 「图表类型」表 ↑ |
+| 图表引擎 | 41 种图型一条命令 600dpi；同输入同字节确定性输出 | 无交互式探索（只出静态文件）；无 3D 图 | 「图表类型」表 ↑ |
 | 预测模型评价 | calibration 分箱值∈[0,1]；dca 阈值严格升序 (0,1) 开区间、1~6 个模型；nomogram 1~12 变量+1~3 结局尺；rcs ≥5 个已拟合网格点；subgroup 1~12 变量×2~8 层；cif time+event 整数编码（0/1/2+）、单队列 | 无自动分箱；nomogram/rcs 只可视化已拟合模型（不拟合）；subgroup 同样如此——或用 `--stats cox` 一键拟合（逐层 Cox HR+似然比 P 交互，Efron 核，v5.8）；cif 不支持 groups 多臂（用 `-t km`）；rmst 恰好两臂、随访需覆盖 τ（不足则平尾外推并标注） | 「图表类型」表 ↑ |
 | Meta 分析 | funnel/galbraith 数据同 schema（studies name/effect/se，效应 log 尺度）；galbraith ≥3 研究，<5 统计效力警告 | 弧线仅对比率尺度（OR/HR/RR）；MD/SMD 自动关 | 「图表类型」表 ↑ |
 | 生存分析 | KM 风险表/log-rank/中位生存 CI；cif 竞争风险累计发生率（Aalen-Johansen）+1−KM 高估对照；km 逐例数据 events 含 ≥2 自动切 AJ 模式 | cif 单队列按事件原因分层（多臂用 km）；不做贝叶斯/参数模型 | 「图表类型」表 ↑ |
@@ -67,7 +67,7 @@ python3 scripts/gen_figure.py -t bar -d data.json -o fig --pub-ready
 | 数据量 | cluster_heatmap >3000 行自动降采样（stderr 明示） | pca ≤200 特征列；venn 2~4 集合；paired/bland_altman 需等长 | limits.md |
 | 中文 | `--cjk` + 数据内中文递归自动检测 | 无显示环境的服务器需装有至少一款 CJK 字体（`setup_env.py` 可检测） | pitfalls.md |
 | 看门狗 | 自适应 30~1800s；`--timeout` 调整；内存不足自动降级；瞬时失败（超时/内存）经 `--retries` 自动重试 | `--timeout 0` 禁用自适应预算但保留 7200s 硬保险 | limits.md §七 |
-| 参数域 | `--stats` 仅 box/violin（cox 仅 forest）；`--compare` 仅 roc；`--egger` 仅 funnel；`--hatch` 仅 bar 系；`--order/--normalize` 按族 | 域外参数忽略并提示——组合拿不准先跑 `--doctor` | limits.md |
+| 参数域 | `--stats` 仅 box/violin/raincloud（cox 仅 forest/subgroup）；`--compare` 仅 roc；`--egger` 仅 funnel；`--hatch` 仅 bar 系；`--order/--normalize` 按族 | 域外参数忽略并提示——组合拿不准先跑 `--doctor` | limits.md |
 | 退出码 | 0 成功/1 致命校验/2 重叠/3 数据/4 环境/5 超时/6 内存 | exit 0 不会与静默数据问题共存（非有限值一律致命） | 「数据校验与退出码」↓ |
 
 完整矩阵见 `references/limits.md`（超限一律中文报错+修正建议，不出半成品图）；
@@ -77,7 +77,7 @@ python3 scripts/gen_figure.py -t bar -d data.json -o fig --pub-ready
 
 | 特性 | 说明 |
 |------|------|
-| 📊 **40种图表** | 见下方「图表类型」全表；v5.6 加 Galbraith 径向图（Meta 异质性），v5.7 加 cif 竞争风险累计发生率（Aalen-Johansen+1−KM 高估对照） |
+| 📊 **41种图表** | 见下方「图表类型」全表；v5.6 加 Galbraith 径向图（Meta 异质性），v5.7 加 cif 竞争风险累计发生率（Aalen-Johansen+1−KM 高估对照） |
 | 🎨 **9套配色** | **Okabe-Ito色盲安全**（Nature Methods 金标准）、GLM 素雅莫兰迪、NEJM/Lancet/Science 期刊色板等 |
 | 📐 **期刊预设** | `--journal nature/lancet/nejm/science/cma/cn-core`：官方栏宽、字号、字体族、600dpi 一键应用 |
 | 🧭 **上手向导** | `--wizard` 四问生成完整命令（非交互环境自动打印选图决策树） |
@@ -133,6 +133,7 @@ python3 scripts/gen_figure.py -t bar -d data.json -o fig --pub-ready
 | 组合 | **组合图** | `-t composite` | 多面板A+B+C，每面板任意图表类型（⚠面板内不可嵌套 composite/diagram/upset）；`panel_labels:true` 自动加粗面板角标（v4.1）；`span:[行,列]` 跨行跨列拼版+占位重叠检测（v4.3） |
 | 流程 | **流程图** | `-t diagram` | 架构/流程块、箭头、分组标注，CONSORT式研究设计 |
 | 系统综述 | **PRISMA流程图** | `-t prisma` | PRISMA 2020 系统综述流程图；数字自洽自动校验（对不上拒绝出图），`lang=zh` 中文标准版 |
+| 流程 | **语义流程图** | `-t flow` | 语义 JSON 零坐标；布局 chain/layered/snake/泳道（多角色）；14 种语义形状+角色化配色；边型 thick/双头/无头/虚线；`--from-mermaid` 直接吃 mermaid 源；--gate strict 三层闸+占比闸 |
 
 按「类别」列速览；上手路径见 `references/quickstart.md`，完整命令速查见 `references/cheatsheet.md`。
 
@@ -175,7 +176,8 @@ python3 scripts/gen_figure.py --demo --cjk
 python3 scripts/gen_figure.py --explain bar
 # 0️⃣ Python 内调用引擎：见 references/python-api.md（subprocess 推荐；import 嵌入需自行 Agg）
 
-# 1️⃣ 柱状图（默认 glm 素雅配色）
+# 1️⃣ 柱状图（默认主题 = `glm-brand`：信号黄×深钢蓝，斜纹默认开启）
+色盲安全：`--theme okabe-ito`；另有 `glm` / `cool` / `nature` / `lancet` / `nejm` / `science` / `conservative`。
 python3 scripts/gen_figure.py -t bar -d data.json -o figure.png \
   --title "图2 主标题 / Subtitle" --ylabel "准确率 Accuracy (%)"
 
@@ -207,7 +209,7 @@ python3 scripts/gen_figure.py -t cluster_heatmap --data big.json --downsample 20
 
 ## 配色方案
 
-**默认 = `glm`**（素雅莫兰迪，色盲安全）。投稿首选 `--theme okabe-ito`（Nature Methods 金标准；
+**默认 = `glm-brand`**（品牌视觉：信号黄×深钢蓝，斜纹默认开启）；单系列竖向 bar 另默认竞技场风格（冠军=最高柱+皇冠，负面指标用 `--arena off` 关闭，榜单图加 `--style sketch`）。投稿需色盲安全用 `--theme okabe-ito`（Nature Methods 金标准；
 红绿配色是常见退稿原因）。色板：`glm`/`okabe-ito`/`cool`（均色盲安全）+ `nature`/`lancet`/`nejm`/
 `science`/`conservative`/`classic`。`--style glm-hatch` 加黑色斜纹（打印友好）；`--style nature-clean`
 = 去顶右框线+无网格+无框图例；`--journal nejm|lancet|science|nature` 未显式 `--theme` 时自动联动。
@@ -273,7 +275,8 @@ python3 scripts/gen_figure.py -t cluster_heatmap --data big.json --downsample 20
 | 参数 | 用途 |
 |------|------|
 | `--journal` / `--column` | 期刊预设 / 栏位（⚠ 锁定宽度，见上） |
-| `--stats auto\|cox\|bootstrap` | box/violin 显著性标注 / forest 多因素回归 |
+| `--stats auto\|multi\|cox\|bootstrap` | box/violin/raincloud 显著性标注 / forest 多因素回归 |
+| `--arena [名称\|off]` | 基准对比竞技场风格（bar 单系列，v7.7 默认启用）：每柱异质填充循环，冠军柱（=最高柱）深青绿+金色皇冠+数值加粗；负面指标（最高=最差，如错误率/不良事件）用 `--arena off` 关闭；`--arena "名称"` 按标签指定；榜单图推荐加 `--style sketch` 手绘风 |
 | `--order "C,A,B" \| auto` | 类别顺序重排（bar/box/violin/line；显式列表须覆盖全部标签；auto=按值/中位数降序） |
 | `--normalize baseline\|pct100` | 归一化：各系列÷对照均值（对照=1）/ 自身首点=100（bar 系/line；误差棒同步缩放） |
 | `--doctor` | 渲染前参数/环境体检报告（省略 -o 只体检不渲染，exit 1=有发现） |
@@ -297,7 +300,7 @@ python3 scripts/gen_figure.py -t cluster_heatmap --data big.json --downsample 20
 
 ## ♿ 无障碍 & Alt Text
 
-投稿需为图表提供 Alt Text（Springer Nature、NSF 等要求）。`--alt` 自动生成 `<输出>.alt.txt` 侧车；配色默认色盲安全（glm/okabe-ito）。
+投稿需为图表提供 Alt Text（Springer Nature、NSF 等要求）。`--alt` 自动生成 `<输出>.alt.txt` 侧车；投稿场景建议 `--theme okabe-ito`（色盲安全；默认 glm-brand 亦为色盲安全轴色）。
 
 ## 数据输入
 
@@ -338,7 +341,7 @@ matplotlib/numpy/pymupdf/scipy 四依赖并镜像回退）；自动行为（降�
 | 你的任务（30 秒到对的文档） | 读 |
 |------------------------------|-----|
 | 第一次用 / 不知道选哪种图 | `references/quickstart.md` |
-| 40 种图型一页命令骨架 | `references/cheatsheet.md` |
+| 41 种图型一页命令骨架 | `references/cheatsheet.md` |
 | 常见报错速答（FAQ） | `references/faq.md` |
 | 反模式集中页（应避免用法一览，交叉链接） | `references/antipatterns.md` |
 | 场景卡片（13 个完整工作流一文件跑通） | `references/scenario-cards.md` |
@@ -355,17 +358,17 @@ matplotlib/numpy/pymupdf/scipy 四依赖并镜像回退）；自动行为（降�
 | Python 里调用 | `references/python-api.md` |
 | 版本历史 | `references/changelog.md`（版本索引+最近三版详情；完整存档 `references/changelog-full.md`） |
 
-代码布局：`scripts/gen_figure.py`（主生成器，40 图型）+ `gen_legend.py`（期刊图例）+
+代码布局：`scripts/gen_figure.py`（主生成器，41 图型）+ `gen_legend.py`（期刊图例）+
 `audit_pdf.py`（字号门禁）+ `verify_overlap_pixel.py`（重叠验证）+ `setup_env.py` +
 `journal/*.json`（9 预设：nature/nejm/lancet/jama/science/cell/cma/cn-core/ieee）；
-`templates/`（40 个，各带 `_command`）、`examples/`（含
+`templates/`（41 个，各带 `_command`）、`examples/`（含
 `realworld/` 真实场景）、`tests/run_tests.py`（全量回归）。其余 references：
 `clinical-lab-trends.md`（临床检验趋势图）、`reverse-engineering-colors.md`（参考图取色）、
 `v1.5-upgrade-analysis.md`（历史升级档案）。
 
 ## 版本历史
 
-完整双语版本历史见 `references/changelog.md`（版本索引+最近三版；完整存档 `references/changelog-full.md`）。近期：**v6.7.0** `--list-flags [TYPE]` 旗标域查询（图型专属旗标+域外 [ignored] 预告；注册表与 argparse/图型注册表测试互锁）+ 官方点名收口（37 残留含锚链接/gallery JSON 随包使索引指针存活/Python 下限统一 3.8/changelog 索引表格解挤压）+ README 测试徽章与套件数动态互锁；**v6.6.0** 一致性清剿第二轮。更早版本见 changelog。
+完整双语版本历史见 `references/changelog.md`（版本索引+最近版本详情；完整存档 `references/changelog-full.md`）。近期：**v8.0.0** flow 语义流程图+引擎重写；更早版本见 changelog。
 
 ## 🚀 进阶版：论文配图一键生成 Pro
 
