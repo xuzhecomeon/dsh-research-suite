@@ -1,6 +1,6 @@
 {
   "run": {
-    "enabled": true,
+    "enabled": false,
     "requireConsent": true,
     "allowNetwork": false,
     "workdir": ".dsh-research/run",
@@ -8,40 +8,13 @@
     "maxOutputBytes": 1048576
   },
   "runtimes": {
-    "r": "C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe",
+    "r": null,
     "python": null
   },
   "allowedPackages": {
-    "r": [
-      "base",
-      "stats",
-      "survival",
-      "lme4",
-      "pROC",
-      "metafor",
-      "ggplot2",
-      "tableone",
-      "rms",
-      "survminer"
-    ],
-    "python": [
-      "pandas",
-      "numpy",
-      "scipy",
-      "statsmodels",
-      "matplotlib",
-      "sklearn",
-      "lifelines",
-      "seaborn"
-    ]
+    "r": ["base", "stats", "survival", "lme4", "pROC", "metafor", "ggplot2", "tableone", "rms", "survminer"],
+    "python": ["pandas", "numpy", "scipy", "statsmodels", "matplotlib", "sklearn", "lifelines", "seaborn"]
   },
-  "denyPathPatterns": [
-    "patient",
-    "患者",
-    "病历",
-    "phi",
-    "idcard",
-    "身份证"
-  ],
+  "denyPathPatterns": ["patient", "患者", "病历", "phi", "idcard", "身份证"],
   "notes": "run.enabled=false 时 research_run 必须拒绝并给出开启指引"
 }
