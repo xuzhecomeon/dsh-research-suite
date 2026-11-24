@@ -467,7 +467,9 @@ async function main() {
     eq(installConfirm.reason, 'policy_violation', 'reason');
   });
 
-  const absoluteWorkdir = await verifyEnabled.runScript({ kind: 'r', code: 'cat("x")', workdir: 'C:\\Windows' });
+  // 跨平台绝对路径：Windows 用盘符路径，POSIX 用 /tmp，避免在 Linux CI 上被当成相对路径
+  const absoluteWorkdirPath = process.platform === 'win32' ? 'C:\\Windows' : '/tmp';
+  const absoluteWorkdir = await verifyEnabled.runScript({ kind: 'r', code: 'cat("x")', workdir: absoluteWorkdirPath });
   check('workdir 传绝对路径被拦（workdir_invalid）', () => {
     eq(absoluteWorkdir.blocked, true, 'blocked');
     assert(absoluteWorkdir.violations.some((v) => v.kind === 'workdir_invalid'), '应命中 workdir_invalid');
