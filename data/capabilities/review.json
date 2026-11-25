@@ -2,7 +2,7 @@
   "domain": "review",
   "label": "自审、模拟审稿、证据核验、修回与回复信：把「投出去」推到「改到中」",
   "skill": "research-review",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "summary": "本域只服务一个终点：让稿件在真实审稿中少挨打、被打中也能改到接受。四件套是硬的——投稿前自审（主编视角预筛）、审稿人视角质疑（三问逐段落地）、证据与数字核验（主张对原始结果文件）、修回与逐条回复（Commit×Coverage 双门）。每一条质疑必须写全「位置＋问题＋依据＋建议」四件套，缺项不计入结论；不许出现「整体创新性不足」这类无法执行的评语。回复信件数必须等于意见条数，承诺项必须标 already_done／approved_for_rebuttal／future_work_only。不做语言润色（交 polish）、不做统计复核本身的重新分析（交 stats，但必须会指出统计缺陷）、不做成稿写作（交 writing）。所有具体数字（影响因子、审稿周期、接收率、审稿人姓名、编辑指令编号）一律来自用户提供的材料，取不到就写占位，绝不编造。",
   "capabilities": [
     {
@@ -1346,6 +1346,131 @@
         "paper-audit",
         "nature-reviewer",
         "review-paper-light"
+      ]
+    },
+    {
+      "id": "review.convergence",
+      "label": "多轮审稿收敛：评分与阻断项双阈值",
+      "summary": "用独立评审（换模型或换新会话）按同一 rubric 打分，循环「评审→只修阻断项→复评」，直到总分≥6、verdict 为 ready/almost 且阻断项清零。轮次有上限，避免无限改稿与分数虚高；报告交 research_paper action=review 判分。",
+      "triggers": [
+        "审稿收敛",
+        "改到能投",
+        "审稿评分",
+        "独立评审",
+        "阻断项清零",
+        "反复修改没进展",
+        "模拟审稿"
+      ],
+      "inputs": [
+        "当前稿与图件",
+        "目标 venue 的评审偏好",
+        "上一轮审稿报告（可选）"
+      ],
+      "members": [
+        {
+          "skill": "aris-auto-review-loop",
+          "verdict": "主用",
+          "best_at": [
+            "多轮评审的停止条件",
+            "评分与 verdict 双阈值",
+            "阻断项优先、非阻断后置"
+          ],
+          "limits": [
+            "默认最多只跑四轮",
+            "需外部评审后端产出报告"
+          ],
+          "take": [
+            "阈值 6/10 与 ready/almost",
+            "每轮只修阻断项再复评"
+          ]
+        },
+        {
+          "skill": "aris-research-review",
+          "verdict": "补强",
+          "best_at": [
+            "评审维度拆解与打分口径",
+            "证据与主张一致性核查"
+          ],
+          "limits": [
+            "偏单轮意见、无轮次收敛",
+            "不含轮次控制与停止条件"
+          ],
+          "take": [
+            "五维评分表与评分锚点",
+            "证据链核查清单逐条核"
+          ]
+        },
+        {
+          "skill": "review-paper-light",
+          "verdict": "补强",
+          "best_at": [
+            "快速预审找硬伤与漏洞",
+            "审稿意见的分条写法"
+          ],
+          "limits": [
+            "不替代深度评审与复现",
+            "不给分数阈值与门禁"
+          ],
+          "take": [
+            "预审检查表与意见模板",
+            "意见定位到节与行"
+          ]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 定 rubric 与阈值",
+          "from": "aris-research-review#评审维度",
+          "do": "从 soundness、novelty、clarity、evidence、reproducibility 五维定 rubric，写明每维 0–10 的判据；确认通过线为总分≥6、verdict 为 ready 或 almost、阻断项为空。",
+          "detail": "rubric 要在评审前定好，避免看到结果再改标准；五维权重按目标 venue 调，但总分阈值与 verdict 判定不在轮次中松动，否则收敛失去意义。"
+        },
+        {
+          "step": "2 首轮独立评审",
+          "from": "aris-auto-review-loop#评审",
+          "do": "换模型或开新会话，只给稿子与 rubric，不给作者意图与上一轮意见；产出 REVIEW_REPORT.json，阻断项要带位置与可执行的修法。",
+          "detail": "独立性靠上下文隔离：同一会话里评审会继承作者的自我解释，分数虚高；报告只写问题与修法，不写「建议接受」这类无信息结论。"
+        },
+        {
+          "step": "3 列阻断项清单",
+          "from": "review-paper-light",
+          "do": "把阻断项按「不修就不能投」筛出来，按影响面排序；非阻断意见单独放，不混进本轮修复，避免一次改太多引入新错。",
+          "detail": "阻断项的判据是「审稿人会据此拒稿」：主结果不成立、证据链断裂、方法与结论不匹配；措辞、排版、补引用属于非阻断，留到最后一轮。"
+        },
+        {
+          "step": "4 只修阻断项",
+          "from": "aris-auto-paper-improvement-loop#修复",
+          "do": "逐条修阻断项并记录改在哪一节、改了什么；修完重跑机械核验，确认没有引入新占位符、断引用或数字不一致。",
+          "detail": "一轮只动阻断项相关段落，不顺手重写全文；每处修改留变更记录，复评时给评审看「上一轮阻断项如何关闭」，而不是让他重新猜。"
+        },
+        {
+          "step": "5 复评与停止",
+          "from": "aris-auto-review-loop#停止条件",
+          "do": "用新会话复评，跑 research_paper action=review 判分；达标即停并进投稿，未达标且轮次未到上限就回到第 3 步，连续两轮不涨则停下改结构。",
+          "detail": "停止条件写死：总分≥6、verdict∈{ready,almost}、blocking 为空三条同时满足；不要用「评审说差不多了」代替判分，也不要在分数不涨时靠继续磨措辞碰运气。"
+        }
+      ],
+      "gates": [
+        "overall≥6 且 verdict 为 ready 或 almost，两条同时满足",
+        "blocking 为空才可投稿；非阻断意见可留到下一轮",
+        "每轮复评换独立上下文，不允许同一会话自评自夸"
+      ],
+      "outputs": [
+        "REVIEW_REPORT.json（五维分数、verdict 与阻断项）",
+        "每轮修复清单与关闭记录",
+        "达标或停轮的判定说明"
+      ],
+      "kb": [
+        "aris-auto-review-loop",
+        "aris-research-review",
+        "review-paper-light"
+      ],
+      "decide": [
+        {
+          "when": "审稿意见互相冲突且都在 gate 之外",
+          "use": "按阻断项定义取交集，只把两方都点的列为 blocking",
+          "instead_of": "逐条全收",
+          "why": "收敛目标是可判定的门禁，不是收集所有偏好"
+        }
       ]
     }
   ]

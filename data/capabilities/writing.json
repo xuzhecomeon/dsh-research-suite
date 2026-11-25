@@ -2,7 +2,7 @@
   "domain": "writing",
   "label": "论文写作与成稿",
   "skill": "research-writing",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "summary": "论文写作域按论文类型与章节切卡：中文医学论著、中文学术语体、英文 SCI、综述与 Meta、CARE 病例报告、学位论文与开题、摘要与关键词、图表题注、讨论与局限、引言证据链、引文编排、写前蓝图、投稿包。每张卡写明 66 个源技能里哪几个进了卡、各自边界在哪、阈值取自何处，答案里不给技能名，直接给可执行步骤。",
   "capabilities": [
     {
@@ -2156,6 +2156,295 @@
         "scholar-journal",
         "nature-data",
         "clinical-reports"
+      ]
+    },
+    {
+      "id": "writing.paper-workshop",
+      "label": "论文全流程工坊：十阶段推进到投稿",
+      "summary": "接一份研究材料（结果、图表、笔记或已有草稿），按 intake→submission 十阶段推进：先冻结计划与主张—证据矩阵，再出图、分节写、机械核验、独立审稿收敛，最后组投稿包。每步有状态与门禁，可中断续跑。配套 research_paper 工具落盘。",
+      "triggers": [
+        "写一篇论文",
+        "从材料到投稿",
+        "论文全流程",
+        "论文进度",
+        "paper pipeline",
+        "十阶段",
+        "论文工坊",
+        "从实验到论文"
+      ],
+      "inputs": [
+        "研究材料、结果表与图表清单",
+        "目标期刊与页数上限",
+        "已有草稿或计划（可选）"
+      ],
+      "members": [
+        {
+          "skill": "aris-paper-plan",
+          "verdict": "主用",
+          "best_at": [
+            "把模糊方向收成结构化计划",
+            "主张—证据矩阵先行",
+            "页数预算与图计划绑定"
+          ],
+          "limits": [
+            "默认英文会议语境",
+            "页数预算要按目标刊改写"
+          ],
+          "take": [
+            "分节计划模板与页数预算",
+            "claims 矩阵与逐条锚点"
+          ]
+        },
+        {
+          "skill": "aris-paper-writing",
+          "verdict": "主用",
+          "best_at": [
+            "五阶段流水线与出口条件",
+            "venue 常量与验收线",
+            "图、编译、审稿三处接口"
+          ],
+          "limits": [
+            "默认 LaTeX 与代码产物",
+            "工具名需换成宿主可用工具"
+          ],
+          "take": [
+            "阶段划分与门禁位置",
+            "审稿阈值 6/10 与 ready/almost 判定"
+          ]
+        },
+        {
+          "skill": "aris-paper-write",
+          "verdict": "补强",
+          "best_at": [
+            "分节 LaTeX 的写法",
+            "引用键与 bib 的一致性",
+            "编译报错的排错顺序"
+          ],
+          "limits": [
+            "只覆盖英文会议模板",
+            "不含中文期刊体例"
+          ],
+          "take": [
+            "逐节写作顺序与落笔顺序",
+            "编译前的机械检查清单"
+          ]
+        },
+        {
+          "skill": "aris-auto-paper-improvement-loop",
+          "verdict": "补强",
+          "best_at": [
+            "改稿—复评的迭代节奏",
+            "用独立评审把分数压低",
+            "轮次上限与停止条件"
+          ],
+          "limits": [
+            "默认最多只跑两轮",
+            "需接评审报告 JSON 才能判分"
+          ],
+          "take": [
+            "每轮只修阻断项再复评",
+            "复评必须换独立会话"
+          ]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 接料并建状态",
+          "from": "aris-paper-plan",
+          "do": "收集结果表、图表、笔记与已有草稿，确认目标期刊、页数上限与交付物；用 research_paper action=init 建状态文件，把 venue 与标题写进去。",
+          "detail": "材料缺口先列清单再动笔：缺结果就先回分析与图表，缺研究问题就转 ideation 域；不要用「先写着看」掩盖材料不足。状态文件落在 .dsh-research/paper/state.json，随时可查看。"
+        },
+        {
+          "step": "2 冻结计划与账本",
+          "from": "aris-paper-plan#阶段一：计划",
+          "do": "按计划模板写章节页数预算、主张—证据矩阵与图计划，每条主张标明证据锚点与措辞强度；用 research_paper action=ledger 核对账本，再把 claims 门禁记为 passed 并冻结。",
+          "detail": "页数预算必须加总等于正文上限，参考文献是否计入按目标 venue 规则处理；账本里 no-evidence 与 contradicted 的主张先降调或删除，不要留到写正文时再补，冻结后只允许走变更记录。"
+        },
+        {
+          "step": "3 先出图再写正文",
+          "from": "aris-paper-write#图件与表格",
+          "do": "按图计划先做主图与统计图，检查分辨率、字号与配色；每张图确定它支撑哪条主张，正文只写图能证明的内容。",
+          "detail": "图先行的目的是让正文围着证据写，而不是先写结论再找图；投稿级位图至少 300 DPI，矢量优先；图注独立可读，不靠正文解释符号。"
+        },
+        {
+          "step": "4 分节起草",
+          "from": "aris-paper-write#分节写作",
+          "do": "按引言、相关工作、方法、实验、结论的顺序逐节写，每节只做自己的事；每写一个数字或强主张就回账本挂账，缺引用处留统一占位标记。",
+          "detail": "一节写完先自检再进下一节：该节是否回答了计划里给它的问题、是否出现未挂账的新主张、是否把结果解释写进了结果节；文风按目标刊体例统一，不在一节里换人称。"
+        },
+        {
+          "step": "5 机械核验",
+          "from": "aris-paper-writing#编译与核验",
+          "do": "用 research_paper action=lint 扫占位符、未解析引用键、空章节与 LaTeX 环境配对；有 .tex 就编译，没有就导出 docx 并做体例审计，问题清零再记 manuscript 与 compile 门禁。",
+          "detail": "机械项不过不进入审稿：TODO 与 NEED-CITE 必须清零，bib 里没有的引用键要么补条目要么删引用，空章节要么补内容要么删标题；编译不过先看第一个错误，不要一次改十处。"
+        },
+        {
+          "step": "6 独立审稿收敛",
+          "from": "aris-auto-paper-improvement-loop#轮次控制",
+          "do": "换模型或换新会话按固定 rubric 评审，产出 REVIEW_REPORT.json；只修阻断项后复评，用 research_paper action=review 判分，达到总分≥6、verdict 为 ready/almost 且阻断项为空才停。",
+          "detail": "评审必须独立：同一会话里自评会虚高，复评要清掉上一轮意见的上下文；轮次设上限，连续两轮分数不涨就停下来找结构问题，而不是继续磨措辞。"
+        },
+        {
+          "step": "7 组投稿包",
+          "from": "aris-paper-writing#交付",
+          "do": "按目标刊要求整理正文、图件、补充材料、cover letter 与附件清单，核对匿名化与格式；六道门禁全部 passed 后再投，投稿信息回写状态文件。",
+          "detail": "投稿包自查三件事：文件清单与期刊要求逐项对上、图件按期刊命名与格式交付、正文里的资助与伦理信息完整且与附件一致；缺一项就先补，不要靠投稿系统报错来发现。"
+        }
+      ],
+      "decide": [
+        {
+          "when": "只有零散结果、研究问题还没定",
+          "use": "ideation 域的选题与假说能力卡",
+          "instead_of": "直接进 paper-workshop 排章节",
+          "why": "问题不成立时写得越完整返工越贵，先把主张立住再排篇。"
+        },
+        {
+          "when": "已有成熟稿、只需要改到能投",
+          "use": "review 域的收敛卡与 polish 域润色卡",
+          "instead_of": "从 intake 重跑十阶段",
+          "why": "已有稿缺的是评审与修回，不是重新接料。"
+        }
+      ],
+      "gates": [
+        "claims 门禁：账本里 no-evidence 与 contradicted 清零或已降调，主张与图表锚点一一对应",
+        "figures 门禁：每张图被正文引用，位图分辨率达标，图注独立可读",
+        "manuscript 与 citations 门禁：无占位符、引用键全部可解析、编号与文献表自洽",
+        "review 门禁：总分≥6、verdict 为 ready 或 almost、阻断项为空；submission 前六道门禁全部 passed"
+      ],
+      "outputs": [
+        "十阶段状态文件与门禁记录",
+        "分节稿、图件与审稿报告",
+        "投稿包与附件清单"
+      ],
+      "kb": [
+        "aris-paper-writing",
+        "aris-paper-plan",
+        "aris-auto-paper-improvement-loop"
+      ]
+    },
+    {
+      "id": "writing.claim-ledger",
+      "label": "主张—证据账本：每个论断有出处",
+      "summary": "把结果、图表与正文论断逐条对账：每条主张标 verified／partial／no-evidence／contradicted，写明证据锚点（表号、图号、统计量）；无证据的降调或删除，矛盾的退回分析。开写前与投稿前各跑一次，用 research_paper action=ledger 判读。",
+      "triggers": [
+        "主张证据对账",
+        "数字核对",
+        "claim ledger",
+        "证据链",
+        "图表与正文不一致",
+        "审稿人质疑数据",
+        "结果到结论"
+      ],
+      "inputs": [
+        "结果表与图表清单",
+        "正文草稿或提纲",
+        "统计输出与原始数据（可选）"
+      ],
+      "members": [
+        {
+          "skill": "aris-result-to-claim",
+          "verdict": "主用",
+          "best_at": [
+            "结果到主张的改写边界",
+            "证据等级与措辞强度对应",
+            "逐条挂账的字段设计"
+          ],
+          "limits": [
+            "面向英文会议论文",
+            "不替代统计复核与重算"
+          ],
+          "take": [
+            "四档归一：verified/partial/no-evidence",
+            "每条主张的证据锚点"
+          ]
+        },
+        {
+          "skill": "aris-paper-writing",
+          "verdict": "补强",
+          "best_at": [
+            "账本在全流程中的位置",
+            "主张与图表编号对齐"
+          ],
+          "limits": [
+            "账本只是其中一阶段",
+            "不含中文期刊体例"
+          ],
+          "take": [
+            "开写前冻结主张账本",
+            "投稿前复核主张账本"
+          ]
+        },
+        {
+          "skill": "paper-writer",
+          "verdict": "补强",
+          "best_at": [
+            "无来源主张的改写或删除",
+            "证据等级封顶主张强度"
+          ],
+          "limits": [
+            "英文与社科语境偏重",
+            "不给中文排版细则"
+          ],
+          "take": [
+            "L0～L4 分级",
+            "措辞与证据强度映射"
+          ]
+        }
+      ],
+      "protocol": [
+        {
+          "step": "1 收结果与图表清单",
+          "from": "aris-result-to-claim",
+          "do": "把结果表、图、统计输出按编号收成一份清单，标明每个产物的来源文件与生成方式；没有原始数据支撑的产物单独标记。",
+          "detail": "清单是后续对账的底账：每个表号、图号、统计量都要能追到文件与字段；来源不明的数字先当无证据处理，不要凭记忆补出处。"
+        },
+        {
+          "step": "2 逐条判定主张",
+          "from": "aris-result-to-claim#判定",
+          "do": "把正文或提纲里的每个论断拆成一条主张，对照清单判 verified／partial／no-evidence／contradicted；partial 还要写清缺哪一部分证据。",
+          "detail": "判定只看证据不看语气：结果只在一部分数据集成立就是 partial，与结果方向相反就是 contradicted，找不到对应产物就是 no-evidence；不要把「大家都这么说」当证据。"
+        },
+        {
+          "step": "3 落 JSON 账本",
+          "from": "aris-paper-writing#主张账本",
+          "do": "按 CLAIM_LEDGER.json 模板写 id、claim、status、evidence 四个字段，用 research_paper action=ledger 判读；FAIL 先处理阻断项，WARN 在正文降调。",
+          "detail": "账本要能被机器读：status 用固定四档、evidence 写表号图号或文件字段；一条主张只挂一个主证据，多来源的在 evidence 里用分号列全，避免正文引用时找不到主锚点。"
+        },
+        {
+          "step": "4 正文锚点回填",
+          "from": "paper-writer",
+          "do": "每段写数字或强主张时回填表号、图号或统计量，检查同一数字在摘要、正文、图表里是否一致；不一致以原始结果为准改正文。",
+          "detail": "摘要与正文的数字必须同源：摘要先写会导致正文扩写时改数；发现不一致时先停下核对原始输出，不要在两处各改一个版本糊过去。"
+        },
+        {
+          "step": "5 投稿前复算",
+          "from": "aris-paper-writing#交付前检查",
+          "do": "投稿前重跑账本与引用核验，确认没有新增未挂账主张、没有状态从 verified 掉档；把账本与结果文件一起归档，方便审稿人问时复现。",
+          "detail": "复算重点看三类：审稿人最可能追问的主结果、图表里最显眼的对比、摘要里的定量结论；任何一条从 verified 变 partial 都要改措辞并记录原因。"
+        }
+      ],
+      "gates": [
+        "账本里 contradicted 与 no-evidence 必须清零，或已在正文删除并记录原因",
+        "每个数字与强主张都能在账本、图表或结果文件里找到锚点",
+        "摘要、正文、图表三处的同一数字一致，改动留痕"
+      ],
+      "outputs": [
+        "CLAIM_LEDGER.json 与判读结论",
+        "降调与删除清单",
+        "投稿前复算记录"
+      ],
+      "kb": [
+        "aris-result-to-claim",
+        "paper-writer",
+        "aris-paper-writing"
+      ],
+      "decide": [
+        {
+          "when": "结果只有趋势图、没有可复算统计量",
+          "use": "把该主张降为 partial 并写清样本与不确定性",
+          "instead_of": "verified",
+          "why": "账本只记录证据强度，不能把图示趋势升格为定量结论"
+        }
       ]
     }
   ]

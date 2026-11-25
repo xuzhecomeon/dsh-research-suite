@@ -25,7 +25,7 @@ v2 的答案是**能力卡（capability）**：
 
 1. **策略段注入**（`lib/prompt.js` + `lib/index.js`）：插件向 DSH 系统提示注入一段名为 `research-suite/policy`、`order: 650` 的策略（"团队策略之后、工具说明之前"），文本由 `buildPolicy(core)` 每次组装系统提示时现算。策略规定：识别到科研诉求 → **先调 `research_playbook`** → 按能力卡协议执行 → 需要细节再深读 → 交付前 `research_gate` 自检。
 2. **11 个技能**（`skills/`）：1 个入口技能 + 10 个域融合 SOP（writing / polish / figures / stats / ideation / review / slides / literature / format / data），注册时**当场内联 `content` 字符串**（不能传 `load()` 之类惰性钩子，否则 DSH 加载期校验不过、技能全丢——这是 v1 的原始故障）。
-3. **15 个工具（7 个查询 + 8 个执行/核验/生成/记忆）**：给模型查询能力卡、检索 551 个源技能、读原文与自带资产、读规范、做机械自检的接口。
+3. **16 个工具（7 个查询 + 9 个执行/核验/生成/记忆/论文工坊）**：给模型查询能力卡、检索 551 个源技能、读原文与自带资产、读规范、做机械自检的接口。
 
 `research_playbook` 没命中时（任务超出覆盖范围），策略回退到 `research_catalog` 在 551 个源技能里检索再直读原文——**不拒答**。
 
@@ -55,7 +55,7 @@ v2 的答案是**能力卡（capability）**：
 
 另有 9 份规范文档在 `references/`：中华医学会格式、中文语言风格与好句语料库、Elsevier 英文语言标准、论文类型风格档案、标书硬性规则与 AI 痕迹、IMA 知识库清单、IMA 知识库蒸馏任务书、科研技能索引、科研技能自动调用工作流。
 
-## 15 个工具
+## 16 个工具
 
 | 工具 | 作用 | 调用方式 |
 |---|---|---|
@@ -73,6 +73,7 @@ v2 的答案是**能力卡（capability）**：
 | `research_ref_audit` | **引用对账**：正文 `[n]` 跳号/重复、与文献表条目数不符、条目缺 DOI、年份可疑、DOI 重复 | 传 `text` 或 `file` |
 | `research_project` | **项目记忆**：读写工作区 `.dsh-research/project.json`，记住目标期刊、术语表、已定稿段落、已定决策，跨会话不丢 | 传 `action`（get/set/diff/list） |
 | `research_docx` | **产出与审计 docx**：按中文期刊体例生成 .docx（宋体小四、1.5 倍行距、首行缩进、三线表、参考文献悬挂缩进、引用编号上标），或反向审计既有 docx 的排版硬指标 | 传 `action`（build/audit） |
+| `research_paper` | **论文工坊**：把稿子沿九阶段（取材→立题→文献→计划→图→正文→编译→审稿→投稿）推进，记六道机械门禁，做主张账本审计、稿面 lint 与审稿判分（通过 = 总分 ≥6/10、结论 ready/almost、无阻断项） | 传 `action`（init/status/stage/gate/ledger/lint/review/next） |
 | `research_litsearch` | **真检索**：直接查 PubMed（esearch+esummary，返回 PMID/期刊/年份/作者/DOI），或把 DOI 与作者/卷/期/页逐字段比对 | 传 `action`（pubmed/compare-doi） |
 
 ## 安装
@@ -105,7 +106,7 @@ dsh.cmd plugin --profile desktop add github:xuzhecomeon/dsh-research-suite
 
 装完**必须完全退出 DSH Desktop 再启动**（不是关窗口，是退出进程）——loader 只在启动时读补丁层 `cordis.patch.yml`。
 
-验收：让模型调 `research_suite_status`，返回版本、10 域能力卡数量、551 索引完整性、资产收录统计、`references/` 齐备性、包根路径。15 个工具都在、技能计数正确，才算装好。
+验收：让模型调 `research_suite_status`，返回版本、10 域能力卡数量、551 索引完整性、资产收录统计、`references/` 齐备性、包根路径。16 个工具都在、技能计数正确，才算装好。
 
 ## 配置项
 
@@ -113,7 +114,7 @@ dsh.cmd plugin --profile desktop add github:xuzhecomeon/dsh-research-suite
 
 | 键 | 默认 | 作用 |
 |---|---|---|
-| `autoTakeover` | `true` | 是否注入「科研任务自动接管」策略段。设 `false` 后插件退化为"装了 15 个工具 + 11 个技能"，不再自动接管 |
+| `autoTakeover` | `true` | 是否注入「科研任务自动接管」策略段。设 `false` 后插件退化为"装了 16 个工具 + 11 个技能"，不再自动接管 |
 | `sectionOrder` | `650` | 策略段在系统提示里的排序值。默认落在"团队策略之后、工具说明之前"；需要与其它插件抢位置时改它（合法区间 100–5000，非整数或越界会被配置校验拒绝） |
 | `verbose` | `false` | `true` 时把注册/注入失败（技能注册失败、tools 服务缺失、systemPrompt 缺失）写成 warn 日志，排查期必开 |
 
@@ -169,7 +170,7 @@ dsh-research-suite/
 ├── lib/                    # 运行时（只依赖 node 内置模块）
 │   ├── index.js            #   入口：validateConfig、技能注册、systemPrompt 注入、工具注册
 │   ├── core.js             #   能力内核：目录加载、能力匹配、资产读取、路径安全读取、文本机械检查
-│   ├── tools.js            #   15 个工具
+│   ├── tools.js            #   16 个工具
 │   └── prompt.js           #   「科研任务自动接管」段文本（buildPolicy）
 ├── data/
 │   ├── capabilities/*.json # 10 个域的能力卡（机器可读契约）

@@ -1,3 +1,28 @@
+## [3.4.0] - 2026-11-25
+
+融合 ARIS 论文流水线（github.com/wanshuiyin/Auto-claude-code-research-in-sleep）的可迁移部分：不新增外来技能目录，而是把「材料 → 计划 → 图 → 正文 → 编译 → 审稿 → 投稿」的阶段机、主张账本、稿面 lint 与审稿收敛判据做成插件原生能力。
+
+### 新增
+
+- **`lib/paper.js`**（约 560 行，零依赖）：论文工坊状态机，状态落在 `<项目>/.dsh-research/paper/state.json`。九阶段 intake/ideation/literature/plan/figures/draft/compile/review/submission；六道机械门禁 claims/figures/manuscript/citations/compile/review；动作 `init/status/stage/gate/ledger/lint/review/next`。
+  - `ledger`：自动找 `paper/plan/CLAIM_LEDGER.json` 等四个常见位置，把「已验证／部分支撑／无证据／与结论矛盾」四档归一，给出 PASS/WARN/FAIL 与阻断项。
+  - `lint`：扫 .md/.tex/.txt，查 `TODO_MARKER`、`CITE_UNKNOWN`（对照 .bib 键）、`EMPTY_SECTION`、`ENV_MISMATCH`、`PRIORITY_WORD`（warn），拒绝越出项目根的路径。
+  - `review`：只吃 JSON 审稿报告，总分缺省取五维均值；通过判据 `总分 ≥ 6/10 且结论 ∈ {ready, almost} 且阻断项为空`，与 ARIS `auto-review-loop` 的 POSITIVE_THRESHOLD 一致，并把结果写回 review 门禁。
+- **第 16 个工具 `research_paper`**：把上述动作包成工具，模型可直接推进阶段、记门禁、审账本、跑 lint、判分、问下一步。
+- **三张能力卡**（104 → 107 张）：`writing.paper-workshop`（ARIS 计划/写作/改进环的主用与补强组合）、`writing.claim-ledger`（结果转主张时的证据分级）、`review.convergence`（审稿收敛与阻断项判定）。writing 域 14 → 16 张，review 域 8 → 9 张。
+
+### 账本与判定
+
+- writing 账本：`aris-paper-plan`、`aris-paper-writing`、`aris-paper-write`、`aris-auto-paper-improvement-loop` 由 index-only 升为 fused（`writing.paper-workshop`）；`aris-result-to-claim` 升为 fused（`writing.claim-ledger`）。
+- review 账本：`aris-auto-review-loop` 由 deprecated 升为 fused（`review.convergence`）；`aris-research-review` 由 index-only 升为 fused；`review-paper-light` 追加 `review.convergence`。
+- 十个域的账本与能力卡版本号统一到 3.4.0。
+
+### 校验
+
+- 新增 `scripts/test-paper.mjs`（6 组、约 30 条断言）：init/status/重复 init、阶段推进与回退、账本四档、lint 五类问题与越界、审稿判分与报告格式、下一步建议。实测 6 passed / 0 failed。
+- `selftest.mjs` 由 15 工具扩到 16 工具，并真实执行 `research_paper action=init` 与 `action=status`。
+- `check` 脚本追加 `test-paper.mjs`；`verify-capabilities.mjs` 的 writing 域上限调到 16。
+
 ## [3.3.0] - 2026-11-24
 
 知识层按作者 2026-11 重新策展的科研 Skill 合集（551 个技能）整体重建，能力卡与账本同步重接。

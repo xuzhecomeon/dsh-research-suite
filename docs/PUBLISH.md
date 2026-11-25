@@ -280,7 +280,7 @@ npm deprecate dsh-research-suite@3.0.0 "3.0.0 存在 XXX 问题，请升级到 3
 - [ ] 本地 `install_bundle` 装一遍，重启后 `research_suite_status` 通过，12 个工具都在、11 个技能都在
 - [ ] 发完 `npm view dsh-research-suite version` 是新版本
 - [ ] 上架社区市场前：GitHub 仓库公开、创建满 1 天、已加 topic `dsh-plugin`、仓库根有 `package.json` + `cordis.patch.yml`（见 §九）
-- [ ] 市场条目：v2 时已提 PR #12199（`data/plugins/xuzhecomeon__dsh-research-suite.yml`），**插件名没变，不重提**；合并后条目描述里的数字如需更新，另开一个改一个文件的 PR（551 技能 / `data/capabilities/*.json` 合计 104 张能力卡 / 11 技能 / 15 工具）
+- [ ] 市场条目：v2 时已提 PR #12199（`data/plugins/xuzhecomeon__dsh-research-suite.yml`），**插件名没变，不重提**；合并后条目描述里的数字如需更新，另开一个改一个文件的 PR（551 技能 / `data/capabilities/*.json` 合计 107 张能力卡 / 11 技能 / 16 工具）
 
 ## 九、上架社区插件市场（awesome-dsh-plugin → dshmarket 与官方 Discover）
 
@@ -296,7 +296,7 @@ npm deprecate dsh-research-suite@3.0.0 "3.0.0 存在 XXX 问题，请升级到 3
 | 4 | 仓库创建满 1 天（CI 自动查） | 建仓时注意 |
 | 5 | 仓库加 topic `dsh-plugin` | 需手动加 |
 | 6 | 真实可跑代码，非占位/纯 README | 满足（`lib/` 4 个模块 + `scripts/` 4 个校验脚本：capabilities / ledger / package / selftest） |
-| 7 | 描述只说功能、不带营销词，且**与代码一致**（写数字就要数得出来） | 条目里可写的可验证数字：551 个源技能 / `data/capabilities/*.json` 的 104 张能力卡 / 11 个注册技能 / 15 个工具 |
+| 7 | 描述只说功能、不带营销词，且**与代码一致**（写数字就要数得出来） | 条目里可写的可验证数字：551 个源技能 / `data/capabilities/*.json` 的 107 张能力卡 / 11 个注册技能 / 16 个工具 |
 | 8 | 一个 PR 最多 3 个条目 | 本次 1 条 |
 | 9 | 可选 `icon:` 必须是 **GitHub 托管的位图**（png/jpg/webp，卡片约 96px 显示），**SVG 会被拒** | 本包 `icon.svg` 不能直接用作条目图标；不写则回退成作者 GitHub 头像 |
 | 10 | 可选：自身仓库根放 `screenshots.json`（1~8 张，相对路径） | 暂无截图 |
@@ -318,7 +318,7 @@ CI 依次查：条目数 ≤3 → 从仓库读 `dsh.bundle` → 仓库年龄 ≥
 
 > 本包的实际投稿记录（2026-11-05）：仓库 `xuzhecomeon/dsh-research-suite` 上线后已按上面五步提过一次 PR —— `awesome-dsh-plugin/awesome-dsh-plugin` **#12199**，改动仅 `data/plugins/xuzhecomeon__dsh-research-suite.yml` 一个文件。提 PR 时仓库创建未满 1 天，故 gate 会在满 1 天后自动重新判定。
 
-最常见的两种被打回：① 只声明 `dsh.client`（不可安装）；② 描述夸大（写了「46 个工具、六个领域」就得真有）。v2 条目里的四个数字当时是「719 篇 / 81 卡 / 10 技能 / 7 工具」，v3 已变为「551 篇源技能 / 104 张能力卡 / 11 个注册技能 / 15 个工具」，都能用 `node scripts/verify-package.mjs` 与 `data/capabilities/*.json` 数出来。**插件名与仓库没变，市场 PR #12199 不重提**；若合并后要改条目描述里的数字，另提一个只改 `data/plugins/xuzhecomeon__dsh-research-suite.yml` 的 PR。
+最常见的两种被打回：① 只声明 `dsh.client`（不可安装）；② 描述夸大（写了「46 个工具、六个领域」就得真有）。v2 条目里的四个数字当时是「719 篇 / 81 卡 / 10 技能 / 7 工具」，v3 已变为「551 篇源技能 / 107 张能力卡 / 11 个注册技能 / 16 个工具」，都能用 `node scripts/verify-package.mjs` 与 `data/capabilities/*.json` 数出来。**插件名与仓库没变，市场 PR #12199 不重提**；若合并后要改条目描述里的数字，另提一个只改 `data/plugins/xuzhecomeon__dsh-research-suite.yml` 的 PR。
 
 ## 十、不经过市场，直接把插件发给别人（四条路）
 

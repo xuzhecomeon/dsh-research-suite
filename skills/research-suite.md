@@ -50,7 +50,7 @@ research_playbook(task = 用户原话)
 
 `toolbox` 不是能力域，是索引桶：它收着 172 个与科研写作无直接关系但可能被借用的技能（科学计算库、ML 工程、airs 工具族），只进账本、不建卡——`research_catalog domain=toolbox` 能查到，但它们不会出现在协议里。
 
-## 四、工具面（15 个工具（7 个查询 + 8 个执行/核验/生成/记忆））
+## 四、工具面（16 个工具（7 个查询 + 9 个执行/核验/生成/记忆/论文工坊））
 
 - `research_playbook` — 原话 → 能力卡 + 融合协议（**入口**）
 - `research_capability` — 展开某张卡，或列某域全部能力
@@ -60,6 +60,8 @@ research_playbook(task = 用户原话)
 - `research_gate` — 门禁：数据六道闸门、交付自检、互斥对、禁止事项、硬规则、交接物；传 `text` 可对交付文本做机械检查
 - `research_run` — **真跑** R/Python 脚本（不是「告诉你去跑」，是这个工具当场跑）
 - `research_project` — **项目记忆**：读写工作区 `.dsh-research/project.json`（目标期刊、术语表、已定稿段落、已定决策），跨会话不丢；动手前先 get，改完再 set
+
+- `research_paper` — **论文工坊**：`action=init` 建状态，`stage` 推进九阶段（取材→立题→文献→计划→图→正文→编译→审稿→投稿），`gate` 记六道门禁，`ledger` 审主张账本，`lint` 查占位符／引用键／空章节，`review` 按「总分 ≥6/10 且结论 ready/almost 且无阻断项」判分，`next` 给下一步
 - `research_docx` — **产出 Word**：`action=build` 按中文期刊体例生成 .docx（宋体小四/1.5 倍行距/首行缩进/三线表/悬挂缩进/引用上标）；`action=audit` 反向核这七项指标
 - `research_litsearch` — **真检索**：`action=pubmed` 直查 PubMed 拿题录（PMID/期刊/年/作者/DOI）；`action=compare-doi` 把 DOI 与作者/卷/期/页逐字段比对
 - `research_data_check` — 数据六道闸门的机械部分：缺失、常量列、ID 重复、不可能值、EPV
@@ -67,6 +69,16 @@ research_playbook(task = 用户原话)
 - `research_doi_check` — 按 DOI 向 Crossref 核验文献是否真实存在
 - `research_ref_audit` — 正文 `[n]` 与文献表逐条对账（跳号、缺 DOI、年份可疑）
 - `research_suite_status` — 装载自检
+
+## 四之二、论文工坊怎么用
+
+把「有一堆结果、要成稿」的活交给 `research_paper`，不要靠记阶段名：
+
+1. `research_paper action=init title=… venue=…` 在当前项目建 `.dsh-research/paper/state.json`；
+2. 需要落盘的东西只有两件：主张账本 `paper/plan/CLAIM_LEDGER.json`、审稿报告 `paper/review/REVIEW_REPORT.json`；
+3. 每推进一步先 `action=status` 看阶段与门禁，卡住就问 `action=next`；
+4. 投稿前必须六道门禁全绿：claims／figures／manuscript／citations／compile／review；
+5. `action=review` 只吃 JSON；用 Markdown 写审稿意见会被拒——先让 `templates/REVIEW_REPORT.md` 的机读孪生块落成 JSON。
 
 ## 五、六条铁律（任何域都适用）
 

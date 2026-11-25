@@ -22,7 +22,7 @@ const CATALOG = path.join(ROOT, 'knowledge', 'catalog.json');
 
 /** SPEC §3.2 每域能力数区间（下限, 上限）；v3 起含第 10 域 data */
 const DOMAIN_RANGE = {
-  writing: [10, 14],
+  writing: [10, 16],
   polish: [4, 7],
   figures: [8, 12],
   stats: [14, 20],

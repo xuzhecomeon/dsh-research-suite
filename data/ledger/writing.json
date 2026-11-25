@@ -1,13 +1,15 @@
 {
   "domain": "writing",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "entries": [
     {
       "dir": "aris-auto-paper-improvement-loop",
       "name": "aris-auto-paper-improvement-loop",
-      "verdict": "index-only",
-      "why": "写作方法与本域卡重叠，未单列为成员；保留全文供比对语体与结构",
-      "cards": []
+      "verdict": "fused",
+      "why": "改稿—复评节奏、只修阻断项与复评换会话三条进入工坊收尾段，轮次上限保留，评审后端改成可插拔报告。",
+      "cards": [
+        "writing.paper-workshop"
+      ]
     },
     {
       "dir": "aris-deepxiv",
@@ -19,23 +21,29 @@
     {
       "dir": "aris-paper-plan",
       "name": "aris-paper-plan",
-      "verdict": "index-only",
-      "why": "多模式规划依赖外部 reviewer MCP，写作方法与本域卡重叠",
-      "cards": []
+      "verdict": "fused",
+      "why": "十阶段工坊的计划段直接取它的页数预算、主张—证据矩阵与图计划，状态机与 research_paper 工具把计划冻结成可核验的门禁。",
+      "cards": [
+        "writing.paper-workshop"
+      ]
     },
     {
       "dir": "aris-paper-write",
       "name": "aris-paper-write",
-      "verdict": "index-only",
-      "why": "LaTeX 逐节生成依赖外部评审代理与运行目录，未取到可复用阈值",
-      "cards": []
+      "verdict": "fused",
+      "why": "分节写作与编译前检查进入工坊第 3～5 步；LaTeX 模板不必照搬，逐节写作顺序与引用核验保留。",
+      "cards": [
+        "writing.paper-workshop"
+      ]
     },
     {
       "dir": "aris-paper-writing",
       "name": "aris-paper-writing",
-      "verdict": "index-only",
-      "why": "写作方法与本域卡重叠，未单列为成员；保留全文供比对语体与结构",
-      "cards": []
+      "verdict": "fused",
+      "why": "五阶段流水线、venue 常量与 6/10 验收线被改写成宿主无关的十阶段状态机与六道门禁。",
+      "cards": [
+        "writing.paper-workshop"
+      ]
     },
     {
       "dir": "aris-proof-orchestrator",
@@ -61,9 +69,11 @@
     {
       "dir": "aris-result-to-claim",
       "name": "aris-result-to-claim",
-      "verdict": "index-only",
-      "why": "结果到主张的判定依赖外部评审代理，证据门已由证据链卡覆盖",
-      "cards": []
+      "verdict": "fused",
+      "why": "结果到主张的四档判定与证据锚点字段是账本卡主干；research_paper action=ledger 负责机械判读。",
+      "cards": [
+        "writing.claim-ledger"
+      ]
     },
     {
       "dir": "aris-writing-systems-papers",

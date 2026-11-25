@@ -7,7 +7,7 @@
 以下为本仓库作者原创，按 `LICENSE`（MIT）授权，可自由使用、修改、再分发：
 
 - `lib/` 全部运行时代码（`index.js`、`core.js`、`tools.js`、`prompt.js`）
-- `data/capabilities/*.json`（10 域 104 张能力卡）、`data/ledger/*.json`（551 条判定账本）、`data/gates.json`
+- `data/capabilities/*.json`（10 域 107 张能力卡）、`data/ledger/*.json`（551 条判定账本）、`data/gates.json`
 - `skills/*.md`（11 个融合技能：入口 + 10 域）
 - `references/*.md`（9 份内置规范）
 - `scripts/`、`docs/`、`knowledge/FUSION.md`、`knowledge/INDEX.md`

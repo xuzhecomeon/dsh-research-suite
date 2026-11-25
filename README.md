@@ -26,7 +26,7 @@ No UI, no buttons. Three pieces:
 
 1. **A system-prompt section** — `lib/prompt.js` builds a policy named `research-suite/policy` at `order: 650` ("after team policy, before tool docs"); `lib/index.js` registers it through `systemPrompt.section({ name, order, text: () => buildPolicy(core) })`. The policy tells the model: recognise a research task → call `research_playbook` first → follow the capability protocol → deep-read if needed → run `research_gate` before delivering.
 2. **11 skills** (`skills/`): one entry skill plus ten domain SOPs (writing / polish / figures / stats / ideation / review / slides / literature / format / data). Their `content` is inlined **at registration time** — passing a lazy `load()` hook fails DSH's runtime validation and silently drops every skill (the exact failure mode of v1).
-3. **15 tools (7 query + 8 execution/verification/generation/memory)** for capability lookup, searching the 551-document catalog, deep reading (including skill-bundled assets), standards, and mechanical self-checks.
+3. **16 tools (7 query + 9 execution/verification/generation/memory/paper-workshop)** for capability lookup, searching the 551-document catalog, deep reading (including skill-bundled assets), standards, and mechanical self-checks.
 
 When `research_playbook` finds no match, the policy falls back to `research_catalog` + `research_kb_read` rather than refusing the task.
 
@@ -68,6 +68,7 @@ Every one of the 551 source skills has a recorded verdict in `data/ledger/<domai
 | `research_ref_audit` | **citation reconciliation**: `[n]` gaps/duplicates, mismatch with the reference list, missing DOIs, suspicious years, duplicate DOIs | `text` or `file` |
 | `research_project` | **project memory**: read/write `.dsh-research/project.json` — target journal, glossary, finalized sections, decisions — surviving across sessions | `action` (get/set/diff/list) |
 | `research_docx` | **produce and audit .docx**: build a Chinese-journal-formatted Word file (SimSun 12pt, 1.5 spacing, first-line indent, three-line tables, hanging reference indent, superscript citations) or audit an existing one | `action` (build/audit) |
+| `research_paper` | **paper workshop**: drive a manuscript through nine stages (intake→ideation→literature→plan→figures→draft→compile→review→submission) with six mechanical gates, claim-ledger audit, manuscript lint and review scoring (pass = overall ≥6/10, verdict ready/almost, no blocking) | `action` (init/status/stage/gate/ledger/lint/review/next) |
 | `research_litsearch` | **real search**: PubMed via esearch+esummary (PMID/journal/year/authors/DOI), or field-by-field DOI comparison against expected metadata | `action` (pubmed/compare-doi) |
 
 ## Install
@@ -98,7 +99,7 @@ The plugin deliberately **does not export a `Config`**: in v2.0.0 that export (`
 
 | Key | Default | Meaning |
 |---|---|---|
-| `autoTakeover` | `true` | Inject the auto-takeover prompt section; `false` degrades the plugin to "15 tools + 11 skills" without automatic routing |
+| `autoTakeover` | `true` | Inject the auto-takeover prompt section; `false` degrades the plugin to "16 tools + 11 skills" without automatic routing |
 | `sectionOrder` | `650` | Order of the prompt section (after team policy, before tool docs) |
 | `verbose` | `false` | Log warnings when skill/tool/prompt registration fails |
 

@@ -4,8 +4,8 @@
  *
  * 不安装、不启动宿主：用假的 ctx 调用 apply()，验证
  *   1) 入口契约（name / inject / apply / Config）
- *   2) 9 份融合技能是否以「内联 content 字符串」注册（DSH runtime provider 的硬要求）
- *   3) 15 个工具是否符合 ToolDefinition 形态，并逐个真实执行一次
+ *   2) 11 份融合技能是否以「内联 content 字符串」注册（DSH runtime provider 的硬要求）
+ *   3) 16 个工具是否符合 ToolDefinition 形态，并逐个真实执行一次
  *   4) 系统提示策略段是否注入且含关键铁律
  *   5) 能力卡 / 门禁 / 知识库是否可读
  *
@@ -13,6 +13,7 @@
  */
 
 import { readdirSync, existsSync } from 'node:fs';
+import os from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -187,7 +188,7 @@ async function main() {
   const badBase = record.skills.filter((s) => s.resourceBase?.kind !== 'directory' || typeof s.resourceBase?.path !== 'string');
   check('技能 resourceBase 为目录型', badBase.length === 0, badBase.map((s) => s.name).join(','));
 
-  check('工具注册数 = 15', record.tools.length === 15, `注册 ${record.tools.length}`);
+  check('工具注册数 = 16', record.tools.length === 16, `注册 ${record.tools.length}`);
   check('策略段注册数 = 1', record.sections.length === 1, `注册 ${record.sections.length}`);
   check('注册了 ctx.effect 清理钩子', record.effects.length >= 1);
 
@@ -214,7 +215,7 @@ async function main() {
       bad(`延迟注入回调（${deps.join(',')}）未抛错`, err.message);
     }
   }
-  check('延迟注入后工具数 = 15', late.record.tools.length === 15, `注册 ${late.record.tools.length}`);
+  check('延迟注入后工具数 = 16', late.record.tools.length === 16, `注册 ${late.record.tools.length}`);
   check('延迟注入后策略段数 = 1', late.record.sections.length === 1, `注册 ${late.record.sections.length}`);
 
   // ---------- 3) 工具形态 ----------
@@ -232,7 +233,7 @@ async function main() {
     if (tool.output?.schema?.type !== 'string') bad(`工具 ${tool.name} output.schema 不是 string`);
     if (typeof tool.execute !== 'function') bad(`工具 ${tool.name} execute 不是函数`);
   }
-  ok(`15 个工具形态检查完成（${[...seen].join('、')}）`);
+  ok(`16 个工具形态检查完成（${[...seen].join('、')}）`);
 
   const expectTools = [
   'research_playbook',
@@ -250,9 +251,10 @@ async function main() {
   'research_project',
   'research_docx',
   'research_litsearch',
+  'research_paper',
 ];
   const missingTools = expectTools.filter((n) => !seen.has(n));
-  check('15 个约定工具全部存在', missingTools.length === 0, missingTools.join(','));
+  check('16 个约定工具全部存在', missingTools.length === 0, missingTools.join(','));
 
   // render 契约
   const sampleTool = record.tools[0];
@@ -292,6 +294,17 @@ async function main() {
   const gate = await run('research_gate', {});
   const gateText = await run('research_gate', { text: '值得注意的是，本研究首次证明了该方法完全有效, 结果显著(P<0.05)[1,2]。' });
   const status = await run('research_suite_status', {});
+
+  const tmpPaper = join(os.tmpdir(), `dsh-suite-paper-selftest-${process.pid}`);
+  const paperInit = await run('research_paper', { action: 'init', root: tmpPaper, title: '自测稿', venue: 'ICLR' });
+  if (paperInit && !paperInit.includes('已初始化')) bad('research_paper 初始化', paperInit.slice(0, 120));
+  const paperStatus = await run('research_paper', { action: 'status', root: tmpPaper });
+  if (paperStatus) check('research_paper 状态含门禁', paperStatus.includes('claims') && paperStatus.includes('门禁'), paperStatus.slice(0, 100));
+  try {
+    (await import('node:fs')).rmSync(tmpPaper, { recursive: true, force: true });
+  } catch {
+    /* 忽略清理失败 */
+  }
 
   if (gateText) {
     const hits = ['半角标点', 'AI 套话', '绝对化', '引用编号'].filter((k) => gateText.includes(k));

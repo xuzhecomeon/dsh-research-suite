@@ -1,7 +1,7 @@
 {
   "name": "dsh-research-suite",
-  "version": "3.3.0",
-  "description": "科研全流程 DSH 插件：识别到科研诉求自动接管，10 个领域技能 + 15 个工具，把 450 条科研技能逐条判定后融合成 103 张能力卡 + 444 条可审计账本；能真跑 R/Python、生成并审计 docx、真检索 PubMed、核验 DOI、维护项目记忆。",
+  "version": "3.4.0",
+  "description": "科研全流程 DSH 插件：识别到科研诉求自动接管，10 个领域技能 + 16 个工具，把 551 条科研技能逐条判定后融合成 107 张能力卡 + 551 条可审计账本；能真跑 R/Python、生成并审计 docx、真检索 PubMed、核验 DOI、维护项目记忆，并用 research_paper 把论文从材料推进到投稿。",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -78,7 +78,8 @@
     "verify:ledger": "node scripts/verify-ledger.mjs all",
     "eval:match": "node scripts/eval-match.mjs --strict",
     "test:verify": "node scripts/test-verify.mjs",
-    "check": "node scripts/selftest.mjs && node scripts/verify-capabilities.mjs all && node scripts/verify-ledger.mjs all && node scripts/verify-package.mjs",
-    "pack:check": "npm pack --dry-run"
+    "check": "node scripts/selftest.mjs && node scripts/verify-capabilities.mjs all && node scripts/verify-ledger.mjs all && node scripts/verify-package.mjs && node scripts/test-paper.mjs",
+    "pack:check": "npm pack --dry-run",
+    "test:paper": "node scripts/test-paper.mjs"
   }
 }

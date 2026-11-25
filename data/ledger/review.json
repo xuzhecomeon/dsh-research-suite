@@ -1,6 +1,6 @@
 {
   "domain": "review",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "entries": [
     {
       "dir": "academic-pre-review-committee__skillhub",
@@ -42,9 +42,11 @@
     {
       "dir": "aris-auto-review-loop",
       "name": "aris-auto-review-loop",
-      "verdict": "deprecated",
-      "why": "自动多轮评审循环依赖外部评审后端（Codex／antigravity／grok／claude-code 等 MCP 通道），纯 DSH 环境没有可用评审通道，且它会在循环里直接改稿、把「分数达标且结论就绪」当停止条件，与本域「审稿不改稿」的边界冲突。相关需求由 paper-audit 的复审计模式与修回卡覆盖。",
-      "cards": []
+      "verdict": "fused",
+      "why": "多轮评审的停止条件（总分≥6、verdict∈{ready,almost}、阻断项为空）与轮次上限被保留，外部评审后端改成宿主无关的 REVIEW_REPORT.json，不再要求在循环里直接改稿。",
+      "cards": [
+        "review.convergence"
+      ]
     },
     {
       "dir": "aris-auto-review-loop-minimax",
@@ -101,9 +103,11 @@
     {
       "dir": "aris-research-review",
       "name": "aris-research-review",
-      "verdict": "index-only",
-      "why": "审稿视角方法，与本域卡重叠；按需直读其检查表",
-      "cards": []
+      "verdict": "fused",
+      "why": "五维评审拆解与证据一致性核查作为收敛卡的评审面；轮次控制由收敛卡补上。",
+      "cards": [
+        "review.convergence"
+      ]
     },
     {
       "dir": "aris-resubmit-pipeline",
